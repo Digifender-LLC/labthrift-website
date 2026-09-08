@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When SSH says the computer looks different — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After you reinstall the computer, SSH from the couch can refuse because your laptop still remembers the old ID. Clear that memory with ssh-keygen -R. You don't need a new router.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When SSH says the computer looks different — Labthrift">
+<meta property="og:description" content="After you reinstall the computer, SSH from the couch can refuse because your laptop still remembers the old ID. Clear that memory with ssh-keygen -R. You don't need a new router.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-ssh-host-key">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-ssh-host-key">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When SSH says the computer looks different","description":"After you reinstall the computer, SSH from the couch can refuse because your laptop still remembers the old ID. Clear that memory with ssh-keygen -R. You don't need a new router.","url":"https://labthrift.com/guides/leftover-box-ssh-host-key","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-28"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">When SSH says the computer looks different</span></nav>
+<p class="note">Written 28 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>When SSH says the computer looks different</h1>
+<p class="deck">After you reinstall the computer, SSH from the couch can refuse because your laptop still remembers the old ID. Clear that memory with ssh-keygen -R. You don't need a new router.</p>
+<p>You wiped the computer this weekend, or you swapped it for another computer. <a href="first-ssh">SSH from the couch</a> used to work. Now the laptop prints a loud warning that the computer looks different, and it will not connect. That is not a new router problem. Your laptop still remembers the ID from before the wipe. Clear that one memory. Then SSH again.</p>
+
+<h2>Skip if SSH still works</h2>
+<p>If you can already type commands on the computer from the couch, you don't need this note. This look is only for the warning after a reinstall, a swap, or a rename.</p>
+
+<h2>What this is</h2>
+<p>The ID is a fingerprint SSH stores on your laptop the first time you connect. Linux people call that a host key. You don't need the phrase. You need the check. This is not the same note as <a href="leftover-box-ssh-keys">log in with a key, not the password every time</a> (that is your laptop proving it is you). This is the computer proving it is the same box your laptop met last time. After a wipe, it is a new computer on the same name or number. The laptop is right to pause. You are the one who wiped it.</p>
+
+<h2>If you did not reinstall</h2>
+<p>Stop. Don't clear the memory yet. If you did not wipe the computer, did not swap it, and did not change its name, a new ID is a reason to look, not a reason to buy. Confirm SSH is still only on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22. Then come back to this note only if you now know you reinstalled or swapped the computer.</p>
+
+<h2>Clear the old ID</h2>
+<p>On your laptop, not on the computer, in Terminal, forget the name lab:</p>
+<p><code>ssh-keygen -R lab</code></p>
+<p>If you connect by number instead of a name, swap in that number from <a href="find-the-leftover-box">find the computer on the house network</a>:</p>
+<p><code>ssh-keygen -R 192.168.1.50</code></p>
+<p>Use your real number. The command removes that ID from the laptop memory file, usually <span><code>~/.ssh/known_hosts</code></span>. It does not change the computer. It does not change your password. It does not add a login key. That later note is still <a href="leftover-box-ssh-keys">log in with a key, not the password every time</a>.</p>
+
+<h2>Connect again</h2>
+<p>From the laptop:</p>
+<p><code>ssh you@lab</code></p>
+<p>Or the number, same as <a href="first-ssh">SSH from the couch</a>. The first time after a wipe, SSH will ask if you trust this computer. That is normal. Type yes only if this is the computer you just installed. Then the password, the one you set in <a href="leftover-box-change-password">change the login password</a>.</p>
+
+<h2>What next</h2>
+<p>Password SSH should be boring again. Other connect failures (refused, timed out, wrong password) are <a href="when-ssh-wont-connect">when SSH won't connect</a>. Extra old logins stay <a href="leftover-box-other-accounts">see if the computer still has old login accounts</a>. When password login has been boring, <a href="leftover-box-ssh-keys">log in with a key, not the password every time</a>. A name that sticks is <a href="leftover-box-hostname">give the computer a name that sticks</a>. Skip a new router. Skip opening SSH to the internet.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip this note if SSH from the couch already works.</li>
+<li>Skip this note if you did not reinstall or swap the computer. Start with <a href="leftover-box-house-network">keep the computer on the house network</a>.</li>
+<li>Skip buying a new router because SSH printed a warning.</li>
+<li>Skip editing the SSH server for this. The memory lives on your laptop.</li>
+<li>Skip opening SSH to the internet.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/openssh-client/ssh-keygen.1.en.html">Debian: ssh-keygen</a> (<span><code>-R</code></span>). <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/ssh-keygen.1.html">Ubuntu: ssh-keygen</a>. <a href="https://man.openbsd.org/ssh-keygen">OpenSSH: ssh-keygen</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For the number, see <a href="find-the-leftover-box">find the computer on the house network</a>. For a name, see <a href="leftover-box-hostname">give the computer a name that sticks</a>. For your laptop login key, see <a href="leftover-box-ssh-keys">log in with a key, not the password every time</a>. For the house-network boundary, see <a href="leftover-box-house-network">keep the computer on the house network</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-other-accounts"><span class="t">See other login names on the computer</span><span class="d">Before you leave a Marketplace box on the house network, look at who else can still log in. You don't need extra login software for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-keys"><span class="t">Log in with a key, not the password every time</span><span class="d">After password SSH works for a while, put a key on your laptop so the computer trusts that laptop. Keep the password as a backup at first.</span></a>
+<a class="note-row" href="leftover-box-hostname"><span class="t">Give the computer a name that sticks</span><span class="d">Ping and SSH are easier if the computer has a short name. lab works. Set it so the name survives a reboot.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-sudo"><span class="kicker">Previous</span><span class="t">Run one command as admin</span></a>
+<a rel="next" href="leftover-box-ssh-keys"><span class="kicker">Next</span><span class="t">Log in with a key, not the password every time</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

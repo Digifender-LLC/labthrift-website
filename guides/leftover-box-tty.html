@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See the terminal name — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After SSH works, print the terminal name with tty so you know which session you are in. You don't need extra software for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See the terminal name — Labthrift">
+<meta property="og:description" content="After SSH works, print the terminal name with tty so you know which session you are in. You don't need extra software for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-tty">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-tty">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See the terminal name","description":"After SSH works, print the terminal name with tty so you know which session you are in. You don't need extra software for this.","url":"https://labthrift.com/guides/leftover-box-tty","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-31"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"Faster network","item":"https://labthrift.com/guides/#switches"},{"@type":"ListItem","position":3,"name":"See the terminal name"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">See the terminal name</span></nav>
+<p class="note">Written 31 Aug 2026. This is a how-to, not a product card.</p>
+<h1>See the terminal name</h1>
+<p class="deck">After SSH works, print the terminal name with tty so you know which session you are in. You don&apos;t need extra software for this.</p>
+<p><a href="leftover-box-locale">See language and region</a> printed LANG and friends. Tonight you ask which terminal you are on: <span><code>tty</code></span>. Tty prints a path like <span><code>/dev/pts/0</code></span>. That is the name of this session. You are still only practicing in home on the computer. It does not need extra system software, htop, Grafana, or a NAS for this one job.</p>
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If language and region are what you want, that is <a href="leftover-box-locale">see language and region</a>. If HOME and PATH are what you want, that is <a href="leftover-box-printenv">see HOME and PATH</a>. If login name is what you want, that is <a href="leftover-box-whoami">see the login name</a>. If who is sitting there is what you want, that is <a href="leftover-box-who">see who is on the computer right now</a>.</p>
+<h2>What this is</h2>
+<p><span><code>tty</code></span> prints the terminal name. You type <span><code>tty</code></span>. The computer prints a path, often under <span><code>/dev/pts/</code></span>. That name is this session, not the login name, not HOME, not the kernel. It is not whoami. Whoami prints the login name. It is not who. Who lists sessions.</p>
+<h2>Practice tty in home</h2>
+<p>SSH in. Make sure home is where you sit:</p>
+<p><code>pwd</code></p><p>You want a path that ends in your login name. If not:</p>
+<p><code>cd ~</code></p><p>Ask for the terminal name:</p>
+<p><code>tty</code></p><p>You want a path like <span><code>/dev/pts/0</code></span> or similar, then the prompt back. That is enough for tonight. Practice only in home.</p>
+<p>Debian and Ubuntu usually already have <span><code>tty</code></span>. Don't make apt the job. If <span><code>tty</code></span> is missing:</p>
+<p><code>sudo apt install coreutils</code></p><p>Then stop. That install is not the lesson.</p>
+<h2>Useful extras, still home only</h2>
+<p>Optional: quiet check (exit status only):</p>
+<p><code>tty -s</code></p><p><span><code>-s</code></span> means silent. You can stop at <span><code>tty</code></span>.</p>
+<p>Optional: SSH&apos;s idea of the terminal:</p>
+<p><code>printenv SSH_TTY</code></p><p>That is printenv, not tty. Printenv is <a href="leftover-box-printenv">see HOME and PATH</a>.</p>
+<p>Optional: who is sitting there:</p>
+<p><code>who</code></p><p>Who lists sessions. That is <a href="leftover-box-who">see who is on the computer right now</a>. Don't make who the job tonight.</p>
+<h2>What this is not</h2>
+<p>This is not whoami. That is <a href="leftover-box-whoami">see the login name</a>. It is not who. That is <a href="leftover-box-who">see who is on the computer right now</a>. It is not printenv. That is <a href="leftover-box-printenv">see HOME and PATH</a>. It is not locale. That is <a href="leftover-box-locale">see language and region</a>. It is not clear. That is <a href="leftover-box-clear">clear the window</a>. It is not opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>What next</h2>
+<p>Need the window wiped? <a href="leftover-box-clear">Clear the window</a>. Need HOME and PATH? <a href="leftover-box-printenv">See HOME and PATH</a>. Need the login name? <a href="leftover-box-whoami">See the login name</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip whoami, who, printenv, locale, and clear as tonight&apos;s job. Those pages already exist.</li>
+<li>Skip screen, tmux, script, mesg, wall, and write as tonight&apos;s job.</li>
+<li>Skip files under <span><code>/etc</code></span>, SSH folders, or paths you don't own. Practice only in home.</li>
+<li>Skip <span><code>rm -rf</code></span>. Careful delete only: <a href="leftover-box-rm">delete a file carefully</a>.</li>
+<li>Skip opening SSH to the internet so you can do this from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/coreutils/tty.1.en.html">Debian: tty(1)</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/tty.1.html">Ubuntu: tty(1)</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For HOME and PATH, see <a href="leftover-box-printenv">see HOME and PATH</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-locale"><span class="t">See language and region</span><span class="d">After printenv, print language and region with locale so character encoding makes sense. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-printenv"><span class="t">See HOME and PATH</span><span class="d">After uname, print HOME and PATH with printenv so login environment makes sense. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-whoami"><span class="t">See the login name</span><span class="d">After SSH works, print the login name with whoami so home and sudo make sense. You don&apos;t need extra login software for this.</span></a>
+<a class="note-row" href="leftover-box-who"><span class="t">See who is on the computer right now</span><span class="d">After SSH works, see who is logged in right now. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-last-login"><span class="t">See who logged in recently</span><span class="d">After SSH works, see who logged in recently. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-id"><span class="t">See user number and groups</span><span class="d">After whoami, print user number and groups with id so sudo and file ownership make sense. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-uname"><span class="t">See kernel name and architecture</span><span class="d">After id, print kernel name and architecture with uname so you know what kernel is running. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-rm"><span class="t">Delete a file carefully</span><span class="d">After SSH works, delete one file with rm -i. Ask first. Skip rm -rf. You don&apos;t need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-clear"><span class="t">Clear the window</span><span class="d">After SSH works, clear the window so old output stops cluttering the session. History still remembers the commands. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-locale"><span class="kicker">Previous</span><span class="t">See language and region</span></a>
+<a rel="next" href="leftover-box-clear"><span class="kicker">Next</span><span class="t">Clear the window</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

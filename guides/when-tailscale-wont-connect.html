@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When Tailscale won't connect — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="SSH to the Tailscale address fails, or the laptop never shows Connected. Check both ends online on the same account, the 100.x address, captive portal, then house SSH — before you forward port 22.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When Tailscale won't connect — Labthrift">
+<meta property="og:description" content="SSH to the Tailscale address fails, or the laptop never shows Connected. Check both ends online on the same account, the 100.x address, captive portal, then house SSH — before you forward port 22.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-tailscale-wont-connect">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-tailscale-wont-connect">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When Tailscale won't connect","description":"SSH to the Tailscale address fails, or the laptop never shows Connected. Check both ends online on the same account, the 100.x address, captive portal, then house SSH — before you forward port 22.","url":"https://labthrift.com/guides/when-tailscale-wont-connect","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-06"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When Tailscale won't connect</span></nav>
+<p class="note">Written 6 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When Tailscale won't connect</h1>
+<p class="deck">SSH to the Tailscale address fails, or the laptop never shows Connected. Check both ends online on the same account, the 100.x address, captive portal, then house SSH — before you forward port 22.</p>
+<p>Haven't set Tailscale up yet? Start with <a href="ssh-from-away">SSH from away</a>. This note is the failure case: you already tried that path, and either the client never says Connected or <span><code>ssh you@100.x.y.z</code></span> hangs from away. Don't open port 22 on the router to "just test."</p>
+
+<h2>Skip until house SSH still works</h2>
+<p>Prove couch SSH first. From a laptop on house Wi-Fi:</p>
+<p><code>ssh you@192.168.x.x</code></p>
+<p>If that fails, Tailscale will not fix a dead box, a wrong password, or OpenSSH that never started. Use <a href="when-ssh-wont-connect">when SSH won't connect</a>. If the computer may be asleep or powered down, check <a href="leftover-box-still-on">is it still on?</a> before you chase VPN settings.</p>
+
+<h2>What this is</h2>
+<p>Tailscale only helps when both ends are on the same account, both show Online, and you SSH to the Tailscale <span><code>100.x.y.z</code></span> address — not the house <span><code>192.168…</code></span> — when you are away. Most "it won't connect" nights are a wrong account, a client still Disconnected, a captive portal, or a firewall that only allows SSH on the house subnet. The walk below is house SSH, then same account, then status and IP, then the client, then away-only traps.</p>
+
+<h2>Step 1: same Tailscale account on both ends</h2>
+<p>The old PC, your laptop, and any phone you use for SSH must share one Tailscale login. A work Google account on the laptop and a personal GitHub login on the computer put them on different tailnets. They will never see each other. Open <a href="https://login.tailscale.com/admin/machines">Machines</a> in a browser already signed into the account you used on the computer. Confirm the laptop (and phone) appear there too. If a device is missing, sign that client out and sign in with the same account.</p>
+
+<h2>Step 2: status and the 100.x address on the computer</h2>
+<p>SSH in from the house network (the address that still works). On the computer:</p>
+<p><code>tailscale status</code></p>
+<p><code>tailscale ip -4</code></p>
+<p>You want the computer listed as online (or active), and a stable <span><code>100.x.y.z</code></span> on the second command. Write that number down again. In Machines admin, both the computer and the laptop should show Online. Offline means the daemon is down, the device logged out, or the machine has no working internet — not a reason to forward SSH.</p>
+
+<h2>Step 3: SSH to 100.x, not the house IP, when away</h2>
+<p>From the laptop, once Tailscale shows Connected:</p>
+<p><code>ssh you@100.x.y.z</code></p>
+<p>Use the Tailscale address from Step 2. The house <span><code>192.168…</code></span> number only works on the house network. Away from home it will hang or time out even when Tailscale is fine. MagicDNS names are optional later. Get the raw <span><code>100.x</code></span> login working once first.</p>
+
+<h2>Step 4: laptop and phone must show Connected</h2>
+<p>On the laptop client, wait until the status is Connected, not Starting or Disconnected. Quit and reopen the app if it sits halfway. On a phone, turn the Tailscale VPN toggle on before you open Termius or another SSH app. A phone with Tailscale installed but the VPN off is still on coffee-shop Wi-Fi alone — it cannot reach the computer's <span><code>100.x</code></span> address. Phone SSH habits still match <a href="ssh-from-phone">SSH from a phone</a>; only the address changes.</p>
+
+<h2>Step 5: away-only fails — captive portal and rude networks</h2>
+<p>If house Tailscale SSH works and away fails, fix the cafe network first. Many captive portals block traffic until you accept terms in a browser. Open a plain HTTP site, sign in, then retry Tailscale until Connected returns. Some networks are rude to UDP; Tailscale can fall back through a relay, but that may take a minute. Wait, then try SSH again. Cellular hotspot is often calmer than locked-down guest Wi-Fi when you just need a proof.</p>
+
+<h2>Step 6: ufw locked to the house subnet</h2>
+<p>If you earlier allowed OpenSSH only from <span><code>192.168.0.0/16</code></span> (or one house subnet), SSH from a Tailscale IP will look like connection refused or time out even when both ends are Online. Prefer allowing SSH on Tailscale's interface, or allow the Tailscale CGNAT range the same careful way you already allow OpenSSH. The calm ufw walk is <a href="leftover-box-ufw">turn on a simple firewall without locking yourself out</a>. Don't disable ufw forever to "fix" this.</p>
+
+<h2>Step 7: restart Tailscale on the computer after logout or power loss</h2>
+<p>Still on house SSH if you can reach it. Check the daemon:</p>
+<p><code>systemctl status tailscaled</code></p>
+<p>If it is inactive or failed, start it and bring the node up again:</p>
+<p><code>sudo systemctl start tailscaled</code></p>
+<p><code>sudo tailscale up</code></p>
+<p>Open the login URL if it asks. After a power outage, reboot once the wall power is stable, then confirm <span><code>tailscale status</code></span> and <span><code>tailscale ip -4</code></span> again. A longer post-outage checklist is <a href="after-power-outage">after the power comes back</a>.</p>
+
+<h2>Step 8: match what you see</h2>
+<p>Match the symptom before you buy anything:</p>
+<div class="table-wrap">
+<table>
+<tr><th>What you see</th><th>Likely cause</th></tr>
+<tr><td data-label="What you see">House <code>192.168…</code> SSH fails too</td><td data-label="Likely cause">Not Tailscale. <a href="when-ssh-wont-connect">When SSH won't connect</a> or <a href="leftover-box-still-on">is it still on?</a>.</td></tr>
+<tr><td data-label="What you see">Laptop Connected; computer Offline in Machines</td><td data-label="Likely cause"><code>tailscaled</code> down or logged out. Step 7.</td></tr>
+<tr><td data-label="What you see">Both Online; SSH to <code>192.168…</code> from a cafe</td><td data-label="Likely cause">Wrong address away from home. Use <code>100.x.y.z</code>. Step 3.</td></tr>
+<tr><td data-label="What you see">Phone Termius fails; toggle off</td><td data-label="Likely cause">Tailscale VPN not on. Step 4.</td></tr>
+<tr><td data-label="What you see">Works on house Wi-Fi; fails only on cafe Wi-Fi</td><td data-label="Likely cause">Captive portal or rude UDP. Step 5.</td></tr>
+<tr><td data-label="What you see">Both Online; <code>100.x</code> SSH times out; house SSH fine</td><td data-label="Likely cause">ufw limited to house subnet. Step 6.</td></tr>
+<tr><td data-label="What you see">Devices missing from each other's status</td><td data-label="Likely cause">Different Tailscale accounts. Step 1.</td></tr>
+</table>
+</div>
+
+<h2>What this is not</h2>
+<p>This is not forwarding port 22 on the router. It is not an exit node or a subnet router on day one. It is not a paid Tailscale plan for one PC and one laptop. It is not WireGuard you hand-configure tonight. Stay on the free personal plan and the setup note until away SSH is boring.</p>
+
+<h2>What next</h2>
+<p>When <span><code>100.x</code></span> SSH works again, keep the setup page bookmarked: <a href="ssh-from-away">SSH from away</a>. Same path for the folder: <a href="open-share-from-away">open the house share from away</a>. Prefer keys over typing the password every trip: <a href="leftover-box-ssh-keys">log in with a key, not the password every time</a>. Keep SSH off the public internet on purpose: <a href="leftover-box-house-network">keep it on the house network</a>. House SSH still broken? <a href="when-ssh-wont-connect">When SSH won't connect</a>. Phone on house Wi-Fi without Tailscale is still <a href="ssh-from-phone">SSH from a phone</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip this until house SSH already works once.</li>
+<li>Skip forwarding port 22 on the router to "debug" Tailscale.</li>
+<li>Skip exit nodes and subnet routers on day one.</li>
+<li>Skip a paid Tailscale plan for one PC and one laptop.</li>
+<li>Skip WireGuard configs by hand tonight.</li>
+<li>Skip this if you never leave the house and couch SSH is enough.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://tailscale.com/docs/install/linux">Tailscale: install on Linux</a>. <a href="https://tailscale.com/kb/1023/troubleshooting">Tailscale: troubleshooting guide</a>. <a href="https://tailscale.com/download">Tailscale: download</a>. <a href="https://ubuntu.com/server/docs/how-to/security/openssh-server/">Ubuntu Server: OpenSSH server</a>. Official pages only. For the calm setup, see <a href="ssh-from-away">SSH from away</a>. For house SSH first, see <a href="first-ssh">SSH from the couch</a>. For a locked ufw, see <a href="leftover-box-ufw">turn on a simple firewall without locking yourself out</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="ssh-from-away"><span class="t">SSH from away</span><span class="d">Reach the old PC from a coffee shop or cellular without opening port 22. Tailscale on the computer and on your laptop. Free personal plan is enough.</span></a>
+<a class="note-row" href="open-share-from-away"><span class="t">Open the house share from away</span><span class="d">Open the house folder from a coffee shop or cellular without forwarding SMB. Tailscale on the computer and on your laptop or phone. Free personal plan is enough.</span></a>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the old PC from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="ssh-from-phone"><span class="t">SSH from a phone</span><span class="d">Type commands on the old PC from an iPhone or Android on house Wi-Fi. Password login first. Don't open SSH to the internet.</span></a>
+<a class="note-row" href="when-ssh-wont-connect"><span class="t">When SSH won't connect</span><span class="d">SSH hangs, says connection refused, or Permission denied. Check the computer is on, confirm the address, then the user and password. You don't need a new router or a KVM.</span></a>
+<a class="note-row" href="leftover-box-still-on"><span class="t">Is it still on?</span><span class="d">You left the computer on. This morning ads are back, or SSH hangs. Check if it is awake before you buy anything.</span></a>
+<a class="note-row" href="leftover-box-ufw"><span class="t">Turn on a simple firewall without locking yourself out</span><span class="d">ufw with OpenSSH allowed first. You don't need a new firewall appliance for day-two SSH.</span></a>
+<a class="note-row" href="leftover-box-ssh-keys"><span class="t">Log in with a key, not the password every time</span><span class="d">After password SSH works for a while, put a key on your laptop so the computer trusts that laptop. Keep the password as a backup at first.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep it on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="ssh-from-away"><span class="kicker">Previous</span><span class="t">SSH from away</span></a>
+<a rel="next" href="when-ssh-wont-connect"><span class="kicker">Next</span><span class="t">When SSH won't connect</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Print words exactly — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After a temporary practice file, printf prints words exactly. Echo always adds a newline.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Print words exactly — Labthrift">
+<meta property="og:description" content="After a temporary practice file, printf prints words exactly. Echo always adds a newline.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-printf">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-printf">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Print words exactly","description":"After a temporary practice file, printf prints words exactly. Echo always adds a newline.","url":"https://labthrift.com/guides/leftover-box-printf","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-01"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"Faster network","item":"https://labthrift.com/guides/#switches"},{"@type":"ListItem","position":3,"name":"Print words exactly"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Print words exactly</span></nav>
+<p class="note">Written 1 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>Print words exactly</h1>
+<p class="deck">After a temporary practice file, <span><code>printf</code></span> prints words exactly. Echo always adds a newline.</p>
+<p><a href="leftover-box-mktemp">Make a temporary practice file</a> gave you a unique name. Tonight the computer prints words exactly with <span><code>printf</code></span>. Printf prints the characters you typed. If you want a newline, you type <span><code>\n</code></span> yourself.</p>
+<p>That is not <span><code>echo</code></span>. Echo always adds a newline. That is <a href="leftover-box-echo">put a short line into a file</a>. You are still only practicing on the computer. The computer does not need extra system software, htop, Grafana, or a NAS for this one job.</p>
+
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. SSH means type commands from your laptop, on the house network. If a short line with an automatic newline is what you want, that is <a href="leftover-box-echo">put a short line into a file</a>. Skip <span><code>echo</code></span> as tonight&apos;s job.</p>
+<p>If the editor is what you want, that is <a href="leftover-box-nano">edit a file from the couch</a>. Skip <span><code>nano</code></span> as tonight&apos;s job.</p>
+
+<h2>What this is</h2>
+<p><span><code>printf</code></span> prints characters exactly. The usual command tonight is <span><code>printf 'hello\n'</code></span>. The command prints hello, then a newline because you typed <span><code>\n</code></span>. Tonight: that safe peek: hello, then the prompt on the next line. You don't need extra system software for this.</p>
+<p>It is not <span><code>echo</code></span>. Echo always adds a newline. It is not format-string school. Tonight: exact words plus the newline you typed.</p>
+
+<h2>Practice printf</h2>
+<p>SSH into the computer.</p>
+<p>Make sure home is where you sit:</p>
+<p><code>pwd</code></p>
+<p>You want a path that ends in your login name.</p>
+<p>If the path is wrong, run this:</p>
+<p><code>cd ~</code></p>
+<p>Print hello and a newline you typed:</p>
+<p><code>printf 'hello\n'</code></p>
+<p>You want hello, then the prompt on the next line. You typed the newline as <span><code>\n</code></span>. That is enough for tonight.</p>
+<p>Debian and Ubuntu usually already have <span><code>printf</code></span>. Don't make apt the lesson.</p>
+<p>If <span><code>printf</code></span> is missing, install coreutils:</p>
+<p><code>sudo apt install coreutils</code></p>
+<p>Then stop. That apt line is not the lesson.</p>
+
+<h2>Useful extras, still home-safe</h2>
+<p>Optional: park exact words in a tiny home practice file:</p>
+<p><code>printf 'hello\n' &gt; ~/printf-a.txt</code></p>
+<p>Then peek:</p>
+<p><code>cat ~/printf-a.txt</code></p>
+<p>You want hello on its own line. Don't make redirect or <span><code>cat</code></span> the job. When you are done, delete only that practice file:</p>
+<p><code>rm -i ~/printf-a.txt</code></p>
+<p>Ask first. Say yes only if the name matches. That is <a href="leftover-box-rm">delete a file carefully</a>. Skip <span><code>rm -rf</code></span>.</p>
+<p>Optional peek without a newline:</p>
+<p><code>printf hello</code></p>
+<p>You want hello and the prompt on the same line. That shows why <span><code>\n</code></span> matters. You can stay on <span><code>printf 'hello\n'</code></span>.</p>
+<p>Skip huge dumps as tonight&apos;s job. Skip <span><code>printf</code></span> piped into <span><code>rm</code></span>. Printf prints words. Rm deletes files. Don't mix those jobs. Skip format-string school (<span><code>%s</code></span>, <span><code>%d</code></span>, <span><code>%x</code></span>, width flags). Skip files under <span><code>/etc</code></span>, whole <span><code>/</code></span>, SSH folders, and USB sticks. Practice in the computer window. Optional home practice file only.</p>
+<p>Skip <span><code>screen</code></span>, <span><code>tmux</code></span>, htop, Grafana, and a NAS. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+
+<h2>What this is not</h2>
+<p>This is not <span><code>echo</code></span>. Echo always adds a newline. That is <a href="leftover-box-echo">put a short line into a file</a>. It is not the editor. That is <a href="leftover-box-nano">edit a file from the couch</a>. It is not redirect as the main job. That is <a href="leftover-box-redirect">save output to a file</a>.</p>
+
+<h2>What next</h2>
+<p>Need disk writes finished before you unplug or power off? <a href="leftover-box-sync">Finish disk writes</a>. Need a short line that always adds a newline? <a href="leftover-box-echo">Put a short line into a file</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip <span><code>echo</code></span> as tonight&apos;s job. Echo always adds a newline. That is <a href="leftover-box-echo">put a short line into a file</a>.</li>
+<li>Skip <span><code>nano</code></span> and redirect as the main job. Those notes already exist.</li>
+<li>Skip huge dumps, format-string school, and <span><code>printf</code></span> piped into <span><code>rm</code></span>.</li>
+<li>Skip apt as tonight&apos;s job. The coreutils aside is not the lesson.</li>
+<li>Skip htop, Grafana, a NAS, files under <span><code>/etc</code></span>, and whole <span><code>/</code></span>.</li>
+<li>Skip <span><code>rm -rf</code></span>. Careful delete only: <a href="leftover-box-rm">delete a file carefully</a>.</li>
+<li>Skip opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/coreutils/printf.1.en.html">Debian: printf(1)</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/printf.1.html">Ubuntu: printf(1)</a>. Official pages only. For a short line with an automatic newline, see <a href="leftover-box-echo">put a short line into a file</a>. For a temporary practice name, see <a href="leftover-box-mktemp">make a temporary practice file</a>. For saving output, see <a href="leftover-box-redirect">save output to a file</a>. For a careful delete, see <a href="leftover-box-rm">delete a file carefully</a>. For the login, see <a href="first-ssh">SSH from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-mktemp"><span class="t">Make a temporary practice file</span><span class="d">After readlink, make a temporary practice file with mktemp so practice names (and echo/printf drills) get a unique name in /tmp (or home) without guessing a name. You don't need extra system software for this.</span></a>
+<a class="note-row" href="leftover-box-echo"><span class="t">Put a short line into a file</span><span class="d">After SSH works, put one short line into a file with echo so you don't need to open nano. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-redirect"><span class="t">Save output to a file</span><span class="d">After SSH works, save command output to a file with &gt; so you can read it later. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-cat"><span class="t">Read a file without opening the editor</span><span class="d">After SSH works, print a file with cat so you can read it without opening nano. Short files only. You don't need a file viewer app for this.</span></a>
+<a class="note-row" href="leftover-box-nano"><span class="t">Edit a file from the couch</span><span class="d">After SSH works, open a file with nano, change a line, and save. The keys at the bottom of the screen are the whole trick. You don't need a new editor.</span></a>
+<a class="note-row" href="leftover-box-touch"><span class="t">Make an empty file</span><span class="d">After SSH works, make an empty file with touch so nano and copies have a file to land on. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-rm"><span class="t">Delete a file carefully</span><span class="d">After SSH works, delete one file with rm -i. Ask first. Skip rm -rf. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-mktemp"><span class="kicker">Previous</span><span class="t">Make a temporary practice file</span></a>
+<a rel="next" href="leftover-box-sync"><span class="kicker">Next</span><span class="t">Finish disk writes</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

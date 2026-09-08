@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When you can open the house share but can't write — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="The house folder opens, but copy, save, or phone upload fails. Check disk room, Samba read only, then folder ownership. You don't need a NAS.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When you can open the house share but can't write — Labthrift">
+<meta property="og:description" content="The house folder opens, but copy, save, or phone upload fails. Check disk room, Samba read only, then folder ownership. You don't need a NAS.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-share-wont-write">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-share-wont-write">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When you can open the house share but can't write","description":"The house folder opens, but copy, save, or phone upload fails. Check disk room, Samba read only, then folder ownership. You don't need a NAS.","url":"https://labthrift.com/guides/when-share-wont-write","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-05"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When you can open the house share but can't write</span></nav>
+<p class="note">Written 5 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When you can open the house share but can't write</h1>
+<p class="deck">The house folder opens, but copy, save, or phone upload fails. Check disk room, Samba <code>read only</code>, then folder ownership. You don't need a NAS.</p>
+<p>Can't open the folder at all? That wider walk is <a href="when-share-wont-open">when the house share won't open</a>. Haven't made a share yet? Start with <a href="first-file-share">a file share</a>. This note is for the annoying middle case: you already see the folder, login worked, and a write still fails.</p>
+
+<h2>Skip until the folder opens</h2>
+<p>If Finder, File Explorer, or the phone never shows the share, stop here. Fix open first: <a href="when-share-wont-open">when the house share won't open</a>. Don't buy a NAS because one copy into a folder failed. Don't open SMB to the internet to "test" a write.</p>
+
+<h2>What this is</h2>
+<p>Open and write are different jobs. Samba can let you see the folder and still refuse a save. Common causes: the disk is full, the share is marked read-only in <code>smb.conf</code>, the Linux folder is owned by the wrong user, or the phone/laptop is still using an old guest or read-only bookmark. If <code>touch</code> on the computer itself says Read-only file system, that is the whole mount: <a href="when-disk-is-read-only">when the disk went read-only</a>. The order below is cheap checks first.</p>
+
+<h2>Step 1: awake, then SSH</h2>
+<p>Power light. Fan. If it looks asleep, start with <a href="leftover-box-still-on">is the computer still on?</a>. You need SSH from the couch: <a href="first-ssh">SSH from the couch</a>. Connect fails? <a href="when-ssh-wont-connect">when SSH won't connect</a>.</p>
+
+<h2>Step 2: copy the exact write error</h2>
+<p>On the laptop or phone, try one small text file. Save the exact words:</p>
+<div class="table-wrap">
+<table>
+<tr><th>What you see</th><th>Likely cause</th></tr>
+<tr><td data-label="What you see">Disk full / no space left / not enough free space</td><td data-label="Likely cause">System disk or share disk is packed. Go to step 3.</td></tr>
+<tr><td data-label="What you see">Access denied / you don't have permission / read-only volume</td><td data-label="Likely cause">Samba <code>read only</code>, wrong Linux owner, or a guest/read-only login. Steps 4–6.</td></tr>
+<tr><td data-label="What you see">Folder opens, paste or upload spins then fails with no clear line</td><td data-label="Likely cause">Still treat as write. Check disk, then ownership. Phones often hide the real error.</td></tr>
+<tr><td data-label="What you see">Login / password failed before the folder opens</td><td data-label="Likely cause">Wrong page. That is open/login: <a href="when-share-wont-open">when the house share won't open</a>.</td></tr>
+</table>
+</div>
+
+<h2>Step 3: rule out a full disk</h2>
+<p>Print human sizes:</p>
+<p><code>df -h /</code></p>
+<p>Point at the line that ends in <code>/</code>. If <code>Use%</code> is 95–100% (or <code>Avail</code> is tiny), free room first: <a href="when-house-disk-full">when the computer's disk is full</a>. Quieter look before anything fails: <a href="leftover-box-disk-space">see if the computer still has room</a>.</p>
+<p>If the house folder already lives on a USB that stays plugged in, check that mount too:</p>
+<p><code>df -h /srv/share</code></p>
+<p>Swap the path if yours differs. A full stay-in USB looks like "can't write" on phones. Bigger stick walk: <a href="house-folder-on-usb">put the house folder on a USB disk</a>. A backup stick you unplug for weekly copies is a different page: <a href="when-backup-usb-full">when the backup USB is full</a>.</p>
+
+<h2>Step 4: confirm Samba allows writes</h2>
+<p>Show the live share block (swap <code>photos</code> if you used another share name):</p>
+<p><code>testparm -s | sed -n '/^\[photos\]/,/^\[/p'</code></p>
+<p>Or open the file:</p>
+<p><code>sudo nano /etc/samba/smb.conf</code></p>
+<p>Inside that share block you want:</p>
+<p><code>read only = no</code></p>
+<p>If you see <code>read only = yes</code>, or <code>writable = no</code>, change it to allow writes, save, then:</p>
+<p><code>testparm -s</code></p>
+<p><code>sudo systemctl restart smbd</code></p>
+<p>Try the small file again from the laptop before you chase Linux permissions.</p>
+
+<h2>Step 5: fix folder ownership</h2>
+<p>Samba writes as the Samba user you logged in with. That Linux user has to own the folder (or be in a group that can write). See who owns it:</p>
+<p><code>ls -ld /srv/share</code></p>
+<p>Swap the path if yours differs. Then hand it to your login (the same name you use for Samba):</p>
+<p><code>sudo chown youruser:youruser /srv/share</code></p>
+<p>Optional, if new files still land wrong for a second person later:</p>
+<p><code>sudo chmod u+rwx /srv/share</code></p>
+<p>Don't chmod the whole computer. Don't <code>chmod -R 777 /</code>. A second person on the <em>same</em> folder is <a href="add-share-user">add another person to the house share</a>. A second folder is <a href="add-second-share">add a second house share</a>.</p>
+
+<h2>Step 6: stale login or a read-only bookmark</h2>
+<p>Windows, Mac, and phones love remembering an old guest or wrong password. After you change Samba settings, clear the saved copy and open again: <a href="forget-saved-share-login">forget the saved house-share login</a>. Reset the Samba password itself: <a href="leftover-box-samba-password">set or change the house-share password</a>.</p>
+<p>On a phone, delete the bookmark and reconnect with the share user (not guest). Open walks: <a href="open-share-from-phone">open the house share from a phone</a>, <a href="open-share-from-laptop">from a laptop</a>.</p>
+
+<h2>Step 7: confirm with one small write</h2>
+<p>From the laptop or phone on house Wi-Fi, copy a tiny text file in. Then from SSH:</p>
+<p><code>ls -la /srv/share</code></p>
+<p>You should see the new file owned by your user. Phone photo dump next: <a href="phone-photos-to-share">save phone photos to the house share</a>. If the folder never opens, flip back to <a href="when-share-wont-open">when the house share won't open</a>. If Samba itself vanished, <a href="leftover-box-share-check">when the house share disappeared, check the computer</a>.</p>
+
+<h2>What this is not</h2>
+<p>This is not a reason to buy a NAS tonight. It is not RAID. It is not opening SMB past the house network. It is not the "folder won't open" page (that is <a href="when-share-wont-open">when the house share won't open</a>). It is not deleting the only backup to free the live disk.</p>
+
+<h2>What next</h2>
+<p>Copies work but crawl? <a href="when-share-is-slow">When the house share is slow</a>. Keep a second copy of the house folder: <a href="first-backup">a backup of the house folder</a>. Watch disk room: <a href="leftover-box-disk-space">see if the computer still has room</a>. Second folder: <a href="add-second-share">add a second house share</a>. Second login on the same folder: <a href="add-share-user">add another person to the house share</a>. Map a drive letter: <a href="map-share-drive">map the house share as a drive</a>.</p>
+
+<p class="note">Optional: note which write error you hit in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip buying a NAS because one copy failed.</li>
+<li>Skip opening SMB to the internet.</li>
+<li>Skip <code>chmod -R 777 /</code>.</li>
+<li>Skip deleting the only backup to free the live disk.</li>
+<li>Skip this page if the folder never opens — use <a href="when-share-wont-open">when the house share won't open</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.samba.org/samba/docs/current/man-html/smb.conf.5.html">Samba: smb.conf</a> (<code>read only</code>). <a href="https://wiki.samba.org/index.php/Setting_up_Samba_as_a_Standalone_Server">Samba wiki: standalone server</a>. <a href="https://ubuntu.com/server/docs/samba-file-server">Ubuntu Server: Samba file server</a>. Official pages only. For the share itself, see <a href="first-file-share">a file share</a>. For open failures, see <a href="when-share-wont-open">when the house share won't open</a>. For a full disk, see <a href="when-house-disk-full">when the computer's disk is full</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-file-share"><span class="t">A file share</span><span class="d">A folder on the old PC that the house can open from a laptop or a phone. You don't need a NAS for this.</span></a>
+<a class="note-row" href="when-share-wont-open"><span class="t">When the house share won't open</span><span class="d">Finder, File Explorer, or the phone can't open the house folder. Check the computer is on, confirm the address, then match the error (path not found, login failed, can't write, disk full). You don't need a NAS.</span></a>
+<a class="note-row" href="when-share-is-slow"><span class="t">When the house share is slow</span><span class="d">The folder opens and copies work, but photos crawl. Check Wi-Fi vs a cable, link speed, disk room, then the laptop. You don't need a 10G switch.</span></a>
+<a class="note-row" href="when-house-disk-full"><span class="t">When the computer's disk is full</span><span class="d">Photos won't copy, the share says no space, or df shows the system disk packed. Confirm it is the computer (not the backup stick), free room or move the house folder. You don't need a NAS.</span></a>
+<a class="note-row" href="when-disk-is-read-only"><span class="t">When the disk went read-only</span><span class="d">apt fails, the share won't take photos, or mount shows ro after a power blip. Confirm read-only, copy off what you can, then remount or fsck. You don't need a NAS tonight.</span></a>
+<a class="note-row" href="leftover-box-samba-password"><span class="t">Set or change the house-share password</span><span class="d">Finder and File Explorer ask for a share password that is not always the login. Samba keeps its own copy. Set it once. Change it when you forget.</span></a>
+<a class="note-row" href="forget-saved-share-login"><span class="t">Forget the saved house-share login</span><span class="d">Windows, Mac, or a phone still uses the old Samba password after you changed it. Clear Credential Manager, Keychain, or the phone bookmark, then open again. You don't need a NAS.</span></a>
+<a class="note-row" href="leftover-box-share-check"><span class="t">When the house share disappeared, check the computer</span><span class="d">The computer is awake, but Finder or File Explorer cannot see the folder. Check that Samba is still running before you buy a NAS.</span></a>
+<a class="note-row" href="open-share-from-laptop"><span class="t">Open the house share from a laptop</span><span class="d">The house folder is on the old PC. Open it from Windows File Explorer or Mac Finder on the house network. You don't need a NAS for this.</span></a>
+<a class="note-row" href="open-share-from-phone"><span class="t">Open the house share from a phone</span><span class="d">The house folder is on the old PC. Open it from an iPhone or Android on house Wi-Fi. You don't need a NAS app for this.</span></a>
+<a class="note-row" href="phone-photos-to-share"><span class="t">Save phone photos to the house share</span><span class="d">Copy camera-roll photos from an iPhone or Android onto the house folder on the old PC. House Wi-Fi only. You don't need a NAS app or iCloud for this.</span></a>
+<a class="note-row" href="add-second-share"><span class="t">Add a second house share</span><span class="d">Make another Samba folder on the old PC: documents next to photos, or a quiet place for laptop backups. Same computer. You don't need a NAS.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="when-share-wont-open"><span class="kicker">Previous</span><span class="t">When the house share won't open</span></a>
+<a rel="next" href="when-share-is-slow"><span class="kicker">Next</span><span class="t">When the house share is slow</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

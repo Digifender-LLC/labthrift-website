@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Your first weekend — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Install the OS, give it a name, plug it into the wall, and make sure you can reach it from the couch.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Your first weekend — Labthrift">
+<meta property="og:description" content="Install the OS, give it a name, plug it into the wall, and make sure you can reach it from the couch.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/first-weekend">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/first-weekend">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Your first weekend","description":"Install the OS, give it a name, plug it into the wall, and make sure you can reach it from the couch.","url":"https://labthrift.com/guides/first-weekend","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-23"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">Your first weekend</span></nav>
+<p class="path-step"><a href="./#start">Getting started</a> · <b>3 of 9</b></p>
+<p class="note">Written 23 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Your first weekend</h1>
+<p class="deck">Install the OS, give it a name, plug it into the wall, and make sure you can reach it from the couch.</p>
+<p>This is a weekend, not a shopping trip. You already have the computer. You already picked an OS, or you can pick one on <a href="what-os-to-pick">what OS to put on it</a>. The job is to get it on, named, and reachable.</p>
+
+<h2>1. Backup anything you care about</h2>
+<p>Copy off photos, school papers, or a game save you still want. Full walk: <a href="save-files-before-wipe">copy your files off before you wipe</a>. If the computer is empty, skip this step.</p>
+
+<h2>2. Make a USB installer</h2>
+<p>Download the <a href="https://ubuntu.com/download/server">Ubuntu Server</a> or <a href="https://www.debian.org/download">Debian</a> ISO from the official site. Write it to a USB stick with <a href="https://etcher.balena.io/">balenaEtcher</a> or Ventoy. An 8 GB stick is enough. You probably already have one. Step-by-step flash: <a href="make-boot-usb">make a boot USB for the install</a>. Boot menu keys: <a href="boot-from-usb">boot the old PC from the USB stick</a>. Got it from Marketplace? Wipe first: <a href="wipe-marketplace-pc">wipe a Marketplace PC before you install</a>.</p>
+
+<h2>3. Boot it from the USB</h2>
+<p>Most PCs: tap F12 or F10 at power-on and pick the stick. Brand keys and stuck-stick fixes: <a href="boot-from-usb">boot the old PC from the USB stick</a>. Install to the internal disk. One disk is fine. Take the defaults.</p>
+
+<h2>4. Give it a name and a user</h2>
+<p>Pick a name you will remember: lab, closet, office. Create a user. Don't skip the SSH server checkbox if Ubuntu Server offers it. SSH is a way to type commands on that computer from your normal one, over the network.</p>
+
+<h2>5. Plug ethernet if it has a port</h2>
+<p>Wi-Fi is fine. Plug a cable if the computer has a port. It drops fewer connections overnight. No cable nearby? The walk is <a href="wifi-on-the-pc">put the old PC on house Wi-Fi</a>.</p>
+
+<h2>6. Find its address</h2>
+<p>Look on your router’s device list, or on the computer itself (<span><code>hostname -I</code></span>, or the installer summary). You don't need a fancy static IP yet.</p>
+
+<h2>7. Connect from the couch</h2>
+<p>From your normal computer, connect. Windows: Windows Terminal or PowerShell, <span><code>ssh you@that-address</code></span>. Mac or Linux: Terminal, same command. The first time it will ask to trust this machine. Say yes.</p>
+
+<h2>8. Update</h2>
+<p>On Debian or Ubuntu, run <span><code>sudo apt update &amp;&amp; sudo apt upgrade</code></span>. Reboot if it asks.</p>
+
+<h2>9. Leave it on</h2>
+<p>That is the lab. Don't buy a rack, a switch, or a NAS this weekend.</p>
+
+<h2>What next</h2>
+<p>Find its number on the house network first. That is <a href="find-the-leftover-box">find it on the house network</a>. Then <a href="first-ssh">SSH from the couch</a>. If it is a laptop, keep it awake when the lid closes: <a href="leftover-box-sleep">don't let the laptop sleep</a>. Later, put a small useful thing on this same computer. The ad-block one is <a href="first-useful-service">the first useful thing</a>. A file share can wait a week. Next week, <a href="leftover-box-updates">keep the computer updated</a>. Not a shopping trip.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip Kubernetes until it has been on a week.</li>
+<li>Skip Docker Swarm until it has been on a week.</li>
+<li>Skip buying a new mini PC until it has been on a week.</li>
+<li>Skip a 10G card until it has been on a week.</li>
+<li>Skip a UPS until it has been on a week.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://ubuntu.com/download/server">Ubuntu Server download</a>. <a href="https://www.debian.org/download">Debian download</a>. <a href="https://etcher.balena.io/">balenaEtcher</a>. Official pages only. For the computer, see <a href="start-with-what-you-have">start with what you already have</a>. For the OS choice, see <a href="what-os-to-pick">what OS to put on it</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="when-computer-wont-boot"><span class="t">When the old PC won't boot</span><span class="d">No fans, black screen, or stuck on the logo. Check power, the monitor, a hard power cycle, then try the installer USB before you buy a new board.</span></a>
+<a class="note-row" href="https://plan.labthrift.com"><span class="t">Optional: track the weekend path</span><span class="d">Lab plan at plan.labthrift.com. Username and a passkey. No email. Skip it if you just want the install done.</span></a>
+<a class="note-row" href="lab-plan-passkeys"><span class="t">Keep a lab plan with a passkey, not an email</span><span class="d">Optional checklist on plan.labthrift.com. Username and a passkey. No email recovery. Add a second passkey.</span></a>
+<a class="note-row" href="what-os-to-pick"><span class="t">What OS to put on it</span><span class="d">Debian or Ubuntu Server if you can dedicate the old PC. Leave Windows if you still use the laptop as a laptop.</span></a>
+<a class="note-row" href="start-with-what-you-have"><span class="t">Start with what you already have</span><span class="d">Don't buy anything yet. Old laptop first, or a retired OptiPlex from Marketplace.</span></a>
+<a class="note-row" href="save-files-before-wipe"><span class="t">Copy your files off before you wipe</span><span class="d">Pull photos, papers, and downloads onto a USB stick before the installer erases the disk. Skip if the computer is empty. Then wipe.</span></a>
+<a class="note-row" href="make-boot-usb"><span class="t">Make a boot USB for the install</span><span class="d">Write Ubuntu Server or Debian onto a USB stick so the old PC can boot the installer. Use Etcher or Rufus. Don't drag the ISO into a folder.</span></a>
+<a class="note-row" href="boot-from-usb"><span class="t">Boot the old PC from the USB stick</span><span class="d">Plug in the installer stick, open the one-time boot menu, and pick the USB. Dell F12, HP Esc then F9, Lenovo F12. Don't dig through every BIOS screen tonight.</span></a>
+<a class="note-row" href="wifi-on-the-pc"><span class="t">Put the old PC on house Wi-Fi</span><span class="d">Ubuntu Server on an old laptop often has no cable nearby. Join house Wi-Fi so SSH and Pi-hole can work. Skip this if ethernet already works.</span></a>
+<a class="note-row" href="n100-mini-pc"><span class="t">A tiny computer you can leave on</span><span class="d">Later. An old laptop or a Marketplace OptiPlex is the first box.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="what-os-to-pick"><span class="kicker">Previous</span><span class="t">What OS to put on it</span></a>
+<a rel="next" href="find-the-leftover-box"><span class="kicker">Next</span><span class="t">Find it on the house network</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

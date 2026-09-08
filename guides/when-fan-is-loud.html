@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When the old PC's fan is loud — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="A Marketplace OptiPlex or EliteDesk screams in the living room. Blow the dust, give it air, move it to a closet. Skip a water cooler this weekend.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When the old PC's fan is loud — Labthrift">
+<meta property="og:description" content="A Marketplace OptiPlex or EliteDesk screams in the living room. Blow the dust, give it air, move it to a closet. Skip a water cooler this weekend.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-fan-is-loud">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-fan-is-loud">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When the old PC's fan is loud","description":"A Marketplace OptiPlex or EliteDesk screams in the living room. Blow the dust, give it air, move it to a closet. Skip a water cooler this weekend.","url":"https://labthrift.com/guides/when-fan-is-loud","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-06"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When the old PC's fan is loud</span></nav>
+<p class="note">Written 6 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When the old PC's fan is loud</h1>
+<p class="deck">A Marketplace OptiPlex or EliteDesk screams in the living room. Blow the dust, give it air, move it to a closet. Skip a water cooler this weekend.</p>
+<p>Haven't picked a computer yet? Start with <a href="start-with-what-you-have">start with what you already have</a>. Laptop under a sweater, vents blocked, hot to the touch? That is <a href="leftover-box-heat">don't cook the computer</a>. This note is the noisy desktop or office mini PC that stays on for SSH and Pi-hole, and you can hear it from the couch.</p>
+
+<h2>Skip until the fan is the problem</h2>
+<p>A short spin at power-on is normal. No fans and a black screen is <a href="when-computer-wont-boot">when the old PC won't boot</a>, not this note. A switch or UPS whining next to it is not the computer. Put your hand near the case vents. If the noise follows the computer when you move it a foot, keep reading.</p>
+
+<h2>What this is</h2>
+<p>Used office boxes often ship with aggressive stock fans. Years of carpet dust pack the heatsink. Sitting on soft carpet or in a closed cabinet makes the fan work harder. The fix is usually clean air and a better spot, not a new case or liquid cooler on day one.</p>
+
+<h2>Step 1: shut down and unplug</h2>
+<p>From the couch or the keyboard:</p>
+<p><code>sudo shutdown -h now</code></p>
+<p>Wait until the lights go out. Unplug the power cord. On a laptop brick, unplug wall power too. Don't open the case while it is still spinning down.</p>
+
+<h2>Step 2: open the side and blow the dust</h2>
+<p>Most OptiPlex and EliteDesk towers have a latch or two thumbscrews. Mini towers often slide the side panel toward the rear. Hold the case outdoors or over a trash bag. Use canned air in short bursts on the CPU heatsink, front intake, and rear exhaust. Keep the can upright so liquid propellant does not spit into the board.</p>
+<p>Don't jam a vacuum nozzle on the fan hub. A vacuum can spin a fan past its rating and kill the bearing. If you vacuum, hold the fan blades still with a finger or a soft stick while you clean around them.</p>
+
+<h2>Step 3: put the panel back</h2>
+<p>These cases expect the side panel on. Running with the panel off can confuse the airflow the maker designed. Seat the panel. Latch or screw it. Plug power back in and turn it on. Listen for a minute at idle. A lot of Marketplace screamers drop a whole notch after one dust pass.</p>
+
+<h2>Step 4: give it air and a hard surface</h2>
+<p>Lift it off carpet and fabric. A hard shelf, a desk, or the floor with an inch of clearance at the vents is enough. Keep the front intake and rear exhaust clear. A closed cabinet with no gaps cooks the box and keeps the fan loud: <a href="leftover-box-heat">don't cook the computer</a>.</p>
+<p>If the living room still hates the noise after cleaning, move the computer to a closet or utility shelf and reach it from the couch with <a href="first-ssh">SSH</a>. The house jobs do not need to sit next to the TV.</p>
+
+<h2>Step 5: optional — see how warm it is from SSH</h2>
+<p>Once it is back on the network:</p>
+<p><code>sensors</code></p>
+<p>If that command is missing on Debian or Ubuntu:</p>
+<p><code>sudo apt update && sudo apt install -y lm-sensors</code></p>
+<p><code>sudo sensors-detect --auto</code></p>
+<p><code>sensors</code></p>
+<p>Idle CPU temps in the 30–50 °C range on a small office box are common. Sustained numbers near the maker's hot limit, or a fan that never slows after a clean and a clear shelf, mean heat is still winning. Don't chase a perfect number tonight.</p>
+
+<h2>Step 6: when clean air is not enough</h2>
+<p>A dying fan bearing keeps clicking or grinding after a dust pass. A replacement stock fan for that model is cheaper than a new PC. Skip water cooling, custom loops, and undervolt guides on day one.</p>
+<p>If the box is still a hair dryer after a clean, a hard shelf, and a closet with the door cracked, a quieter mini PC is the later buy — not this weekend's homework. Quiet-versus-closet heat notes live under <a href="n100-n150-idle-watts-fan-noise">bedroom-shelf quiet versus closet door-shut heat</a>. Power-bill comparison for a small new box versus a loud used 1U: <a href="beelink-n150-vs-used-1u-bill">a Beelink N150 vs the yearly cost of a used 1U</a>.</p>
+
+<h2>What this is not</h2>
+<p>This is not a black-screen no-fan failure. That is <a href="when-computer-wont-boot">when the old PC won't boot</a>. It is not a laptop buried under clothes. That is <a href="leftover-box-heat">don't cook the computer</a>. It is not a reason to buy a rack, a water block, or a new case before Pi-hole works. It is not a loud PoE switch — those have their own quiet-SKU notes.</p>
+
+<h2>What next</h2>
+<p>Keep the computer awake if it is a laptop with the lid shut: <a href="leftover-box-sleep">don't let the old laptop sleep</a>. Still setting the box up? <a href="first-weekend">Your first weekend</a>. Dust out, still too loud for the room? Move it and use <a href="first-ssh">SSH from the couch</a>. Later quiet-box shopping: <a href="n100-mini-pc">small computers</a>. Commands lagging with a quiet fan? <a href="when-the-computer-is-slow">When the old PC feels slow</a>.</p>
+
+<p class="note">Optional: jot where you parked the noisy box in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip a water cooler, custom loop, or new case this weekend.</li>
+<li>Skip vacuuming the fan hub at full power.</li>
+<li>Skip running the tower with the side panel off as a long-term fix.</li>
+<li>Skip buying a mesh kit or a new router because the PC is loud.</li>
+<li>Skip this if there are no fans and a black screen. Use the boot walk instead.</li>
+<li>Skip this if it is a laptop under fabric. Use the heat note instead.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/lm-sensors/sensors.1.en.html">Debian: sensors</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/sensors.1.html">Ubuntu: sensors</a>. <a href="https://manpages.debian.org/bookworm/systemd-sysv/shutdown.8.en.html">Debian: shutdown</a>. Maker service manuals for OptiPlex and EliteDesk show the side-panel latch for each model. Official pages only. For blocked laptop vents, see <a href="leftover-box-heat">don't cook the computer</a>. For no fans at all, see <a href="when-computer-wont-boot">when the old PC won't boot</a>. For the first computer, see <a href="start-with-what-you-have">start with what you already have</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="when-the-computer-is-slow"><span class="t">When the old PC feels slow</span><span class="d">SSH lags, apt crawls, or the house share feels sticky. Check load, memory, disk room, then one busy job. Skip a new mini PC tonight.</span></a>
+<a class="note-row" href="leftover-box-heat"><span class="t">Don't cook the computer</span><span class="d">The computer stays on. It needs air. A laptop under a pile of clothes will cook. Skip this if it is a desktop with vents clear.</span></a>
+<a class="note-row" href="when-computer-wont-boot"><span class="t">When the old PC won't boot</span><span class="d">No fans, black screen, or stuck on the logo. Check power, the monitor, a hard power cycle, then try the installer USB before you buy a new board.</span></a>
+<a class="note-row" href="start-with-what-you-have"><span class="t">Start with what you already have</span><span class="d">Don't buy anything yet. Old laptop first, or a retired OptiPlex from Marketplace.</span></a>
+<a class="note-row" href="wipe-marketplace-pc"><span class="t">Wipe a Marketplace PC before you install</span><span class="d">A used OptiPlex may still have the last owner's Windows and logins. Wipe the disk with the installer before you plug it into the house network.</span></a>
+<a class="note-row" href="leftover-box-sleep"><span class="t">Don't let the laptop sleep</span><span class="d">Close the lid. It has to stay awake so SSH and Pi-hole keep working. A desktop can skip this.</span></a>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Reach the old PC from a laptop on the house network. Password login first. You don't need a monitor on it forever.</span></a>
+<a class="note-row" href="n100-n150-idle-watts-fan-noise"><span class="t">Bedroom-shelf quiet versus closet door-shut heat</span><span class="d">Pick a quiet box for a bedroom shelf or a closet with the door shut. Extra network ports usually mean more heat when idle. Published maker ranges only.</span></a>
+<a class="note-row" href="beelink-n150-vs-used-1u-bill"><span class="t">A $339 Beelink N150 vs the yearly cost of a used 1U</span><span class="d">A small new mini PC often costs less over a year of power than a loud used server. Skip the used 1U if heat and noise matter.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-heat"><span class="kicker">Previous</span><span class="t">Don't cook the computer</span></a>
+<a rel="next" href="when-computer-wont-boot"><span class="kicker">Next</span><span class="t">When the old PC won't boot</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

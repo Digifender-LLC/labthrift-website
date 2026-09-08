@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Shrink one file — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After SSH works, shrink one file with gzip so a copy is smaller. You don't need a zip app for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Shrink one file — Labthrift">
+<meta property="og:description" content="After SSH works, shrink one file with gzip so a copy is smaller. You don't need a zip app for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-gzip">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-gzip">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Shrink one file","description":"After SSH works, shrink one file with gzip so a copy is smaller. You don't need a zip app for this.","url":"https://labthrift.com/guides/leftover-box-gzip","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-30"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"Faster network","item":"https://labthrift.com/guides/#switches"},{"@type":"ListItem","position":3,"name":"Shrink one file"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Shrink one file</span></nav>
+<p class="note">Written 30 Aug 2026. This is a how-to, not a product card.</p>
+<h1>Shrink one file</h1>
+<p class="deck">After SSH works, shrink one file with gzip so a copy is smaller. You don&apos;t need a zip app for this.</p>
+<p>A copy is smaller if you shrink the file first. Tonight you shrink one file: <span><code>gzip</code></span>. Gzip shrinks one file. Use <span><code>-k</code></span> so the original stays. You are still only practicing in home on the computer. It does not need a zip app for this one job.</p>
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If a folder packed is what you want, that is <a href="leftover-box-tar">pack files into one archive</a>. If a zip a laptop can open is what you want, that is <a href="leftover-box-zip">pack files into a zip a laptop can open</a>. Skip shrinking <span><code>/etc</code></span> or a disk.</p>
+<h2>What this is</h2>
+<p><span><code>gzip</code></span> shrinks one file. You type <span><code>gzip -k ~/shrink-me.txt</code></span>. <span><code>-k</code></span> keeps the original. A <span><code>.gz</code></span> file appears next to it. <span><code>gzip -l</code></span> lists size. <span><code>gzip -cd</code></span> unpacks to the screen or a redirect. It is not tar. Tar packs a folder. It is not zip. Zip is a different archive a laptop often opens.</p>
+<h2>Shrink a practice file in home</h2>
+<p>SSH in. Make sure home is where you sit:</p>
+<p><code>pwd</code></p><p>You want a path that ends in your login name. If not:</p>
+<p><code>cd ~</code></p><p>Make a tiny practice file:</p>
+<p><code>yes &apos;hello&apos; | head -n 40 &gt; ~/shrink-me.txt</code></p><p><code>ls -lh ~/shrink-me.txt</code></p><p>Shrink it, keep the original:</p>
+<p><code>gzip -k ~/shrink-me.txt</code></p><p><code>ls -lh ~/shrink-me.txt ~/shrink-me.txt.gz</code></p><p>List the shrink:</p>
+<p><code>gzip -l ~/shrink-me.txt.gz</code></p><p>Unpack into a throwaway folder:</p>
+<p><code>mkdir -p ~/unpack-gz</code></p><p><code>gzip -cd ~/shrink-me.txt.gz &gt; ~/unpack-gz/shrink-me.txt</code></p><p><code>ls -lh ~/unpack-gz/shrink-me.txt</code></p><p>That is enough for tonight. Practice only in home.</p>
+<p>Debian and Ubuntu usually already have <span><code>gzip</code></span>. Don't make apt the job. If <span><code>gzip</code></span> is missing:</p>
+<p><code>sudo apt install gzip</code></p><p>Then stop. That install is not the lesson.</p>
+<p>When you are done, throw the practice files away. Careful delete only. That is <a href="leftover-box-rm">delete a file carefully</a>. Skip <span><code>rm -rf</code></span>.</p>
+<p><code>rm -i ~/shrink-me.txt ~/shrink-me.txt.gz</code></p><p>Then the unpack copy:</p>
+<p><code>rm -i ~/unpack-gz/shrink-me.txt</code></p><h2>Useful extras, still home only</h2>
+<p>Optional facts:</p>
+<p><code>stat ~/shrink-me.txt.gz</code></p><p>Optional: verbose keep:</p>
+<p><code>gzip -kv ~/shrink-me.txt</code></p><p>Skip shrinking <span><code>/etc</code></span>, whole disks, or files you care about. Tonight: a practice file in home.</p>
+<h2>What this is not</h2>
+<p>This is not tar. That is <a href="leftover-box-tar">pack files into one archive</a>. It is not zip. That is <a href="leftover-box-zip">pack files into a zip a laptop can open</a>. It is not xargs. That is <a href="leftover-box-xargs">run one command per line</a>. It is not a fingerprint. That is <a href="leftover-box-sha256sum">check a file fingerprint</a>. It is not opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>What next</h2>
+<p>Need a folder packed? <a href="leftover-box-tar">Pack files into one archive</a>. Need one command per line? <a href="leftover-box-xargs">Run one command per line</a>. Need a fingerprint? <a href="leftover-box-sha256sum">Check a file fingerprint</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip shrinking <span><code>/etc</code></span>, whole disks, or files you care about. Tonight: a practice file in home.</li>
+<li>Skip tar, zip, and xargs as tonight&apos;s job. Those pages already exist.</li>
+<li>Skip gzip without <span><code>-k</code></span> on a file you still want. Keep the original.</li>
+<li>Skip files under <span><code>/etc</code></span>, SSH folders, or paths you don't own. Practice only in home.</li>
+<li>Skip <span><code>rm -rf</code></span>. Careful delete only: <a href="leftover-box-rm">delete a file carefully</a>.</li>
+<li>Skip opening SSH to the internet so you can do this from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/gzip/gzip.1.en.html">Debian: gzip</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/gzip.1.html">Ubuntu: gzip</a>. <a href="https://www.gnu.org/software/gzip/manual/gzip.html">GNU gzip</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For a folder packed, see <a href="leftover-box-tar">pack files into one archive</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-tar"><span class="t">Pack files into one archive</span><span class="d">After SSH works, pack files into one archive with tar so you can copy one file instead of a folder. You don&apos;t need a zip app for this.</span></a>
+<a class="note-row" href="leftover-box-stat"><span class="t">See file size, date, and permissions</span><span class="d">After SSH works, see file size, date, and permissions with stat. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-sha256sum"><span class="t">Check a file fingerprint</span><span class="d">After SSH works, check a file with sha256sum so you know it still matches the fingerprint you expected. You don&apos;t need a download manager for this.</span></a>
+<a class="note-row" href="leftover-box-curl"><span class="t">Download a file onto the computer</span><span class="d">After SSH works, pull one file from a web address with curl. You don&apos;t need a browser on the computer for this.</span></a>
+<a class="note-row" href="leftover-box-scp"><span class="t">Copy a file to the computer from your laptop</span><span class="d">After SSH works, use scp to move one file without a USB stick. You don&apos;t need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-cp"><span class="t">Copy a file without leaving the computer</span><span class="d">After SSH works, copy a file with cp so you can edit a spare without wrecking the original. You don&apos;t need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-rm"><span class="t">Delete a file carefully</span><span class="d">After SSH works, delete one file with rm -i. Ask first. Skip rm -rf. You don&apos;t need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-xargs"><span class="t">Run one command per line</span><span class="d">After SSH works, run one command once per line with xargs so a list drives many short jobs. You don&apos;t need a scripting app for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-tar"><span class="kicker">Previous</span><span class="t">Pack files into one archive</span></a>
+<a rel="next" href="leftover-box-xargs"><span class="kicker">Next</span><span class="t">Run one command per line</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

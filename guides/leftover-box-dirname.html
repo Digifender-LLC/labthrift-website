@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See the folder path — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After basename, dirname prints the folder path of a name, without the last name. You don't need extra software for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See the folder path — Labthrift">
+<meta property="og:description" content="After basename, dirname prints the folder path of a name, without the last name. You don't need extra software for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-dirname">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-dirname">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See the folder path","description":"After basename, dirname prints the folder path of a name, without the last name. You don't need extra software for this.","url":"https://labthrift.com/guides/leftover-box-dirname","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-01"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"Faster network","item":"https://labthrift.com/guides/#switches"},{"@type":"ListItem","position":3,"name":"See the folder path"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">See the folder path</span></nav>
+<p class="note">Written 1 Sep 2026. This is a how-to, not a product card.</p>
+<h1>See the folder path</h1>
+<p class="deck">After <span><code>basename</code></span>, <span><code>dirname</code></span> prints the folder path of a name, without the last name. You don&apos;t need extra software for this.</p>
+<p><a href="leftover-box-basename">See the last name</a> printed the last name of a path. Tonight you ask for the folder path: <span><code>dirname</code></span>. Dirname prints the folders before the last name. Start with one tiny practice file, then <span><code>dirname ~/dirname-a.txt</code></span>.</p>
+<p><span><code>~</code></span> is home shorthand. The last name is the file name after the folders. <span><code>dirname</code></span> strips the last name and keeps the folder path. That is not <span><code>basename</code></span>. Basename prints the last name. That is <a href="leftover-box-basename">see the last name</a>. You are still only practicing in home on the computer. It does not need extra system software, htop, Grafana, or a NAS for this one job.</p>
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. SSH means type commands from your laptop, on the house network. If the last name is what you want, that is <a href="leftover-box-basename">see the last name</a>. Skip <span><code>basename</code></span> as tonight&apos;s job. If the full path is what you want, that is <a href="leftover-box-realpath">see the full path</a>. Skip <span><code>realpath</code></span> as tonight&apos;s job.</p>
+<h2>What this is</h2>
+<p><span><code>dirname</code></span> prints the folder of a path (the folders before the last name). You make one tiny practice file, then type <span><code>dirname ~/dirname-a.txt</code></span>. Dirname prints the folder path only, without the last name. Stick with that safe peek: the home folder path (typically <span><code>/home/YOURLOGIN</code></span>), without the last name <span><code>dirname-a.txt</code></span>, then the prompt back. You don&apos;t need extra system software for this.</p>
+<p>It is not <span><code>basename</code></span>. Basename prints the last name. It is not <span><code>realpath</code></span>. Realpath prints the full path. It is not <span><code>pwd</code></span>. Pwd prints the folder you sit in.</p>
+<h2>Practice dirname in home</h2>
+<p>SSH in. Make sure home is where you sit:</p>
+<p><code>pwd</code></p><p>You want a path that ends in your login name. If not:</p>
+<p><code>cd ~</code></p><p>Make one tiny practice file:</p>
+<p><code>printf &apos;hello\n&apos; &gt; ~/dirname-a.txt</code></p><p>Print the folder path (tonight's job):</p>
+<p><code>dirname ~/dirname-a.txt</code></p><p>You want the home folder path (typically <span><code>/home/YOURLOGIN</code></span>), without the last name <span><code>dirname-a.txt</code></span>. Then the prompt back. <span><code>~</code></span> was home shorthand. Dirname kept the folder path only. That is enough for tonight. Practice only in home.</p>
+<p>Debian and Ubuntu usually already have <span><code>dirname</code></span> (coreutils). Don't make apt the job.</p>
+<p>If <span><code>dirname</code></span> is missing, install coreutils:</p>
+<p><code>sudo apt install coreutils</code></p><p>Then stop. That apt line is not the lesson.</p>
+<p>When you are done looking, throw the practice name away with careful delete only. That is <a href="leftover-box-rm">delete a file carefully</a>. Skip <span><code>rm -rf</code></span>.</p>
+<p><code>rm -i ~/dirname-a.txt</code></p>
+<h2>Useful extras, still home only</h2>
+<p>Optional extra: folder path of the root path:</p>
+<p><code>dirname /</code></p><p>That peek prints <span><code>/</code></span>. Root has no extra folder above it. Don't make <span><code>/</code></span> required. You can stay on <span><code>dirname ~/dirname-a.txt</code></span>. Don't dump the whole <span><code>/</code></span> tree.</p>
+<p>Optional extra: folder path of the folder you sit in, as a dot:</p>
+<p><code>dirname .</code></p><p>That peek prints <span><code>.</code></span> (the folder you sit in, as a dot). Don't make <span><code>pwd</code></span> the job. Don't make <span><code>.</code></span> required.</p>
+<p>Skip huge dumps as tonight&apos;s job. Skip <span><code>dirname</code></span> piped into <span><code>rm</code></span>. Dirname prints a folder path. Rm deletes files. Don't mix those jobs. Skip files under <span><code>/etc</code></span>, whole <span><code>/</code></span>, SSH folders, USB sticks, and <span><code>/srv</code></span>. Practice only in home.</p>
+<p>Skip <span><code>screen</code></span>, <span><code>tmux</code></span>, htop, Grafana, and a NAS. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>What this is not</h2>
+<p>This is not <span><code>basename</code></span>. Basename prints the last name. Dirname prints the folder path only. That is <a href="leftover-box-basename">see the last name</a>. It is not <span><code>realpath</code></span>. That is <a href="leftover-box-realpath">see the full path</a>. It is not <span><code>pwd</code></span>. That is <a href="leftover-box-pwd">see which folder you are in</a>.</p>
+<h2>What next</h2>
+<p>Need the shortcut target? <a href="leftover-box-readlink">See the shortcut target</a>. Need the last name from a path? <a href="leftover-box-basename">See the last name</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip huge dumps as tonight&apos;s job. Tonight: one tiny practice file.</li>
+<li>Skip <span><code>dirname</code></span> piped into <span><code>rm</code></span>. Dirname prints a folder path. Don't mix delete into this drill.</li>
+<li>Skip <span><code>basename</code></span>, <span><code>realpath</code></span>, and <span><code>pwd</code></span> as tonight&apos;s job. Those notes already exist.</li>
+<li>Skip apt as tonight&apos;s job. The coreutils aside is not the lesson.</li>
+<li>Skip htop, Grafana, a NAS, files under <span><code>/etc</code></span>, and whole <span><code>/</code></span>.</li>
+<li>Skip <span><code>rm -rf</code></span>. Careful delete only: <a href="leftover-box-rm">delete a file carefully</a>.</li>
+<li>Skip opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/coreutils/dirname.1.en.html">Debian: dirname(1)</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/dirname.1.html">Ubuntu: dirname(1)</a>. Official pages only. For the last name, see <a href="leftover-box-basename">see the last name</a>. For the full path, see <a href="leftover-box-realpath">see the full path</a>. For the folder you sit in, see <a href="leftover-box-pwd">see which folder you are in</a>. For making a shortcut, see <a href="leftover-box-ln">make a shortcut</a>. For file size, date, and permissions, see <a href="leftover-box-stat">see file size, date, and permissions</a>. For words you type once, see <a href="leftover-box-echo">put a short line into a file</a>. For sending output, see <a href="leftover-box-pipe">send output into another command</a>. For the login, see <a href="first-ssh">SSH from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-basename"><span class="t">See the last name</span><span class="d">After realpath, basename prints the last name so a practice file shows the file name without the folder path. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-readlink"><span class="t">See the shortcut target</span><span class="d">After dirname, readlink prints the path a shortcut points at. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-realpath"><span class="t">See the full path</span><span class="d">After cmp, realpath prints a full path so a practice name shows where it actually lives. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-pwd"><span class="t">See which folder you are in</span><span class="d">After SSH works, pwd prints the folder you sit in so later file commands land where you expect. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-ln"><span class="t">Make a shortcut</span><span class="d">After SSH works, make a shortcut with ln -s so a second name points at the same file. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-stat"><span class="t">See file size, date, and permissions</span><span class="d">After SSH works, see file size, date, and permissions with stat. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-ls"><span class="t">See what&apos;s in a folder</span><span class="d">After SSH works, list the folder you are sitting in with ls. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-rm"><span class="t">Delete a file carefully</span><span class="d">After SSH works, delete one file with rm -i. Ask first. Skip rm -rf. You don&apos;t need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-basename"><span class="kicker">Previous</span><span class="t">See the last name</span></a>
+<a rel="next" href="leftover-box-readlink"><span class="kicker">Next</span><span class="t">See the shortcut target</span></a>
+</nav>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Shut down the computer without yanking the plug — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="When you're done for the night, shut it down and let it finish writing files before it powers off. Don't yank the cord. Skip this if you only need a reboot after updates.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Shut down the computer without yanking the plug — Labthrift">
+<meta property="og:description" content="When you're done for the night, shut it down and let it finish writing files before it powers off. Don't yank the cord. Skip this if you only need a reboot after updates.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-shutdown">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-shutdown">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Shut down the computer without yanking the plug","description":"When you're done for the night, shut it down and let it finish writing files before it powers off. Don't yank the cord. Skip this if you only need a reboot after updates.","url":"https://labthrift.com/guides/leftover-box-shutdown","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-24"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">Shut down the computer without yanking the plug</span></nav>
+<p class="note">Written 24 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Shut down the computer without yanking the plug</h1>
+<p class="deck">When you're done for the night, shut it down and let it finish writing files before it powers off. Don't yank the cord. Skip this if you only need a reboot after updates.</p>
+<p>The computer is still writing files. Pi-hole and the house share live there. A shutdown finishes writing files, then powers off. One command. Wait for the lights to go dark.</p>
+
+<h2>Skip this if you only need a reboot</h2>
+<p>If you just ran <a href="leftover-box-updates">keep the computer updated</a> and <a href="leftover-box-reboot-needed">see if a reboot is needed</a> said yes, use <span><code>sudo reboot</code></span> there. You don't need this shutdown. Come back when you are done for the night.</p>
+
+<h2>SSH in, then shut it down</h2>
+<p>From your normal computer, <a href="first-ssh">SSH from the couch</a>. Then run one command.</p>
+<p><code>sudo shutdown -h now</code></p>
+<p>That powers the computer off. Wait for the lights to go dark before you unplug. Yanking the cord while it is still writing can leave SSH and Pi-hole dirty when it comes back.</p>
+
+<h2>Reboot instead</h2>
+<p>If you are moving it, not done for the week, reboot instead of shutting down.</p>
+<p><code>sudo reboot</code></p>
+<p>Then <a href="find-the-leftover-box">find the computer on the house network</a> and SSH back.</p>
+
+<h2>The lid is not a shutdown</h2>
+<p>Closing a laptop lid is sleep, not shutdown. Sleep is a pause. The machine is still on, but it has stopped doing work. That is <a href="leftover-box-sleep">don't let the old laptop sleep</a>. A desktop can skip the lid talk. Yanking the charger is also not a shutdown. It may keep running on battery, or it may cut power mid-write.</p>
+
+<h2>What next</h2>
+<p>To bring it back from soft-off without walking over, that is <a href="wake-on-lan">wake the computer from the house network</a>. If it has been a week, <a href="leftover-box-updates">keep the computer updated</a>. If the computer is a laptop you leave on, that is <a href="leftover-box-sleep">don't let the old laptop sleep</a>. A house outlet is enough. That is <a href="leftover-box-no-ups">you don't need a UPS yet</a>. Don't buy a NAS.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip this note if you only need a reboot after computer-updates.</li>
+<li>Skip yanking the cord.</li>
+<li>Skip a UPS, a NAS, and a new switch this pass.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/systemd-sysv/shutdown.8.en.html">Debian: shutdown</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man8/shutdown.8.html">Ubuntu: shutdown</a>. Official pages only. For the computer, see <a href="start-with-what-you-have">start with what you already have</a>. For the weekly fixes, see <a href="leftover-box-updates">keep the computer updated</a>. For the login, see <a href="first-ssh">SSH from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="leftover-box-reboot-needed"><span class="t">See if a reboot is needed</span><span class="d">After weekly updates, check whether a reboot is needed before you buy a monitoring box.</span></a>
+<a class="note-row" href="leftover-box-updates"><span class="t">Keep the computer updated</span><span class="d">Once a week, give the computer its fixes so SSH and Pi-hole are not sitting on last year's bugs. Skip this until next week if you just finished first weekend.</span></a>
+<a class="note-row" href="wake-on-lan"><span class="t">Wake the computer from the house network</span><span class="d">Soft-off is fine overnight. Wake the old PC from a laptop or phone on the house network so SSH and Pi-hole come back. You don't need a smart plug for this.</span></a>
+<a class="note-row" href="leftover-box-sleep"><span class="t">Don't let the old laptop sleep</span><span class="d">Close the lid. The old laptop has to stay awake so SSH and Pi-hole keep working. A desktop can skip this note.</span></a>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="find-the-leftover-box"><span class="t">Find the computer on the house network</span><span class="d">The computer has a number on your house network. You need that number to SSH from the couch. You don't need a new router.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-reboot-needed"><span class="kicker">Previous</span><span class="t">See if a reboot is needed</span></a>
+<a rel="next" href="leftover-box-sleep"><span class="kicker">Next</span><span class="t">Don't let the old laptop sleep</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

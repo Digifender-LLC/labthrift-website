@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>110 V brick vs 208 V 1U — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Used 1U servers and big Catalysts were designed for a 20 °C aisle and often dual 750 W PSUs that are happiest on 208 V. A closet is a 120 V duplex. Buy the brick.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="110 V brick vs 208 V 1U — Labthrift">
+<meta property="og:description" content="Used 1U servers and big Catalysts were designed for a 20 °C aisle and often dual 750 W PSUs that are happiest on 208 V. A closet is a 120 V duplex. Buy the brick.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/110v-brick-vs-208v-1u">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/110v-brick-vs-208v-1u">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BlogPosting",
+ "headline": "If the PSU wants 208 V, it does not belong in a closet",
+ "description": "Used 1U servers and big Catalysts were designed for a 20 °C aisle and often dual 750 W PSUs that are happiest on 208 V. A closet is a 120 V duplex. Buy the brick.",
+ "url": "https://labthrift.com/guides/110v-brick-vs-208v-1u",
+ "image": "https://labthrift.com/assets/og-1200.png",
+ "datePublished": "2026-08-22"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+ {
+ "@type": "ListItem",
+ "position": 1,
+ "name": "Home",
+ "item": "https://labthrift.com/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 2,
+ "name": "Notes",
+ "item": "https://labthrift.com/guides/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 3,
+ "name": "Used vs new",
+ "item": "https://labthrift.com/guides/#used-vs-new"
+ },
+ {
+ "@type": "ListItem",
+ "position": 4,
+ "name": "If the PSU wants 208 V, it does not belong in a closet",
+ "item": "https://labthrift.com/guides/110v-brick-vs-208v-1u"
+ }
+ ]
+}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#used-vs-new">Used or new</a> / <span aria-current="page">If the PSU wants 208 V, it does not belong in a closet</span></nav>
+<p class="note">Written 22 Aug 2026. Specs from the maker pages linked below. Prices from those stores. I haven't used these.</p>
+
+<h1>If the PSU wants 208 V, it does not belong in a closet</h1>
+<p class="deck">Used 1U servers and big Catalysts were designed for a 20 °C aisle and often dual 750 W PSUs that are happiest on 208 V. A closet is a 120 V duplex. Buy the brick.</p>
+<p>This is a buying rule, not a new SKU. I haven't measured PSU dB. The loudness problem is the 1U PSU fan already named in <a href="used-vs-new">used vs new</a>. The buy is anything on an external 12 / 19 / 24 / 54 V brick marked 100–240 V.</p>
+
+<h2>What to buy</h2>
+<div class="table-wrap">
+<table>
+<tr><th>Box</th><th>Brick</th><th>Street, 22 Aug 2026</th><th>Buy if</th></tr>
+<tr class="pick"><td data-label="Box"><a href="https://protectli.com/product/vp2420e/">Protectli VP2420e</a></td><td data-label="Brick">12 V DC jack, max 24 W, 100–240 V wall brick. Fanless.</td><td data-label="Street, 22 Aug 2026">Official $359.</td><td data-label="Buy if">Firewall / four Intel 2.5G. See <a href="protectli-vp2420e-vs-used-firewall">the Vault note</a>.</td></tr>
+<tr><td data-label="Box"><a href="https://store.ui.com/us/en/products/usw-lite-8-poe">UniFi Switch Lite 8 PoE</a></td><td data-label="Brick">External 54 V / 60 W. Datasheet max device 8 W + 52 W PoE budget.</td><td data-label="Street, 22 Aug 2026">$109 UI store.</td><td data-label="Buy if">Already UniFi, two APs. Smaller sibling of <a href="unifi-usw-ultra-vs-used-catalyst-poe">Ultra 60W</a>.</td></tr>
+<tr><td data-label="Box"><a href="mikrotik-crs305-vs-used-cisco-10g">MikroTik CRS305</a></td><td data-label="Brick">Included 24 V 0.8 A. 12–57 V. Max 10–18 W.</td><td data-label="Street, 22 Aug 2026">Maker $149.</td><td data-label="Buy if">Four SFP+ hops, no 1U PSU.</td></tr>
+<tr><td data-label="Box"><a href="synology-cpo-vs-amazon-renewed">Synology DS224+</a></td><td data-label="Brick">60 W adapter, 100–240 V. Access 14.69 W / hibernation 4.41 W.</td><td data-label="Street, 22 Aug 2026">New diskless $299.99.</td><td data-label="Buy if">Two-bay NAS that plugs into a duplex.</td></tr>
+<tr><td data-label="Box"><a href="asus-nuc-14-pro-vs-used-xeon-d">ASUS NUC 14 Pro</a></td><td data-label="Brick">19 V, 90 W adapter on the Core 3 100U SKU (ASUS eShop).</td><td data-label="Street, 22 Aug 2026">eShop from $429.</td><td data-label="Buy if">Supported 4×4, not a used Xeon-D 1U.</td></tr>
+</table>
+</div>
+<h2>Skip</h2>
+<p>Skip the used Dell / HPE 1U with a 750 W redundant PSU for a closet. Skip inventing an HPE Renew closet node: no live closet CPO page on 22 Aug 2026. Shape argument: <a href="1u-vs-pizza-box-closet">1U vs pizza box</a>.</p>
+<section class="sources">
+<h2>Sources</h2>
+<p>Protectli spec (12 V, max 24 W). <a href="https://dl.ubnt.com/ds/usw-lite-8-poe">UniFi Lite 8 PoE datasheet</a> (54 V / 60 W, 8 W device). MikroTik CRS305 (12–57 V, 24 V 0.8 A). Synology DS224+ (100–240 V, 14.69 / 4.41 W). ASUS eShop NUC 14 Pro 90 W brick. Labthrift <a href="used-vs-new">used vs new</a> on default Catalyst fans. I haven't measured PSU dB.</p>
+</section>
+
+
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="1u-vs-pizza-box-closet"><span class="t">1U is for a rack. A closet gets a pizza box.</span><span class="d">Used 1U is deep, loud, and wants rails. The closet objects are pizza boxes.</span></a>
+<a class="note-row" href="unifi-usw-ultra-vs-used-catalyst-poe"><span class="t">New fanless PoE for a UniFi house, not a used 48-port Catalyst: Switch Ultra</span><span class="d">If the house is already UniFi, buy the Ultra 60W new.</span></a>
+<a class="note-row" href="synology-cpo-vs-amazon-renewed"><span class="t">Buy a new or Synology-certified DS224+. Skip random “renewed.”</span><span class="d">Amazon Renewed is not Synology CPO. New diskless DS224+ is the clean US buy.</span></a>
+</section>
+
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="lifetime-warranty-vs-smartnet"><span class="kicker">Previous</span><span class="t">Buy paper you can call on a closet lot, not SmartNet you cannot transfer</span></a>
+<a rel="next" href="1u-vs-pizza-box-closet"><span class="kicker">Next</span><span class="t">1U is for a rack. A closet gets a pizza box.</span></a>
+</nav>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+</p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

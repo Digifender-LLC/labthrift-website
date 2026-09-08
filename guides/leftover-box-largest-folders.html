@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See which folders are eating the disk — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Before you buy a bigger drive or a NAS, ask which folders are taking the room.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See which folders are eating the disk — Labthrift">
+<meta property="og:description" content="Before you buy a bigger drive or a NAS, ask which folders are taking the room.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-largest-folders">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-largest-folders">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See which folders are eating the disk","description":"Before you buy a bigger drive or a NAS, ask which folders are taking the room.","url":"https://labthrift.com/guides/leftover-box-largest-folders","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-28"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#first-nas">File storage</a> / <span aria-current="page">See which folders are eating the disk</span></nav>
+<p class="note">Written 28 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>See which folders are eating the disk</h1>
+<p class="deck">Before you buy a bigger drive or a NAS, ask which folders are taking the room.</p>
+<p>The computer said the disk is getting full. You already looked with <span><code>df</code></span>. Now you want the next question: where did the room go? This is a look, not a shopping trip. You are not buying a NAS, a bigger laptop drive, or a tiny computer for this.</p>
+
+<h2>Skip until you looked at disk room</h2>
+<p>If you have not checked room yet, stop. That look is <a href="leftover-box-disk-space">see if the computer still has room</a>. If copies fail while free space looks fine, check file slots: <a href="leftover-box-inodes">when copies fail but free space looks fine</a>. From the couch, ask:</p>
+<p><code>df -h</code></p>
+<p>Point at the line that ends in <span><code>/</code></span>. If <span><code>Use%</code></span> is fine, skip this note. If phones and laptops cannot open the house folder, fix that first: <a href="leftover-box-share-check">when the house share disappeared, check the computer</a>.</p>
+
+<h2>What this is</h2>
+<p><span><code>du</code></span> is the computer reporting how much room each folder is using. You are asking one folder deep on the disk, then reading the last line. The biggest folder is at the bottom. You are not installing a disk-space app, and you are not deleting anything yet.</p>
+
+<h2>Ask which folders are big</h2>
+<p>SSH in from the couch, then run:</p>
+<p><code>sudo du -xh -d 1 / 2>/dev/null | sort -h</code></p>
+<p>This can take a minute on an old laptop. Let it finish. Don't buy anything while it runs. <span><code>-x</code></span> stays on the disk, so a USB backup stick is not in this list. <span><code>-d 1</code></span> means one folder deep. <span><code>sort -h</code></span> puts the smallest first, so the eater is last.</p>
+<p>You should see lines like <span><code>/home</code></span>, <span><code>/var</code></span>, <span><code>/usr</code></span>, <span><code>/srv</code></span>. <span><code>/usr</code></span> is the OS. A few gigabytes there is normal. Don't delete it. <span><code>/srv</code></span> is the house folder from <a href="first-file-share">a file share on the computer</a>. That number should match what <a href="leftover-box-disk-space">see if the computer still has room</a> already told you. <span><code>/var</code></span> is logs and leftover package downloads. <span><code>/home</code></span> is laptop Downloads and Trash if this computer still has a desktop user.</p>
+
+<h2>Optional: look one folder deeper</h2>
+<p>If <span><code>/var</code></span> is the last line, look inside it:</p>
+<p><code>sudo du -xh -d 1 /var 2>/dev/null | sort -h</code></p>
+<p>Same idea for <span><code>/home</code></span> or <span><code>/srv</code></span>. Keep going one folder at a time. Don't jump into random <span><code>rm</code></span>.</p>
+
+<h2>If a folder is the eater</h2>
+<p>If <span><code>/var</code></span> is huge, clear leftover package downloads: <a href="leftover-box-apt-clean">clear old package downloads when the disk is tight</a>. Then trim old diary pages: <a href="leftover-box-old-logs">clear old logs when the disk is tight</a>. If <span><code>/srv</code></span> is huge, that is the house folder doing its job. Copy it off: <a href="first-backup">a backup of the house folder</a>. Then delete only files you recognize from the share, not system folders. If <span><code>/home</code></span> is huge and this computer is a laptop, empty Downloads and Trash from <a href="leftover-box-disk-space">see if the computer still has room</a>. Don't buy a NAS because an old laptop disk is small.</p>
+
+<h2>What next</h2>
+<p>Room check stays <a href="leftover-box-disk-space">see if the computer still has room</a>. One safe cleanup is <a href="leftover-box-apt-clean">clear old package downloads when the disk is tight</a>. Another is <a href="leftover-box-old-logs">clear old logs when the disk is tight</a>. How big the disk already is stays <a href="leftover-box-disk">see how big the disk already is</a>. A second copy is <a href="first-backup">a backup of the house folder</a>. Skip a new 4TB drive this weekend.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip this note if disk room is fine.</li>
+<li>Skip a NAS for this look.</li>
+<li>Skip a new internal drive this weekend.</li>
+<li>Skip deleting <span><code>/usr</code></span>, <span><code>/var</code></span>, or <span><code>/srv/share</code></span> to "make room."</li>
+<li>Skip random <span><code>rm -rf</code></span> on system folders.</li>
+<li>Skip installing a disk-space app tonight.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/coreutils/du.1.en.html">Debian: du</a>. <a href="https://manpages.debian.org/bookworm/coreutils/sort.1.en.html">Debian: sort</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/du.1.html">Ubuntu: du</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/sort.1.html">Ubuntu: sort</a>. Official pages only. For disk room, see <a href="leftover-box-disk-space">see if the computer still has room</a>. For leftover package downloads, see <a href="leftover-box-apt-clean">clear old package downloads when the disk is tight</a>. For disk size, see <a href="leftover-box-disk">see how big the disk already is</a>. For a second copy, see <a href="first-backup">a backup of the house folder</a>. For the login, see <a href="first-ssh">SSH from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="leftover-box-apt-clean"><span class="t">Clear old package downloads when the disk is tight</span><span class="d">After weekly updates, leftover downloads can sit on the disk. Clear them safely before you buy a bigger drive or a NAS.</span></a>
+<a class="note-row" href="leftover-box-old-logs"><span class="t">Clear old logs when the disk is tight</span><span class="d">Before you buy a bigger drive or a NAS, see how much room the computer diary is using, then trim old entries safely.</span></a>
+<a class="note-row" href="leftover-box-disk"><span class="t">See how big the disk already is</span><span class="d">Before you buy a tiny computer or a NAS, check how big the disk already is.</span></a>
+<a class="note-row" href="first-backup"><span class="t">A backup of the house folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another computer. You don't need a NAS for this.</span></a>
+<a class="note-row" href="first-file-share"><span class="t">A file share on the computer</span><span class="d">A folder on the computer that the house can open from a laptop or a phone. You don't need a NAS for this.</span></a>
+<a class="note-row" href="first-nas"><span class="t">A first file box (NAS) for one person</span><span class="d">A quiet box for photos and backups. Two drives if you want sleep.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-inodes"><span class="kicker">Previous</span><span class="t">When copies fail but free space looks fine</span></a>
+<a rel="next" href="leftover-box-apt-clean"><span class="kicker">Next</span><span class="t">Clear old package downloads when the disk is tight</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

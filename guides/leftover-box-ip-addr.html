@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See the computer's address on the house network — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="You need the computer's number before you reserve DHCP or SSH from another room.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See the computer's address on the house network — Labthrift">
+<meta property="og:description" content="You need the computer's number before you reserve DHCP or SSH from another room.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-ip-addr">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-ip-addr">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See the computer's address on the house network","description":"You need the computer's number before you reserve DHCP or SSH from another room.","url":"https://labthrift.com/guides/leftover-box-ip-addr","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-27"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">See the computer's address on the house network</span></nav>
+<p class="note">Written 27 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>See the computer's address on the house network</h1>
+<p class="deck">You need the computer's number before you reserve DHCP or SSH from another room.</p>
+<p>The address (IP) is the computer's number on the house network, like a house number on the street. <span><code>hostname -I</code></span> prints it in one line. You need that number before you reserve DHCP or SSH from another room.</p>
+
+<h2>Skip until SSH works</h2>
+<p>If ping fails and SSH hangs, start with <a href="leftover-box-still-on">is the computer still on?</a> If you have never logged in from the couch, that is <a href="first-ssh">SSH from the couch</a>. You can also type this at the keyboard. Prefer this look after a cable is plugged in: <a href="leftover-box-ethernet">a cable beats Wi-Fi for the computer</a>. If Wi-Fi keeps waking up after a reboot, that is <a href="leftover-box-wifi-off">keep Wi-Fi off after a reboot</a>. This note assumes you can log in from the couch, or sit at the keyboard.</p>
+
+<h2>What this is</h2>
+<p>A look, not a shopping trip. You need the computer's number to SSH from the couch later, to set a DHCP reservation (<a href="leftover-box-dhcp-reservation">keep the computer on the same number</a>), or to check the computer is on the house network (<a href="leftover-box-house-network">keep the computer on the house network</a>). Don't buy a switch for this look.</p>
+
+<h2>Ask for the house number</h2>
+<p>SSH in from the couch, or sit at the keyboard, then ask:</p>
+<p><code>hostname -I</code></p>
+<p>One line of numbers. The first one that looks like 192.168.… or 10.… is usually the house address. Ignore long IPv6 strings for now unless that is all you see.</p>
+
+<h2>Optional clearer print</h2>
+<p>If you want a table of plugs instead of one line:</p>
+<p><code>ip -brief addr</code></p>
+<p>Point at the ethernet line (often a name that starts with <span><code>en</code></span>, or <span><code>eth0</code></span>) with UP and an inet address. Wi-Fi lines can wait if a cable is plugged in.</p>
+
+<h2>Write it down</h2>
+<p>Sticky note or phone. The next step to keep it stable is <a href="leftover-box-dhcp-reservation">keep the computer on the same number</a>. If the number keeps changing after a reboot, that reservation guide is the fix, not a new mini PC.</p>
+
+<h2>What next</h2>
+<p>Path to the router: <a href="leftover-box-ping">check that the computer can reach the house router</a>. Cable speed: <a href="leftover-box-link-speed">see the cable speed</a>. Hardware address: <a href="leftover-box-mac-addr">see the computer's hardware address</a>. Same number after reboot: <a href="leftover-box-dhcp-reservation">keep the computer on the same number</a>. Cable: <a href="leftover-box-ethernet">a cable beats Wi-Fi for the computer</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH and the keyboard both fail. That is <a href="leftover-box-still-on">is the computer still on?</a> or <a href="first-ssh">SSH from the couch</a>.</li>
+<li>Skip a new switch for this look.</li>
+<li>Skip forwarding port 22.</li>
+<li>Skip buying a NAS for an address.</li>
+<li>Skip Proxmox tonight. That is <a href="what-is-a-vm">what a VM is, and when you don't need one</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/hostname/hostname.1.en.html">Debian: hostname</a>. <a href="https://manpages.debian.org/bookworm/iproute2/ip.8.en.html">Debian: ip</a>. Official pages only. For the cable, see <a href="leftover-box-ethernet">a cable beats Wi-Fi for the computer</a>. For keeping the number, see <a href="leftover-box-dhcp-reservation">keep the computer on the same number</a>. For the house-network boundary, see <a href="leftover-box-house-network">keep the computer on the house network</a>. For the login, see <a href="first-ssh">SSH from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="leftover-box-ethernet"><span class="t">Prefer a cable on the computer</span><span class="d">Once the computer is doing real work, plug it into the router with a cable. House Wi-Fi can wait. Skip this if it is already on a cable.</span></a>
+<a class="note-row" href="leftover-box-wifi-off"><span class="t">Keep Wi-Fi off after a reboot</span><span class="d">After the cable works, stop Wi-Fi from coming back so the computer keeps one address. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-dhcp-reservation"><span class="t">Keep the computer on the same number</span><span class="d">SSH and Pi-hole keep working after a reboot when the router always gives the computer the same address.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-wifi-off"><span class="kicker">Previous</span><span class="t">Keep Wi-Fi off after a reboot</span></a>
+<a rel="next" href="leftover-box-ping"><span class="kicker">Next</span><span class="t">Check that the computer can reach the house router</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

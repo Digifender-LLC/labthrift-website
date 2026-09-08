@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Add a local name in Pi-hole — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Give the old PC a short house name in Pi-hole so phones and laptops can open SSH, the share, and the admin page without remembering the number. You don't need a new router.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Add a local name in Pi-hole — Labthrift">
+<meta property="og:description" content="Give the old PC a short house name in Pi-hole so phones and laptops can open SSH, the share, and the admin page without remembering the number. You don't need a new router.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/add-local-dns-name">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/add-local-dns-name">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Add a local name in Pi-hole","description":"Give the old PC a short house name in Pi-hole so phones and laptops can open SSH, the share, and the admin page without remembering the number. You don't need a new router.","url":"https://labthrift.com/guides/add-local-dns-name","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-05"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">Add a local name in Pi-hole</span></nav>
+<p class="note">Written 5 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>Add a local name in Pi-hole</h1>
+<p class="deck">Give the old PC a short house name in Pi-hole so phones and laptops can open SSH, the share, and the admin page without remembering the number. You don't need a new router.</p>
+<p>Haven't installed the house ad block yet? Start with <a href="first-useful-service">the first useful thing</a>. Only renaming the Linux hostname on the computer itself? That quieter job is <a href="leftover-box-hostname">give the computer a name that sticks</a>. This note is different: a Local DNS record so every device that already asks Pi-hole for names can resolve something like <code>lab.home</code> to the computer's address.</p>
+
+<h2>Skip until Pi-hole is the house DNS</h2>
+<p>If phones still get DNS from the ISP, a local name in Pi-hole will not reach them. Point the router first: <a href="leftover-box-router-dns">point the house at the ad block</a>, or brand menus in <a href="common-router-dns">point common home routers at Pi-hole</a>. Nest or an ISP box that will not take LAN DNS? Set one device by hand: <a href="manual-dns-on-devices">point a phone or laptop at Pi-hole when the router won't</a>. Skip this page until a phone on house Wi-Fi already has ads gone.</p>
+
+<h2>What this is</h2>
+<p>Pi-hole can answer a name you invent with the computer's house address. You type that name in SSH, Finder, File Explorer, or the browser instead of <code>192.168.x.x</code>. It only works for devices that use Pi-hole as DNS. It is not magic for the open internet. It is not a reason to buy a mesh kit.</p>
+
+<h2>Step 1: lock the number</h2>
+<p>Write down the computer's current address. From SSH:</p>
+<p><code>hostname -I</code></p>
+<p>Or find it the long way: <a href="find-the-leftover-box">find it on the house network</a>. That number must stay put. Reserve it on the router: <a href="leftover-box-dhcp-reservation">keep it on the same number</a>, brand path in <a href="common-router-reservation">reserve an address on common home routers</a>. If the router will not reserve, set a fixed address on the PC: <a href="fixed-address-on-pc">give the computer a fixed address when the router won't</a>. A local name pointed at a moving number is how SSH and the share "break" after a reboot.</p>
+
+<h2>Step 2: pick a short name</h2>
+<p>One label, letters and numbers, no spaces. Examples that stay out of the way: <code>lab.home</code>, <code>lab.lan</code>, <code>office.home</code>. Prefer a made-up ending like <code>.home</code> or <code>.lan</code>. Skip <code>.local</code> (phones already use that for a different trick, and it fights). Skip a real public site name. Skip inventing a cute house brand for the machine itself.</p>
+
+<h2>Step 3: add the Local DNS record</h2>
+<p>On a laptop on the house network, open the admin page: <a href="http://pi.hole/admin">http://pi.hole/admin</a>, or the computer's address plus <code>/admin</code>. Log in with the Pi-hole admin password (not the Linux SSH password). Forgot it? <a href="leftover-box-pihole-password">Change the printed Pi-hole admin password</a>.</p>
+<p>Open <strong>Local DNS</strong> (sometimes under <strong>Settings → Local DNS records</strong>). Menu labels shift a little by Pi-hole version. You want the page that lists Domain and IP, with an Add button.</p>
+<p>Domain: <code>lab.home</code> (or the name you picked). IP: the reserved address from Step 1. Add / Save. Leave CNAME alone for day one. One A record for the computer is enough.</p>
+
+<h2>Step 4: prove it from a phone or laptop</h2>
+<p>Stay on house Wi-Fi. On a laptop:</p>
+<p><code>ping -c 3 lab.home</code></p>
+<p>Or look it up:</p>
+<p><code>dig +short lab.home</code></p>
+<p>You want the same number you reserved. Then try the jobs that used to need the number:</p>
+<ul>
+<li>SSH: <code>ssh youruser@lab.home</code> (password login first: <a href="first-ssh">SSH from the couch</a>)</li>
+<li>Share: <code>smb://lab.home/photos</code> on a Mac, or <code>\\lab.home\photos</code> on Windows (<a href="open-share-from-laptop">open the house share from a laptop</a>)</li>
+<li>Admin: <code>http://lab.home/admin</code> in a browser on the house network</li>
+</ul>
+<p>If the name fails only on one phone, that phone is not using house DNS. Walk <a href="when-one-phone-shows-ads">when one phone still shows ads</a>. If ads are back house-wide, start with <a href="when-ads-come-back">when ads come back</a> before you blame the new record.</p>
+
+<h2>If you typed the wrong address</h2>
+<p>Open the same Local DNS page. Delete the bad row. Add it again with the right number. Or edit the row if your build lets you. Then re-check with <code>ping</code> or <code>dig</code>. After a few good names, export settings so you don't rebuild them by hand: <a href="backup-pihole">save a Pi-hole backup</a> (Teleporter keeps local DNS).</p>
+
+<h2>What this is not</h2>
+<p>This is not renaming the Linux hostname (that is <a href="leftover-box-hostname">give the computer a name that sticks</a>). It is not opening Pi-hole or SSH to the internet. It is not a public domain you buy. It is not Unbound, Docker, or a second Pi. It is not a fix when ads never dropped; get house DNS working first.</p>
+
+<h2>What next</h2>
+<p>Name fails after you saved it? <a href="when-local-name-fails">when the house name won't resolve</a>. Keep the weekly Pi-hole habit: <a href="update-pihole">keep Pi-hole updated</a>. Export settings before a scary change: <a href="backup-pihole">save a Pi-hole backup</a>. Open the share with the new name: <a href="open-share-from-laptop">open the house share from a laptop</a> or <a href="open-share-from-phone">from a phone</a>. If one bank page breaks while ads stay gone, that is <a href="when-a-site-wont-load">when a site won't load after Pi-hole</a>.</p>
+
+<p class="note">Optional: keep the local names you add in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip this until Pi-hole already blocks ads for the house.</li>
+<li>Skip pointing a local name at an address that changes every reboot.</li>
+<li>Skip <code>.local</code> as the ending.</li>
+<li>Skip a real public domain name for a first house record.</li>
+<li>Skip opening the admin page past the house network.</li>
+<li>Skip buying a new router so a short name will resolve.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://docs.pi-hole.net/">Pi-hole docs</a>. <a href="https://docs.pi-hole.net/ftldns/configfile/">Pi-hole FTL configuration</a> (hosts / hostRecord). Official pages only. Local DNS lives in the admin UI on the computer. For install, see <a href="first-useful-service">the first useful thing</a>. For the Linux hostname, see <a href="leftover-box-hostname">give the computer a name that sticks</a>. For router DNS, see <a href="common-router-dns">point common home routers at Pi-hole</a>. For a settings zip, see <a href="backup-pihole">save a Pi-hole backup</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="when-local-name-fails"><span class="t">When the house name won't resolve</span><span class="d">lab.home says unknown host, or SSH and the share still need the IP. Prove which DNS the device uses, check the Pi-hole record, then the reserved address. Skip a new router tonight.</span></a>
+<a class="note-row" href="first-useful-service"><span class="t">The first useful thing</span><span class="d">Put a house-wide ad block on the old PC. The rest of the house keeps using the internet as usual. You don't need a Raspberry Pi.</span></a>
+<a class="note-row" href="see-what-pihole-blocked"><span class="t">See what Pi-hole blocked</span><span class="d">Open the query log (or watch it over SSH) so you can tell ads are dying, which device asked, and which name to allow later. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-hostname"><span class="t">Give the computer a name that sticks</span><span class="d">Ping and SSH are easier if the computer has a short name. lab works. Set it so the name survives a reboot.</span></a>
+<a class="note-row" href="leftover-box-dhcp-reservation"><span class="t">Keep it on the same number</span><span class="d">SSH and Pi-hole keep working after a reboot when the router always gives the computer the same address.</span></a>
+<a class="note-row" href="fixed-address-on-pc"><span class="t">Give the computer a fixed address when the router won't</span><span class="d">Nest or an ISP gateway won't reserve DHCP. Set one stable number on Ubuntu Server so SSH and Pi-hole keep the same address after a reboot. You don't need a new router.</span></a>
+<a class="note-row" href="common-router-dns"><span class="t">Point common home routers at Pi-hole</span><span class="d">Where to set DNS on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so the house asks Pi-hole. Prefer LAN DHCP DNS. You don't need a new router.</span></a>
+<a class="note-row" href="backup-pihole"><span class="t">Save a Pi-hole backup before you change things</span><span class="d">Export settings with Teleporter so a reinstall or a bad list does not wipe your allow list and local DNS. You don't need a new Raspberry Pi.</span></a>
+<a class="note-row" href="restore-pihole-backup"><span class="t">Put a Pi-hole backup back with Teleporter</span><span class="d">After a reinstall or a bad list, import the Teleporter zip so allow lists, deny entries, and local DNS names return. Fresh Pi-hole first. You don't need a new Raspberry Pi.</span></a>
+<a class="note-row" href="find-the-leftover-box"><span class="t">Find it on the house network</span><span class="d">The computer has a number on your house network. You need that number to SSH from the couch. You don't need a new router.</span></a>
+<a class="note-row" href="when-ads-come-back"><span class="t">When ads come back</span><span class="d">Ads are back, sites won't load, or a phone still shows banners. Check the computer, Pi-hole, router DNS, then the phone.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-hostname"><span class="kicker">Previous</span><span class="t">Give the computer a name that sticks</span></a>
+<a rel="next" href="when-local-name-fails"><span class="kicker">Next</span><span class="t">When the house name won't resolve</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

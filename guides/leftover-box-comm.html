@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Compare sorted lists — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After join, comm compares sorted lists so practice files show what is only in list 1, only in list 2, or in both. You don't need extra software for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Compare sorted lists — Labthrift">
+<meta property="og:description" content="After join, comm compares sorted lists so practice files show what is only in list 1, only in list 2, or in both. You don't need extra software for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-comm">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-comm">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Compare sorted lists","description":"After join, comm compares sorted lists so practice files show what is only in list 1, only in list 2, or in both. You don't need extra software for this.","url":"https://labthrift.com/guides/leftover-box-comm","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-01"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"Faster network","item":"https://labthrift.com/guides/#switches"},{"@type":"ListItem","position":3,"name":"Compare sorted lists"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Compare sorted lists</span></nav>
+<p class="note">Written 1 Sep 2026. This is a how-to, not a product card.</p>
+<h1>Compare sorted lists</h1>
+<p class="deck">After join, comm compares sorted lists so practice files show what is only in list 1, only in list 2, or in both. You don&apos;t need extra software for this.</p>
+<p><a href="leftover-box-join">Match files on a shared field</a> matched files on a key. Tonight you compare two sorted lists: <span><code>comm</code></span>. Comm compares two sorted lists. Start with two tiny practice files already sorted, then <span><code>comm ~/comm-a.txt ~/comm-b.txt</code></span>. Comm prints three tab-separated columns. Column 1 is lines only in file 1. Column 2 is lines only in file 2. Column 3 is lines in both. You are still only practicing in home on the computer. It does not need extra system software, htop, Grafana, or a NAS for this one job.</p>
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If files matched on a shared field are what you want, that is <a href="leftover-box-join">match files on a shared field</a>. If columns side by side without matching keys are what you want, that is <a href="leftover-box-paste">join columns side by side</a>. If files compared for edits are what you want, that is <a href="leftover-box-diff">see whether two files are the same</a>. Comm needs files already sorted. That sort is <a href="leftover-box-sort">put lines in order</a>.</p>
+<h2>What this is</h2>
+<p><span><code>comm</code></span> compares sorted lists. You make two tiny practice files, already sorted, then type <span><code>comm ~/comm-a.txt ~/comm-b.txt</code></span>. Comm prints three tab-separated columns. Stick with that safe peek: a in column 1, d in column 2, b and c in column 3. Both files must already be sorted. If files are mixed order, comm can miss lines or warn. Put lines in order first: <a href="leftover-box-sort">put lines in order</a>. It is not join. Join matches files on a key into one line. It is not paste. Paste joins columns side by side. It is not diff. Diff compares files for edits.</p>
+<h2>Practice comm in home</h2>
+<p>SSH in. Make sure home is where you sit:</p>
+<p><code>pwd</code></p><p>You want a path that ends in your login name. If not:</p>
+<p><code>cd ~</code></p><p>Make two tiny practice files, already sorted:</p>
+<p><code>printf &apos;a\nb\nc\n&apos; &gt; ~/comm-a.txt</code></p><p><code>printf &apos;b\nc\nd\n&apos; &gt; ~/comm-b.txt</code></p><p>Compare sorted lists:</p>
+<p><code>comm ~/comm-a.txt ~/comm-b.txt</code></p><p>You want three tab-separated columns. Column 1 is a. Column 2 is d. Column 3 is b then c. Then the prompt back. That is enough for tonight. Practice only in home.</p>
+<p>Don't make sort the job. If files later need order, that is <a href="leftover-box-sort">put lines in order</a>.</p>
+<p>Debian and Ubuntu usually already have <span><code>comm</code></span>. Don't make apt the job. If <span><code>comm</code></span> is missing:</p>
+<p><code>sudo apt install coreutils</code></p><p>Then stop. That install is not the lesson.</p>
+<p>When you are done, throw the practice files away. Careful delete only. That is <a href="leftover-box-rm">delete a file carefully</a>. Skip <span><code>rm -rf</code></span>.</p>
+<p><code>rm -i ~/comm-a.txt ~/comm-b.txt</code></p><h2>Useful extras, still home only</h2>
+<p>Optional: only lines in both:</p>
+<p><code>comm -12 ~/comm-a.txt ~/comm-b.txt</code></p><p>Optional: only lines in file 1:</p>
+<p><code>comm -13 ~/comm-a.txt ~/comm-b.txt</code></p><p>Optional: only lines in file 2:</p>
+<p><code>comm -23 ~/comm-a.txt ~/comm-b.txt</code></p><p><span><code>-1</code></span> hides column 1, and so on. Don't make those required. You can stay on default print.</p>
+<h2>What this is not</h2>
+<p>This is not join. That is <a href="leftover-box-join">match files on a shared field</a>. It is not cmp. That is <a href="leftover-box-cmp">see whether two files match byte for byte</a>. It is not sort as the job. That is <a href="leftover-box-sort">put lines in order</a>. It is not uniq. That is <a href="leftover-box-uniq">drop duplicate lines</a>. It is not paste. That is <a href="leftover-box-paste">join columns side by side</a>. It is not diff. That is <a href="leftover-box-diff">see whether two files are the same</a>. It is not opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>What next</h2>
+<p>Need files matched on a key? <a href="leftover-box-join">Match files on a shared field</a>. Need byte-for-byte compare? <a href="leftover-box-cmp">See whether two files match byte for byte</a>. Need files sorted first? <a href="leftover-box-sort">Put lines in order</a>. Need the practice files gone? <a href="leftover-box-rm">Delete a file carefully</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip huge dumps. Tonight: two tiny practice files.</li>
+<li>Skip join, cmp, sort, uniq, paste, and diff as tonight&apos;s job. Those pages already exist.</li>
+<li>Skip files under <span><code>/etc</code></span>, SSH folders, or paths you don't own. Practice only in home.</li>
+<li>Skip <span><code>rm -rf</code></span>. Careful delete only: <a href="leftover-box-rm">delete a file carefully</a>.</li>
+<li>Skip opening SSH to the internet so you can do this from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/coreutils/comm.1.en.html">Debian: comm(1)</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/comm.1.html">Ubuntu: comm(1)</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For matching on a key, see <a href="leftover-box-join">match files on a shared field</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-join"><span class="t">Match files on a shared field</span><span class="d">After column, match two practice files on a shared field with join so the lists line up on a key. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-cmp"><span class="t">See whether two files match byte for byte</span><span class="d">After comm, compare two files byte for byte with cmp so you know if they match. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-sort"><span class="t">Put lines in order</span><span class="d">After SSH works, put lines in order with sort so a mixed list is easier to scan. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-uniq"><span class="t">Drop duplicate lines</span><span class="d">After SSH works, drop duplicate lines with uniq so a mixed list shows each line once. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-paste"><span class="t">Join columns side by side</span><span class="d">After SSH works, join columns side by side with paste so two lists become one line each. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-diff"><span class="t">See whether two files are the same</span><span class="d">After SSH works, compare two files with diff so you can tell if the spare still matches. You don&apos;t need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-pipe"><span class="t">Send output into another command</span><span class="d">After SSH works, send output into another command with | so a long dump does not flood the window. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-rm"><span class="t">Delete a file carefully</span><span class="d">After SSH works, delete one file with rm -i. Ask first. Skip rm -rf. You don&apos;t need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-join"><span class="kicker">Previous</span><span class="t">Match files on a shared field</span></a>
+<a rel="next" href="leftover-box-cmp"><span class="kicker">Next</span><span class="t">See whether two files match byte for byte</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

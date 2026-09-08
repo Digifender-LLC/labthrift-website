@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>The Wi-Fi 7 tax for a closet lab — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Skip the extra-money 6 GHz puck until the house internet is faster than gigabit.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="The Wi-Fi 7 tax for a closet lab — Labthrift">
+<meta property="og:description" content="Skip the extra-money 6 GHz puck until the house internet is faster than gigabit.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/wifi-7-tax-closet-lab">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/wifi-7-tax-closet-lab">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BlogPosting",
+ "headline": "Skip the $190 Wi-Fi 7 puck until the WAN is faster than the AP",
+ "description": "Skip the extra-money 6 GHz puck until the house internet is faster than gigabit.",
+ "url": "https://labthrift.com/guides/wifi-7-tax-closet-lab",
+ "image": "https://labthrift.com/assets/og-1200.png",
+ "datePublished": "2026-08-22"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+ {
+ "@type": "ListItem",
+ "position": 1,
+ "name": "Home",
+ "item": "https://labthrift.com/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 2,
+ "name": "Notes",
+ "item": "https://labthrift.com/guides/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 3,
+ "name": "Cheap PoE + APs",
+ "item": "https://labthrift.com/guides/#cheap-poe"
+ },
+ {
+ "@type": "ListItem",
+ "position": 4,
+ "name": "Skip the $190 Wi-Fi 7 puck until the WAN is faster than the AP",
+ "item": "https://labthrift.com/guides/wifi-7-tax-closet-lab"
+ }
+ ]
+}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#cheap-poe">Better Wi-Fi</a> / <span aria-current="page">Skip the $190 Wi-Fi 7 puck until the WAN is faster than the AP</span></nav>
+<p class="note">Written 22 Aug 2026. Specs from the maker pages linked below. Prices from those stores. I haven't used these.</p>
+
+<h1>Skip the $190 Wi-Fi 7 puck until the WAN is faster than the AP</h1>
+<p class="deck">Skip the extra-money 6 GHz puck until the house internet is faster than gigabit.</p>
+<p>B&amp;H still sells EAP773 and U7 Pro at $189–$200 next to EAP653 at $80 and U7 Lite at $99. EAP773 wants 802.3bt for full 6 GHz; 802.3at derates 6 GHz (Newegg sheet). A closet with two phones cannot spend that delta. Name the tax. Don't pretend a 10G AP is a lab requirement.</p>
+<p>If you already have a 2.5G PoE switch and no Wi-Fi 7 clients, the last Omada stop before 772/773 is <a href="eap670-2-5g-wifi6">EAP670</a> (AX5400, 2.5G, 802.3at). That is still Wi-Fi 6. The religion fork. Omada vs UniFi, is <a href="omada-eap653-vs-unifi-u7-lite">EAP653 vs U7 Lite</a>.</p>
+
+<h2>What to buy</h2>
+<div class="table-wrap">
+<table>
+<tr><th>SKU</th><th>Radios</th><th>Uplink / PoE</th><th>Street / list, 22 Aug 2026</th></tr>
+<tr class="pick"><td data-label="SKU">Omada EAP653</td><td data-label="Radios">Wi-Fi 6, 2×2 + 2×2 (AX3000: 2402 + 574)</td><td data-label="Uplink / PoE">1G. 802.3at / 48 V passive / 12 V DC. Max 15.5 W.</td><td data-label="Street / list, 22 Aug 2026">B&amp;H $79.99. Amazon B0B5JRXDG4 live.</td></tr>
+<tr><td data-label="SKU">UniFi U7 Lite</td><td data-label="Radios">Wi-Fi 7 dual-band only, no 6 GHz. 4 streams (688 + 4300 class)</td><td data-label="Uplink / PoE">2.5G. 802.3af. UI sheet ~13 W.</td><td data-label="Street / list, 22 Aug 2026">UI store $99. B&amp;H $99–$104. <a href="unifi-u7-lite-review">review</a>.</td></tr>
+<tr><td data-label="SKU">Omada EAP723</td><td data-label="Radios">Wi-Fi 7 dual-band BE3600 (2882 + 688)</td><td data-label="Uplink / PoE">2.5G. 802.3at. Max 16.8 W PoE.</td><td data-label="Street / list, 22 Aug 2026">Omada Store MSRP $89.99. US Amazon listing not confirmed this pass (UK ASIN B0DTQDBNPX).</td></tr>
+<tr><td data-label="SKU">Omada EAP772</td><td data-label="Radios">Wi-Fi 7 tri-band, 2.5G</td><td data-label="Uplink / PoE">Stay Omada without 10G.</td><td data-label="Street / list, 22 Aug 2026">B&amp;H $169.99.</td></tr>
+<tr><td data-label="SKU">Omada EAP773</td><td data-label="Radios">Wi-Fi 7 tri-band BE11000 (5760 + 2880 + 574)</td><td data-label="Uplink / PoE">10G. 802.3bt full / 802.3at with 6 GHz derate.</td><td data-label="Street / list, 22 Aug 2026">B&amp;H / Newegg $189.99.</td></tr>
+<tr><td data-label="SKU">UniFi U7 Pro</td><td data-label="Radios">Wi-Fi 7 tri-band</td><td data-label="Uplink / PoE">2.5G. PoE+. ~21 W (third-party tables).</td><td data-label="Street / list, 22 Aug 2026">B&amp;H $189–$200. UI store list in the same band.</td></tr>
+</table>
+</div>
+<h2>Skip</h2>
+<p>A 1G WAN and two phones still start at <a href="cheap-poe">cheap PoE for two APs</a>, not a 10G puck. Skip EAP773 and U7 Pro until a single client and the WAN can use 6 GHz or 10G. Skip buying a noisy 150 W gigabit “MP” switch just to feed a 21 W Pro: the fan is the product; see <a href="sg2210mp-fan-noise-vs-fanless">SG2210MP vs fanless</a>. Skip used Ruckus.</p>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.bhphotovideo.com/c/compare/Ubiquiti+Networks_U7+Lite_vs_Ubiquiti+Networks_U7+Pro_vs_TP-Link_EAP773_vs_TP-Link_EAP772/BHitems/1885424-REG_1805878-REG_1810594-REG_1860146-REG">B&amp;H compare U7 Lite / U7 Pro / EAP773 / EAP772</a>. <a href="https://www.newegg.com/tp-link-eap773/p/N82E16833704729">Newegg EAP773</a>. <a href="https://store.omadanetworks.com/blogs/news/omada-wifi-7-access-point-buying-guide-2025-how-to-choose-the-best-wifi-7-access-point-for-your-needs">Omada Wi-Fi 7 buying guide</a>. <a href="https://ifeeltech.com/blog/ubiquiti-unifi-u6-series-review">iFeeltech U6-in-2026</a>. Street figures move.</p>
+</section>
+
+
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="instant-on-ap21-ap22-house"><span class="t">House Wi-Fi with an app, no license, no controller VM: Aruba Instant On AP21 vs AP22</span><span class="d">House Wi-Fi with an app, no license, no controller VM.</span></a>
+<a class="note-row" href="grandstream-gwn7660-embedded-controller"><span class="t">Quiet house AP that runs its own controller: Grandstream GWN7660</span><span class="d">Quiet house AP that runs its own controller.</span></a>
+<a class="note-row" href="cudy-ap3000-openwrt"><span class="t">Ceiling AP you can later flash OpenWrt on: Cudy AP3000</span><span class="d">Ceiling AP you can later flash OpenWrt on.</span></a>
+</section>
+
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="unifi-u7-lite-review"><span class="kicker">Previous</span><span class="t">Simple ceiling Wi-Fi 7 for a UniFi house: UniFi U7 Lite</span></a>
+<a rel="next" href="instant-on-ap21-ap22-house"><span class="kicker">Next</span><span class="t">House Wi-Fi with an app, no license, no controller VM: Aruba Instant On AP21 vs AP22</span></a>
+</nav>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+</p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

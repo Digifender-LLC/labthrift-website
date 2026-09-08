@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When ads come back — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Ads are back, sites won't load, or a phone still shows banners after you pointed the house at Pi-hole. Check the computer, the ad block, the router DNS, then the phone.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When ads come back — Labthrift">
+<meta property="og:description" content="Ads are back, sites won't load, or a phone still shows banners after you pointed the house at Pi-hole. Check the computer, the ad block, the router DNS, then the phone.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-ads-come-back">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-ads-come-back">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When ads come back","description":"Ads are back, sites won't load, or a phone still shows banners after you pointed the house at Pi-hole. Check the computer, the ad block, the router DNS, then the phone.","url":"https://labthrift.com/guides/when-ads-come-back","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-03"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When ads come back</span></nav>
+<p class="note">Written 3 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When ads come back</h1>
+<p class="deck">Ads are back, sites won't load, or a phone still shows banners after you pointed the house at Pi-hole. Check the computer, the ad block, the router DNS, then the phone.</p>
+<p>Haven't installed Pi-hole yet? Start with <a href="first-useful-service">the first useful thing</a>. Need the computer's address first? <a href="find-the-leftover-box">Find it on the house network</a>. Phones say no internet and every site times out? That emergency undo is <a href="when-house-wont-browse">when the house won't browse after Pi-hole</a>. This note is the short walk when something that used to work stopped.</p>
+
+<h2>Skip until you have a computer that stays on</h2>
+<p>If you don't have an old PC or laptop left on for the house yet, that is <a href="first-weekend">your first weekend</a>. This note assumes you already have a computer answering on the house network, with Pi-hole as the house name lookup.</p>
+
+<h2>What this is</h2>
+<p>A short checklist. Ads coming back usually means the house stopped asking the computer for names, Pi-hole stopped answering, or one phone kept the old DNS. You don't need a new router for this. You don't need a Raspberry Pi.</p>
+
+<h2>Is the computer still on?</h2>
+<p>From a laptop on the house Wi-Fi, ping the computer's address. Or open SSH the way you usually do. If ping fails and SSH hangs, start with <a href="leftover-box-still-on">is the computer still on?</a> Plug it in. Wake it. Don't buy anything yet.</p>
+<p>From your laptop:</p>
+<p><code>ping -c 3 192.168.1.50</code></p>
+<p>Swap in the real address. If you don't know it, <a href="find-the-leftover-box">find it on the house network</a>.</p>
+
+<h2>Is Pi-hole still running?</h2>
+<p>SSH into the computer, then:</p>
+<p><code>pihole status</code></p>
+<p>Or if that command is missing:</p>
+<p><code>sudo systemctl is-active pihole-FTL</code></p>
+<p>You want active / listening. If it is not, restart it:</p>
+<p><code>sudo systemctl restart pihole-FTL</code></p>
+<p>Then open the admin page in a browser, usually <a href="http://pi.hole/admin">http://pi.hole/admin</a>, or the computer's address plus <code>/admin</code>. Sites should load. A lot of the banners should not. A deeper pass is <a href="leftover-box-ad-block-check">when ads come back, check the ad block</a>.</p>
+
+<h2>Does the router still use the computer as DNS?</h2>
+<p>Router reboots often forget custom DNS. Log into the house router. Check LAN or DHCP DNS. Primary DNS should still be this computer's address. If it went back to automatic or the ISP, set it again: <a href="leftover-box-router-dns">point the house at the ad block</a>. Brand menus: <a href="common-router-dns">point common home routers at Pi-hole</a>.</p>
+<p>If names fail only on the computer itself, see which name server it is asking: <a href="leftover-box-dns-check">see which name server the computer is using</a>.</p>
+
+<h2>Did one phone keep the old DNS?</h2>
+<p>Phones sometimes keep a lease from before you changed the router. On that phone, forget the house Wi-Fi, then join again. Or toggle airplane mode. Or renew the DHCP lease in the Wi-Fi details if the phone shows that. Fuller walk for iPhone, Android, Windows, and Mac: <a href="flush-dns-on-devices">flush old DNS on phones and laptops</a>. Then browse a site that used to show ads.</p>
+<p>If only one phone still shows banners while the rest of the house is clean, that phone may be bypassing the house book on purpose: Android Private DNS, iCloud Private Relay, a VPN, or Chrome Secure DNS. Full walk: <a href="when-one-phone-shows-ads">when one phone still shows ads</a>. One laptop (or one browser) still dirty while phones look clean? That is <a href="when-one-laptop-shows-ads">when one laptop still shows ads</a>.</p>
+
+<h2>What this is not</h2>
+<p>This is not a reason to buy a mesh kit, a new router, or a Raspberry Pi. It is not a reason to open Pi-hole to the internet. It is a look at four common failure points: power, the ad block process, router DNS, and a sticky phone lease.</p>
+
+<h2>What next</h2>
+<p>If the computer just rebooted, walk the three house jobs in <a href="leftover-box-after-reboot">after a reboot, check the computer still does its jobs</a>. If IPv4 DNS looks right but phones still show banners, check the IPv6 path: <a href="when-ipv6-bypasses-ads">when ads sneak past on IPv6</a>. If only one phone is still dirty, that is <a href="when-one-phone-shows-ads">when one phone still shows ads</a>. One laptop still dirty? That is <a href="when-one-laptop-shows-ads">when one laptop still shows ads</a>. If the dirty phones were on the guest SSID, that is <a href="guest-wifi-dns">when guest Wi-Fi still shows ads</a>. If a cable or fiber tech left a new gateway (or reset yours), that is <a href="when-isp-swaps-router">when the ISP swaps your router</a>. If the admin page itself won't load, that is <a href="when-pihole-wont-open">when the Pi-hole admin page won't open</a>. If the admin opens but totals stay at zero, that is <a href="when-pihole-has-no-queries">when Pi-hole shows no queries</a>. When it works again, <a href="see-what-pihole-blocked">see what Pi-hole blocked</a> so the query log looks alive. If ads are gone but one bank or login page dies, that is <a href="when-a-site-wont-load">when a site won't load after Pi-hole</a>. Tabs hang a few seconds then load while ads stay blocked? That is <a href="when-dns-is-slow">when browsing feels slow after Pi-hole</a>. If you want a file share on this same computer later, that is <a href="first-file-share">a file share</a>. Leave the ad block alone for a week when it works again. If Pi-hole is running but lists feel stale, <a href="update-pihole">keep Pi-hole updated</a>. Before you wipe and reinstall, <a href="backup-pihole">save a Pi-hole backup</a>. Soft restart without a full reboot: <a href="restart-house-services">restart Pi-hole or the house share</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip buying a new router for this.</li>
+<li>Skip buying a Raspberry Pi “because Pi-hole.”</li>
+<li>Skip a mesh kit for ad block.</li>
+<li>Skip exposing Pi-hole to the internet.</li>
+<li>Skip Unbound on day one.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://docs.pi-hole.net/">Pi-hole docs</a>. Official pages only. For install, see <a href="first-useful-service">the first useful thing</a>. For router DNS, see <a href="leftover-box-router-dns">point the house at the ad block</a>. For the awake check, see <a href="leftover-box-still-on">is the computer still on?</a>. For a deeper Pi-hole check, see <a href="leftover-box-ad-block-check">when ads come back, check the ad block</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="backup-pihole"><span class="t">Save a Pi-hole backup before you change things</span><span class="d">Export settings with Teleporter so a reinstall or a bad list does not wipe your allow list and local DNS. You don't need a new Raspberry Pi.</span></a>
+<a class="note-row" href="restore-pihole-backup"><span class="t">Put a Pi-hole backup back with Teleporter</span><span class="d">After a reinstall or a bad list, import the Teleporter zip so allow lists, deny entries, and local DNS names return. Fresh Pi-hole first. You don't need a new Raspberry Pi.</span></a>
+<a class="note-row" href="update-pihole"><span class="t">Keep Pi-hole updated</span><span class="d">Weekly apt does not refresh Pi-hole. Update the software and the block lists on the old PC so ads stay gone. You don't need a new Raspberry Pi.</span></a>
+<a class="note-row" href="see-what-pihole-blocked"><span class="t">See what Pi-hole blocked</span><span class="d">Open the query log (or watch it over SSH) so you can tell ads are dying, which device asked, and which name to allow later. You don't need a new router.</span></a>
+<a class="note-row" href="when-pihole-has-no-queries"><span class="t">When Pi-hole shows no queries</span><span class="d">Admin opens, totals stay at zero, query log empty. Prove the house asks the computer for DNS, then check Pi-hole status. You don't need a new Raspberry Pi.</span></a>
+<a class="note-row" href="when-house-wont-browse"><span class="t">When the house won't browse after Pi-hole</span><span class="d">Phones say no internet, or every site times out, after you pointed the house at Pi-hole. Put router DNS back on automatic so dinner works, then fix the computer. You don't need a new router.</span></a>
+<a class="note-row" href="when-a-site-wont-load"><span class="t">When a site won't load after Pi-hole</span><span class="d">A bank, streamer, or login page breaks after Pi-hole. Pause blocking for five minutes, then allow the domain you need. You don't need a new router.</span></a>
+<a class="note-row" href="when-dns-is-slow"><span class="t">When browsing feels slow after Pi-hole</span><span class="d">Pages hang a few seconds, then load. Ads may still be blocked. Time a DNS lookup, check Pi-hole and its upstream, then prove it with a bypass. You don't need a faster plan tonight.</span></a>
+<a class="note-row" href="block-a-site"><span class="t">Block a site in Pi-hole on purpose</span><span class="d">One domain you don't want in the house. Add it to the deny list. You don't wipe every block list or buy a new router.</span></a>
+<a class="note-row" href="when-pihole-wont-open"><span class="t">When the Pi-hole admin page won't open</span><span class="d">http://pi.hole/admin or the computer's address plus /admin won't load. Check house Wi-Fi, the address, then Pi-hole and the web service. You don't need a new router.</span></a>
+<a class="note-row" href="restart-house-services"><span class="t">Restart Pi-hole or the house share</span><span class="d">Ads vanished or Finder lost the folder, but the computer is still on. Restart the one service that died. You don't need a full reboot or a new mini PC.</span></a>
+<a class="note-row" href="common-router-dns"><span class="t">Point common home routers at Pi-hole</span><span class="d">Where to set DNS on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so the house asks Pi-hole. Prefer LAN DHCP DNS. You don't need a new router.</span></a>
+<a class="note-row" href="common-router-reservation"><span class="t">Keep the computer on the same address on common routers</span><span class="d">Where to reserve DHCP on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so SSH and Pi-hole keep the same number after a reboot. You don't need a new router.</span></a>
+<a class="note-row" href="first-useful-service"><span class="t">The first useful thing</span><span class="d">Put a house-wide ad block on the old PC. The rest of the house keeps using the internet as usual. You don't need a Raspberry Pi.</span></a>
+<a class="note-row" href="flush-dns-on-devices"><span class="t">Flush old DNS on phones and laptops</span><span class="d">After you point the router at Pi-hole, phones and laptops may still use the old DNS. Renew the Wi-Fi lease or flush the cache so ads drop. You don't need a new router.</span></a>
+<a class="note-row" href="when-one-phone-shows-ads"><span class="t">When one phone still shows ads</span><span class="d">Everyone else's ads dropped. One phone still shows banners. Check Private DNS, Private Relay, a VPN, then the Wi-Fi lease. You don't need a new router.</span></a>
+<a class="note-row" href="when-one-laptop-shows-ads"><span class="t">When one laptop still shows ads</span><span class="d">Everyone else's ads dropped. One laptop (or one browser) still shows banners. Check Chrome, Edge, or Firefox Secure DNS, Windows encrypted DNS, Mac Private Relay, then a VPN. You don't need a new router.</span></a>
+<a class="note-row" href="when-ipv6-bypasses-ads"><span class="t">When ads sneak past on IPv6</span><span class="d">Pi-hole looks fine on IPv4, but phones still show banners. Check IPv6 DNS on the router, or turn that path off for now. You don't need a new router.</span></a>
+<a class="note-row" href="guest-wifi-dns"><span class="t">When guest Wi-Fi still shows ads</span><span class="d">Guest Wi-Fi is a separate network on purpose. Leave guests on ISP DNS, put a visitor on the main house Wi-Fi, or point guest DNS at Pi-hole only if they can reach the computer. You don't need a new router.</span></a>
+<a class="note-row" href="when-isp-swaps-router"><span class="t">When the ISP swaps your router</span><span class="d">Tech left a new gateway (or reset yours). Ads are back, and SSH may miss the old address. Re-find the computer, re-point DNS, re-do the reservation. You don't need a new router or a new Pi-hole.</span></a>
+<a class="note-row" href="leftover-box-dns-check"><span class="t">See which name server the computer is using</span><span class="d">When names fail or ads come back, check which DNS the computer asks before you buy a mesh kit.</span></a>
+<a class="note-row" href="leftover-box-router-dns"><span class="t">Point the house at the ad block</span><span class="d">After Pi-hole is installed, point the house router at the computer for DNS. Phones and laptops need no app. Sites still load. A lot of ads don't.</span></a>
+<a class="note-row" href="leftover-box-after-reboot"><span class="t">After a reboot, check the computer still does its jobs</span><span class="d">The computer came back up. Confirm SSH, house ad block, and the file share still work before you buy anything.</span></a>
+<a class="note-row" href="leftover-box-still-on"><span class="t">Is the computer still on?</span><span class="d">You left the computer on. This morning ads are back, or SSH hangs. Check if it is awake before you buy anything.</span></a>
+<a class="note-row" href="first-weekend"><span class="t">Your first weekend</span><span class="d">Install the OS, name it, and reach it from the couch. Don't buy anything this weekend.</span></a>
+<a class="note-row" href="find-the-leftover-box"><span class="t">Find it on the house network</span><span class="d">The computer has a number on your house network. You need that number to SSH from the couch. You don't need a new router.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="first-useful-service"><span class="kicker">Previous</span><span class="t">The first useful thing</span></a>
+<a rel="next" href="leftover-box-still-on"><span class="kicker">Next</span><span class="t">Is the computer still on?</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

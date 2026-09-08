@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When SSH won't connect — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="SSH hangs, says connection refused, or Permission denied. Check the computer is on, confirm the address, then the user and password. You don't need a new router or a KVM.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When SSH won't connect — Labthrift">
+<meta property="og:description" content="SSH hangs, says connection refused, or Permission denied. Check the computer is on, confirm the address, then the user and password. You don't need a new router or a KVM.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-ssh-wont-connect">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-ssh-wont-connect">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When SSH won't connect","description":"SSH hangs, says connection refused, or Permission denied. Check the computer is on, confirm the address, then the user and password. You don't need a new router or a KVM.","url":"https://labthrift.com/guides/when-ssh-wont-connect","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-04"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When SSH won't connect</span></nav>
+<p class="note">Written 4 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When SSH won't connect</h1>
+<p class="deck">SSH hangs, says connection refused, or Permission denied. Check the computer is on, confirm the address, then the user and password. You don't need a new router or a KVM.</p>
+<p>Haven't reached it from the couch yet? Start with <a href="first-ssh">SSH from the couch</a>. Need the number first? <a href="find-the-leftover-box">Find it on the house network</a>. This note is only for when the connect step fails, or used to work and now doesn't.</p>
+
+<h2>Skip until you have a real error</h2>
+<p>Copy the exact line from the terminal. "Connection refused," "Connection timed out," "Permission denied," and "REMOTE HOST IDENTIFICATION HAS CHANGED" are different fixes. Don't buy anything for a typo.</p>
+
+<h2>What this is</h2>
+<p>SSH needs three things that still match: the computer awake on the house network, the address you type, and the user plus password (or key) from install. One of those usually drifted. Soft-off, a new DHCP lease, a wrong username, or a wiped OS that changed the host key. The walk below is order of cheap checks.</p>
+
+<h2>Step 1: is the computer awake?</h2>
+<p>Power light. Fan. Screen if it has one. If it looks asleep or dead, start with <a href="leftover-box-still-on">is the computer still on?</a>. Soft-off on purpose? Wake it from the house network: <a href="wake-on-lan">wake the computer from the house network</a>. A laptop that slept with the lid closed needs <a href="leftover-box-sleep">don't let the laptop sleep</a> before you chase SSH bugs.</p>
+
+<h2>Step 2: confirm the address</h2>
+<p>Don't reuse last week's number from memory. Look it up again: <a href="find-the-leftover-box">find it on the house network</a>. Write it down. Try:</p>
+<p><code>ssh youruser@192.168.1.50</code></p>
+<p>Use the real user and the number you just found, not that example. If the ISP swapped the gateway, the old lease is gone: <a href="when-isp-swaps-router">when the ISP swaps your router</a>. If Nest will not reserve DHCP, pin the number on the computer: <a href="fixed-address-on-pc">give the computer a fixed address when the router won't</a>.</p>
+
+<h2>Step 3: match the error to a fix</h2>
+<div class="table-wrap">
+<table>
+<tr><th>What you see</th><th>What to do</th></tr>
+<tr><td data-label="What you see">Connection timed out</td><td data-label="What to do">Wrong address, wrong Wi-Fi (guest vs house), or the computer is off. Confirm Step 1 and Step 2. Stay on the main house network, not guest Wi-Fi.</td></tr>
+<tr><td data-label="What you see">Connection refused</td><td data-label="What to do">The computer answered, but nothing is listening on port 22. Plug in a screen once and install the server: <code>sudo apt install openssh-server</code>. If ufw is on, allow SSH: <code>sudo ufw allow OpenSSH</code>. Intentional firewall later: <a href="leftover-box-ufw">turn on a simple firewall without locking yourself out</a>.</td></tr>
+<tr><td data-label="What you see">Permission denied</td><td data-label="What to do">Wrong user or wrong password. Use the account from install, not Administrator, not root, not pi unless you named it pi. Caps Lock off. Nothing shows as you type the password. That is normal. Still locked out after that? <a href="when-login-password-fails">When you forgot the computer's login password</a>.</td></tr>
+<tr><td data-label="What you see">Host key / identification has changed</td><td data-label="What to do">You reinstalled, or the laptop still remembers an old fingerprint. Clear that memory: <a href="leftover-box-ssh-host-key">when SSH says the computer looks different</a>.</td></tr>
+</table>
+</div>
+
+<h2>Step 4: same Wi-Fi, same house</h2>
+<p>Your laptop or phone must be on the main house Wi-Fi (or a cable into the same router). Guest Wi-Fi often cannot see the computer on purpose. VPN apps on the phone can hide the house LAN. Turn the VPN off for this test. Phone SSH is the same rules: <a href="ssh-from-phone">SSH from a phone</a>.</p>
+
+<h2>Check</h2>
+<p>From the laptop on house Wi-Fi:</p>
+<p><code>ssh youruser@THE-ADDRESS</code></p>
+<p>You should get a password prompt (or a key login), then a shell. Run:</p>
+<p><code>hostname</code></p>
+<p>That name should be the old PC. Type <code>exit</code> to leave. If this works once and fails after a reboot, reserve the address or set a fixed one so the number stops moving.</p>
+
+<h2>What this is not</h2>
+<p>This is not a reason to forward port 22 to the internet. It is not a KVM purchase for day-two flakiness. It is not fail2ban or a new SSH port tonight. House network only until you leave on purpose — then <a href="ssh-from-away">SSH from away</a>.</p>
+
+<h2>What next</h2>
+<p>First successful login still lives on <a href="first-ssh">SSH from the couch</a>. Phone on house Wi-Fi: <a href="ssh-from-phone">SSH from a phone</a>. Coffee shop or cellular: <a href="ssh-from-away">SSH from away</a>. Change a weak install password: <a href="leftover-box-change-password">change the login password</a>. Forgot it completely? <a href="when-login-password-fails">When you forgot the computer's login password</a>. After a boring week of passwords, <a href="leftover-box-ssh-keys">log in with a key, not the password every time</a>. Keep SSH off the public internet: <a href="leftover-box-house-network">keep it on the house network</a>. Next useful job on the box is still <a href="first-useful-service">the first useful thing</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip opening port 22 on the router.</li>
+<li>Skip buying a KVM for a refused or timed-out connect.</li>
+<li>Skip changing the SSH port on day one.</li>
+<li>Skip fail2ban until SSH is boring from the couch.</li>
+<li>Skip Tailscale until house SSH works — then <a href="ssh-from-away">SSH from away</a> when you leave.</li>
+<li>Skip guessing last week's address instead of finding it again.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://ubuntu.com/server/docs/how-to/security/openssh-server/">Ubuntu Server: OpenSSH server</a>. <a href="https://manpages.debian.org/bookworm/openssh-client/ssh.1.en.html">Debian: ssh man page</a>. <a href="https://man.openbsd.org/ssh">OpenBSD: ssh</a>. Official pages only. For the first connect, see <a href="first-ssh">SSH from the couch</a>. For the address, see <a href="find-the-leftover-box">find it on the house network</a>. For a host-key scare after a wipe, see <a href="leftover-box-ssh-host-key">when SSH says the computer looks different</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="when-login-password-fails"><span class="t">When you forgot the computer's login password</span><span class="d">SSH and the keyboard both reject the password. Boot recovery or the installer USB, remount the disk, set a new one. Skip wiping the whole PC if the files are fine.</span></a>
+<a class="note-row" href="when-ethernet-has-no-link"><span class="t">When the cable is plugged in but there's no link</span><span class="d">Ethernet is seated, but SSH still hangs or the computer never gets a house address. Check both ends, LAN vs WAN, link lights, then ip link before you buy a NIC.</span></a>
+<a class="note-row" href="when-wifi-keeps-dropping"><span class="t">When house Wi-Fi on the old PC keeps dropping</span><span class="d">SSH dies or ads come back because the computer's Wi-Fi keeps falling off. Check power save, signal, then prefer a cable. You don't need a mesh kit tonight.</span></a>
+<a class="note-row" href="when-wifi-password-changed"><span class="t">When the house Wi-Fi password changed</span><span class="d">You (or the ISP) changed the Wi-Fi passphrase. The old PC on radio is offline — SSH hangs, ads are back. Update the saved password on the computer. Skip a new mesh kit tonight.</span></a>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the old PC from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="find-the-leftover-box"><span class="t">Find it on the house network</span><span class="d">The computer has a number on your house network. You need that number to SSH from the couch. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-still-on"><span class="t">Is it still on?</span><span class="d">You left the computer on. This morning ads are back, or SSH hangs. Check if it is awake before you buy anything.</span></a>
+<a class="note-row" href="wake-on-lan"><span class="t">Wake the computer from the house network</span><span class="d">Soft-off is fine overnight. Wake the old PC from a laptop or phone on the house network so SSH and Pi-hole come back. You don't need a smart plug for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-host-key"><span class="t">When SSH says the computer looks different</span><span class="d">After you reinstall, SSH can refuse because your laptop still remembers the old host key. Clear that memory. You don't need a new router.</span></a>
+<a class="note-row" href="ssh-from-phone"><span class="t">SSH from a phone</span><span class="d">Type commands on the old PC from an iPhone or Android on house Wi-Fi. Password login first. Don't open SSH to the internet.</span></a>
+<a class="note-row" href="ssh-from-away"><span class="t">SSH from away</span><span class="d">Reach the old PC from a coffee shop or cellular without opening port 22. Tailscale on the computer and on your laptop. Free personal plan is enough.</span></a>
+<a class="note-row" href="when-isp-swaps-router"><span class="t">When the ISP swaps your router</span><span class="d">Tech left a new gateway (or reset yours). Ads are back, and SSH may miss the old address. Re-find the computer, re-point DNS, re-do the reservation. You don't need a new router or a new Pi-hole.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep it on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="first-ssh"><span class="kicker">Previous</span><span class="t">SSH from the couch</span></a>
+<a rel="next" href="ssh-from-phone"><span class="kicker">Next</span><span class="t">SSH from a phone</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

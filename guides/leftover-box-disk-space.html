@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See if the computer still has room — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See if the computer still has room — Labthrift">
+<meta property="og:description" content="After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-disk-space">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-disk-space">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See if the computer still has room","description":"After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.","url":"https://labthrift.com/guides/leftover-box-disk-space","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-26"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#first-nas">File storage</a> / <span aria-current="page">See if the computer still has room</span></nav>
+<p class="note">Written 26 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>See if the computer still has room</h1>
+<p class="deck">After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.</p>
+<p>This is a look, not a shopping trip. The house folder is already on the computer. You are asking whether that disk still has room, before a phone copy fails. How big the disk already is, before you shop, is a different look: <a href="leftover-box-disk">see how big the disk already is</a>.</p>
+
+<h2>Skip until the share works</h2>
+<p>If phones and laptops cannot open the house folder yet, stop. Fix that first. That is <a href="first-file-share">a file share on the computer</a>. Disk room does not help a share that is not working.</p>
+
+<h2>What this is</h2>
+<p>The computer has one main disk. House photos go on that same disk. An old laptop disk fills faster than people expect. This is a look, not a shopping trip. You are not buying a file box this weekend.</p>
+
+<h2>Ask how full it is</h2>
+<p>From the couch, <a href="first-ssh">SSH in</a>, then ask:</p>
+<p><code>df -h</code></p>
+<p><span><code>df</code></span> is the computer reporting how full its disk is. Point at the line that ends in <span><code>/</code></span>. That is the disk. When <span><code>Use%</code></span> is in the 80s, it is time to clean. 100% is why copies failed.</p>
+
+<h2>See what the house folder is using</h2>
+<p>The share lives at <span><code>/srv/share/</code></span>. Ask how big that folder is, not the whole disk:</p>
+<p><code>sudo du -sh /srv/share</code></p>
+<p>That number is the shared folder size. Old Downloads and a full Trash on an old laptop also eat room. If this computer is a laptop that still has a desktop user, you can look at those two:</p>
+<p><code>du -sh ~/Downloads ~/.local/share/Trash 2>/dev/null</code></p>
+
+<h2>If it is filling</h2>
+<p>Delete obvious junk. Empty the Trash. Clear old Downloads you don't need. If a copy fails while free space still looks fine, check file slots: <a href="leftover-box-inodes">when copies fail but free space looks fine</a>. If you want the next question (where the room went), that is <a href="leftover-box-largest-folders">see which folders are eating the disk</a>. After weekly updates, clear leftover package downloads: <a href="leftover-box-apt-clean">clear old package downloads when the disk is tight</a>. Old diary pages: <a href="leftover-box-old-logs">clear old logs when the disk is tight</a>. Don't buy a NAS because an old laptop disk is small. A second copy on a USB disk you already have is <a href="first-backup">a backup of the house folder</a>. A real file box is later: <a href="first-nas">a first file box (NAS)</a>.</p>
+
+<h2>What next</h2>
+<p>Drive health: <a href="see-disk-health">see if the old disk is dying</a>. Need the list of attached disks and USB sticks? <a href="leftover-box-lsblk">See disks and USB sticks</a>. How big the disk already is stays <a href="leftover-box-disk">see how big the disk already is</a>. Need a huge byte count made readable? <a href="leftover-box-numfmt">Make sizes readable with numfmt</a>. If you want to see which folders are taking the room, that is <a href="leftover-box-largest-folders">see which folders are eating the disk</a>. If the disk is still tight after junk cleanup, <a href="leftover-box-apt-clean">clear old package downloads when the disk is tight</a>. If the computer feels slow and the disk is fine, later: <a href="leftover-box-free-memory">see if the computer still has free memory</a>. If there is no second copy yet, that is <a href="first-backup">a backup of the house folder</a>. After one manual copy works, <a href="leftover-box-backup-timer">back up the folder every week without remembering</a>. If weekly jobs wake at the wrong hour, <a href="leftover-box-timezone">set the computer clock to your house</a>. Skip a new 4TB drive this weekend. Copies already failing with no space? <a href="when-house-disk-full">When the computer's disk is full</a>. If the system disk is the problem, move the live share onto a USB that stays plugged in: <a href="house-folder-on-usb">put the house folder on a USB disk</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip this note if the share is not working yet.</li>
+<li>Skip a NAS for this look.</li>
+<li>Skip a new internal drive this weekend.</li>
+<li>Skip filling the old laptop with a movie library.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/coreutils/df.1.en.html">Debian: df</a>. <a href="https://manpages.debian.org/bookworm/coreutils/du.1.en.html">Debian: du</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/df.1.html">Ubuntu: df</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/du.1.html">Ubuntu: du</a>. Official pages only. For the share this looks at, see <a href="first-file-share">a file share on the computer</a>. For the login, see <a href="first-ssh">SSH from the couch</a>. For a second copy, see <a href="first-backup">a backup of the house folder</a>. A dedicated file box is later: <a href="first-nas">a first file box (NAS)</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="see-disk-health"><span class="t">See if the old disk is dying</span><span class="d">SMART reports whether the drive still looks healthy. Install smartmontools, list the disk, run a quick health check before you trust photos on a Marketplace PC. You don't need a NAS.</span></a>
+<a class="note-row" href="leftover-box-disk"><span class="t">See how big the computer disk already is</span><span class="d">Before you buy a tiny computer or a NAS, check how big the computer disk already is.</span></a>
+<a class="note-row" href="when-house-disk-full"><span class="t">When the computer's disk is full</span><span class="d">Photos won't copy, the share says no space, or df shows the system disk packed. Confirm it is the computer (not the backup stick), free room or move the house folder. You don't need a NAS.</span></a>
+<a class="note-row" href="leftover-box-largest-folders"><span class="t">See which folders are eating the disk</span><span class="d">Before you buy a bigger drive or a NAS, ask which folders are taking the room.</span></a>
+<a class="note-row" href="leftover-box-old-logs"><span class="t">Clear old logs if the disk is filling up</span><span class="d">Before you buy a bigger drive or a NAS, see how much room the diary is using, then trim old entries safely.</span></a>
+<a class="note-row" href="leftover-box-share-check"><span class="t">See if the house folder is still shared</span><span class="d">The computer is awake, but Finder or File Explorer cannot see the folder. Check that Samba is still running before you buy a NAS.</span></a>
+<a class="note-row" href="first-file-share"><span class="t">A file share on the computer</span><span class="d">A folder on the computer that the house can open from a laptop or a phone. You don't need a NAS for this.</span></a>
+<a class="note-row" href="house-folder-on-usb"><span class="t">Put the house folder on a USB disk</span><span class="d">Move the house share onto a USB disk that stays plugged into the old PC so photos don't fill the system drive. You don't need a NAS for this.</span></a>
+<a class="note-row" href="first-backup"><span class="t">A backup of the house folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another old PC. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-backup-timer"><span class="t">Back up the house folder every week without remembering</span><span class="d">After one manual USB (or second-box) copy works, let the computer run the same rsync on a weekly timer. A phone reminder is still fine if you prefer.</span></a>
+<a class="note-row" href="first-nas"><span class="t">A first file box (NAS) for one person</span><span class="d">A quiet box for photos and backups. Two drives if you want sleep.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-share-check"><span class="kicker">Previous</span><span class="t">See if the house folder is still shared</span></a>
+<a rel="next" href="leftover-box-inodes"><span class="kicker">Next</span><span class="t">See if the computer is out of file slots</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

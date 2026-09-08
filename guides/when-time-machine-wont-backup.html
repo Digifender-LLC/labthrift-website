@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When Time Machine won't back up to the house share — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Finder can open the share, or it used to, but Time Machine fails, stalls, or says the disk disappeared. Check the computer, the fruit lines, free space, then the Mac. You don't need a Time Capsule.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When Time Machine won't back up to the house share — Labthrift">
+<meta property="og:description" content="Finder can open the share, or it used to, but Time Machine fails, stalls, or says the disk disappeared. Check the computer, the fruit lines, free space, then the Mac. You don't need a Time Capsule.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-time-machine-wont-backup">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-time-machine-wont-backup">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When Time Machine won't back up to the house share","description":"Finder can open the share, or it used to, but Time Machine fails, stalls, or says the disk disappeared. Check the computer, the fruit lines, free space, then the Mac. You don't need a Time Capsule.","url":"https://labthrift.com/guides/when-time-machine-wont-backup","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-05"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When Time Machine won't back up to the house share</span></nav>
+<p class="note">Written 5 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When Time Machine won't back up to the house share</h1>
+<p class="deck">Finder can open the share, or it used to, but Time Machine fails, stalls, or says the disk disappeared. Check the computer, the fruit lines, free space, then the Mac. You don't need a Time Capsule.</p>
+<p>Haven't set this up yet? Start with <a href="time-machine-to-share">back up a Mac to the house share with Time Machine</a>. Plain share won't open at all? Fix that first: <a href="when-share-wont-open">when the house share won't open</a>. This note is only for when Time Machine is the thing that fails.</p>
+
+<h2>Skip until you have a Mac symptom</h2>
+<p>Write down what Time Machine actually said. "Backup disk not available," "disk is full," a forever "Preparing backup," and a share that never appears in Add Backup Disk are different fixes. Don't buy a Time Capsule because Samba stopped, or because the Mac is on guest Wi-Fi.</p>
+
+<h2>What this is</h2>
+<p>Time Machine over SMB needs the computer awake, you on the house network, a dedicated Samba share with the fruit Time Machine lines, free disk room under the size cap, and a Mac that still trusts the password. One of those usually drifted. Soft-off, a missing <code>samba-vfs-modules</code> package, a full disk, a stale keychain password, or guest Wi-Fi. Cheap checks first.</p>
+
+<h2>Step 1: computer awake, same house network</h2>
+<p>Power light. Fan. If it looks asleep or dead, start with <a href="leftover-box-still-on">is the computer still on?</a>. Soft-off on purpose? <a href="wake-on-lan">Wake the computer from the house network</a>.</p>
+<p>The Mac must be on the main house Wi-Fi or a cable into the same router. Not guest Wi-Fi. Not a work VPN. Not cellular. Guest Wi-Fi often cannot see the computer on purpose. Turn the VPN off for this test.</p>
+
+<h2>Step 2: open the Time Machine share in Finder</h2>
+<p>Before you touch Time Machine settings, open the share once by hand:</p>
+<p><code>smb://192.168.1.50/timemachine</code></p>
+<p>Swap the number and share name for yours. Sign in as Registered User with the Samba username and share password.</p>
+<p>If Finder cannot open it, stop here. That is a share problem, not a Time Machine problem: <a href="when-share-wont-open">when the house share won't open</a>. Forgot the password? <a href="leftover-box-samba-password">Set or change the house-share password</a>. Need the address again? <a href="find-the-leftover-box">Find it on the house network</a>.</p>
+
+<h2>Step 3: confirm the fruit lines and modules</h2>
+<p>SSH into the computer: <a href="first-ssh">SSH from the couch</a>. Connection fails? <a href="when-ssh-wont-connect">When SSH won't connect</a>.</p>
+<p>Check the VFS package is installed:</p>
+<p><code>dpkg -l samba-vfs-modules | tail -1</code></p>
+<p>You want a line that starts with <code>ii</code>. Missing? Install it:</p>
+<p><code>sudo apt install samba-vfs-modules</code></p>
+<p>Print the Time Machine share block:</p>
+<p><code>testparm -s 2>/dev/null | sed -n '/\[timemachine\]/,/^\[/p'</code></p>
+<p>Swap <code>timemachine</code> if your share name differs. You want something like:</p>
+<p><code>path = /srv/timemachine</code></p>
+<p><code>vfs objects = catia fruit streams_xattr</code></p>
+<p><code>fruit:time machine = yes</code></p>
+<p>A size cap line is fine too (<code>fruit:time machine max size</code>). If fruit lines are missing, add them the way <a href="time-machine-to-share">the setup note</a> shows, then:</p>
+<p><code>testparm -s</code></p>
+<p><code>sudo systemctl restart smbd</code></p>
+<p>If every share vanished on an awake computer: <a href="leftover-box-share-check">when the house share disappeared, check the computer</a>.</p>
+
+<h2>Step 4: free space under the cap</h2>
+<p>Time Machine needs room on the computer disk, and it also respects the Samba size cap. Check real free space:</p>
+<p><code>df -h /srv/timemachine</code></p>
+<p>Or check the disk the path lives on. Fuller walk: <a href="leftover-box-disk-space">see if the computer still has room</a>.</p>
+<p>If the disk is nearly full, Time Machine stalls or fails. Free space, raise the cap only when the disk can hold it, or park the folder on a bigger USB or second drive: <a href="leftover-box-usb-disk">see if the USB backup disk showed up</a>, <a href="house-folder-on-usb">put the house folder on a USB disk</a> (same idea for a Time Machine path on a bigger disk).</p>
+<p>Don't put Time Machine on the tiny photos share. Separate share, separate path.</p>
+
+<h2>Step 5: match the Mac symptom</h2>
+<p><strong>Share never appears in Add Backup Disk.</strong> Finder must open <code>smb://…/timemachine</code> first (step 2). Confirm <code>fruit:time machine = yes</code> and restart <code>smbd</code>. Stay on house Wi-Fi. Then open System Settings → General → Time Machine → Add Backup Disk again.</p>
+<p><strong>Backup disk not available / disk disconnected mid-backup.</strong> Computer asleep, Wi-Fi drop, or Samba restarted. Power light first. Re-open the share in Finder. Soft-off overnight is fine if you wake it before the Mac backs up: <a href="wake-on-lan">wake the computer from the house network</a>. Prefer a cable on the old PC while big backups run: <a href="leftover-box-ethernet">a cable beats Wi-Fi for the old PC</a>.</p>
+<p><strong>Password / authentication failed.</strong> Reset the Samba password: <a href="leftover-box-samba-password">set or change the house-share password</a>. On the Mac, open Keychain Access, search for the computer's address or <code>timemachine</code>, delete the stale internet-password rows, then Connect to Server again and re-add the backup disk.</p>
+<p><strong>Disk is full / not enough space.</strong> Free space on the computer (step 4). Lower how much the Mac keeps, or raise <code>fruit:time machine max size</code> only when <code>df -h</code> shows room. One Mac can eat hundreds of gigabytes.</p>
+<p><strong>Preparing backup forever, or first backup never finishes.</strong> Leave the Mac awake on house Wi-Fi or ethernet. Plug a cable if you can. Don't sleep the Mac mid-first-pass. Check the computer side for a growing <code>.sparsebundle</code>:</p>
+<p><code>ls -la /srv/timemachine</code></p>
+<p>If nothing new appears there, go back to steps 2–3. If the bundle exists and grows, wait. First backups are slow.</p>
+<p><strong>Finder mounts, Time Machine still fails with a disconnected-disk style error.</strong> After fruit lines and free space are confirmed, newer macOS releases can be picky about SMB signing. Some people add a Mac-side <code>/etc/nsmb.conf</code> with signing turned on. Only chase that after steps 1–4 are clean. Keep SMB on the house network only. Don't forward SMB on the router.</p>
+
+<h2>Step 6: one clean retry</h2>
+<p>On the Mac, remove the broken backup disk in Time Machine settings if it is stuck. Connect to Server once more. Add the disk again. Start a backup. Watch <code>ls -la /srv/timemachine</code> on the computer for the sparsebundle. When the first pass finishes, Time Machine should show a recent successful time.</p>
+
+<h2>What this is not</h2>
+<p>This is not a reason to buy a Time Capsule, Synology, or a mesh kit tonight. It is not an offsite backup. A second copy of the house folder on USB or another PC is still <a href="first-backup">a backup of the house folder</a> / <a href="backup-to-another-pc">copy to another old computer</a>. It is not Windows File History (different walk): <a href="file-history-to-share">File History to the house share</a> / <a href="when-file-history-wont-backup">when File History won't back up</a>. It is not opening SMB to the internet.</p>
+
+<h2>What next</h2>
+<p>Once a backup finishes, leave the Mac on the house network overnight now and then. Watch disk room: <a href="leftover-box-disk-space">see if the computer still has room</a>. Day-to-day photos stay on the normal share: <a href="open-share-from-laptop">open the house share from a laptop</a>. Setup walk again if you wipe the share: <a href="time-machine-to-share">back up a Mac to the house share with Time Machine</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip buying a Time Capsule for a Samba hiccup.</li>
+<li>Skip if you don't have a Mac.</li>
+<li>Skip stuffing Time Machine into the photos share.</li>
+<li>Skip exposing SMB past the house network.</li>
+<li>Skip guessing last week's address instead of finding it again.</li>
+<li>Skip treating Time Machine as the only copy of the house folder.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.samba.org/samba/docs/current/man-html/vfs_fruit.8.html">Samba: vfs_fruit man page</a>. <a href="https://support.apple.com/guide/mac-help/back-up-files-with-time-machine-mh35860/mac">Apple: back up files with Time Machine</a>. <a href="https://wiki.samba.org/index.php/Configure_Samba_to_Work_Better_with_Mac_OS_X">Samba wiki: better with macOS</a>. Official pages only. Menu labels move by macOS release. For the setup walk, see <a href="time-machine-to-share">back up a Mac to the house share with Time Machine</a>. For a plain share that won't open, see <a href="when-share-wont-open">when the house share won't open</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="time-machine-to-share"><span class="t">Back up a Mac to the house share with Time Machine</span><span class="d">Point Time Machine at a Samba folder on the old PC. Separate share from photos. Cap the size. You don't need a Time Capsule or a NAS for this.</span></a>
+<a class="note-row" href="when-share-wont-open"><span class="t">When the house share won't open</span><span class="d">Finder, File Explorer, or the phone can't open the house folder. Check the computer is on, confirm the address, then match the error (path not found, login failed, can't write, disk full). You don't need a NAS.</span></a>
+<a class="note-row" href="leftover-box-samba-password"><span class="t">Set or change the house-share password</span><span class="d">Finder and File Explorer ask for a share password that is not always the login. Samba keeps its own copy. Set it once. Change it when you forget.</span></a>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="leftover-box-share-check"><span class="t">When the house share disappeared, check the computer</span><span class="d">The computer is awake, but Finder or File Explorer cannot see the folder. Check that Samba is still running before you buy a NAS.</span></a>
+<a class="note-row" href="file-history-to-share"><span class="t">Back up a Windows PC to the house share with File History</span><span class="d">Point Windows File History at a Samba folder on the old PC. Separate share from photos. You don't need a NAS for this.</span></a>
+<a class="note-row" href="when-file-history-wont-backup"><span class="t">When File History won't back up to the house share</span><span class="d">File Explorer can open the share, or it used to, but File History fails, stalls, or says the drive disappeared. Check the computer, credentials, free space, then Windows. You don't need a NAS.</span></a>
+<a class="note-row" href="first-backup"><span class="t">A backup of the house folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another old computer. You don't need a NAS for this.</span></a>
+<a class="note-row" href="open-share-from-laptop"><span class="t">Open the house share from a laptop</span><span class="d">The house folder is on the old PC. Open it from Windows File Explorer or Mac Finder on the house network. You don't need a NAS for this.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="time-machine-to-share"><span class="kicker">Previous</span><span class="t">Back up a Mac to the house share with Time Machine</span></a>
+<a rel="next" href="file-history-to-share"><span class="kicker">Next</span><span class="t">Back up a Windows PC to the house share with File History</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

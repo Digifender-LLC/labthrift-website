@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See if the old disk is dying — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="SMART reports whether the drive still looks healthy. Install smartmontools, list the disk, run a quick health check before you trust photos on a Marketplace PC. You don't need a NAS.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See if the old disk is dying — Labthrift">
+<meta property="og:description" content="SMART reports whether the drive still looks healthy. Install smartmontools, list the disk, run a quick health check before you trust photos on a Marketplace PC. You don't need a NAS.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/see-disk-health">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/see-disk-health">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See if the old disk is dying","description":"SMART reports whether the drive still looks healthy. Install smartmontools, list the disk, run a quick health check before you trust photos on a Marketplace PC. You don't need a NAS.","url":"https://labthrift.com/guides/see-disk-health","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-05"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">See if the old disk is dying</span></nav>
+<p class="note">Written 5 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>See if the old disk is dying</h1>
+<p class="deck">SMART reports whether the drive still looks healthy. Install smartmontools, list the disk, run a quick health check before you trust photos on a Marketplace PC. You don't need a NAS.</p>
+<p>Only checking how big the disk is? That quieter look is <a href="leftover-box-disk">see how big the disk already is</a>. Only checking free room? <a href="leftover-box-disk-space">see if the computer still has room</a>. Disk already full and copies fail? <a href="when-house-disk-full">when the computer's disk is full</a>. Already FAILED, clicking, or I/O errors in the log? That urgent walk is <a href="when-disk-is-dying">when the old disk is dying</a>. This note is different: the drive's own health report while things still feel fine, not how full it is.</p>
+
+<h2>Skip until SSH works</h2>
+<p>You need a shell on the computer: <a href="first-ssh">SSH from the couch</a>. Connect fails? <a href="when-ssh-wont-connect">when SSH won't connect</a>. Skip this if you are about to wipe a Marketplace box tonight and reinstall anyway; wipe first, then check health on the fresh install: <a href="wipe-marketplace-pc">wipe a Marketplace PC before you install</a>. Don't buy a NAS because one SMART line looked scary before you have a second copy of the house folder.</p>
+
+<h2>What this is</h2>
+<p>Hard drives and many SSDs keep a health log called SMART. The drive counts reallocated sectors, temperature, and other wear signals. A short command asks "are you failing?" You get PASSED, FAILED, or a message that SMART is not available. That answer is not a crystal ball. It is an early warning before photos live only on one dying platter. It is not a reason to skip a backup.</p>
+
+<h2>Step 1: install smartmontools</h2>
+<p>On Ubuntu Server or Debian:</p>
+<p><code>sudo apt update</code></p>
+<p><code>sudo apt install -y smartmontools</code></p>
+<p>Confirm the tool is there:</p>
+<p><code>smartctl --version</code></p>
+<p>You want a version line, not "command not found."</p>
+
+<h2>Step 2: name the disk</h2>
+<p>List disks without digging into partitions:</p>
+<p><code>lsblk -d -o NAME,SIZE,MODEL,TRAN,TYPE</code></p>
+<p>Pick the main disk, usually <code>sda</code>, <code>nvme0n1</code>, or <code>mmcblk0</code> on a cheap laptop. Skip loop devices. Skip the USB stick that is only a backup mount. Size and model should match what you expect for the computer. A fuller disk list is <a href="leftover-box-lsblk">see disks and USB sticks on the computer</a>.</p>
+
+<h2>Step 3: ask for the overall health</h2>
+<p>For a SATA or USB-SATA disk named <code>sda</code>:</p>
+<p><code>sudo smartctl -H /dev/sda</code></p>
+<p>For an NVMe SSD named <code>nvme0n1</code>:</p>
+<p><code>sudo smartctl -H /dev/nvme0n1</code></p>
+<p>Look for <code>PASSED</code> near SMART overall-health. <code>FAILED</code> means start a second copy of anything you care about today, then plan a drive swap. "Unable to detect" or "SMART support is unavailable" often means a USB bridge, a cheap SD card, or a virtual disk that does not expose SMART. That is not the same as FAILED.</p>
+
+<h2>Step 4: read a little more when PASSED feels thin</h2>
+<p>Print the short info block:</p>
+<p><code>sudo smartctl -i /dev/sda</code></p>
+<p>Then attributes (SATA style):</p>
+<p><code>sudo smartctl -A /dev/sda</code></p>
+<p>NVMe often wants:</p>
+<p><code>sudo smartctl -A /dev/nvme0n1</code></p>
+<p>You do not need to decode every row. Watch for rising reallocated / pending sectors on spinning disks, and for media or available-spare warnings on NVMe. Temperature in the 30–50 °C range on a quiet shelf is normal. A drive that already FAILED overall health does not need a deep attribute study before you back up.</p>
+
+<h2>Step 5: optional short self-test</h2>
+<p>A short test asks the drive to exercise itself. It can take a few minutes. Start it:</p>
+<p><code>sudo smartctl -t short /dev/sda</code></p>
+<p>Wait the minutes it prints, then:</p>
+<p><code>sudo smartctl -l selftest /dev/sda</code></p>
+<p>Completed without error is good. Aborted or failed means treat the disk as untrusted for the only copy of the house folder. Skip a long test on day one unless you have hours and a second copy already.</p>
+
+<h2>If SMART is missing</h2>
+<p>USB enclosures and some cheap adapters hide SMART. Try:</p>
+<p><code>sudo smartctl -d sat -H /dev/sdX</code></p>
+<p>Swap <code>sdX</code> for the real name. Still nothing? Size and free room still matter (<a href="leftover-box-disk">how big</a>, <a href="leftover-box-disk-space">how full</a>), and a second copy still matters more than a perfect health line. Don't buy a monitoring appliance for this.</p>
+
+<h2>What this is not</h2>
+<p>This is not a full disk wipe. It is not a reason to skip <a href="first-backup">a backup of the house folder</a>. It is not RAID. It is not buying a NAS because reallocated sectors ticked up once. It is not replacing free-space checks when copies fail for "no space" reasons.</p>
+
+<h2>What next</h2>
+<p>FAILED or I/O errors already? <a href="when-disk-is-dying">when the old disk is dying</a>. Make a second copy before the drive gets interesting: <a href="first-backup">a backup of the house folder</a>. Room check: <a href="leftover-box-disk-space">see if the computer still has room</a>. Full disk symptoms: <a href="when-house-disk-full">when the computer's disk is full</a>. Still shopping a used box? Wipe first: <a href="wipe-marketplace-pc">wipe a Marketplace PC before you install</a>. Size of what you already own: <a href="leftover-box-disk">see how big the disk already is</a>.</p>
+
+<p class="note">Optional: jot the model and SMART result in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip buying a NAS because one attribute looked weird.</li>
+<li>Skip treating "SMART unavailable" on a USB bridge as FAILED.</li>
+<li>Skip a long self-test before you have any second copy of the house folder.</li>
+<li>Skip wiping the only good backup to "test" the live disk.</li>
+<li>Skip opening the case to swap a drive on day one if PASSED and room is fine.</li>
+<li>Skip RAID as a substitute for a second copy.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.smartmontools.org/">smartmontools</a>. <a href="https://manpages.debian.org/bookworm/smartmontools/smartctl.8.en.html">Debian: smartctl</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man8/smartctl.8.html">Ubuntu: smartctl</a>. Official pages only. For disk size, see <a href="leftover-box-disk">see how big the disk already is</a>. For free room, see <a href="leftover-box-disk-space">see if the computer still has room</a>. For a packed system disk, see <a href="when-house-disk-full">when the computer's disk is full</a>. For a second copy, see <a href="first-backup">a backup of the house folder</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="when-disk-is-dying"><span class="t">When the old disk is dying</span><span class="d">SMART says FAILED, the disk clicks, or dmesg shows I/O errors. Copy the house folder off first, then plan a drive swap. You don't need a NAS tonight.</span></a>
+<a class="note-row" href="when-disk-is-read-only"><span class="t">When the disk went read-only</span><span class="d">apt fails, the share won't take photos, or mount shows ro after a power blip. Confirm read-only, copy off what you can, then remount or fsck. You don't need a NAS tonight.</span></a>
+<a class="note-row" href="leftover-box-disk"><span class="t">See how big the disk already is</span><span class="d">Before you buy a tiny computer or a NAS, check how big the disk already is.</span></a>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="when-house-disk-full"><span class="t">When the computer's disk is full</span><span class="d">Photos won't copy, the share says no space, or df shows the system disk packed. Confirm it is the computer (not the backup stick), free room or move the house folder. You don't need a NAS.</span></a>
+<a class="note-row" href="leftover-box-lsblk"><span class="t">See disks and USB sticks on the computer</span><span class="d">Before you format a stick or move the house folder, list the disks the computer already sees.</span></a>
+<a class="note-row" href="first-backup"><span class="t">A backup of the house folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another old computer. You don't need a NAS for this.</span></a>
+<a class="note-row" href="wipe-marketplace-pc"><span class="t">Wipe a Marketplace PC before you install</span><span class="d">A used OptiPlex may still have the last owner's Windows and logins. Wipe the disk with the installer before you plug it into the house network.</span></a>
+<a class="note-row" href="house-folder-on-usb"><span class="t">Put the house folder on a USB disk</span><span class="d">Move the house share onto a USB disk that stays plugged into the old PC so photos don't fill the system drive. You don't need a NAS for this.</span></a>
+<a class="note-row" href="start-with-what-you-have"><span class="t">Start with what you already have</span><span class="d">Don't buy anything yet. Old laptop first, or a retired OptiPlex from Marketplace.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-disk"><span class="kicker">Previous</span><span class="t">See how big the disk already is</span></a>
+<a rel="next" href="when-disk-is-dying"><span class="kicker">Next</span><span class="t">When the old disk is dying</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

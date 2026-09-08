@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Print a number list — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After tput, seq prints a number list so practice lines make sense. You don't need extra software for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Print a number list — Labthrift">
+<meta property="og:description" content="After tput, seq prints a number list so practice lines make sense. You don't need extra software for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-seq">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-seq">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Print a number list","description":"After tput, seq prints a number list so practice lines make sense. You don't need extra software for this.","url":"https://labthrift.com/guides/leftover-box-seq","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-31"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"Faster network","item":"https://labthrift.com/guides/#switches"},{"@type":"ListItem","position":3,"name":"Print a number list"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Print a number list</span></nav>
+<p class="note">Written 31 Aug 2026. This is a how-to, not a product card.</p>
+<h1>Print a number list</h1>
+<p class="deck">After <span><code>tput</code></span>, <span><code>seq</code></span> prints a number list so practice lines make sense. You don&apos;t need extra software for this.</p>
+<p><a href="leftover-box-tput">See terminal columns and colors</a> asked window width. Tonight you print a number list: <span><code>seq</code></span>. Seq prints numbers from a start to a stop. Each number sits on its own line. Start with <span><code>seq 1 5</code></span>.</p>
+<p>Clear later uses <span><code>seq 1 40</code></span> as clutter. Tonight seq is the job, not a wipe. You are still only practicing in home on the computer. It does not need extra system software, htop, Grafana, or a NAS for this one job.</p>
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. SSH means type commands from your laptop, on the house network. If window width is what you want, that is <a href="leftover-box-tput">see terminal columns and colors</a>. If a wipe is what you want, that is <a href="leftover-box-clear">clear the window</a>. If numbers on a file you already have are what you want, that is <a href="leftover-box-nl">number lines</a>.</p>
+<h2>What this is</h2>
+<p><span><code>seq</code></span> prints a number list. You type <span><code>seq 1 5</code></span>. First number is the start. Last number is the stop. Default step is 1. You don&apos;t need extra system software for this.</p>
+<p>It is not <span><code>nl</code></span>. Nl numbers lines you already have. Seq makes the numbers. It is not <span><code>echo</code></span>. Echo prints words you type. It is not <span><code>clear</code></span>. Clear wipes the window.</p>
+<h2>Practice seq in home</h2>
+<p>SSH in. Make sure home is where you sit:</p>
+<p><code>pwd</code></p><p>You want a path that ends in your login name. If not:</p>
+<p><code>cd ~</code></p><p>Print a short number list:</p>
+<p><code>seq 1 5</code></p><p>You want 1, 2, 3, 4, 5, each on its own line. That is enough for tonight. Practice only in home.</p>
+<p>Debian and Ubuntu usually already have <span><code>seq</code></span> (coreutils). Don't make apt the job.</p>
+<p>If <span><code>seq</code></span> is missing, install coreutils:</p>
+<p><code>sudo apt install coreutils</code></p><p>Then stop. That apt line is not the lesson.</p>
+<p>No files are required for this practice. If you made practice files anyway, throw them away with careful delete only. That is <a href="leftover-box-rm">delete a file carefully</a>. Skip <span><code>rm -rf</code></span>.</p>
+<h2>Useful extras, still home only</h2>
+<p>Optional extra: forty numbers, the clear drill size:</p>
+<p><code>seq 1 40</code></p><p>That peek is the size <a href="leftover-box-clear">clear the window</a> uses as clutter. Don't make <span><code>clear</code></span> the job. You can stop at <span><code>seq 1 5</code></span>.</p>
+<p>Optional extra: a step, even numbers:</p>
+<p><code>seq 2 2 10</code></p><p>That peek is start 2, step 2, stop 10. You want 2, 4, 6, 8, 10. Don't make the step required.</p>
+<p>Optional extra: equal width with leading zeroes:</p>
+<p><code>seq -w 1 10</code></p><p>That peek is 01 through 10. <span><code>-w</code></span> pads so numbers line up. Don't make padding required. If <span><code>-w</code></span> is missing, skip it.</p>
+<p>Skip huge ranges as this job. Example <span><code>seq 1 1000000</code></span> floods the window. Tonight: <span><code>seq 1 5</code></span>, not a million lines.</p>
+<p>Skip <span><code>seq</code></span> piped into <span><code>rm</code></span>. Seq prints numbers. Rm deletes files. Don't mix those jobs. Skip files under <span><code>/etc</code></span>, whole <span><code>/</code></span>, SSH folders, USB sticks, and <span><code>/srv</code></span>. Practice only in home.</p>
+<p>Skip <span><code>yes</code></span>, <span><code>nl</code></span>, <span><code>clear</code></span>, htop, Grafana, and a NAS. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>What this is not</h2>
+<p>This is not <span><code>tput</code></span>. Tput prints window width. That is <a href="leftover-box-tput">see terminal columns and colors</a>. It is not <span><code>clear</code></span>. That is <a href="leftover-box-clear">clear the window</a>. It is not <span><code>nl</code></span>. That is <a href="leftover-box-nl">number lines</a>.</p>
+<h2>What next</h2>
+<p>Need a repeating line? <a href="leftover-box-yes">Repeat a line until you stop</a>. Need mixed lines? <a href="leftover-box-shuf">Mix lines</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip huge ranges as this job. Tonight: <span><code>seq 1 5</code></span>.</li>
+<li>Skip <span><code>seq</code></span> piped into <span><code>rm</code></span>. Seq prints numbers. Don't mix delete into this drill.</li>
+<li>Skip <span><code>clear</code></span> and <span><code>nl</code></span> as this job. Those notes already exist.</li>
+<li>Skip apt as this job. The coreutils aside is not the lesson.</li>
+<li>Skip <span><code>rm -rf</code></span>. Careful delete only: <a href="leftover-box-rm">delete a file carefully</a>.</li>
+<li>Skip files under <span><code>/etc</code></span> and whole <span><code>/</code></span>. Practice only in home.</li>
+<li>Skip opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/coreutils/seq.1.en.html">Debian: seq(1)</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/seq.1.html">Ubuntu: seq(1)</a>. Official pages only. For window width, see <a href="leftover-box-tput">see terminal columns and colors</a>. For a wipe, see <a href="leftover-box-clear">clear the window</a>. For numbers on a file, see <a href="leftover-box-nl">number lines</a>. For the login, see <a href="first-ssh">SSH from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-yes"><span class="t">Repeat a line until you stop</span><span class="d">After seq, yes repeats a line until you stop. Use head so the flood stops. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-shuf"><span class="t">Mix lines</span><span class="d">After yes, shuf mixes lines at random so a practice list is not in file order. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-tac"><span class="t">Reverse lines</span><span class="d">After shuf, tac reverses line order so a practice list can be last line first. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-tput"><span class="t">See terminal columns and colors</span><span class="d">After reset, tput cols prints window width in columns. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-clear"><span class="t">Clear the window</span><span class="d">After SSH works, clear the window so old output stops cluttering the session. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-nl"><span class="t">Number lines</span><span class="d">After SSH works, nl numbers lines so a long file is easier to point at. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-echo"><span class="t">Put a short line into a file</span><span class="d">After SSH works, put one short line into a file with echo so you don't need to open nano. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-reset"><span class="t">Fix a garbled terminal</span><span class="d">After SSH works, fix a garbled terminal with reset. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-stty"><span class="t">See window size</span><span class="d">After SSH works, print window size with stty size. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-rm"><span class="t">Delete a file carefully</span><span class="d">After SSH works, delete one file with rm -i. Ask first. Skip rm -rf. You don&apos;t need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-tput"><span class="kicker">Previous</span><span class="t">See terminal columns and colors</span></a>
+<a rel="next" href="leftover-box-yes"><span class="kicker">Next</span><span class="t">Repeat a line until you stop</span></a>
+</nav>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

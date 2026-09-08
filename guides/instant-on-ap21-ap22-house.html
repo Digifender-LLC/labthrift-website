@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>House Wi-Fi with an app, no license, no controller VM: Aruba Instant On AP21 vs AP22 — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="App plus web portal. Skip the denser AP25 for a normal house.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="House Wi-Fi with an app, no license, no controller VM: Aruba Instant On AP21 vs AP22 — Labthrift">
+<meta property="og:description" content="App plus web portal. Skip the denser AP25 for a normal house.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/instant-on-ap21-ap22-house">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/instant-on-ap21-ap22-house">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BlogPosting",
+ "headline": "House Wi-Fi with an app, no license, no controller VM: Aruba Instant On AP21 vs AP22",
+ "description": "App plus web portal. Skip the denser AP25 for a normal house.",
+ "url": "https://labthrift.com/guides/instant-on-ap21-ap22-house",
+ "image": "https://labthrift.com/assets/og-1200.png",
+ "datePublished": "2026-08-22"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+ {
+ "@type": "ListItem",
+ "position": 1,
+ "name": "Home",
+ "item": "https://labthrift.com/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 2,
+ "name": "Notes",
+ "item": "https://labthrift.com/guides/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 3,
+ "name": "Cheap PoE + APs",
+ "item": "https://labthrift.com/guides/#cheap-poe"
+ },
+ {
+ "@type": "ListItem",
+ "position": 4,
+ "name": "House Wi-Fi with an app, no license, no controller VM: Aruba Instant On AP21 vs AP22",
+ "item": "https://labthrift.com/guides/instant-on-ap21-ap22-house"
+ }
+ ]
+}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#cheap-poe">Better Wi-Fi</a> / <span aria-current="page">House Wi-Fi with an app, no license, no controller VM: Aruba Instant On AP21 vs AP22</span></nav>
+<p class="note">Written 22 Aug 2026. Specs from the maker pages linked below. Prices from those stores. I haven't used these.</p>
+
+<h1>House Wi-Fi with an app, no license, no controller VM: Aruba Instant On AP21 vs AP22</h1>
+<p class="deck">App plus web portal. Skip the denser AP25 for a normal house.</p>
+<p>House Wi-Fi with an app, no license, and no extra controller VM. Instant On’s pitch (HPE datasheet) is the app and the web portal, no subscription, 2-year warranty. That is a third religion after UniFi and Omada, and a better fit when you refuse to run a controller box.</p>
+<p>AP21 is the low-density 2×2 Wi-Fi 6 unit, 802.3af class 3, about 10.9 W DC / PoE, ~1.5 Gbps class, ~50 clients, ~1,500 ft². AP22 is the older core 2×2 Wi-Fi 6, also 802.3af class 3, 10.1 W PoE. AP25 (4×4, 2.5G, 802.3at, ~20 W) is the density tax. Skip it for a closet.</p>
+
+<h2>What to buy</h2>
+<div class="table-wrap">
+<table>
+<tr><th>Box</th><th>What it is</th><th>Street, 22 Aug 2026</th><th>Buy if</th></tr>
+<tr class="pick"><td data-label="Box">Instant On AP21 US (S1T08A)</td><td data-label="What it is">2×2 Wi-Fi 6, 802.3af class 3, ~10.9 W. AP only; PoE/DC sold separate. Bundle with PSU on HPE store.</td><td data-label="Street, 22 Aug 2026">HPE / reseller $99.99. Walmart listing $99.99 (S1T08A). SHI showed S1T08A at $106 vs $190 MSRP.</td><td data-label="Buy if">One or two rooms, no controller VM, you will buy an af injector separately.</td></tr>
+<tr><td data-label="Box">Instant On AP22 US</td><td data-label="What it is">Older core 2×2 Wi-Fi 6, 802.3af class 3, 10.1 W PoE. Bundle R6M49A includes PSU; AP-only is R4W01A.</td><td data-label="Street, 22 Aug 2026">Amazon bundle $179.99 (<a href="https://www.amazon.com/Hewlett-Packard-Enterprise-company-Included/dp/B08FBMF85D">B08FBMF85D</a>).</td><td data-label="Buy if">You want the PSU in the box and you already live in Instant On. At $180 it is not the cheap path.</td></tr>
+</table>
+</div>
+<p>Both stay in 802.3af. Two of them fit a 64 W fanless 4-PoE switch. See <a href="poe-af-at-bt-closet-budget">af / at / bt</a> and <a href="cheap-poe">cheap PoE for two APs</a>. If you already own Grandstream phones, the embedded-controller story is <a href="grandstream-gwn7660-embedded-controller">GWN7660</a>, not Instant On.</p>
+<h2>Skip</h2>
+<p>Skip AP25 / AP32 for a house. Skip paying $180 for an AP22 bundle when AP21 is $100 and an <a href="https://www.amazon.com/TP-LINK-TL-PoE150S-Injector-Adapter-Compliant/dp/B001PS9E5I">af injector</a> is $18. Skip used Ruckus. Skip a 24 V passive brick. These are af class 3.</p>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.hpe.com/us/en/instant-on/access-points/access-point-21.html">HPE Instant On AP21</a>. <a href="https://instant-on.hpe.com/files/DS_WI-FI-6.pdf">Instant On Wi-Fi 6 datasheet</a>. <a href="https://www.amazon.com/Hewlett-Packard-Enterprise-company-Included/dp/B08FBMF85D">Amazon AP22 B08FBMF85D</a>. <a href="https://buy.hpe.com/us/en/networking/wireless-devices/wlan-access-points/aruba-small-business-access-point-products/hpe-networking-instant-on-access-points-ap22/p/1012928284">HPE store AP22</a>. B&amp;H Instant On catalog exists; I didn't lock a B&amp;H item ID this pass.</p>
+</section>
+
+
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="grandstream-gwn7660-embedded-controller"><span class="t">Quiet house AP that runs its own controller: Grandstream GWN7660</span><span class="d">Quiet house AP that runs its own controller.</span></a>
+<a class="note-row" href="cudy-ap3000-openwrt"><span class="t">Ceiling AP you can later flash OpenWrt on: Cudy AP3000</span><span class="d">Ceiling AP you can later flash OpenWrt on.</span></a>
+<a class="note-row" href="gl-mt6000-ap-mode-no-poe"><span class="t">Living-room router as an AP when the closet has no PoE yet: Flint 2 (GL-MT6000)</span><span class="d">Living-room router as an AP when the closet has no PoE yet.</span></a>
+</section>
+
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="wifi-7-tax-closet-lab"><span class="kicker">Previous</span><span class="t">Skip the $190 Wi-Fi 7 puck until the WAN is faster than the AP</span></a>
+<a rel="next" href="grandstream-gwn7660-embedded-controller"><span class="kicker">Next</span><span class="t">Quiet house AP that runs its own controller: Grandstream GWN7660</span></a>
+</nav>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+</p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

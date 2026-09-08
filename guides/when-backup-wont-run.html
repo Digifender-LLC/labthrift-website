@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When the house backup won't run — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="rsync failed, the USB is missing, or the second copy never landed. Check the stick, the mount, the source path, then match the error (no space, permission, connection). You don't need a NAS.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When the house backup won't run — Labthrift">
+<meta property="og:description" content="rsync failed, the USB is missing, or the second copy never landed. Check the stick, the mount, the source path, then match the error (no space, permission, connection). You don't need a NAS.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-backup-wont-run">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-backup-wont-run">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When the house backup won't run","description":"rsync failed, the USB is missing, or the second copy never landed. Check the stick, the mount, the source path, then match the error (no space, permission, connection). You don't need a NAS.","url":"https://labthrift.com/guides/when-backup-wont-run","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-04"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When the house backup won't run</span></nav>
+<p class="note">Written 4 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When the house backup won't run</h1>
+<p class="deck">rsync failed, the USB is missing, or the second copy never landed. Check the stick, the mount, the source path, then match the error (no space, permission, connection). You don't need a NAS.</p>
+<p>Haven't made a second copy yet? Start with <a href="first-backup">a backup of the house folder</a>. Copying to another old PC instead of a stick? See <a href="backup-to-another-pc">copy the house folder to another old computer</a>. This note is only for when the copy fails, or used to work and now doesn't.</p>
+
+<h2>Skip until you have a real error</h2>
+<p>Copy the exact line from the terminal. "No such file or directory," "No space left on device," "Permission denied," and "Connection refused" are different fixes. Don't buy a NAS for a stick that never mounted.</p>
+
+<h2>What this is</h2>
+<p>A house backup is usually <code>rsync</code> from the house folder (often <code>/srv/share</code>) onto a USB disk or another old PC. It needs the source folder to exist, the destination to be mounted and writable, and room on that destination. One of those usually drifted. Stick unplugged, wrong <code>/dev/sdX</code>, empty mount point, full USB, or SSH broken to the second box. The walk below is order of cheap checks.</p>
+
+<h2>Step 1: is the computer awake?</h2>
+<p>Power light. Fan. Screen if it has one. If it looks asleep or dead, start with <a href="leftover-box-still-on">is the computer still on?</a>. Soft-off on purpose? Wake it from the house network: <a href="wake-on-lan">wake the computer from the house network</a>. You need SSH from the couch before any of the commands below: <a href="first-ssh">SSH from the couch</a>. If that connect fails first, fix it with <a href="when-ssh-wont-connect">when SSH won't connect</a>.</p>
+
+<h2>Step 2: USB path — see the stick, then mount it</h2>
+<p>If your second copy is a USB disk, plug it in. Confirm the computer sees it:</p>
+<p><code>lsblk</code></p>
+<p>You should see a new disk (often <code>sdb</code> with a partition like <code>sdb1</code>). Use the name <code>lsblk</code> printed, not a guess from last week. Fuller walk: <a href="leftover-box-usb-disk">see if the USB backup disk showed up</a>.</p>
+<p>Mount it the same way the first-backup note taught:</p>
+<p><code>sudo mkdir -p /mnt/backup &amp;&amp; sudo mount /dev/sdb1 /mnt/backup</code></p>
+<p>Swap <code>/dev/sdb1</code> if yours differs. No filesystem, wrong type, or you are fine erasing a spare stick to start clean? <a href="format-usb-for-backup">Format a USB stick for the house backup</a>. Check it stuck:</p>
+<p><code>findmnt /mnt/backup</code></p>
+<p>If that prints nothing, the mount failed. Don't run rsync into an empty <code>/mnt/backup</code> on the system disk by accident.</p>
+
+<h2>Step 3: confirm the source folder</h2>
+<p>The house folder has to exist before you copy it:</p>
+<p><code>ls /srv/share</code></p>
+<p>If that path is wrong on your box, use the folder you actually share. Haven't made one yet? That is <a href="first-file-share">a file share</a>, not a backup bug.</p>
+
+<h2>Step 4: match the symptom to a fix</h2>
+<div class="table-wrap">
+<table>
+<tr><th>What you see</th><th>What to do</th></tr>
+<tr><td data-label="What you see">No such file or directory (source)</td><td data-label="What to do">Wrong source path. Fix Step 3. Trailing slashes matter on rsync: <code>rsync -a /srv/share/ /mnt/backup/share/</code> copies the contents into that backup folder.</td></tr>
+<tr><td data-label="What you see">No such file or directory (destination) / empty mount</td><td data-label="What to do">USB never mounted, or you typed the wrong mount folder. Redo Step 2. Confirm with <code>findmnt /mnt/backup</code> before rsync.</td></tr>
+<tr><td data-label="What you see">No space left on device</td><td data-label="What to do">The destination is full (USB or second box), or you wrote onto the system disk by mistake. Full walk: <a href="when-backup-usb-full">when the backup USB is full</a>. Quick check: <code>df -h /mnt/backup</code> and <a href="leftover-box-disk-space">see if the computer still has room</a>.</td></tr>
+<tr><td data-label="What you see">Permission denied</td><td data-label="What to do">Destination folder not writable, or you need sudo for the mount only. After a normal mount, your user should own the copy target: <code>sudo mkdir -p /mnt/backup/share &amp;&amp; sudo chown "$USER:$USER" /mnt/backup/share</code>. Then rerun rsync without stuffing every file through root.</td></tr>
+<tr><td data-label="What you see">Connection refused / timed out / Permission denied (second PC)</td><td data-label="What to do">The other-computer path needs working SSH to that box first. Fix connect: <a href="when-ssh-wont-connect">when SSH won't connect</a>. Full second-box walk: <a href="backup-to-another-pc">copy the house folder to another old computer</a>.</td></tr>
+<tr><td data-label="What you see">rsync exits 0 but the USB looks empty</td><td data-label="What to do">You may have copied into an unmounted path on the system disk, or looked at the wrong folder. Confirm the mount, then check the copy landed: <a href="leftover-box-backup-check">check that the backup actually copied</a>.</td></tr>
+</table>
+</div>
+
+<h2>Check</h2>
+<p>Run the copy again (USB example):</p>
+<p><code>rsync -a /srv/share/ /mnt/backup/share/</code></p>
+<p>Then look:</p>
+<p><code>ls /mnt/backup/share</code></p>
+<p>You should see the same folders as <code>/srv/share</code>. Unmount before you yank the cable:</p>
+<p><code>sudo umount /mnt/backup</code></p>
+<p>Busy mount or want the fuller drawer walk? <a href="unplug-backup-usb">Unplug the backup USB safely</a>.</p>
+<p>Pull one file back sometime so you know restore works: <a href="leftover-box-restore-one">restore one file from the USB backup</a>. Need the whole folder after a wipe? <a href="restore-house-folder">put the house folder back from the backup</a>.</p>
+
+<h2>What this is not</h2>
+<p>This is not a reason to buy a NAS tonight. It is not RAID. It is not restic, Borg, or a cloud plan until a plain second copy exists on a stick or another old PC. It is not leaving the USB plugged in forever so one bad day can wipe both copies.</p>
+
+<h2>What next</h2>
+<p>First successful copy still lives on <a href="first-backup">a backup of the house folder</a>. Stick packed full: <a href="when-backup-usb-full">when the backup USB is full</a>. Stick not showing up: <a href="leftover-box-usb-disk">see if the USB backup disk showed up</a>. After a green terminal, confirm files landed: <a href="leftover-box-backup-check">check that the backup actually copied</a>. Second old PC instead of USB: <a href="backup-to-another-pc">copy the house folder to another old computer</a>. When the copy is boring, let the computer do it weekly: <a href="leftover-box-backup-timer">back up the folder every week without remembering</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip buying a NAS for a first-timer rsync failure.</li>
+<li>Skip RAID. RAID is not a backup.</li>
+<li>Skip restic and Borg until a plain second copy works.</li>
+<li>Skip a cloud plan until the USB (or second-box) copy exists.</li>
+<li>Skip leaving the USB plugged in forever.</li>
+<li>Skip guessing last week's <code>/dev/sdb1</code> instead of running <code>lsblk</code> again.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/rsync/rsync.1.en.html">Debian: rsync man page</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/rsync.1.html">Ubuntu: rsync man page</a>. <a href="https://manpages.debian.org/bookworm/util-linux/lsblk.8.en.html">Debian: lsblk</a>. <a href="https://manpages.debian.org/bookworm/coreutils/df.1.en.html">Debian: df</a>. Official pages only. For the copy this fixes, see <a href="first-backup">a backup of the house folder</a>. For the stick check, see <a href="leftover-box-usb-disk">see if the USB backup disk showed up</a>. For a landed-copy look, see <a href="leftover-box-backup-check">check that the backup actually copied</a>. For the second-box path, see <a href="backup-to-another-pc">copy the house folder to another old computer</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="when-backup-usb-full"><span class="t">When the backup USB is full</span><span class="d">rsync says no space, or df shows the stick is packed. Confirm the mount, free room or use a bigger stick, or copy to another old PC. You don't need a NAS.</span></a>
+<a class="note-row" href="format-usb-for-backup"><span class="t">Format a USB stick for the house backup</span><span class="d">Wipe and format a spare USB stick so the old PC can mount it for the house-folder backup. Ext4 for Linux. This erases the stick. You don't need a NAS.</span></a>
+<a class="note-row" href="auto-mount-backup-usb"><span class="t">Mount the backup USB automatically</span><span class="d">Leave the backup stick plugged in and mount it at boot by UUID, so weekly rsync finds /mnt/backup without a hand mount. You don't need a NAS.</span></a>
+<a class="note-row" href="first-backup"><span class="t">A backup of the house folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another old computer. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-usb-disk"><span class="t">See if the USB backup disk showed up</span><span class="d">Before you trust the weekly copy, confirm the computer can see the USB disk.</span></a>
+<a class="note-row" href="leftover-box-backup-check"><span class="t">Check that the backup actually copied</span><span class="d">After the copy finishes, look on the USB disk and confirm the files are there before you trust it. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="leftover-box-restore-one"><span class="t">Restore one file from the USB backup</span><span class="d">A backup you never copied back is a hope. Pull one file off the USB onto the computer so you know you can get it. You don't need a NAS for this.</span></a>
+<a class="note-row" href="restore-house-folder"><span class="t">Put the house folder back from the backup</span><span class="d">After a wipe, a reinstall, or an empty share, copy the house folder from the USB (or second old PC) back onto the computer. You don't need a NAS.</span></a>
+<a class="note-row" href="backup-to-another-pc"><span class="t">Copy the house folder to another old computer</span><span class="d">A second copy of the house folder, over the house network to another old PC. Not only a USB stick. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="when-ssh-wont-connect"><span class="t">When SSH won't connect</span><span class="d">SSH hangs, says connection refused, or Permission denied. Check the computer is on, confirm the address, then the user and password. You don't need a new router or a KVM.</span></a>
+<a class="note-row" href="first-file-share"><span class="t">A file share</span><span class="d">A folder on the old PC that the house can open from a laptop or a phone. You don't need a NAS for this.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="first-backup"><span class="kicker">Previous</span><span class="t">A backup of the house folder</span></a>
+<a rel="next" href="leftover-box-backup-check"><span class="kicker">Next</span><span class="t">Check that the backup actually copied</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

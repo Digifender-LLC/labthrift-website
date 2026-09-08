@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Put a key on a second computer first — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Before you turn off password login, give a second laptop its own key so you are not locked out if the first one dies. You don't need a YubiKey.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Put a key on a second computer first — Labthrift">
+<meta property="og:description" content="Before you turn off password login, give a second laptop its own key so you are not locked out if the first one dies. You don't need a YubiKey.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-second-key">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-second-key">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Put a key on a second computer first","description":"Before you turn off password login, give a second laptop its own key so you are not locked out if the first one dies. You don't need a YubiKey.","url":"https://labthrift.com/guides/leftover-box-second-key","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-28"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Put a key on a second computer first</span></nav>
+<p class="note">Written 28 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Put a key on a second computer first</h1>
+<p class="deck">Before you turn off password login, give a second laptop its own key so you are not locked out if the first one dies. You don't need a YubiKey.</p>
+<p><a href="leftover-box-ssh-keys">Log in with a key</a> put a key on one laptop. <a href="leftover-box-ssh-no-password">Turn off password login</a> then stops the password at SSH. If that one laptop dies, the password is no longer a way in from the house. A second key is a second computer the computer already trusts. This is not a copy of the first private key. Make a new key on the second computer. A keyboard on the computer is still the last backup.</p>
+
+<h2>Skip until the first key login is boring</h2>
+<p><a href="leftover-box-ssh-keys">Log in with a key</a> should already work from the first laptop. Prefer one look at the list first: <a href="leftover-box-authorized-keys">see which laptop keys the computer already trusts</a>. A short name is nicer on the second laptop too: <a href="leftover-box-ssh-config">give the computer a short name on your laptop</a>. Skip this whole note if you only have one computer and you keep a keyboard on the computer. Skip buying a second laptop just for this.</p>
+
+<h2>What this is</h2>
+<p>You make a new key pair on computer two. The public line goes on the computer. The computer then trusts two computers. Don't copy the private key from laptop one. Don't email it. Don't put it on a USB stick. Each computer gets its own key. If one laptop is lost, you remove that one public line later. The other computer still gets in.</p>
+
+<h2>Make a key on the second computer</h2>
+<p>On the second laptop (Windows Terminal, PowerShell, Mac Terminal, or Linux), same command as the first key:</p>
+<p><code>ssh-keygen -t ed25519 -C "second-laptop"</code></p>
+<p>Accept the default path when it asks. A passphrase on the key is optional. A short one is still better than none, so a stolen laptop file is not a free login. If you skip the passphrase, press Enter at that prompt. It writes two files under <span><code>.ssh</code></span> in that computer's home folder. One ends in <span><code>.pub</code></span>. That is the public key.</p>
+
+<h2>Copy the public key</h2>
+<p>From the second computer, prefer this. It asks for the password one last time, unless that computer already has a key:</p>
+<p><code>ssh-copy-id you@that-address</code></p>
+<p>Swap <span><code>you</code></span> and <span><code>that-address</code></span> the way <a href="first-ssh">SSH from the couch</a> taught you. If this second laptop already has a short name, <span><code>ssh-copy-id lab</code></span> works the same. That short name is <a href="leftover-box-ssh-config">give the computer a short name on your laptop</a>, done again on this computer.</p>
+<p>If <span><code>ssh-copy-id</code></span> is missing, SSH in with the password. On the computer, append the public line, the whole contents of the second-laptop file that ends in <span><code>.pub</code></span>, to <span><code>~/.ssh/authorized_keys</code></span>. Don't paste the private file. Then:</p>
+<p><code>chmod 700 ~/.ssh</code></p>
+<p><code>chmod 600 ~/.ssh/authorized_keys</code></p>
+
+<h2>Try it</h2>
+<p>From the second computer:</p>
+<p><code>ssh lab</code></p>
+<p>Or the long form, if this laptop has no short name yet:</p>
+<p><code>ssh you@that-address</code></p>
+<p>It should not ask for the password. It may ask for the key passphrase, if you set one. You should see the prompt. Then, from the first laptop, log in the same way. That key should still work. If the second computer still asks for the password, the public line is not on that user, or you pasted the wrong file. Check you used the username, the same number, and the <span><code>.pub</code></span> file, not the private one. Run <span><code>ssh-copy-id</code></span> again.</p>
+
+<h2>Look at the list</h2>
+<p>On the computer, you should now see two public lines. That look is <a href="leftover-box-authorized-keys">see which laptop keys the computer already trusts</a>:</p>
+<p><code>cat ~/.ssh/authorized_keys</code></p>
+<p>You want two lines that start with <span><code>ssh-ed25519</code></span>, one tagged <span><code>laptop</code></span> and one tagged <span><code>second-laptop</code></span> if you used those comments. Optional count:</p>
+<p><code>wc -l &lt; ~/.ssh/authorized_keys</code></p>
+<p>Two is the usual win after this note. More than that is fine if you already added a third computer. A line you don't recognize is leftover from a Marketplace box. Remove that one the way the trusted-key note taught you.</p>
+
+<h2>What next</h2>
+<p>If the key has a passphrase, <a href="leftover-box-ssh-agent">unlock your key once per laptop session</a> so you are not typing it on every login. When both computers get in without the password, <a href="leftover-box-ssh-no-password">turn off password login once the key works</a>. Keep a keyboard on the computer as the last backup. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if the first key login is still flaky. Finish <a href="leftover-box-ssh-keys">log in with a key</a> first.</li>
+<li>Skip buying a second laptop just for this. Use a computer you already have, or keep a keyboard.</li>
+<li>Skip copying the private key from laptop one. Make a new key on computer two.</li>
+<li>Skip a YubiKey for a computer.</li>
+<li>Skip opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://man.openbsd.org/ssh-keygen">OpenSSH: ssh-keygen</a>. <a href="https://manpages.debian.org/bookworm/openssh-client/ssh-keygen.1.en.html">Debian: ssh-keygen</a>. <a href="https://manpages.debian.org/bookworm/openssh-client/ssh-copy-id.1.en.html">Debian: ssh-copy-id</a>. Official pages only. For the first key, see <a href="leftover-box-ssh-keys">log in with a key</a>. For the trusted-key list, see <a href="leftover-box-authorized-keys">see which laptop keys the computer already trusts</a>. For the short name, see <a href="leftover-box-ssh-config">give the computer a short name on your laptop</a>. For turning off password SSH after both keys work, see <a href="leftover-box-ssh-no-password">turn off password login once the key works</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="leftover-box-ssh-keys"><span class="t">Log in with a key, not the password every time</span><span class="d">After password SSH works for a while, put a key on your laptop so the computer trusts that laptop. Keep the password as a backup at first.</span></a>
+<a class="note-row" href="leftover-box-authorized-keys"><span class="t">See which laptop keys the computer already trusts</span><span class="d">Before you turn off password login, look at which laptop keys can already get in. Remove leftovers from an old Marketplace box. You don't need a YubiKey for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-config"><span class="t">Give the computer a short name on your laptop</span><span class="d">After SSH works, put a short name in your laptop SSH config so you type ssh lab instead of the long address. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-ssh-agent"><span class="t">Unlock your key once per laptop session</span><span class="d">After the key has a passphrase, load it once with ssh-add so you are not typing that passphrase on every ssh lab. You don't need a YubiKey.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-ssh-config"><span class="kicker">Previous</span><span class="t">Give the computer a short name on your laptop</span></a>
+<a rel="next" href="leftover-box-ssh-agent"><span class="kicker">Next</span><span class="t">Unlock your key once per laptop session</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Sync files so only changes copy — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After SSH works, sync files with rsync so a copy only moves what changed. You don't need a NAS sync app for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Sync files so only changes copy — Labthrift">
+<meta property="og:description" content="After SSH works, sync files with rsync so a copy only moves what changed. You don't need a NAS sync app for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-rsync">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-rsync">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Sync files so only changes copy","description":"After SSH works, sync files with rsync so a copy only moves what changed. You don't need a NAS sync app for this.","url":"https://labthrift.com/guides/leftover-box-rsync","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-30"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"Faster network","item":"https://labthrift.com/guides/#switches"},{"@type":"ListItem","position":3,"name":"Sync files so only changes copy"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Sync files so only changes copy</span></nav>
+<p class="note">Written 30 Aug 2026. This is a how-to, not a product card.</p>
+<h1>Sync files so only changes copy</h1>
+<p class="deck">After SSH works, sync files with rsync so a copy only moves what changed. You don&apos;t need a NAS sync app for this.</p>
+<p>A whole-file copy every time is wasteful once a folder already has most of the files. Tonight you sync two folders: <span><code>rsync</code></span>. Rsync copies what changed. Start with two folders in home so you don't need two machines for the lesson. You are still only practicing on the computer. It does not need a NAS sync app for this one job.</p>
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If one file from the laptop is what you want, that is <a href="leftover-box-scp">copy a file to the computer from your laptop</a>. If a whole file copy on the computer is what you want, that is <a href="leftover-box-cp">copy a file without leaving the computer</a>. If a folder packed is what you want, that is <a href="leftover-box-tar">pack files into one archive</a>. Skip <span><code>--delete</code></span> for this practice. It can erase files on the destination.</p>
+<h2>What this is</h2>
+<p><span><code>rsync</code></span> syncs files so only changes copy. You type <span><code>rsync -av ~/sync-src/ ~/sync-dst/</code></span>. The trailing slash on the source means the contents of sync-src go into sync-dst, not a nested sync-src folder. <span><code>-a</code></span> is archive mode: it keeps times and permissions. <span><code>-v</code></span> lists names as they move. <span><code>-n</code></span> is dry-run: see what would move without writing. Skip <span><code>--delete</code></span> until you are sure. It can erase files on the destination that are missing from the source.</p>
+<h2>Practice rsync in home</h2>
+<p>SSH in. Make sure home is where you sit:</p>
+<p><code>pwd</code></p><p>You want a path that ends in your login name. If not:</p>
+<p><code>cd ~</code></p><p>Make two tiny folders:</p>
+<p><code>mkdir -p ~/sync-src ~/sync-dst</code></p><p><code>seq 1 20 &gt; ~/sync-src/a.txt</code></p><p>Optional second file:</p>
+<p><code>echo hello &gt; ~/sync-src/b.txt</code></p><p>First sync. The trailing slash on <span><code>~/sync-src/</code></span> means the contents go into sync-dst:</p>
+<p><code>rsync -av ~/sync-src/ ~/sync-dst/</code></p><p>List both sides:</p>
+<p><code>ls ~/sync-src ~/sync-dst</code></p><p>You want <span><code>a.txt</code></span> (and <span><code>b.txt</code></span> if you made it) on both sides. Change one file on the source:</p>
+<p><code>echo changed &gt;&gt; ~/sync-src/a.txt</code></p><p>Run sync again:</p>
+<p><code>rsync -av ~/sync-src/ ~/sync-dst/</code></p><p>You want <span><code>a.txt</code></span> to show up in the verbose list. Unchanged files stay quiet. Only the change moves. Optional dry-run so you see what would move without writing:</p>
+<p><code>rsync -avn ~/sync-src/ ~/sync-dst/</code></p><p><span><code>-n</code></span> means dry-run. Handy before a sync you are unsure about.</p>
+<p>Debian and Ubuntu usually already have <span><code>rsync</code></span>. Don't make apt the job. If <span><code>rsync</code></span> is missing:</p>
+<p><code>sudo apt install rsync</code></p><p>Then stop. That install is not the lesson.</p>
+<p>When you are done, throw the practice files away. Careful delete only. That is <a href="leftover-box-rm">delete a file carefully</a>. Skip <span><code>rm -rf</code></span>.</p>
+<p><code>rm -i ~/sync-src/a.txt ~/sync-src/b.txt ~/sync-dst/a.txt ~/sync-dst/b.txt</code></p><p>Then, if the folders are empty and you want them gone:</p>
+<p><code>rmdir ~/sync-src ~/sync-dst</code></p><p>Skip <span><code>rm -rf</code></span>.</p>
+<h2>Useful extras, still home only</h2>
+<p>Tonight's practice should work entirely on the computer between two home folders so you don't need two machines for the lesson. Optional aside later: from your laptop over SSH you can sync a local folder into home, for example <span><code>rsync -av ./local-folder/ user@lab:/home/user/sync-dst/</code></span>. Keep that aside short. The main path tonight is practice on the computer.</p>
+<p>Skip <span><code>--delete</code></span> as tonight&apos;s flag. It can erase files on the destination that are missing from the source. Skip it until you are sure. Careful delete only when you mean to throw files away. That is <a href="leftover-box-rm">delete a file carefully</a>.</p>
+<p>Skip buying a NAS sync app, Resilio, or Syncthing for tonight. <span><code>rsync</code></span> is enough for this lesson.</p>
+<h2>What this is not</h2>
+<p>This is not a copy from your laptop of one whole file. That is <a href="leftover-box-scp">copy a file to the computer from your laptop</a>. It is not a whole file copy on the computer every time. That is <a href="leftover-box-cp">copy a file without leaving the computer</a>. It is not pack for a folder. That is <a href="leftover-box-tar">pack files into one archive</a>. It is not shrink for one file. That is <a href="leftover-box-gzip">shrink one file</a>. It is not a USB backup. That is <a href="first-backup">a backup of the folder</a>. It is not a house share. That is <a href="first-file-share">a folder the house can open</a>. It is not opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>What next</h2>
+<p>Need pieces first? <a href="leftover-box-split">Split a file into smaller pieces</a>. Need one file from the laptop? <a href="leftover-box-scp">Copy a file to the computer from your laptop</a>. Need a whole file copy on the computer? <a href="leftover-box-cp">Copy a file without leaving the computer</a>. Need a folder packed? <a href="leftover-box-tar">Pack files into one archive</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip <span><code>--delete</code></span> for this practice. It can erase files on the destination. Skip it until you are sure.</li>
+<li>Skip sync into <span><code>rm</code></span> pipelines. Careful delete only: <a href="leftover-box-rm">delete a file carefully</a>.</li>
+<li>Skip buying a NAS sync app, Resilio, or Syncthing for tonight. Debian and Ubuntu already ship <span><code>rsync</code></span> (or <span><code>sudo apt install rsync</code></span>).</li>
+<li>Skip if you actually need the USB backup. That is <a href="first-backup">a backup of the folder</a>.</li>
+<li>Skip if you only need a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</li>
+<li>Skip files under <span><code>/etc</code></span>, SSH folders, or paths you don't own. Practice only in home.</li>
+<li>Skip <span><code>rm -rf</code></span>. Careful delete only: <a href="leftover-box-rm">delete a file carefully</a>.</li>
+<li>Skip opening SSH to the internet so you can do this from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/rsync/rsync.1.en.html">Debian: rsync</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/rsync.1.html">Ubuntu: rsync</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For a whole file copy on the computer, see <a href="leftover-box-cp">copy a file without leaving the computer</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-split"><span class="t">Split a file into smaller pieces</span><span class="d">After SSH works, split one file into smaller pieces with split so a paste or copy fits size limits. You don&apos;t need a zip app for this.</span></a>
+<a class="note-row" href="leftover-box-scp"><span class="t">Copy a file to the computer from your laptop</span><span class="d">After SSH works, use scp to move one file without a USB stick. You don&apos;t need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-cp"><span class="t">Copy a file without leaving the computer</span><span class="d">After SSH works, copy a file with cp so you can edit a spare without wrecking the original. You don&apos;t need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-tar"><span class="t">Pack files into one archive</span><span class="d">After SSH works, pack files into one archive with tar so you can copy one file instead of a folder. You don&apos;t need a zip app for this.</span></a>
+<a class="note-row" href="leftover-box-gzip"><span class="t">Shrink one file</span><span class="d">After SSH works, shrink one file with gzip so a copy is smaller. You don&apos;t need a zip app for this.</span></a>
+<a class="note-row" href="leftover-box-base64"><span class="t">Encode a file so you can paste it</span><span class="d">After SSH works, turn a file into pasteable text with base64 so you can copy small text without a USB stick. You don&apos;t need a zip app for this.</span></a>
+<a class="note-row" href="leftover-box-curl"><span class="t">Download a file onto the computer</span><span class="d">After SSH works, pull one file from a web address with curl. You don&apos;t need a browser on the computer for this.</span></a>
+<a class="note-row" href="leftover-box-sha256sum"><span class="t">Check a file fingerprint</span><span class="d">After SSH works, check a file with sha256sum so you know it still matches the fingerprint you expected. You don&apos;t need a download manager for this.</span></a>
+<a class="note-row" href="leftover-box-diff"><span class="t">See whether two files are the same</span><span class="d">After SSH works, compare two files with diff so you can tell if the spare still matches. You don&apos;t need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-rm"><span class="t">Delete a file carefully</span><span class="d">After SSH works, delete one file with rm -i. Ask first. Skip rm -rf. You don&apos;t need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-sftp"><span class="t">Browse folders then copy one file</span><span class="d">After SSH works, browse folders with sftp so you can pick a file and copy it. You don&apos;t need FileZilla or a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-split"><span class="kicker">Previous</span><span class="t">Split a file into smaller pieces</span></a>
+<a rel="next" href="leftover-box-sftp"><span class="kicker">Next</span><span class="t">Browse folders then copy one file</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

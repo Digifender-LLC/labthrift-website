@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Peek at file bytes — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After sync (or after writing a practice file), peek with od so you see the characters and bytes that are actually on disk. You don't need extra software beyond coreutils.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Peek at file bytes — Labthrift">
+<meta property="og:description" content="After sync (or after writing a practice file), peek with od so you see the characters and bytes that are actually on disk. You don't need extra software beyond coreutils.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-od">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-od">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Peek at file bytes","description":"After sync (or after writing a practice file), peek with od so you see the characters and bytes that are actually on disk. You don't need extra software beyond coreutils.","url":"https://labthrift.com/guides/leftover-box-od","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-01"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"Faster network","item":"https://labthrift.com/guides/#switches"},{"@type":"ListItem","position":3,"name":"Peek at file bytes"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Peek at file bytes</span></nav>
+<p class="note">Written 1 Sep 2026. This is a how-to, not a product card.</p>
+<h1>Peek at file bytes</h1>
+<p class="deck">After <span><code>sync</code></span> (or after writing a practice file), peek with <span><code>od</code></span> so you see the characters and bytes that are actually on disk. You don&apos;t need extra software beyond coreutils.</p>
+<p><a href="leftover-box-sync">Finish disk writes</a> flushed pending writes. Tonight you take a small look at what landed: ask it to show the bytes inside a practice file. <span><code>od</code></span> historically meant octal dump. Tonight you use it as a safe peek at characters (and, if you want, hex bytes) so you trust a copy before you unplug. That is not printing the file as plain text. That is <a href="leftover-box-cat">read a file without opening the editor</a>. That is not asking what kind of file this is. That is <a href="leftover-box-file">see what kind of file this is</a>. That is not a fingerprint. That is <a href="leftover-box-sha256sum">check a file fingerprint</a>. That is not comparing two files. That is <a href="leftover-box-cmp">see whether two files match byte for byte</a>. You are still only practicing in home on the computer. It does not need hex editors, htop, Grafana, or a NAS for this one job.</p>
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If you only need to write practice words, that is <a href="leftover-box-printf">print words exactly</a> or <a href="leftover-box-echo">put a short line into a file</a>. If you only need to flush writes, that is <a href="leftover-box-sync">finish disk writes</a>. If you only need the text as text, that is <a href="leftover-box-cat">read a file without opening the editor</a>. If you only need a fingerprint, that is <a href="leftover-box-sha256sum">check a file fingerprint</a>. Skip this whole note if you only need a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</p>
+<h2>What this is</h2>
+<p><span><code>od</code></span> dumps a file&apos;s bytes in a readable way. The name is old: octal dump. Tonight you mostly want the character view (<span><code>-c</code></span>), which shows letters and makes newlines and other control characters obvious. Optional hex (<span><code>-tx1</code></span>) shows each byte as two hex digits. It does not rewrite the file. It does not invent a checksum. It does not decide the file kind. Those jobs already have their own notes.</p>
+<h2>Practice od in home</h2>
+<p>SSH in. Make sure home is where you sit:</p>
+<p><code>pwd</code></p><p>You want a path that ends in your login name. If not:</p>
+<p><code>cd ~</code></p><p>Optional: park one short practice line, then flush (see <a href="leftover-box-printf">printf</a> and <a href="leftover-box-sync">sync</a>):</p>
+<p><code>printf &apos;hello\n&apos; &gt; ~/od-a.txt</code></p>
+<p><code>sync</code></p><p>Peek at characters (tonight's job, easiest first-timer view):</p>
+<p><code>od -c ~/od-a.txt</code></p><p>You want something like the letters <span><code>h e l l o</code></span>, then a visible newline marker (often <span><code>\n</code></span>), then the prompt back. That is enough for tonight: you saw what is actually in the file.</p>
+<p>Optional hex bytes (same tiny file):</p>
+<p><code>od -An -tx1 ~/od-a.txt</code></p><p>Or characters and hex together:</p>
+<p><code>od -An -tx1c ~/od-a.txt</code></p><p><span><code>-An</code></span> means skip the address column. <span><code>-tx1</code></span> means one-byte hex. Don't make hex required. Character view is enough for tonight.</p>
+<p>Debian and Ubuntu usually already have <span><code>od</code></span> (coreutils). Don't make apt the lesson. If it is somehow missing:</p>
+<p><code>sudo apt install coreutils</code></p><p>Then stop. That install is not a reason to buy a hex editor.</p>
+<p>When you are done practicing:</p>
+<p><code>rm -i ~/od-a.txt</code></p><p>Ask first. Say yes only if the name matches. That careful delete is <a href="leftover-box-rm">delete a file carefully</a>. Skip <span><code>rm -rf</code></span>.</p>
+<h2>Useful extras, still home-safe</h2>
+<p>Skip huge dumps as tonight&apos;s job. Tonight: one tiny home file, not a giant dump of disks, logs, or <span><code>/etc</code></span>.</p>
+<p>Skip piping <span><code>od</code></span> into <span><code>rm</code></span>. Od peeks. Rm deletes. Don't mix those jobs.</p>
+<p>Skip <span><code>hexdump</code></span> and <span><code>xxd</code></span> as tonight&apos;s job. No new pages for those this cycle. Tonight&apos;s tool is <span><code>od</code></span>.</p>
+<p>Skip <span><code>dd</code></span>, <span><code>shred</code></span>, and dropping caches. Tonight: a quiet peek, not a wipe or a cache lesson.</p>
+<p>Skip file, sha256sum, cmp, and cat as tonight&apos;s job. Those pages already exist. Link them when you need them.</p>
+<p>Skip <span><code>screen</code></span>, <span><code>tmux</code></span>, port 22 forwarding, apt as the lesson, htop, Grafana, and a NAS. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<p>Skip a separate df how-to, awk, sed, and install as new pages this cycle. Free space is already <a href="leftover-box-disk-space">see if the computer still has room</a>. Emptying or shrinking a practice file without deleting the name is <a href="leftover-box-truncate">empty or shrink a practice file</a>. Printable text without a full dump is <a href="leftover-box-strings">see printable text with strings</a>.</p>
+<h2>What this is not</h2>
+<p>This is not <span><code>sync</code></span>. That is <a href="leftover-box-sync">finish disk writes</a>. It is not <span><code>printf</code></span> or <span><code>echo</code></span>. Those write words: <a href="leftover-box-printf">print words exactly</a>, <a href="leftover-box-echo">put a short line into a file</a>. It is not <span><code>cat</code></span>. That prints text as text: <a href="leftover-box-cat">read a file without opening the editor</a>. It is not <span><code>file</code></span>. That guesses the kind of file: <a href="leftover-box-file">see what kind of file this is</a>. It is not <span><code>sha256sum</code></span>. That fingerprints one file: <a href="leftover-box-sha256sum">check a file fingerprint</a>. It is not <span><code>cmp</code></span>. That compares two files byte for byte: <a href="leftover-box-cmp">see whether two files match byte for byte</a>. It is not opening SSH to the internet so you can dump files from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>What next</h2>
+<p>Need to empty or shrink a practice file without deleting the name? <a href="leftover-box-truncate">Empty or shrink a practice file</a>. Need printable text without a full dump? <a href="leftover-box-strings">See printable text with strings</a>. Need a flush first? <a href="leftover-box-sync">Finish disk writes</a>. Need exact practice words? <a href="leftover-box-printf">Print words exactly</a>. Need a fingerprint instead of a dump? <a href="leftover-box-sha256sum">Check a file fingerprint</a>. Need the throwaway gone? <a href="leftover-box-rm">Delete a file carefully</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip <span><code>sync</code></span>, <span><code>printf</code></span>, or <span><code>echo</code></span> as tonight&apos;s job if you only came to peek. Those write/flush notes already exist.</li>
+<li>Skip <span><code>cat</code></span>, <span><code>file</code></span>, <span><code>sha256sum</code></span>, and <span><code>cmp</code></span> as tonight&apos;s job. Link those pages instead.</li>
+<li>Skip huge dumps, <span><code>od</code></span> into <span><code>rm</code></span>, <span><code>hexdump</code></span>/<span><code>xxd</code></span> as the job, <span><code>dd</code></span>/<span><code>shred</code></span>/drop_caches, files under <span><code>/etc</code></span>, <span><code>screen</code></span>, <span><code>tmux</code></span>, apt as the lesson, htop, Grafana, and a NAS.</li>
+<li>Skip a separate df how-to, awk, sed, and install as new pages this cycle. Truncate is <a href="leftover-box-truncate">empty or shrink a practice file</a>. Strings is <a href="leftover-box-strings">see printable text with strings</a>.</li>
+<li>Skip <span><code>rm -rf</code></span>. Careful delete only: <a href="leftover-box-rm">delete a file carefully</a>.</li>
+<li>Skip opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/coreutils/od.1.en.html">Debian: od(1)</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/od.1.html">Ubuntu: od(1)</a>. <a href="https://www.gnu.org/software/coreutils/manual/html_node/od-invocation.html">GNU coreutils: od</a>. Official pages only. For the flush, see <a href="leftover-box-sync">finish disk writes</a>. For exact words, see <a href="leftover-box-printf">print words exactly</a>. For a short dump as text, see <a href="leftover-box-cat">read a file without opening the editor</a>. For a careful delete, see <a href="leftover-box-rm">delete a file carefully</a>. For the login, see <a href="first-ssh">SSH from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-sync"><span class="t">Finish disk writes</span><span class="d">After a practice write, finish disk writes with sync so the file is really on disk before you unplug or power off. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-printf"><span class="t">Print words exactly</span><span class="d">Print words exactly with printf so a practice file gets the text you meant, without the extra newline echo always adds. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-echo"><span class="t">Put a short line into a file</span><span class="d">After SSH works, put one short line into a file with echo so you don't need to open nano. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-cat"><span class="t">Read a file without opening the editor</span><span class="d">After SSH works, print a file with cat so you can read it without opening nano. Short files only. You don&apos;t need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-sha256sum"><span class="t">Check a file fingerprint</span><span class="d">After SSH works, check a file with sha256sum so you know it still matches the fingerprint you expected. You don&apos;t need a download manager for this.</span></a>
+<a class="note-row" href="leftover-box-file"><span class="t">See what kind of file this is</span><span class="d">After SSH works, ask what kind of file this is with file before you dump it. You don&apos;t need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-cmp"><span class="t">See whether two files match byte for byte</span><span class="d">After comm, compare two files byte for byte with cmp so you know if they match. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-truncate"><span class="t">Empty or shrink a practice file</span><span class="d">After od, use truncate so you empty or shrink the file without deleting its name. You don&apos;t need extra software beyond coreutils.</span></a>
+<a class="note-row" href="leftover-box-strings"><span class="t">See printable text with strings</span><span class="d">After od, use strings so you see readable text without dumping every byte. You don&apos;t need extra software beyond binutils.</span></a>
+<a class="note-row" href="leftover-box-rm"><span class="t">Delete a file carefully</span><span class="d">After SSH works, delete one file with rm -i. Ask first. Skip rm -rf. You don&apos;t need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-sync"><span class="kicker">Previous</span><span class="t">Finish disk writes</span></a>
+<a rel="next" href="leftover-box-truncate"><span class="kicker">Next</span><span class="t">Empty or shrink a practice file</span></a>
+</nav>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

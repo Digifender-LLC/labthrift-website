@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Move into a folder — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After SSH works, change folders with cd. You don't need a file manager app for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Move into a folder — Labthrift">
+<meta property="og:description" content="After SSH works, change folders with cd. You don't need a file manager app for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-cd">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-cd">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Move into a folder","description":"After SSH works, change folders with cd. You don't need a file manager app for this.","url":"https://labthrift.com/guides/leftover-box-cd","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-28"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Move into a folder</span></nav>
+<p class="note">Written 28 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Move into a folder</h1>
+<p class="deck">After SSH works, change folders with <span><code>cd</code></span>. You don't need a file manager app for this.</p>
+<p><a href="first-ssh">SSH from the couch</a> sits you in a folder. <a href="leftover-box-ls">See what's in a folder</a> lists the names in that folder. <span><code>cd</code></span> is change directory. It moves you into another folder so the next <span><code>ls</code></span>, <span><code>nano</code></span>, or copy lands where you meant. The computer does not need a desktop or a NAS for this one job.</p>
+
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If you only need names, that is <a href="leftover-box-ls">see what's in a folder</a>. If you only need to move a file, that is <a href="leftover-box-scp">copy a file to the computer from your laptop</a>. This note is how you sit in a different folder. Skip this whole note if you are still stuck on the first login.</p>
+
+<h2>What this is</h2>
+<p><span><code>cd</code></span> changes the folder your next commands use. <span><code>ls /etc</code></span> can look at a folder without moving. After <span><code>cd /etc</code></span>, a plain <span><code>ls</code></span> lists that folder, and a filename with no path is in that folder. You are not measuring free disk. That is <a href="leftover-box-disk-space">see if the computer still has room</a>.</p>
+
+<h2>Move into a folder</h2>
+<p>SSH in. At the prompt, pick a folder you already saw with <span><code>ls</code></span>. A first login is usually home. Try the settings folder just to look:</p>
+<p><code>cd /etc</code></p>
+<p>If that folder is not there, the computer says no such file or directory. Check the name, or <a href="leftover-box-mkdir">make a folder</a>. That is not a reason to buy a NAS. A folder you copied into, if it exists:</p>
+<p><code>cd ~/scripts</code></p>
+<p>The tilde <span><code>~</code></span> is a short name for your home folder. Swap <span><code>scripts</code></span> for a folder you actually have.</p>
+
+<h2>See that you moved</h2>
+<p>After you change folders:</p>
+<p><code>pwd</code></p>
+<p>That prints the full path. The dedicated note is <a href="leftover-box-pwd">see which folder you are in</a>. Then:</p>
+<p><code>ls</code></p>
+<p>You want the names for the folder you just named. Listing without moving is still <a href="leftover-box-ls">see what's in a folder</a>.</p>
+
+<h2>Go back home</h2>
+<p>Plain <span><code>cd</code></span> with no folder, or:</p>
+<p><code>cd ~</code></p>
+<p>Both put you in the login's home folder. That is the usual first-login folder. Optional check:</p>
+<p><code>pwd</code></p>
+<p>You want something like <span><code>/home/you</code></span>.</p>
+
+<h2>Go up one folder</h2>
+<p>Two dots mean the folder that holds this one:</p>
+<p><code>cd ..</code></p>
+<p>From <span><code>/home/you</code></span> that lands in <span><code>/home</code></span>. From <span><code>/etc</code></span> that lands in <span><code>/</code></span>, the root. Check with <span><code>pwd</code></span> again. You are only moving. Don't delete names you don't know.</p>
+
+<h2>Optional: the folder you just left</h2>
+<p>To bounce back to the folder you were in a moment ago:</p>
+<p><code>cd -</code></p>
+<p>That prints the path it moved to. Useful when you peeked at <span><code>/etc</code></span> and want home again without typing the long path. Skip this if the two-dot form already got you where you wanted.</p>
+
+<h2>What this is not</h2>
+<p>This move is not a backup. It is not a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>. Copying one file from the laptop is <a href="leftover-box-scp">copy a file to the computer from your laptop</a>. Editing a file once you are in the folder is <a href="leftover-box-nano">edit a file from the couch</a>.</p>
+
+<h2>What next</h2>
+<p>Need only the full path after you move? <a href="leftover-box-pwd">See which folder you are in</a>. Need a folder that is not there yet? <a href="leftover-box-mkdir">Make a folder</a>. Want the names in this folder? <a href="leftover-box-ls">See what's in a folder</a>. Need to change one of those files? <a href="leftover-box-nano">Edit a file from the couch</a>. Need the file on the laptop too? <a href="leftover-box-scp">Copy a file to the computer from your laptop</a>. Tired of retyping the same long line? <a href="leftover-box-history">Reuse a command you already typed</a>. When key login is boring on every computer you use, <a href="leftover-box-ssh-no-password">turn off password login once the key works</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip buying a file manager, Midnight Commander, or a “cloud drive” app to change folders.</li>
+<li>Skip <span><code>cd /</code></span> tonight and wandering the whole the computer. Home, one named folder, and two dots are enough.</li>
+<li>Skip deleting names you don't know. Moving is the job.</li>
+<li>Skip opening SSH to the internet so you can change folders from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.gnu.org/software/bash/manual/html_node/Bourne-Shell-Builtins.html">GNU Bash: Bourne Shell Builtins</a>. <a href="https://manpages.debian.org/bookworm/bash/bash.1.en.html">Debian: bash</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/bash.1.html">Ubuntu: bash</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For listing names, see <a href="leftover-box-ls">see what's in a folder</a>. For making a folder, see <a href="leftover-box-mkdir">make a folder</a>. For a short leftover name, see <a href="leftover-box-ssh-config">give the computer a short name on your laptop</a>. For moving a file, see <a href="leftover-box-scp">copy a file to the computer from your laptop</a>. For editing a file, see <a href="leftover-box-nano">edit a file from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-ls"><span class="t">See what's in a folder</span><span class="d">After SSH works, list the folder you are sitting in with ls. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-pwd"><span class="t">See which folder you are in</span><span class="d">After SSH works, print the full path with pwd so you know where ls and nano will land. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-mkdir"><span class="t">Make a folder</span><span class="d">After SSH works, make a folder with mkdir so copies and edits have a place to land. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-scp"><span class="t">Copy a file to the computer from your laptop</span><span class="d">After SSH works, use scp to move one file without a USB stick. A short name like lab makes the typing shorter. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-nano"><span class="t">Edit a file from the couch</span><span class="d">After SSH works, open a file with nano, change a line, and save. The keys at the bottom of the screen are the whole trick. You don't need a new editor.</span></a>
+<a class="note-row" href="leftover-box-history"><span class="t">Reuse a command you already typed</span><span class="d">After SSH works, flip back through commands with the Up arrow or history. You don't need a notebook for the same long line twice.</span></a>
+<a class="note-row" href="leftover-box-ssh-config"><span class="t">Give the computer a short name on your laptop</span><span class="d">After SSH works, put a short name in your laptop SSH config so you type ssh lab instead of the long address. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-ls"><span class="kicker">Previous</span><span class="t">See what's in a folder</span></a>
+<a rel="next" href="leftover-box-pwd"><span class="kicker">Next</span><span class="t">See which folder you are in</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

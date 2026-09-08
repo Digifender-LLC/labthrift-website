@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Old 24 V passive bricks will not power a modern house AP like a U7 Lite — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Leftover 24-volt Ubiquiti bricks can kill a modern PoE port. Skip them. 48 V passive is not the same brick either.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Old 24 V passive bricks will not power a modern house AP like a U7 Lite — Labthrift">
+<meta property="og:description" content="Leftover 24-volt Ubiquiti bricks can kill a modern PoE port. Skip them. 48 V passive is not the same brick either.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/passive-24v-poe-traps">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/passive-24v-poe-traps">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BlogPosting",
+ "headline": "Old 24 V passive bricks will not power a modern house AP like a U7 Lite",
+ "description": "Leftover 24-volt Ubiquiti bricks can kill a modern PoE port. Skip them. 48 V passive is not the same brick either.",
+ "url": "https://labthrift.com/guides/passive-24v-poe-traps",
+ "image": "https://labthrift.com/assets/og-1200.png",
+ "datePublished": "2026-08-22"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+ {
+ "@type": "ListItem",
+ "position": 1,
+ "name": "Home",
+ "item": "https://labthrift.com/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 2,
+ "name": "Notes",
+ "item": "https://labthrift.com/guides/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 3,
+ "name": "Cheap PoE + APs",
+ "item": "https://labthrift.com/guides/#cheap-poe"
+ },
+ {
+ "@type": "ListItem",
+ "position": 4,
+ "name": "Old 24 V passive bricks will not power a modern house AP like a U7 Lite",
+ "item": "https://labthrift.com/guides/passive-24v-poe-traps"
+ }
+ ]
+}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#cheap-poe">Better Wi-Fi</a> / <span aria-current="page">Old 24 V passive bricks will not power a modern house AP like a U7 Lite</span></nav>
+<p class="note">Written 22 Aug 2026. Specs from the maker pages linked below. Prices from those stores. I haven't used these.</p>
+
+<h1>Old 24 V passive bricks will not power a modern house AP like a U7 Lite</h1>
+<p class="deck">Leftover 24-volt Ubiquiti bricks can kill a modern PoE port. Skip them. 48 V passive is not the same brick either.</p>
+<p>Modern closet APs want 48 V 802.3af/at. Leftover 24 V airMAX / old UniFi injectors are the classic brick-the-port story. Omada EAP613 / EAP653 accept 802.3af or 802.3at <em>and</em> 48 V passive (version-dependent). That is 48 V passive, not 24 V. A 24 V airMAX injector is still the wrong brick.</p>
+<p>The converter for this job is INS-3AF-I-G: 802.3af in (48 V) → 24 V passive out, 24 V / 0.5 A max. UI store $20. Use it only to feed <em>legacy 24 V</em> UniFi / airMAX from a modern af/at switch. It does not let a 24 V injector feed a modern af AP. Older UniFi AC-Lite / AC-LR 24 V units are out of scope for new-buy posts. U6 Lite is delisted. Don't hunt used 24 V APs.</p>
+
+<h2>What to buy</h2>
+<div class="table-wrap">
+<table>
+<tr><th>Thing</th><th>Voltage / standard</th><th>Street, 22 Aug 2026</th><th>Use</th></tr>
+<tr class="pick"><td data-label="Thing">INS-3AF-I-G Instant Indoor PoE Converter</td><td data-label="Voltage / standard">802.3af in → 24 V passive out. 24 V / 0.5 A max.</td><td data-label="Street, 22 Aug 2026">UI $20. B&amp;H 1327765-REG. Central Computer $19.95.</td><td data-label="Use">Old 24 V radio on a new af/at switch. Never reversed.</td></tr>
+<tr><td data-label="Thing">U7 Lite</td><td data-label="Voltage / standard">44–57 V / 42.5–57 V 802.3af only</td><td data-label="Street, 22 Aug 2026">$99 UI</td><td data-label="Use">Does not take 24 V. <a href="unifi-u7-lite-review">review</a>.</td></tr>
+<tr><td data-label="Thing">Omada EAP613 / EAP653</td><td data-label="Voltage / standard">802.3af or at <em>and</em> 48 V passive</td><td data-label="Street, 22 Aug 2026">~$80</td><td data-label="Use">48 V passive ≠ 24 V. <a href="eap613-small-house-af">613</a>, <a href="eap613-vs-eap653">613 vs 653</a>.</td></tr>
+<tr><td data-label="Thing">Cudy AP3000</td><td data-label="Voltage / standard">802.3at/af + 48–57 V passive + 12 V DC</td><td data-label="Street, 22 Aug 2026">Amazon $69.90</td><td data-label="Use">48–57 V passive. Still not 24 V. <a href="cudy-ap3000-openwrt">Cudy</a>.</td></tr>
+</table>
+</div>
+<p>If you are powering two new APs, buy an af/at injector or a small fanless switch. Don't raid the airMAX junk drawer. Injector math: <a href="poe-injector-vs-switch-two-aps">one injector vs a 4-port switch</a>. First-apartment brick: <a href="cheap-poe">cheap PoE for two APs</a>.</p>
+<h2>Skip</h2>
+<p>Skip any listing that just says “passive PoE” without a voltage. Skip using INS-3AF-I-G backwards. Skip buying used 24 V UniFi APs so you have a reason to own the converter.</p>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://store.ui.com/us/en/products/ins-3af-i-g">UI INS-3AF-I-G</a>. <a href="https://www.bhphotovideo.com/c/product/1327765-REG/ubiquiti_networks_ins_3af_i_g_instant_802_3af_adapter.html">B&amp;H 1327765-REG</a>. <a href="https://dl.ui.com/datasheets/instant/Instant_802.3af_Gigabit_PoE_Converters_DS.pdf">UI Instant 802.3af converter datasheet</a>. <a href="https://www.omadanetworks.com/us/business-networking/omada-wifi-ceiling-mount/eap613/">Omada EAP613</a>.</p>
+</section>
+
+
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="sg2210mp-fan-noise-vs-fanless"><span class="t">Buy the quiet fanless PoE switch. Don't keep the loud SG2210MP and mod the fan</span><span class="d">Buy the fanless SKU. Don't mod the fan.</span></a>
+<a class="note-row" href="eap670-2-5g-wifi6"><span class="t">Faster Wi-Fi 6 ceiling puck when you already have 2.5G PoE and no Wi-Fi 7 phones: EAP670</span><span class="d">Faster Wi-Fi 6 when you already have 2.5G PoE and no Wi-Fi 7 phones.</span></a>
+<a class="note-row" href="cheap-poe"><span class="t">Power two Wi-Fi points from one small switch</span><span class="d">Enough watts and enough ports. Not a controller religion on day one.</span></a>
+</section>
+
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="poe-af-at-bt-closet-budget"><span class="kicker">Previous</span><span class="t">af, at, bt: match the AP class before you buy the switch</span></a>
+<a rel="next" href="sg2210mp-fan-noise-vs-fanless"><span class="kicker">Next</span><span class="t">Buy the quiet fanless PoE switch. Don't keep the loud SG2210MP and mod the fan</span></a>
+</nav>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+</p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

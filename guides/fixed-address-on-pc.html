@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Give the computer a fixed address when the router won't — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Nest or an ISP gateway won't reserve DHCP. Set one stable number on Ubuntu Server so SSH and Pi-hole keep the same address after a reboot. You don't need a new router.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Give the computer a fixed address when the router won't — Labthrift">
+<meta property="og:description" content="Nest or an ISP gateway won't reserve DHCP. Set one stable number on Ubuntu Server so SSH and Pi-hole keep the same address after a reboot. You don't need a new router.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/fixed-address-on-pc">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/fixed-address-on-pc">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Give the computer a fixed address when the router won't","description":"Nest or an ISP gateway won't reserve DHCP. Set one stable number on Ubuntu Server so SSH and Pi-hole keep the same address after a reboot. You don't need a new router.","url":"https://labthrift.com/guides/fixed-address-on-pc","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-04"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">Give the computer a fixed address when the router won't</span></nav>
+<p class="note">Written 4 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>Give the computer a fixed address when the router won't</h1>
+<p class="deck">Nest or an ISP gateway won't reserve DHCP. Set one stable number on Ubuntu Server so SSH and Pi-hole keep the same address after a reboot. You don't need a new router.</p>
+<p>Prefer a reservation on the router when it offers one: <a href="common-router-reservation">keep the computer on the same address on common routers</a>. Short generic pass: <a href="leftover-box-dhcp-reservation">keep it on the same number</a>. This page is the fallback when Nest, Google Wifi, or the ISP combo box has no clean reserve menu. Need the current number first? <a href="find-the-leftover-box">Find it on the house network</a>.</p>
+
+<h2>Skip until the router path is blocked</h2>
+<p>If TP-Link, ASUS, eero, or Netgear already has Address Reservation / IP Binding, use that and leave Linux on automatic DHCP. Stop here. Only continue when you confirmed the gateway will not stick an address to this computer after a reboot.</p>
+
+<h2>What this is</h2>
+<p>A fixed address means the computer stops asking the router for a random number. You type the address, the gateway, and the DNS it should use. SSH keeps the same target. Pi-hole keeps the same target. You are not opening a port to the internet.</p>
+
+<h2>What you need</h2>
+<ul>
+<li>SSH or a keyboard on the computer (Debian or Ubuntu Server)</li>
+<li>The address it already uses today (example <span><code>192.168.1.50</code></span>)</li>
+<li>The router / gateway address (example <span><code>192.168.1.1</code></span>)</li>
+<li>The ethernet interface name (often <span><code>enp1s0</code></span> or <span><code>eth0</code></span>)</li>
+<li>About ten minutes, and a second device already logged in if you can — a bad edit can drop SSH until you fix it at the screen</li>
+</ul>
+<p>Keep the number the computer already has. Don't invent a new one unless that number is already taken by another device.</p>
+
+<h2>1. Write down what works today</h2>
+<p>On the computer:</p>
+<p><code>hostname -I</code></p>
+<p><code>ip -br link</code></p>
+<p><code>ip route | head</code></p>
+<p>From <span><code>hostname -I</code></span>, take the house address (usually starts with <span><code>192.168.</code></span> or <span><code>10.</code></span>). From <span><code>ip -br link</code></span>, take the cable interface that shows UP — not <span><code>lo</code></span>, not a Wi-Fi name if you already moved to ethernet. From the route line that says <span><code>default via</code></span>, take the gateway. Prefix is almost always <span><code>/24</code></span> on a house network. If you are unsure, stay on the address DHCP already gave you.</p>
+
+<h2>2. Back up the netplan file (Ubuntu Server)</h2>
+<p>Ubuntu Server stores the network plan under <span><code>/etc/netplan/</code></span>. List it:</p>
+<p><code>ls /etc/netplan/</code></p>
+<p>Copy the existing file before you edit. Example name <span><code>00-installer-config.yaml</code></span>:</p>
+<p><code>sudo cp /etc/netplan/00-installer-config.yaml /etc/netplan/00-installer-config.yaml.bak</code></p>
+<p>Open it:</p>
+<p><code>sudo nano /etc/netplan/00-installer-config.yaml</code></p>
+<p>Debian without netplan is different — see the short note below. Don't mix a fixed address on Linux with a conflicting reservation on the router.</p>
+
+<h2>3. Put a fixed address in the plan</h2>
+<p>Replace the ethernet stanza with something shaped like this. Swap the interface name, address, and gateway for yours. Indentation matters in YAML — use spaces, not tabs.</p>
+<pre>network:
+  version: 2
+  ethernets:
+    enp1s0:
+      dhcp4: false
+      addresses:
+        - 192.168.1.50/24
+      routes:
+        - to: default
+          via: 192.168.1.1
+      nameservers:
+        addresses:
+          - 192.168.1.1
+</pre>
+<p>Use the interface from step 1, not a guessed <span><code>eth0</code></span>. DNS on this first pass can be the router. If this computer already runs Pi-hole, prefer <span><code>127.0.0.1</code></span> for nameservers on the Pi-hole host itself so it can still resolve while it serves the house. Haven't installed Pi-hole yet? That is <a href="first-useful-service">the first useful thing</a>.</p>
+
+<h2>4. Try it safely, then keep it</h2>
+<p>From a keyboard on the computer when you can:</p>
+<p><code>sudo netplan try</code></p>
+<p>It applies the plan, then waits. If SSH from the couch still works with the same address, press Enter to keep it. If you lose the link, wait — it rolls back when the timer ends. If <span><code>try</code></span> is missing on a very old box:</p>
+<p><code>sudo netplan apply</code></p>
+<p>Only use <span><code>apply</code></span> when you can reach a screen if the address goes wrong.</p>
+
+<h2>5. Check from the couch</h2>
+<p>On the computer:</p>
+<p><code>hostname -I</code></p>
+<p><code>ping -c 3 192.168.1.1</code></p>
+<p>Swap in your gateway. Then from your laptop, SSH to the same number you wrote down. Prefer a cable for this computer: <a href="leftover-box-ethernet">a cable beats Wi-Fi for the old PC</a>. After a reboot, confirm the number did not wander: <a href="find-the-leftover-box">find it on the house network</a>.</p>
+
+<h2>Debian without netplan</h2>
+<p>Some Debian installs still use <span><code>/etc/network/interfaces</code></span> instead of netplan. The idea is the same: turn off DHCP on that interface, set address, netmask, gateway. Example shape:</p>
+<pre>auto enp1s0
+iface enp1s0 inet static
+    address 192.168.1.50
+    netmask 255.255.255.0
+    gateway 192.168.1.1
+    dns-nameservers 192.168.1.1
+</pre>
+<p>Then <span><code>sudo systemctl restart networking</code></span>, or reboot once with a screen attached. If your Debian box uses NetworkManager, set a manual IPv4 profile in <span><code>nmtui</code></span> instead of editing interfaces by hand.</p>
+
+<h2>If SSH dies after apply</h2>
+<p>Plug in a keyboard and screen. Restore the backup:</p>
+<p><code>sudo cp /etc/netplan/00-installer-config.yaml.bak /etc/netplan/00-installer-config.yaml</code></p>
+<p><code>sudo netplan apply</code></p>
+<p>Check the interface name and the <span><code>/24</code></span> prefix. A typo in the gateway is the usual way to keep a local address but lose the internet. Wrong interface name leaves the cable on DHCP while you edited a ghost name.</p>
+
+<h2>What this is not</h2>
+<p>This is not a reason to buy a new router on day one. It is not forwarding port 22. It is not a VPN. It is not typing a fixed address when the router already reserves cleanly. Prefer the router reservation when that menu exists.</p>
+
+<h2>What next</h2>
+<p>Point the house at Pi-hole when the router allows it: <a href="common-router-dns">point common home routers at Pi-hole</a>. Nest or ISP gateway still hides LAN DNS? Set one device: <a href="manual-dns-on-devices">point a phone or laptop at Pi-hole when the router won't</a>. Pi-hole not installed yet: <a href="first-useful-service">the first useful thing</a>. SSH still fussy: <a href="first-ssh">SSH from the couch</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip this if the router already reserves the address cleanly.</li>
+<li>Skip inventing a new IP when the current one still works.</li>
+<li>Skip setting a fixed address and a conflicting router reservation at the same time.</li>
+<li>Skip forwarding port 22 on the ISP box.</li>
+<li>Skip buying mesh “so reservation works.”</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://netplan.readthedocs.io/en/stable/">Netplan documentation</a>. <a href="https://ubuntu.com/server/docs/network-configuration">Ubuntu Server: network configuration</a>. <a href="https://wiki.debian.org/NetworkConfiguration">Debian Wiki: NetworkConfiguration</a>. Official pages only. Interface names and menu labels move by release. For router reservation first, see <a href="common-router-reservation">keep the computer on the same address on common routers</a>. For finding the number, see <a href="find-the-leftover-box">find it on the house network</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="common-router-reservation"><span class="t">Keep the computer on the same address on common routers</span><span class="d">Where to reserve DHCP on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so SSH and Pi-hole keep the same number after a reboot. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-dhcp-reservation"><span class="t">Keep it on the same number</span><span class="d">SSH and Pi-hole keep working after a reboot when the router always gives the computer the same address.</span></a>
+<a class="note-row" href="add-local-dns-name"><span class="t">Add a local name in Pi-hole</span><span class="d">Give the old PC a short house name so phones and laptops can open SSH, the share, and the admin page without remembering the number. You don't need a new router.</span></a>
+
+<a class="note-row" href="manual-dns-on-devices"><span class="t">Point a phone or laptop at Pi-hole when the router won't</span><span class="d">When Nest, Google Wifi, or an ISP gateway will not take custom DNS, set DNS on one phone or laptop so it asks Pi-hole. You don't need a new router for this device.</span></a>
+<a class="note-row" href="find-the-leftover-box"><span class="t">Find it on the house network</span><span class="d">The computer has a number on your house network. You need that number to SSH from the couch. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-ethernet"><span class="t">A cable beats Wi-Fi for the old PC</span><span class="d">Once it is doing real work, plug it into the router with a cable. Skip if it is already on a cable.</span></a>
+<a class="note-row" href="common-router-dns"><span class="t">Point common home routers at Pi-hole</span><span class="d">Where to set DNS on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so the house asks Pi-hole. Prefer LAN DHCP DNS. You don't need a new router.</span></a>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the old PC from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="common-router-reservation"><span class="kicker">Previous</span><span class="t">Keep the computer on the same address on common routers</span></a>
+<a rel="next" href="manual-dns-on-devices"><span class="kicker">Next</span><span class="t">Point a phone or laptop at Pi-hole when the router won't</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

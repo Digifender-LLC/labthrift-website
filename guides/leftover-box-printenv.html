@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See HOME and PATH — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After uname, print HOME and PATH with printenv so login environment makes sense. You don't need extra software for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See HOME and PATH — Labthrift">
+<meta property="og:description" content="After uname, print HOME and PATH with printenv so login environment makes sense. You don't need extra software for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-printenv">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-printenv">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See HOME and PATH","description":"After uname, print HOME and PATH with printenv so login environment makes sense. You don't need extra software for this.","url":"https://labthrift.com/guides/leftover-box-printenv","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-31"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"Faster network","item":"https://labthrift.com/guides/#switches"},{"@type":"ListItem","position":3,"name":"See HOME and PATH"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">See HOME and PATH</span></nav>
+<p class="note">Written 31 Aug 2026. This is a how-to, not a product card.</p>
+<h1>See HOME and PATH</h1>
+<p class="deck">After uname, print HOME and PATH with printenv so login environment makes sense. You don&apos;t need extra software for this.</p>
+<p><a href="leftover-box-uname">See kernel name and architecture</a> printed the kernel. Tonight you list your login environment: <span><code>printenv</code></span>. Printenv prints HOME, PATH, USER, SHELL. You are still only practicing in home on the computer. It does not need extra system software, htop, Grafana, or a NAS for this one job.</p>
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If kernel name is what you want, that is <a href="leftover-box-uname">see kernel name and architecture</a>. If language and region are what you want, that is <a href="leftover-box-locale">see language and region</a>. If login name is what you want, that is <a href="leftover-box-whoami">see the login name</a>. If user number and groups are what you want, that is <a href="leftover-box-id">see user number and groups</a>. Skip <span><code>echo $HOME</code></span> as tonight&apos;s job. That is echo, not printenv.</p>
+<h2>What this is</h2>
+<p><span><code>printenv</code></span> prints environment. You type <span><code>printenv</code></span> plus a name. HOME is your home folder. PATH is where the shell looks for commands. USER is the login name again. SHELL is which prompt program. It is not uname. Uname prints the kernel. It is not echo. Echo prints words you type. Skip <span><code>echo $HOME</code></span> as the job.</p>
+<h2>Practice printenv in home</h2>
+<p>SSH in. Make sure home is where you sit:</p>
+<p><code>pwd</code></p><p>You want a path that ends in your login name. If not:</p>
+<p><code>cd ~</code></p><p>Ask for HOME:</p>
+<p><code>printenv HOME</code></p><p>You should see a path that ends in the login name (same idea as <span><code>pwd</code></span>). That path is HOME. That is enough for tonight. Practice only in home.</p>
+<p>Debian and Ubuntu usually already have <span><code>printenv</code></span>. Don't make apt the job. If <span><code>printenv</code></span> is missing:</p>
+<p><code>sudo apt install coreutils</code></p><p>Then stop. That install is not the lesson.</p>
+<h2>Useful extras, still home only</h2>
+<p>Ask for PATH:</p>
+<p><code>printenv PATH</code></p><p>Ask for USER:</p>
+<p><code>printenv USER</code></p><p>Ask for SHELL:</p>
+<p><code>printenv SHELL</code></p><p>Optional: print the whole environment:</p>
+<p><code>printenv</code></p><p>That can be a long list. You can stop at HOME and PATH. Skip editing <span><code>/etc/environment</code></span>, <span><code>/etc/profile</code></span>, or <span><code>~/.bashrc</code></span> tonight.</p>
+<h2>What this is not</h2>
+<p>This is not uname. That is <a href="leftover-box-uname">see kernel name and architecture</a>. It is not id. That is <a href="leftover-box-id">see user number and groups</a>. It is not whoami. That is <a href="leftover-box-whoami">see the login name</a>. It is not pwd. That is <a href="leftover-box-pwd">see which folder you are in</a>. It is not echo. That is <a href="leftover-box-echo">put a short line into a file</a>. It is not OS name. That is <a href="leftover-box-os-release">see which OS the computer is already running</a>. It is not opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>What next</h2>
+<p>Need language and region? <a href="leftover-box-locale">See language and region</a>. Need the terminal name? <a href="leftover-box-tty">See the terminal name</a>. Need kernel name? <a href="leftover-box-uname">See kernel name and architecture</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip <span><code>echo $HOME</code></span> and <span><code>echo $PATH</code></span> as tonight&apos;s job. That is echo, not printenv.</li>
+<li>Skip editing <span><code>/etc/environment</code></span>, <span><code>/etc/profile</code></span>, or <span><code>~/.bashrc</code></span> tonight.</li>
+<li>Skip uname, id, whoami, pwd, and locale as tonight&apos;s job. Those pages already exist.</li>
+<li>Skip files under <span><code>/etc</code></span>, SSH folders, or paths you don't own. Practice only in home.</li>
+<li>Skip <span><code>rm -rf</code></span>. Careful delete only: <a href="leftover-box-rm">delete a file carefully</a>.</li>
+<li>Skip opening SSH to the internet so you can do this from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/coreutils/printenv.1.en.html">Debian: printenv(1)</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/printenv.1.html">Ubuntu: printenv(1)</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For kernel name, see <a href="leftover-box-uname">see kernel name and architecture</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-uname"><span class="t">See kernel name and architecture</span><span class="d">After id, print kernel name and architecture with uname so you know what kernel is running. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-id"><span class="t">See user number and groups</span><span class="d">After whoami, print user number and groups with id so sudo and file ownership make sense. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-whoami"><span class="t">See the login name</span><span class="d">After SSH works, print the login name with whoami so home and sudo make sense. You don&apos;t need extra login software for this.</span></a>
+<a class="note-row" href="leftover-box-pwd"><span class="t">See which folder you are in</span><span class="d">After SSH works, print which folder you are in. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-which"><span class="t">See where a command lives</span><span class="d">After SSH works, see where a command lives. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-echo"><span class="t">Put a short line into a file</span><span class="d">After SSH works, put one short line into a file with echo so you don't need to open nano. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-os-release"><span class="t">See which OS the computer is already running</span><span class="d">After SSH works, see which OS the computer is already running. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-rm"><span class="t">Delete a file carefully</span><span class="d">After SSH works, delete one file with rm -i. Ask first. Skip rm -rf. You don&apos;t need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-locale"><span class="t">See language and region</span><span class="d">After printenv, print language and region with locale so character encoding makes sense. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-tty"><span class="t">See the terminal name</span><span class="d">After SSH works, print the terminal name with tty so you know which session you are in. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-uname"><span class="kicker">Previous</span><span class="t">See kernel name and architecture</span></a>
+<a rel="next" href="leftover-box-locale"><span class="kicker">Next</span><span class="t">See language and region</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

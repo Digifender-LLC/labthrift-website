@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See which doors the computer left open — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Before you turn on the firewall, ask which ports are already listening.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See which doors the computer left open — Labthrift">
+<meta property="og:description" content="Before you turn on the firewall, ask which ports are already listening.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-listening">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-listening">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See which doors the computer left open","description":"Before you turn on the firewall, ask which ports are already listening.","url":"https://labthrift.com/guides/leftover-box-listening","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-27"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">See which doors the computer left open</span></nav>
+<p class="note">Written 27 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>See which doors the computer left open</h1>
+<p class="deck">Before you turn on the firewall, ask which ports are already listening.</p>
+<p>Before you turn the firewall on (or wider), ask which ports the computer is already listening on. A listening port is a door the computer left open for house programs (SSH is usually 22, DNS for Pi-hole is 53, Samba uses a few share ports). <span><code>ss -tuln</code></span> prints those doors without needing extra packages.</p>
+
+<h2>Skip until SSH from the couch works</h2>
+<p>If ping fails and SSH hangs, start with <a href="leftover-box-still-on">is the computer still on?</a> If you have never logged in from the couch, that is <a href="first-ssh">SSH from the couch</a>. Prefer this look after the password change and keys are boring: <a href="leftover-box-change-password">change the login password</a>, <a href="leftover-box-ssh-keys">log in with a key</a>, and <a href="leftover-box-ssh-no-password">turn off password login once the key works</a>. This note assumes you can log in from the couch.</p>
+
+<h2>What this is</h2>
+<p>A look, not a shopping trip. Before <a href="leftover-box-ufw">turn on a simple firewall without locking yourself out</a>, see what is already listening so you know which doors the firewall should allow. Don't forward those ports on the router. That boundary is <a href="leftover-box-house-network">keep the computer on the house network</a>.</p>
+
+<h2>Ask which doors are open</h2>
+<p>SSH in from the couch, then run:</p>
+<p><code>ss -tuln</code></p>
+<p>Point at the column that says Local Address:Port. Expect OpenSSH on 22. If Pi-hole is installed, expect 53. If a Samba share is up, expect something around 139 and 445. Surprises matter more than memorizing every line. You are not buying a switch for this look.</p>
+
+<h2>Optional: see which program owns the door</h2>
+<p>If your user can sudo and you want process names next to the ports:</p>
+<p><code>ss -tulnp</code></p>
+<p>That form may need <span><code>sudo</code></span>. Keep it optional. The plain list without process names is enough for the firewall look.</p>
+
+<h2>What the look means</h2>
+<p>Expected house doors (SSH, maybe DNS, maybe Samba) means you can proceed to <a href="leftover-box-ufw">turn on a simple firewall without locking yourself out</a>. Weird public-looking listeners mean stop. Don't open the router. Read <a href="leftover-box-read-logs">when something broke, look at the log</a> and <a href="leftover-box-failed-units">see if any house jobs failed to start</a>. Never solve surprises by port-forwarding.</p>
+
+<h2>What next</h2>
+<p>Firewall: <a href="leftover-box-ufw">turn on a simple firewall without locking yourself out</a>. Guess slowdown later: <a href="leftover-box-fail2ban">slow down password guesses on SSH</a>. House boundary: <a href="leftover-box-house-network">keep the computer on the house network</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH fails. That is <a href="leftover-box-still-on">is the computer still on?</a> or <a href="first-ssh">SSH from the couch</a>.</li>
+<li>Skip a rack firewall for this look.</li>
+<li>Skip forwarding port 22 on the router.</li>
+<li>Skip buying a Protectli.</li>
+<li>Skip Proxmox tonight. That is <a href="what-is-a-vm">what a VM is, and when you don't need one</a>.</li>
+<li>Skip opening Samba to the internet.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/iproute2/ss.8.en.html">Debian: ss</a> (iproute2). Official pages only. For the firewall, see <a href="leftover-box-ufw">turn on a simple firewall without locking yourself out</a>. For the house-network boundary, see <a href="leftover-box-house-network">keep the computer on the house network</a>. For guess slowdown later, see <a href="leftover-box-fail2ban">slow down password guesses on SSH</a>. For the login, see <a href="first-ssh">SSH from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="leftover-box-ufw"><span class="t">Turn on a simple firewall without locking yourself out</span><span class="d">After SSH from the couch works, allow OpenSSH, then turn on ufw. The computer stays reachable. Surprise inbound ports don't.</span></a>
+<a class="note-row" href="leftover-box-fail2ban"><span class="t">Slow down password guesses on SSH</span><span class="d">After the firewall is on and key login is boring, you can let the computer briefly refuse an address that keeps guessing the password. Skip this on day one. Don't forward port 22.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-ssh-no-password"><span class="kicker">Previous</span><span class="t">Turn off password login once the key works</span></a>
+<a rel="next" href="leftover-box-ufw"><span class="kicker">Next</span><span class="t">Turn on a simple firewall without locking yourself out</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

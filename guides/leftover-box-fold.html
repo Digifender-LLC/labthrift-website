@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Wrap long lines — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After SSH works, fold wraps long lines so they don't run off the window. You don't need a file manager for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Wrap long lines — Labthrift">
+<meta property="og:description" content="After SSH works, fold wraps long lines so they don't run off the window. You don't need a file manager for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-fold">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-fold">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Wrap long lines","description":"After SSH works, fold wraps long lines so they don't run off the window. You don't need a file manager for this.","url":"https://labthrift.com/guides/leftover-box-fold","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-30"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"Faster network","item":"https://labthrift.com/guides/#switches"},{"@type":"ListItem","position":3,"name":"Wrap long lines"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Wrap long lines</span></nav>
+<p class="note">Written 30 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Wrap long lines</h1>
+<p class="deck">After SSH works, <span><code>fold</code></span> wraps long lines so they don't run off the window. You don't need a file manager for this.</p>
+<p><a href="leftover-box-nl">Number lines</a> put numbers next to each line. Tonight you wrap long lines. <span><code>fold</code></span> does that. A long line becomes several short lines in the window. The file on disk stays one long line.</p>
+<p>You are still only looking. It does not need a desktop, a file manager, or a new mini PC for this one job.</p>
+
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If line numbers are what you want, that is <a href="leftover-box-nl">number lines</a>. If a whole dump with no wrap is what you want, that is <a href="leftover-box-cat">read a file without opening the editor</a>. If one screen at a time is what you want, that is <a href="leftover-box-less">read a file one screen at a time</a>. Skip this whole note if you only need a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</p>
+
+<h2>What this is</h2>
+<p><span><code>fold</code></span> wraps long lines. You type <span><code>fold</code></span>, then a file. Default width is 80 columns. <span><code>-w</code></span> is optional narrower wrap. <span><code>-s</code></span> is optional break at spaces so words stay whole. The computer prints wrapped lines. It does not rewrite the file unless you ask it to.</p>
+<p>It is not <span><code>cat</code></span>. Cat dumps without wrap. It is not <span><code>less</code></span>. Less is one screen at a time. It is not <span><code>fmt</code></span>. Fmt reflows paragraphs. That is <a href="leftover-box-fmt">reflow paragraphs</a>.</p>
+
+<h2>Wrap long lines from a practice file</h2>
+<p>SSH in.</p>
+<p>Make a long line in home:</p>
+<p><code>printf &apos;The old PC in the closet still turns on and you can type commands from the couch.\n&apos; &gt; ~/note.txt</code></p>
+<p>That save is <a href="leftover-box-redirect">save output to a file</a>. Peek first:</p>
+<p><code>cat ~/note.txt</code></p>
+<p>You want the line to run long across the window. Now wrap long lines:</p>
+<p><code>fold ~/note.txt</code></p>
+<p>You want several short lines in the window. Default width is 80 columns. The file on disk is still one long line. That is the whole first-night trick: wrap in a window, file left alone.</p>
+<p>Need a narrower wrap?</p>
+<p><code>fold -w 40 ~/note.txt</code></p>
+<p><span><code>-w 40</code></span> is width 40 columns. The long line becomes more short lines.</p>
+<p>Need break at spaces so words stay whole?</p>
+<p><code>fold -s -w 40 ~/note.txt</code></p>
+<p><span><code>-s</code></span> breaks near spaces when it can. Plain <span><code>fold</code></span> is enough for tonight.</p>
+<p>If you see command not found for <span><code>fold</code></span>, install the usual tools, then try again:</p>
+<p><code>sudo apt install coreutils</code></p>
+<p>Debian and Ubuntu Server usually already have them. That install is not a reason to buy a file manager.</p>
+<p>When you are done looking, throw away the practice file:</p>
+<p><code>rm ~/note.txt</code></p>
+<p>Careful delete only. That is <a href="leftover-box-rm">delete a file carefully</a>.</p>
+
+<h2>Useful extras, still looking only</h2>
+<p>Skip <span><code>fmt</code></span>, <span><code>sed</code></span>, <span><code>awk</code></span>, and <span><code>xargs</code></span> tonight. Tonight the tool is <span><code>fold</code></span>. Skip rewriting the file with a redirect tonight. Practice print first.</p>
+<p>Skip fold over files you care about, paths under <span><code>/etc</code></span>, and SSH settings. Practice only files you just made in home. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+
+<h2>What this is not</h2>
+<p>This is not line numbers. That is <a href="leftover-box-nl">number lines</a>. It is not a whole dump without wrap. That is <a href="leftover-box-cat">read a file without opening the editor</a>. It is not one screen at a time. That is <a href="leftover-box-less">read a file one screen at a time</a>.</p>
+
+<h2>What next</h2>
+<p>Need line numbers first? <a href="leftover-box-nl">Number lines</a>. Need columns joined? <a href="leftover-box-paste">Join columns side by side</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip <span><code>fold</code></span> over files you care about, paths under <span><code>/etc</code></span>, and SSH settings. Practice only in home.</li>
+<li>Skip <span><code>sed</code></span>, <span><code>awk</code></span>, <span><code>xargs</code></span>, <span><code>fmt</code></span>, and huge logs tonight. Fold by itself is enough for first wrap.</li>
+<li>Skip <span><code>fold</code></span> piped into <span><code>rm</code></span>. Practice tools that print, then peek with <span><code>cat</code></span>.</li>
+<li>Skip SSH settings, <span><code>/etc/shadow</code></span>, and anything under <span><code>/etc/ssh</code></span>.</li>
+<li>Skip opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.gnu.org/software/coreutils/manual/html_node/fold-invocation.html">GNU coreutils: fold invocation</a>. <a href="https://manpages.debian.org/bookworm/coreutils/fold.1.en.html">Debian: fold</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/fold.1.html">Ubuntu: fold</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For line numbers, see <a href="leftover-box-nl">number lines</a>. For a whole dump, see <a href="leftover-box-cat">read a file without opening the editor</a>. For one screen, see <a href="leftover-box-less">read a file one screen at a time</a>.</p>
+</section>
+
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-nl"><span class="t">Number lines</span><span class="d">After SSH works, nl numbers lines of a file so a practice list is easier to scan. You don't need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-cat"><span class="t">Read a file without opening the editor</span><span class="d">After SSH works, print a file with cat so you can read it without opening nano. Short files only. You don't need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-less"><span class="t">Read a file one screen at a time</span><span class="d">After SSH works, open a file with less so a long file does not flood the window. Space turns the page. q leaves. You don't need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-head"><span class="t">See the start of a file</span><span class="d">After SSH works, print the first lines of a file with head so a long file does not flood the window. You don't need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-tail"><span class="t">See the end of a file</span><span class="d">After SSH works, print the last lines of a file with tail so a long file does not flood the window. You don't need a log viewer app for this.</span></a>
+<a class="note-row" href="leftover-box-wc"><span class="t">See how long a file is</span><span class="d">After SSH works, count lines with wc so you know if a dump will flood the window. You don't need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-cut"><span class="t">Pull one column</span><span class="d">After SSH works, pull one column with cut so a mixed line is easier to scan. You don't need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-nl"><span class="kicker">Previous</span><span class="t">Number lines</span></a>
+<a rel="next" href="leftover-box-curl"><span class="kicker">Next</span><span class="t">Download a file onto the computer</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

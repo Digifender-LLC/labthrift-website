@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Let the computer apply weekly fixes without you — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After the weekly two-command habit is boring, you can let the computer apply those same fixes by itself. Skip this until that habit is boring. Don't let it reboot on its own.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Let the computer apply weekly fixes without you — Labthrift">
+<meta property="og:description" content="After the weekly two-command habit is boring, you can let the computer apply those same fixes by itself. Skip this until that habit is boring. Don't let it reboot on its own.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-unattended">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-unattended">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Let the computer apply weekly fixes without you","description":"After the weekly two-command habit is boring, you can let the computer apply those same fixes by itself. Skip this until that habit is boring. Don't let it reboot on its own.","url":"https://labthrift.com/guides/leftover-box-unattended","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-26"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Let the computer apply weekly fixes without you</span></nav>
+<p class="note">Written 26 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Let the computer apply weekly fixes without you</h1>
+<p class="deck">After the weekly two-command habit is boring, you can let the computer apply those same fixes by itself. Skip this until that habit is boring. Don't let it reboot on its own.</p>
+<p>unattended-upgrades is the computer applying the weekly fixes without you typing them. Same job as the weekly two commands. The computer does it in the background. A reboot is still yours.</p>
+
+<h2>Skip until the weekly habit is boring</h2>
+<p><a href="leftover-box-updates">Keep the computer updated</a> should already be boring. If you have not run <span><code>sudo apt update</code></span> then <span><code>sudo apt upgrade</code></span> a couple of weeks in a row, stop. Come back when that habit is dull. A timer will not help a computer you never patch.</p>
+
+<h2>What this changes</h2>
+<p>The computer applies the same fixes as <a href="leftover-box-updates">keep the computer updated</a>, in the background, while SSH and Pi-hole stay up. You still look once a week if you want. You still reboot when <a href="leftover-box-reboot-needed">see if a reboot is needed</a> says yes, or when a kernel line needs it. If the computer reboots itself at 3am, ads come back and SSH drops until it is up. Leave automatic reboot off.</p>
+
+<h2>Install the package</h2>
+<p>From your normal computer, <a href="first-ssh">SSH from the couch</a>. Then install the package:</p>
+<p><code>sudo apt install unattended-upgrades</code></p>
+<p>Turn it on so it actually runs:</p>
+<p><code>sudo dpkg-reconfigure --priority=low unattended-upgrades</code></p>
+<p>Choose Yes. That writes the small on switch. If reconfigure is missing, <span><code>sudo apt install apt-config-auto-update</code></span> is not the path. Stay on Debian or Ubuntu from <a href="what-os-to-pick">what OS to put on the computer</a>.</p>
+
+<h2>Keep automatic reboot off</h2>
+<p>Write a drop-in so you don't hunt comments. This is a small extra settings file, same idea as the SSH drop-in on <a href="leftover-box-ssh-no-password">turn off password login once the key works</a>.</p>
+<p><code>echo 'Unattended-Upgrade::Automatic-Reboot "false";' | sudo tee /etc/apt/apt.conf.d/99-labthrift-no-reboot</code></p>
+<p>The computer can apply the weekly fixes. It will not reboot itself at 3am.</p>
+
+<h2>Check it is on</h2>
+<p>Ask if the job is running:</p>
+<p><code>systemctl is-active unattended-upgrades</code></p>
+<p>It should say <span><code>active</code></span>. After a day, you can look quietly in <span><code>/var/log/unattended-upgrades/</code></span>. That folder is the log. You don't need a noisy test as the main path. If you want to watch it pretend, optional:</p>
+<p><code>sudo unattended-upgrade --dry-run --debug</code></p>
+<p>That prints a lot. Skip it unless something looks off.</p>
+
+<h2>Turn it off if you hate it</h2>
+<p>You can flip the same switch back. Choose No:</p>
+<p><code>sudo dpkg-reconfigure --priority=low unattended-upgrades</code></p>
+<p>Or stop it and keep it from starting:</p>
+<p><code>sudo systemctl stop unattended-upgrades</code></p>
+<p><code>sudo systemctl disable unattended-upgrades</code></p>
+<p>The weekly two commands in <a href="leftover-box-updates">keep the computer updated</a> are still enough.</p>
+
+<h2>What next</h2>
+<p>The honest weekly look is still <a href="leftover-box-updates">keep the computer updated</a>. After a reboot, confirm SSH, ads, and the share: <a href="leftover-box-after-reboot">after a reboot, check the computer still does its jobs</a>. If the computer clock is wrong, the job runs at the wrong hour: <a href="leftover-box-timezone">set the computer clock to your house</a>. If the firewall is not on yet, <a href="leftover-box-ufw">turn on a simple firewall without locking yourself out</a>. Skip fail2ban. Later is <a href="leftover-box-fail2ban">slow down password guesses on SSH</a>. Skip a NAS. Skip opening SSH to the internet.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip this note if weekly apt is still new.</li>
+<li>Skip automatic reboot.</li>
+<li>Skip fail2ban. Later is <a href="leftover-box-fail2ban">slow down password guesses on SSH</a>.</li>
+<li>Skip a new NAS, a new mini PC, and a new switch.</li>
+<li>Skip forwarding port 22 on the router.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/unattended-upgrades/unattended-upgrades.8.en.html">Debian: unattended-upgrades</a>. <a href="https://ubuntu.com/server/docs/how-to/software/automatic-updates/">Ubuntu Server: automatic updates</a>. Official pages only. For the weekly habit, see <a href="leftover-box-updates">keep the computer updated</a>. For the house clock, see <a href="leftover-box-timezone">set the computer clock to your house</a>. For the firewall, see <a href="leftover-box-ufw">turn on a simple firewall without locking yourself out</a>. For the login, see <a href="first-ssh">SSH from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="when-updates-wont-install"><span class="t">When weekly updates won't install</span><span class="d">apt says could not get lock, waiting for cache, or dpkg was interrupted. Wait out the other updater, free disk room, then finish the weekly fixes. You don't need a new mini PC.</span></a>
+<a class="note-row" href="leftover-box-reboot-needed"><span class="t">See if a reboot is needed</span><span class="d">After weekly updates, check whether a reboot is needed before you buy a monitoring box.</span></a>
+<a class="note-row" href="leftover-box-updates"><span class="t">Keep the computer updated</span><span class="d">Once a week, give the computer its fixes so SSH and Pi-hole are not sitting on last year's bugs. Skip this until next week if you just finished first weekend.</span></a>
+<a class="note-row" href="leftover-box-timezone"><span class="t">Set the computer clock to your house</span><span class="d">Logs, updates, and weekly backups only make sense if the computer uses your local time. timedatectl sets the city zone. It keeps the clock correct over the network.</span></a>
+<a class="note-row" href="leftover-box-ufw"><span class="t">Turn on a simple firewall without locking yourself out</span><span class="d">After SSH from the couch works, allow OpenSSH, then turn on ufw. The computer stays reachable. Surprise inbound ports don't.</span></a>
+<a class="note-row" href="leftover-box-fail2ban"><span class="t">Slow down password guesses on SSH</span><span class="d">After the firewall is on and key login is boring, you can let the computer briefly refuse an address that keeps guessing the password. Skip this on day one. Don't forward port 22.</span></a>
+<a class="note-row" href="leftover-box-shutdown"><span class="t">Turn the computer off from the couch</span><span class="d">When you're done for the night, shut it down and let it finish writing files before it powers off. Don't yank the cord. Skip this if you only need a reboot after updates.</span></a>
+<a class="note-row" href="leftover-box-after-reboot"><span class="t">After a reboot, check the computer still does its jobs</span><span class="d">The computer came back up. Confirm SSH, house ad block, and the file share still work before you buy anything.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-failed-guesses"><span class="kicker">Previous</span><span class="t">See if anyone guessed the password</span></a>
+<a rel="next" href="leftover-box-after-reboot"><span class="kicker">Next</span><span class="t">After a reboot, check the computer still does its jobs</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

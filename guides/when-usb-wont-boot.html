@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When the boot USB won't start — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="You flashed the stick and opened the boot menu, but the installer never appears. Try another port, the UEFI line, a reflash, then Secure Boot last. Skip a new mini PC tonight.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When the boot USB won't start — Labthrift">
+<meta property="og:description" content="You flashed the stick and opened the boot menu, but the installer never appears. Try another port, the UEFI line, a reflash, then Secure Boot last. Skip a new mini PC tonight.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-usb-wont-boot">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-usb-wont-boot">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When the boot USB won't start","description":"You flashed the stick and opened the boot menu, but the installer never appears. Try another port, the UEFI line, a reflash, then Secure Boot last. Skip a new mini PC tonight.","url":"https://labthrift.com/guides/when-usb-wont-boot","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-06"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When the boot USB won't start</span></nav>
+<p class="note">Written 6 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When the boot USB won't start</h1>
+<p class="deck">You flashed the stick and opened the boot menu, but the installer never appears. Try another port, the UEFI line, a reflash, then Secure Boot last. Skip a new mini PC tonight.</p>
+<p>Haven't written the stick yet? Start with <a href="make-boot-usb">make a boot USB for the install</a>. Need the brand keys (Dell F12, HP Esc then F9)? That happy path is <a href="boot-from-usb">boot the old PC from the USB stick</a>. Fans silent, no logo at all? Walk <a href="when-computer-wont-boot">when the old PC won't boot</a> first. This note is only the stuck case: the computer is alive, the stick should work, and Ubuntu or Debian still never shows its menu.</p>
+
+<h2>Skip until the stick is finished flashing</h2>
+<p>If Etcher or Rufus is still writing, wait. A half-written stick fails quietly. If you never opened a one-time boot menu, do that walk first. Don't buy a second stick before you try another port and a reflash of the same one.</p>
+
+<h2>What this is</h2>
+<p>Office PCs are picky about USB ports, UEFI vs Legacy entries, and half-flashed images. Secure Boot usually accepts official Ubuntu Server and Debian installers. Most "USB won't boot" nights are a wrong menu line, a rear USB 2 port, or a stick that needs one more flash — not a dead board.</p>
+
+<h2>Step 1: prove the computer is awake</h2>
+<p>Fans spin. A logo or text flashes. The keyboard lights respond. If none of that happens, this is not a USB problem yet — use <a href="when-computer-wont-boot">when the old PC won't boot</a>. You need a screen and a keyboard plugged into the old PC for every step below.</p>
+
+<h2>Step 2: open the boot menu again, pick UEFI USB</h2>
+<p>Power off. Leave the stick in. Power on and tap the brand key early (Dell often <span><code>F12</code></span>; HP <span><code>Esc</code></span> then <span><code>F9</code></span>; Lenovo <span><code>F12</code></span>). Full key chart: <a href="boot-from-usb">boot the old PC from the USB stick</a>.</p>
+<p>In the list, prefer a line that says <strong>UEFI</strong> and the stick brand (or <span><code>USB HDD</code></span> / <span><code>UEFI: …</code></span>). Skip the internal disk, PXE / IPv4 network boot, and a second empty USB. Arrow keys, Enter. Wait a full minute for the installer menu — some sticks are slow.</p>
+
+<h2>Step 3: if the stick is missing from the list</h2>
+<p>Power off. Move the stick to another port. On a desktop, try a USB 2 port on the back (often the black ones, not blue USB 3). Skip hubs and front-panel ports for this try. Plug straight into the board.</p>
+<p>Open Setup once (<span><code>Del</code></span> or <span><code>F2</code></span> on many boxes). Turn <strong>USB boot</strong> on if it is off. Turn <strong>Fast Boot</strong> / Quick Boot off for one try so the keyboard wakes early. Leave Secure Boot alone for now. Save and exit, then open the one-time boot menu again.</p>
+
+<h2>Step 4: if it boots Windows (or the old OS) anyway</h2>
+<p>You picked the internal disk, or the one-time menu never stuck. Power off. Unplug the stick, plug it back in, mash the boot key from the first second of power-on. Pick the UEFI USB line again. Don't change the permanent boot order yet — the one-time menu is enough for install night.</p>
+
+<h2>Step 5: reflash the stick</h2>
+<p>On your daily laptop, flash the same official ISO again with Etcher (or Rufus in DD mode if that is what you use). Walk: <a href="make-boot-usb">make a boot USB for the install</a>. Don't drag the <span><code>.iso</code></span> into a folder on the stick. Confirm Etcher finished with a success message.</p>
+<p>Still picking Debian vs Ubuntu Server? See <a href="what-os-to-pick">what OS to put on it</a>. Use the official download pages only — remix ISOs fail Secure Boot more often.</p>
+
+<h2>Step 6: Secure Boot and BitLocker only if you still need them</h2>
+<p>Official Ubuntu Server and current Debian installer images are signed for Secure Boot on most house PCs. If the screen says verification failed, or Secure Boot blocked the image, re-download from the official pages first. Turning Secure Boot off in Setup is a last resort for tonight, not the first move.</p>
+<p>If Marketplace Windows asks for a BitLocker recovery key, you are not unlocking their disk. Wipe the whole disk in the installer once the stick boots: <a href="wipe-marketplace-pc">wipe a Marketplace PC before you install</a>.</p>
+
+<h2>Step 7: one more stick, then stop</h2>
+<p>If a second known-good stick (or the same stick after a clean reflash) still never appears in the boot list on any rear port, write that down and stop for the night. Don't order a motherboard from one failed USB try. Come back with a second screen cable if the picture was flaky, or try the stick on another PC once to prove the flash.</p>
+
+<h2>What this is not</h2>
+<p>This is not the first-time boot-key walk (<a href="boot-from-usb">boot the old PC from the USB stick</a>). It is not a dead-box power check (<a href="when-computer-wont-boot">when the old PC won't boot</a>). It is not a reason to buy a new mini PC, a fancy "bootable" branded stick, or a KVM tonight. It is not dual-boot homework with leftover Marketplace Windows.</p>
+
+<h2>What next</h2>
+<p>Installer menu on screen? Keep going with <a href="first-weekend">your first weekend</a>. Marketplace disk still full of old Windows? Wipe during that install: <a href="wipe-marketplace-pc">wipe a Marketplace PC before you install</a>. Stick never written? <a href="make-boot-usb">Make a boot USB for the install</a>. Computer looks dead before the menu? <a href="when-computer-wont-boot">When the old PC won't boot</a>.</p>
+
+<p class="note">Optional: jot that the stick failed on this PC (port, UEFI line, Secure Boot on/off) in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip buying a new USB stick before another port and one reflash.</li>
+<li>Skip turning Secure Boot off before an official ISO gets a second try.</li>
+<li>Skip rewriting the permanent boot order when the one-time menu is enough.</li>
+<li>Skip buying a motherboard or a new N100 tonight from one failed stick.</li>
+<li>Skip dual-boot with leftover Marketplace Windows.</li>
+<li>Skip this if fans never spin. Use the won't-boot walk first.</li>
+<li>Skip this if you have not opened the one-time boot menu yet. Use the boot-from-USB walk first.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://ubuntu.com/tutorials/install-ubuntu-server">Ubuntu: install Ubuntu Server</a>. <a href="https://www.debian.org/releases/stable/amd64/ch03s06.en.html">Debian: booting the installer on amd64</a>. <a href="https://www.dell.com/support/kbdoc/en-us/000125184/how-to-use-the-one-time-boot-menu-on-a-dell-pc">Dell: one-time boot menu</a>. <a href="https://etcher.balena.io/">balenaEtcher</a>. Official pages only. For the flash step, see <a href="make-boot-usb">make a boot USB for the install</a>. For the boot keys, see <a href="boot-from-usb">boot the old PC from the USB stick</a>. For a dead box, see <a href="when-computer-wont-boot">when the old PC won't boot</a>. For a Marketplace wipe, see <a href="wipe-marketplace-pc">wipe a Marketplace PC before you install</a>. For the weekend install, see <a href="first-weekend">your first weekend</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="boot-from-usb"><span class="t">Boot the old PC from the USB stick</span><span class="d">Plug in the installer stick, open the one-time boot menu, and pick the USB. Dell F12, HP Esc then F9, Lenovo F12. Don't dig through every BIOS screen tonight.</span></a>
+<a class="note-row" href="make-boot-usb"><span class="t">Make a boot USB for the install</span><span class="d">Write Ubuntu Server or Debian onto a USB stick so the old PC can boot the installer. Use Etcher or Rufus. Don't drag the ISO into a folder.</span></a>
+<a class="note-row" href="when-computer-wont-boot"><span class="t">When the old PC won't boot</span><span class="d">No fans, black screen, or stuck on the logo. Check power, the monitor, a hard power cycle, then try the installer USB before you buy a new board.</span></a>
+<a class="note-row" href="wipe-marketplace-pc"><span class="t">Wipe a Marketplace PC before you install</span><span class="d">A used OptiPlex may still have the last owner's Windows and logins. Wipe the disk with the installer before you plug it into the house network.</span></a>
+<a class="note-row" href="first-weekend"><span class="t">Your first weekend</span><span class="d">Install the OS, name it, and reach it from the couch. Don't buy anything this weekend.</span></a>
+<a class="note-row" href="what-os-to-pick"><span class="t">What OS to put on it</span><span class="d">Debian or Ubuntu Server if you can dedicate the old PC. Leave Windows if you still use the laptop as a laptop.</span></a>
+<a class="note-row" href="when-login-password-fails"><span class="t">When you forgot the computer's login password</span><span class="d">SSH and the keyboard both reject the password. Boot recovery or the installer USB, remount the disk, set a new one. Skip wiping the whole PC if the files are fine.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="boot-from-usb"><span class="kicker">Previous</span><span class="t">Boot the old PC from the USB stick</span></a>
+<a rel="next" href="first-weekend"><span class="kicker">Next</span><span class="t">Your first weekend</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

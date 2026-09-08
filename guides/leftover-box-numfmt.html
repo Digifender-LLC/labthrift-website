@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Make sizes readable with numfmt — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After du or disk-space (or any big byte count), use numfmt so a huge number becomes something like 1.4G that a first-timer can read. You don't need extra software beyond coreutils.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Make sizes readable with numfmt — Labthrift">
+<meta property="og:description" content="After du or disk-space (or any big byte count), use numfmt so a huge number becomes something like 1.4G that a first-timer can read. You don't need extra software beyond coreutils.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-numfmt">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-numfmt">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Make sizes readable with numfmt","description":"After du or disk-space (or any big byte count), use numfmt so a huge number becomes something like 1.4G that a first-timer can read. You don't need extra software beyond coreutils.","url":"https://labthrift.com/guides/leftover-box-numfmt","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-01"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"Faster network","item":"https://labthrift.com/guides/#switches"},{"@type":"ListItem","position":3,"name":"Make sizes readable with numfmt"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Make sizes readable with numfmt</span></nav>
+<p class="note">Written 1 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>Make sizes readable with numfmt</h1>
+<p class="deck">After <span><code>du</code></span> or disk-space (or any big byte count), use <span><code>numfmt</code></span> so a huge number becomes something like <span><code>1.4G</code></span> that a first-timer can read. You don't need extra software beyond coreutils.</p>
+<p><a href="leftover-box-du">See how big one folder is</a> already gives you a size for one path. <a href="leftover-box-disk-space">See if the computer still has room</a> shows how full the whole disk is. <a href="leftover-box-largest-folders">See which folders are eating the disk</a> ranks the heavy folders. Tonight you take a raw byte count and make it human. <span><code>numfmt</code></span> reformats numbers. It does not measure the disk. That is still <span><code>du</code></span> or <span><code>df</code></span>. You are still only practicing in home. It does not need a NAS, Grafana, or a disk-space app for this one job.</p>
+
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If you only need one folder&apos;s size with a friendly unit already, that is <a href="leftover-box-du">see how big one folder is</a> (<span><code>du -sh</code></span>). If you only need whole-disk room left, that is <a href="leftover-box-disk-space">see if the computer still has room</a>. If you only need which folders eat the disk, that is <a href="leftover-box-largest-folders">see which folders are eating the disk</a>. Skip this whole note if you only need a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</p>
+
+<h2>What this is</h2>
+<p><span><code>numfmt</code></span> reformats numbers so humans can read them. Tonight that means: you hand it a big byte count, and it prints something like <span><code>1.4G</code></span>. <span><code>--to=iec</code></span> uses binary-ish units people expect on disks (powers of 1024: K, M, G). Optional <span><code>--to=si</code></span> uses powers of 1000 instead. Optional <span><code>--field=</code></span> picks a column when the line has more than one number. It does not measure disk itself. It does not rewrite files. It does not decide which folder is biggest. Those jobs already have their own notes.</p>
+
+<h2>Practice numfmt in home</h2>
+<p>SSH in. Make sure home is where you are sitting:</p>
+<p><code>pwd</code></p>
+<p>You want a path that ends in your login name. If not:</p>
+<p><code>cd ~</code></p>
+<p>Standalone (tonight's job). Paste a big byte count:</p>
+<p><code>numfmt --to=iec 1500000000</code></p>
+<p>You want something like <span><code>1.4G</code></span>, then the prompt back. That is enough for tonight: a huge number became readable.</p>
+<p>Optional SI units (powers of 1000):</p>
+<p><code>numfmt --to=si 1500000000</code></p>
+<p>You may see <span><code>1.5G</code></span> instead. Fine. Don't make unit school the whole lesson. IEC is the usual habit for disk sizes.</p>
+<p>Optional with <span><code>du</code></span> bytes (gentle - home only). On Debian and Ubuntu this works:</p>
+<p><code>du -sb ~ | numfmt --to=iec --field=1</code></p>
+<p>If the computer doesn&apos;t like <span><code>-sb</code></span>, the same idea with an explicit block size:</p>
+<p><code>du -s --block-size=1 ~ | numfmt --to=iec --field=1</code></p>
+<p>Or skip piping entirely and paste a number like the standalone line above. Keep it gentle. Don't make a whole-disk inventory tonight&apos;s job.</p>
+<p>Optional from a tiny file of numbers:</p>
+<p><code>printf &apos;1024\n1048576\n&apos; &gt; ~/numfmt-a.txt</code></p>
+<p>Then:</p>
+<p><code>numfmt --to=iec &lt; ~/numfmt-a.txt</code></p>
+<p>You want lines like <span><code>1.0K</code></span> and <span><code>1.0M</code></span>, then the prompt back.</p>
+<p>Debian and Ubuntu already ship <span><code>numfmt</code></span> in coreutils. Don't make apt the lesson. No install page tonight.</p>
+<p>When you are done practicing:</p>
+<p><code>rm -i ~/numfmt-a.txt</code></p>
+<p>Ask first. Say yes only if the name matches. That careful delete is <a href="leftover-box-rm">delete a file carefully</a>. Skip <span><code>rm -rf</code></span>.</p>
+
+<h2>Useful extras, still home-safe</h2>
+<p>Skip rewriting disks, wiping USB sticks, or using <span><code>numfmt</code></span> as a reason to buy a NAS. Tonight: readable numbers in home.</p>
+<p>Skip piping <span><code>numfmt</code></span> into <span><code>rm</code></span>. Numfmt reformats. Rm deletes. Don't mix those jobs.</p>
+<p>Skip huge whole-disk inventories as the job. Measuring one folder is <a href="leftover-box-du">du</a>. Whole-disk room is <a href="leftover-box-disk-space">disk-space</a>. Ranking heavy folders is <a href="leftover-box-largest-folders">largest-folders</a>.</p>
+<p>Skip <span><code>awk</code></span>, <span><code>sed</code></span>, and install as new pages this cycle. Printable text without a full dump stays on <a href="leftover-box-strings">strings</a>. A full byte peek stays on <a href="leftover-box-od">od</a>.</p>
+<p>Skip <span><code>dd</code></span>, <span><code>shred</code></span>, <span><code>screen</code></span>, <span><code>tmux</code></span>, port 22 forwarding, apt as the lesson, htop, Grafana, and a NAS. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+
+<h2>What this is not</h2>
+<p>This is not <span><code>du</code></span>. That measures one path: <a href="leftover-box-du">see how big one folder is</a>. It is not disk-space (<span><code>df</code></span>). That shows whole-disk room: <a href="leftover-box-disk-space">see if the computer still has room</a>. It is not <span><code>disk</code></span>. That is how big the disk already is: <a href="leftover-box-disk">see how big the disk already is</a>. It is not largest-folders. That ranks heavy folders: <a href="leftover-box-largest-folders">see which folders are eating the disk</a>. It is not <span><code>strings</code></span>. That shows printable text: <a href="leftover-box-strings">see printable text with strings</a>. It is not <span><code>od</code></span>. That peeks at bytes: <a href="leftover-box-od">peek at file bytes</a>. It is not <span><code>rm</code></span>. That removes the name: <a href="leftover-box-rm">delete a file carefully</a>. It is not <span><code>awk</code></span> or <span><code>sed</code></span> as tonight&apos;s job. It is not an install page. It is not opening SSH to the internet so you can reformat sizes from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+
+<h2>What next</h2>
+<p>Need one folder&apos;s size first? <a href="leftover-box-du">See how big one folder is</a>. Need whole-disk room left? <a href="leftover-box-disk-space">See if the computer still has room</a>. Need which disks and USB sticks are attached? <a href="leftover-box-lsblk">See disks and USB sticks</a>. Need which folders eat the disk? <a href="leftover-box-largest-folders">See which folders are eating the disk</a>. Need printable text without a full dump? <a href="leftover-box-strings">See printable text with strings</a>. Need a full byte peek? <a href="leftover-box-od">Peek at file bytes</a>. Need the throwaway gone? <a href="leftover-box-rm">Delete a file carefully</a>. When key login is boring on every computer you use, <a href="leftover-box-ssh-no-password">turn off password login once the key works</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip <span><code>du</code></span>, disk-space, or largest-folders as tonight&apos;s job if you only came to reformat a number. Those notes already exist.</li>
+<li>Skip rewriting disks, piping <span><code>numfmt</code></span> into <span><code>rm</code></span>, and using numfmt as an excuse to buy a NAS.</li>
+<li>Skip huge whole-disk inventories as the job. Home practice only.</li>
+<li>Skip <span><code>awk</code></span>/<span><code>sed</code></span>/install as new pages this cycle, <span><code>dd</code></span>/<span><code>shred</code></span>, <span><code>screen</code></span>, <span><code>tmux</code></span>, apt as the lesson, htop, Grafana, and a NAS.</li>
+<li>Skip <span><code>rm -rf</code></span>. Careful delete only: <a href="leftover-box-rm">delete a file carefully</a>.</li>
+<li>Skip opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+</ul>
+
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/coreutils/numfmt.1.en.html">Debian: numfmt(1)</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/numfmt.1.html">Ubuntu: numfmt(1)</a>. <a href="https://www.gnu.org/software/coreutils/manual/html_node/numfmt-invocation.html">GNU coreutils: numfmt</a>. Official pages only. For one folder&apos;s size, see <a href="leftover-box-du">see how big one folder is</a>. For whole-disk room, see <a href="leftover-box-disk-space">see if the computer still has room</a>. For ranking folders, see <a href="leftover-box-largest-folders">see which folders are eating the disk</a>. For a careful delete, see <a href="leftover-box-rm">delete a file carefully</a>. For the login, see <a href="first-ssh">SSH from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-du"><span class="t">See how big one folder is</span><span class="d">After SSH works, check how big one folder is with du so you know before you copy or delete. You don't need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">Before you buy a bigger drive, check free space on the computer with df.</span></a>
+<a class="note-row" href="leftover-box-largest-folders"><span class="t">See which folders are eating the disk</span><span class="d">Before you buy a bigger drive or a NAS, ask which folders are taking the room.</span></a>
+<a class="note-row" href="leftover-box-disk"><span class="t">See how big the disk already is</span><span class="d">Before you buy a tiny computer or a NAS, check how big the disk already is.</span></a>
+<a class="note-row" href="leftover-box-strings"><span class="t">See printable text with strings</span><span class="d">After od (or after writing a practice file), use strings so you see readable text without dumping every byte. You don't need extra software beyond binutils.</span></a>
+<a class="note-row" href="leftover-box-od"><span class="t">Peek at file bytes</span><span class="d">After sync (or after writing a practice file), peek with od so you see the characters and bytes that are actually on disk. You don't need extra software beyond coreutils.</span></a>
+<a class="note-row" href="leftover-box-rm"><span class="t">Delete a file carefully</span><span class="d">After SSH works, delete one file with rm -i. Ask first. Skip rm -rf. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-du"><span class="kicker">Previous</span><span class="t">See how big one folder is</span></a>
+<a rel="next" href="leftover-box-disk-space"><span class="kicker">Next</span><span class="t">See if the computer still has room</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

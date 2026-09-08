@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Don't let the old laptop sleep — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Close the lid. The old laptop has to stay awake so SSH and Pi-hole keep working. A desktop can skip this note.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Don't let the old laptop sleep — Labthrift">
+<meta property="og:description" content="Close the lid. The old laptop has to stay awake so SSH and Pi-hole keep working. A desktop can skip this note.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-sleep">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-sleep">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Don't let the old laptop sleep","description":"Close the lid. The old laptop has to stay awake so SSH and Pi-hole keep working. A desktop can skip this note.","url":"https://labthrift.com/guides/leftover-box-sleep","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-24"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">Don't let the old laptop sleep</span></nav>
+<p class="note">Written 24 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Don't let the old laptop sleep</h1>
+<p class="deck">Close the lid. The old laptop has to stay awake so SSH and Pi-hole keep working. A desktop can skip this note.</p>
+<p>The old laptop goes dark, and the house stops seeing it. You close the lid to tuck it away. A minute later you cannot type on it from the couch. Pi-hole stops answering names. It is not off. It is asleep.</p>
+
+<h2>Why it sleeps</h2>
+<p>Sleep is a pause, not a shutdown. The machine is still on, but it has stopped doing work. The lid is the flap over the screen. Closing it is the usual signal to sleep. Sitting idle with no keyboard can do the same. SSH, a way to type commands on it from your normal computer, over the house network, dies while it sleeps. Pi-hole dies too. The house looks for names, and nobody is home.</p>
+
+<h2>Skip this if the computer is a desktop</h2>
+<p>An OptiPlex, EliteDesk, or mini PC already stays on. There is no lid to close. Skip this note. Come back only if it still sleeps on its own.</p>
+
+<h2>Keep the lid shut without sleeping</h2>
+<p>This is for Debian or Ubuntu, the OS from <a href="what-os-to-pick">what OS to put on the computer</a>, on an old laptop that is now the lab. A server install has no settings app. A few commands tell Linux to ignore the lid. Ignoring the lid means closing it does not sleep the machine.</p>
+<p>Make a folder for a small extra config file:</p>
+<p><code>sudo mkdir -p /etc/systemd/logind.conf.d</code></p>
+<p>Then write a drop-in that ignores the lid, on power or docked:</p>
+<p><code>sudo tee /etc/systemd/logind.conf.d/lid.conf &lt;&lt;'EOF'
+[Login]
+HandleLidSwitch=ignore
+HandleLidSwitchExternalPower=ignore
+HandleLidSwitchDocked=ignore
+EOF</code></p>
+<p>Reload the service that watches the lid:</p>
+<p><code>sudo systemctl restart systemd-logind</code></p>
+
+<h2>Stop idle sleep</h2>
+<p>A server install often has this off already. If you used a laptop image, idle sleep can still kick in after a stretch with no keyboard. Turn suspend off:</p>
+<p><code>sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target</code></p>
+<p>That is one command. It is enough.</p>
+
+<h2>Leave it plugged in</h2>
+<p>Leave the charger in the wall. Closing the lid is fine once sleep is ignored. Don't bury the laptop under a sweater. Heat needs somewhere to go. Under a desk, on a shelf, with a little air, is enough. To confirm the old laptop is actually drawing wall power, see <a href="leftover-box-plugged-in">see if the old laptop is actually plugged in</a>.</p>
+
+<h2>Check it worked</h2>
+<p>Close the lid. Wait a minute. <a href="first-ssh">SSH from the couch</a> should still work, with the number from <a href="find-the-leftover-box">find the computer on the house network</a>. If it times out, it slept. Run the lid commands again, and confirm it is still plugged in.</p>
+
+<h2>What next</h2>
+<p>If it does not have a useful job yet, put Pi-hole on it. That is <a href="first-useful-service">the first useful thing on the computer</a>. If ads already skip, a second copy of the house folder is <a href="first-backup">a backup of the house folder</a>. If the laptop is still on house Wi-Fi, plug a cable: <a href="leftover-box-ethernet">a cable beats Wi-Fi for the computer</a>. If the radio flaps while it stays awake, that is <a href="when-wifi-keeps-dropping">when house Wi-Fi on the old PC keeps dropping</a>. If you tucked it under a sweater or into a closed cabinet, give it air: <a href="leftover-box-heat">don't cook the computer</a>. Confirm the old laptop is on wall power: <a href="leftover-box-plugged-in">see if the old laptop is actually plugged in</a>. If you shut a desktop down on purpose and want it back from the couch, that is <a href="wake-on-lan">wake the computer from the house network</a>. Don't buy a NAS for this.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip this note if the computer is a desktop or a mini PC.</li>
+<li>Skip a dummy HDMI plug as the first fix. The lid is the problem, not a missing screen.</li>
+<li>Skip buying a new mini PC because the laptop slept.</li>
+<li>Skip a cooling pad.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/systemd/logind.conf.5.en.html">Debian: logind.conf</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man5/logind.conf.5.html">Ubuntu: logind.conf</a>. Official pages only. For the computer, see <a href="start-with-what-you-have">start with what you already have</a>. For the OS, see <a href="what-os-to-pick">what OS to put on the computer</a>. For the install, see <a href="first-weekend">your first weekend</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="wake-on-lan"><span class="t">Wake the computer from the house network</span><span class="d">Soft-off is fine overnight. Wake the old PC from a laptop or phone on the house network so SSH and Pi-hole come back. You don't need a smart plug for this.</span></a>
+<a class="note-row" href="leftover-box-plugged-in"><span class="t">See if the old laptop is actually plugged in</span><span class="d">Before you trust the old laptop overnight, confirm it is drawing wall power. A dying battery is not a reason to buy a UPS.</span></a>
+<a class="note-row" href="when-wifi-keeps-dropping"><span class="t">When house Wi-Fi on the old PC keeps dropping</span><span class="d">SSH dies or ads come back because the computer's Wi-Fi keeps falling off. Check power save, signal, then prefer a cable. You don't need a mesh kit tonight.</span></a>
+<a class="note-row" href="start-with-what-you-have"><span class="t">Start with what you already have</span><span class="d">Don't buy anything yet. Old laptop first, or a retired OptiPlex from Marketplace.</span></a>
+<a class="note-row" href="first-weekend"><span class="t">Your first weekend with the computer</span><span class="d">Install the OS, name it, and reach it from the couch.</span></a>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="find-the-leftover-box"><span class="t">Find the computer on the house network</span><span class="d">The computer has a number on your house network. You need that number to SSH from the couch. You don't need a new router.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="first-weekend"><span class="kicker">Previous</span><span class="t">Your first weekend with the computer</span></a>
+<a rel="next" href="first-ssh"><span class="kicker">Next</span><span class="t">SSH from the couch</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

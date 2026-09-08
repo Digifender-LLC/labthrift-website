@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Download a file onto the computer — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After SSH works, pull one file from a web address with curl so the computer has the file without a USB stick. You don't need a browser on the computer for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Download a file onto the computer — Labthrift">
+<meta property="og:description" content="After SSH works, pull one file from a web address with curl so the computer has the file without a USB stick. You don't need a browser on the computer for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-curl">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-curl">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Download a file onto the computer","description":"After SSH works, pull one file from a web address with curl so the computer has the file without a USB stick. You don't need a browser on the computer for this.","url":"https://labthrift.com/guides/leftover-box-curl","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-30"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"Faster network","item":"https://labthrift.com/guides/#switches"},{"@type":"ListItem","position":3,"name":"Download a file onto the computer"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Download a file onto the computer</span></nav>
+<p class="note">Written 30 Aug 2026. This is a how-to, not a product card.</p>
+<h1>Download a file onto the computer</h1>
+<p class="deck">After SSH works, pull one file from a web address with <span><code>curl</code></span> so the computer has the file without a USB stick. You don&apos;t need a browser on it for this.</p>
+<p><a href="leftover-box-fold">Wrap long lines</a> kept long lines readable in the window. Tonight you pull one file from a web address onto the computer. <span><code>curl</code></span> does that. You pick a save path in home and a URL. It fetches the file. You are still only practicing. It does not need a desktop browser, a USB stick, or a new mini PC for this one job.</p>
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If the computer cannot reach past the house router yet, finish <a href="leftover-box-internet">check that the computer can reach the internet</a> first. If you only need a file from your laptop, that is <a href="leftover-box-scp">copy a file to the computer from your laptop</a>. If you only need long lines wrapped, that is <a href="leftover-box-fold">wrap long lines</a>. If you only need line numbers, that is <a href="leftover-box-nl">number lines</a>. Skip this whole note if you only need a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</p>
+<h2>What this is</h2>
+<p><span><code>curl</code></span> means pull bytes from a web address. You type <span><code>curl</code></span>, a save flag, a path in home, then a URL that starts with <span><code>https://</code></span>. <span><code>-o</code></span> means save as this name. <span><code>-O</code></span> is optional keep the name from the URL. <span><code>-L</code></span> is optional follow a redirect. <span><code>-I</code></span> is optional headers only, no file body. It writes the file in home. It does not open a browser. It is not a copy from your laptop. That is <a href="leftover-box-scp">copy a file to the computer from your laptop</a>. It is not a ping past the router. That is <a href="leftover-box-internet">check that the computer can reach the internet</a>. It is not wrapping long lines. That is <a href="leftover-box-fold">wrap long lines</a>. It is not piping a download into a shell. Skip that tonight.</p>
+<h2>Download one practice file into home</h2>
+<p>SSH in. Make sure home is where you sit:</p>
+<p><code>pwd</code></p><p>You want a path that ends in your login name. Now pull one small practice page:</p>
+<p><code>curl -o ~/example.html https://example.com</code></p><p><span><code>-o ~/example.html</code></span> is the save path. <span><code>https://example.com</code></span> is a boring public page used for practice. You want a short progress line, then a quiet prompt again. Peek:</p>
+<p><code>ls -lh ~/example.html</code></p><p>You want a small file size, not zero bytes. Short dump:</p>
+<p><code>head -n 5 ~/example.html</code></p><p>You want HTML words about Example Domain. That is the whole first-night trick: one file from a URL, saved in home, no USB stick.</p>
+<p>Need the filename from the URL instead of picking one?</p>
+<p><code>curl -O https://example.com/index.html</code></p><p><span><code>-O</code></span> keeps <span><code>index.html</code></span> as the name in the folder you are sitting in. Prefer <span><code>-o ~/name</code></span> tonight so you choose the path.</p>
+<p>Need to follow a redirect when a site moves the file?</p>
+<p><code>curl -L -o ~/example.html https://example.com</code></p><p><span><code>-L</code></span> is optional. Plain <span><code>curl -o</code></span> is enough when the URL already lands on the file.</p>
+<h2>Useful extras, still looking only</h2>
+<p>Need headers only, no body saved?</p>
+<p><code>curl -I https://example.com</code></p><p>You want lines like HTTP status and content type. That check does not rewrite home.</p>
+<p>Skip <span><code>curl … | bash</code></span> tonight. A download into a shell is how people run installers they have not read. Tonight you only save a file you can open with <span><code>head</code></span> or <a href="leftover-box-less">less</a>.</p>
+<p>Skip <span><code>wget</code></span> as tonight&apos;s lesson. Some computers have it. Tonight&apos;s tool is <span><code>curl</code></span>.</p>
+<p>Skip <span><code>-k</code></span> (skip certificate checks) and huge OS images tonight. Practice one small page first.</p>
+<p>If it says command not found for <span><code>curl</code></span>, install it, then try again:</p>
+<p><code>sudo apt install curl</code></p><p>Debian and Ubuntu Server usually already have it. That install is not a reason to buy a browser for the computer.</p>
+<p>When you are done looking, throw away the practice file:</p>
+<p><code>rm ~/example.html</code></p><p>Careful delete only. That is <a href="leftover-box-rm">delete a file carefully</a>. If you also made <span><code>index.html</code></span> with <span><code>-O</code></span>, delete that one the same way.</p>
+<h2>What this is not</h2>
+<p>This is not a copy from your laptop. That is <a href="leftover-box-scp">copy a file to the computer from your laptop</a>. It is not a ping past the house router. That is <a href="leftover-box-internet">check that the computer can reach the internet</a>. It is not wrapping long lines. That is <a href="leftover-box-fold">wrap long lines</a>. It is not line numbers. That is <a href="leftover-box-nl">number lines</a>. It is not a short dump of a file you already have. That is <a href="leftover-box-cat">read a file without opening the editor</a>. It is not one screen at a time. That is <a href="leftover-box-less">read a file one screen at a time</a>. It is not first lines. That is <a href="leftover-box-head">see the start of a file</a>. It is not a quiet save of command print. That is <a href="leftover-box-redirect">save output to a file</a>. It is not a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>. It is not opening SSH to the internet so you can download from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>.</p>
+<h2>What next</h2>
+<p>Need to check the file fingerprint after the download? <a href="leftover-box-sha256sum">Check a file fingerprint</a>. Need a file from your laptop instead? <a href="leftover-box-scp">Copy a file to the computer from your laptop</a>. Need to prove the computer can reach past the router first? <a href="leftover-box-internet">Check that the computer can reach the internet</a>. Need a short dump of the file you just pulled? <a href="leftover-box-cat">Read a file without opening the editor</a>. Need one screen at a time? <a href="leftover-box-less">Read a file one screen at a time</a>. Need the throwaway gone for real? <a href="leftover-box-rm">Delete a file carefully</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip if internet checks still fail. Finish <a href="leftover-box-internet">check that the computer can reach the internet</a> first.</li>
+<li>Skip <span><code>curl … | bash</code></span>, random installer URLs, and files you have not peeked at. Practice save with <span><code>-o</code></span>, then peek with <span><code>head</code></span> or <span><code>less</code></span>.</li>
+<li>Skip <span><code>-k</code></span>, huge OS images, FTP tonight, and uploads with <span><code>-T</code></span>. One small download is enough.</li>
+<li>Skip saving into <span><code>/etc</code></span>, SSH folders, or paths you don't own. Practice only in home.</li>
+<li>Skip opening SSH to the internet so you can download files from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://curl.se/docs/manpage.html">curl: man page</a>. <a href="https://manpages.debian.org/bookworm/curl/curl.1.en.html">Debian: curl</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/curl.1.html">Ubuntu: curl</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For internet reachability, see <a href="leftover-box-internet">check that the computer can reach the internet</a>. For a file from your laptop, see <a href="leftover-box-scp">copy a file to the computer from your laptop</a>. For wrap, see <a href="leftover-box-fold">wrap long lines</a>. For line numbers, see <a href="leftover-box-nl">number lines</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-internet"><span class="t">Check that the computer can reach the internet</span><span class="d">Before you blame the computer or buy a mesh kit, ping a number past the house router.</span></a>
+<a class="note-row" href="leftover-box-scp"><span class="t">Copy a file to the computer from your laptop</span><span class="d">After SSH works, use scp to move one file without a USB stick. You don&apos;t need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-fold"><span class="t">Wrap long lines</span><span class="d">After SSH works, wrap long lines with fold. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-nl"><span class="t">Number lines</span><span class="d">After SSH works, nl numbers lines so a long file is easier to point at. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-cat"><span class="t">Read a file without opening the editor</span><span class="d">After SSH works, print a file with cat so you can read it without opening nano. Short files only. You don&apos;t need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-less"><span class="t">Read a file one screen at a time</span><span class="d">After SSH works, open a file with less so a long file does not flood the window. Space turns the page. q leaves. You don&apos;t need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-head"><span class="t">See the start of a file</span><span class="d">After SSH works, print the first lines of a file with head so a long file does not flood the window. You don&apos;t need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-fold"><span class="kicker">Previous</span><span class="t">Wrap long lines</span></a>
+<a rel="next" href="leftover-box-sha256sum"><span class="kicker">Next</span><span class="t">Check a file fingerprint</span></a>
+</nav>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

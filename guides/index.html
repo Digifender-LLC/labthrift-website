@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>All notes — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="All Labthrift notes, grouped by topic. Start with gear you already have. New-in-store products when you actually need them.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="All notes — Labthrift">
+<meta property="og:description" content="All Labthrift notes, grouped by topic. Start with gear you already have. New-in-store products when you actually need them.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:url" content="https://labthrift.com/guides/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "CollectionPage",
+ "name": "All notes — Labthrift",
+ "url": "https://labthrift.com/guides/",
+ "numberOfItems": 355
+}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<p class="note">Updated 7 Sep 2026. Start with gear you already have. The buy notes are for later.</p>
+
+<h1>All notes</h1>
+<p class="deck">396 notes, grouped by topic. Start with gear you already have. New-in-store products when you actually need them.</p>
+<div class="index-tools">
+<p class="jump">Topics</p>
+<nav class="lanes" aria-label="Lanes">
+ <a href="#start">Getting started <span class="n">111</span></a>
+ <a href="#switches">Faster network <span class="n">142</span></a>
+ <a href="#mini-pcs">Small computers <span class="n">29</span></a>
+ <a href="#first-nas">File storage <span class="n">77</span></a>
+ <a href="#cheap-poe">Better Wi-Fi <span class="n">41</span></a>
+ <a href="#used-vs-new">Used or new <span class="n">21</span></a>
+ <a href="#closet-adjacent">Closet extras <span class="n">21</span></a>
+ <a href="#mini-rack">Skinny wall racks <span class="n">15</span></a>
+</nav>
+<div class="filter-wrap">
+<div class="filter-head">
+<label for="q">Find a note</label>
+<span class="filter-count" id="note-count" aria-live="polite">396 notes</span>
+</div>
+<input class="filter" id="q" type="search" placeholder="Search titles or a short description…" autocomplete="off">
+</div>
+</div>
+
+<h2 id="start"><a href="#start">Getting started</a></h2>
+<p class="path-lead">Read these in order. Old PC first. Buying is later.</p>
+<div class="note-list">
+<a class="note-row" href="start-with-what-you-have"><span class="t">Start with what you already have</span><span class="d">Don't buy anything yet. Old laptop first, or a retired OptiPlex from Marketplace.</span></a>
+<a class="note-row" href="what-os-to-pick"><span class="t">What OS to put on it</span><span class="d">Debian or Ubuntu Server if you can dedicate the old PC. Leave Windows if you still use the laptop.</span></a>
+<a class="note-row" href="first-weekend"><span class="t">Your first weekend</span><span class="d">Install the OS, name it, and reach it from the couch. Don't buy anything this weekend.</span></a>
+<a class="note-row" href="find-the-leftover-box"><span class="t">Find it on the house network</span><span class="d">The computer has a number on your house network. You need that number to SSH from the couch. You don't need a new router.</span></a>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the old PC from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="first-useful-service"><span class="t">The first useful thing</span><span class="d">Put a house-wide ad block on the old PC. The rest of the house keeps using the internet as usual. You don't need a Raspberry Pi.</span></a>
+<a class="note-row" href="first-file-share"><span class="t">A file share</span><span class="d">A folder on the old PC that the house can open from a laptop or a phone. You don't need a NAS for this.</span></a>
+<a class="note-row" href="first-backup"><span class="t">A backup of the house folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another old computer. You don't need a NAS for this.</span></a>
+<a class="note-row" href="what-is-a-vm"><span class="t">What a VM is, and when you don't need one</span><span class="d">A pretend computer inside the old PC. Useful later, when you want to try something without breaking Pi-hole. You don't need one this weekend.</span></a>
+</div>
+<p>Also useful, after the path.</p>
+<div class="note-list">
+<a class="note-row" href="leftover-box-sleep"><span class="t">Don't let the laptop sleep</span><span class="d">Close the lid. It has to stay awake so SSH and Pi-hole keep working. A desktop can skip this.</span></a>
+<a class="note-row" href="leftover-box-plugged-in"><span class="t">See if the laptop is actually plugged in</span><span class="d">Before you trust the laptop overnight, confirm it is drawing wall power. A dying battery is not a reason to buy a UPS.</span></a>
+<a class="note-row" href="wifi-on-the-pc"><span class="t">Put the old PC on house Wi-Fi</span><span class="d">Ubuntu Server on an old laptop often has no cable nearby. Join house Wi-Fi so SSH and Pi-hole can work. Skip this if ethernet already works.</span></a>
+<a class="note-row" href="when-wifi-keeps-dropping"><span class="t">When house Wi-Fi on the old PC keeps dropping</span><span class="d">SSH dies or ads come back because the computer's Wi-Fi keeps falling off. Check power save, signal, then prefer a cable. You don't need a mesh kit tonight.</span></a>
+<a class="note-row" href="when-wifi-password-changed"><span class="t">When the house Wi-Fi password changed</span><span class="d">You (or the ISP) changed the Wi-Fi passphrase. The old PC on radio is offline — SSH hangs, ads are back. Update the saved password on the computer. Skip a new mesh kit tonight.</span></a>
+<a class="note-row" href="leftover-box-ethernet"><span class="t">A cable beats Wi-Fi for the old PC</span><span class="d">Once it is doing real work, plug it into the router with a cable. Skip if it is already on a cable.</span></a>
+<a class="note-row" href="when-ethernet-has-no-link"><span class="t">When the cable is plugged in but there's no link</span><span class="d">Ethernet is seated, but SSH still hangs or the computer never gets a house address. Check both ends, LAN vs WAN, link lights, then ip link before you buy a NIC.</span></a>
+<a class="note-row" href="when-computer-has-two-addresses"><span class="t">When the old PC has two house addresses</span><span class="d">SSH works on one number, Pi-hole or the reservation on another — Wi-Fi and the cable both live. Keep one link. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-wifi-off"><span class="t">Keep Wi-Fi off after a reboot</span><span class="d">After the cable works, stop Wi-Fi from coming back so it keeps one address.</span></a>
+<a class="note-row" href="leftover-box-updates"><span class="t">Keep the computer updated</span><span class="d">Once a week, give the computer its fixes so SSH and Pi-hole are not sitting on last year's bugs. Skip this until next week if you just finished first weekend.</span></a>
+<a class="note-row" href="when-updates-wont-install"><span class="t">When weekly updates won't install</span><span class="d">apt says could not get lock, waiting for cache, or dpkg was interrupted. Wait out the other updater, free disk room, then finish the weekly fixes. You don't need a new mini PC.</span></a>
+<a class="note-row" href="when-the-clock-is-wrong"><span class="t">When the computer's clock is wrong</span><span class="d">HTTPS fails, apt says the Release file is not valid yet, or logs look like 2019. Check the clock, turn network time on, set the house zone. You don't need a GPS clock hat.</span></a>
+<a class="note-row" href="leftover-box-reboot-needed"><span class="t">See if a reboot is needed</span><span class="d">After weekly updates, check whether a reboot is needed before you buy a monitoring box.</span></a>
+<a class="note-row" href="leftover-box-shutdown"><span class="t">Shut down without yanking the plug</span><span class="d">When you're done for the night, shut it down and let it finish writing files before it powers off. Don't yank the cord. Skip this if you only need a reboot after updates.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep it on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+<a class="note-row" href="leftover-box-heat"><span class="t">Don't cook the computer</span><span class="d">The computer stays on. It needs air. A laptop under a pile of clothes will cook. Skip this if it is a desktop with vents clear.</span></a>
+<a class="note-row" href="when-fan-is-loud"><span class="t">When the old PC's fan is loud</span><span class="d">A Marketplace OptiPlex or EliteDesk screams in the living room. Blow the dust, give it air, move it to a closet. Skip a water cooler this weekend.</span></a>
+<a class="note-row" href="when-the-computer-is-slow"><span class="t">When the old PC feels slow</span><span class="d">SSH lags, apt crawls, or the house share feels sticky. Check load, memory, disk room, then one busy job. Skip a new mini PC tonight.</span></a>
+<a class="note-row" href="when-memory-ran-out"><span class="t">When the computer ran out of memory</span><span class="d">Pi-hole vanished, the share died, or dmesg says Out of memory. Confirm the OOM killer, free RAM, restart house jobs. Skip a new mini PC tonight.</span></a>
+<a class="note-row" href="when-house-wont-browse"><span class="t">When the house won't browse after Pi-hole</span><span class="d">Phones say no internet, or every site times out, after you pointed the house at Pi-hole. Put router DNS back on automatic so dinner works, then fix the computer. You don't need a new router.</span></a>
+<a class="note-row" href="when-ads-come-back"><span class="t">When ads come back</span><span class="d">Ads are back, sites won't load, or a phone still shows banners. Check the computer, Pi-hole, router DNS, then the phone.</span></a>
+<a class="note-row" href="when-ipv6-bypasses-ads"><span class="t">When ads sneak past on IPv6</span><span class="d">Pi-hole looks fine on IPv4, but phones still show banners. Check IPv6 DNS on the router, or turn that path off for now. You don't need a new router.</span></a>
+<a class="note-row" href="when-one-phone-shows-ads"><span class="t">When one phone still shows ads</span><span class="d">Everyone else's ads dropped. One phone still shows banners. Check Private DNS, Private Relay, a VPN, then the Wi-Fi lease. You don't need a new router.</span></a>
+<a class="note-row" href="when-one-laptop-shows-ads"><span class="t">When one laptop still shows ads</span><span class="d">Everyone else's ads dropped. One laptop (or one browser) still shows banners. Check Chrome, Edge, or Firefox Secure DNS, Windows encrypted DNS, Mac Private Relay, then a VPN. You don't need a new router.</span></a>
+<a class="note-row" href="guest-wifi-dns"><span class="t">When guest Wi-Fi still shows ads</span><span class="d">Guest Wi-Fi is a separate network on purpose. Leave guests on ISP DNS, put a visitor on the main house Wi-Fi, or point guest DNS at Pi-hole only if they can reach the computer. You don't need a new router.</span></a>
+<a class="note-row" href="when-isp-swaps-router"><span class="t">When the ISP swaps your router</span><span class="d">Tech left a new gateway (or reset yours). Ads are back, and SSH may miss the old address. Re-find the computer, re-point DNS, re-do the reservation. You don't need a new router or a new Pi-hole.</span></a>
+<a class="note-row" href="after-power-outage"><span class="t">After the power comes back</span><span class="d">Lights blinked. Ads may be back, SSH may miss the old address, and the share may be gone. Check the computer, find its number, point DNS again if needed, then the share. You don't need a new UPS tonight.</span></a>
+<a class="note-row" href="power-on-after-outage"><span class="t">Turn the old PC back on after a power blip</span><span class="d">Lights come back, but the OptiPlex stays off until you press the button. Flip Restore AC / Power On After Power Loss in Setup. Skip a UPS for this.</span></a>
+<a class="note-row" href="replace-cmos-battery"><span class="t">Replace the CMOS battery on the old PC</span><span class="d">Every unplug resets the clock, or Restore AC won't stick. Swap the coin CMOS battery on the board. Skip a new PSU tonight.</span></a>
+<a class="note-row" href="pause-pihole"><span class="t">Pause Pi-hole for a few minutes</span><span class="d">Turn blocking off for five minutes to test a broken site or a dinner guest. It turns itself back on. You don't wipe the lists or change the router.</span></a>
+<a class="note-row" href="when-a-site-wont-load"><span class="t">When a site won't load after Pi-hole</span><span class="d">A bank, streamer, or login page breaks after Pi-hole. Pause blocking for five minutes, then allow the domain you need. You don't need a new router.</span></a>
+<a class="note-row" href="when-dns-is-slow"><span class="t">When browsing feels slow after Pi-hole</span><span class="d">Pages hang a few seconds, then load. Ads may still be blocked. Time a DNS lookup, check Pi-hole and its upstream, then prove it with a bypass. You don't need a faster plan tonight.</span></a>
+<a class="note-row" href="when-cast-wont-find"><span class="t">When casting won't find the TV</span><span class="d">Phone or laptop can't see Chromecast, AirPlay, or the smart TV after Pi-hole. Same Wi-Fi first, pause blocking to prove it, then allow the blocked name. You don't need a new TV.</span></a>
+<a class="note-row" href="when-printer-wont-print"><span class="t">When the printer won't print</span><span class="d">Phone or laptop can't find the house printer after Pi-hole, or a cloud print app stalls. Same Wi-Fi first, pause blocking to prove it, then allow the blocked name. You don't need a new printer.</span></a>
+<a class="note-row" href="when-pihole-wont-open"><span class="t">When the Pi-hole admin page won't open</span><span class="d">http://pi.hole/admin or the computer's address plus /admin won't load. Check house Wi-Fi, the address, then Pi-hole and the web service. You don't need a new router.</span></a>
+<a class="note-row" href="when-router-admin-wont-open"><span class="t">When the home router page won't open</span><span class="d">192.168.x.1, routerlogin.net, or the sticker URL won't load. Find the gateway number, use http on house Wi-Fi, then log in. You don't need a new router.</span></a>
+<a class="note-row" href="when-router-password-fails"><span class="t">When the router password won't work</span><span class="d">The gateway login page loads, but sticker, app, or old password fails. Try the right account and maker app before a factory reset. A reset wipes DNS and reservations.</span></a>
+<a class="note-row" href="leftover-box-still-on"><span class="t">Is it still on?</span><span class="d">You left the computer on. This morning ads are back, or SSH hangs. Check if it is awake before you buy anything.</span></a>
+<a class="note-row" href="restart-house-services"><span class="t">Restart Pi-hole or the house share</span><span class="d">Ads vanished or Finder lost the folder, but the computer is still on. Restart the one service that died. You don't need a full reboot or a new mini PC.</span></a>
+<a class="note-row" href="wake-on-lan"><span class="t">Wake the computer from the house network</span><span class="d">Soft-off is fine overnight. Wake the old PC from a laptop or phone on the house network so SSH and Pi-hole come back. You don't need a smart plug for this.</span></a>
+<a class="note-row" href="when-wol-wont-wake"><span class="t">When Wake-on-LAN won't wake the computer</span><span class="d">You sent the magic packet. Fans stay quiet. Check power, cable, MAC, BIOS, and Wake-on: g before you buy a smart plug.</span></a>
+<a class="note-row" href="update-pihole"><span class="t">Keep Pi-hole updated</span><span class="d">Weekly apt does not refresh Pi-hole. Update the software and the block lists on the old PC so ads stay gone. You don't need a new Raspberry Pi.</span></a>
+<a class="note-row" href="see-what-pihole-blocked"><span class="t">See what Pi-hole blocked</span><span class="d">Open the query log (or watch it over SSH) so you can tell ads are dying, which device asked, and which name to allow later. You don't need a new router.</span></a>
+<a class="note-row" href="when-pihole-has-no-queries"><span class="t">When Pi-hole shows no queries</span><span class="d">Admin opens, totals stay at zero, query log empty. Prove the house asks the computer for DNS, then check Pi-hole status. You don't need a new Raspberry Pi.</span></a>
+<a class="note-row" href="block-a-site"><span class="t">Block a site in Pi-hole on purpose</span><span class="d">One domain you don't want in the house. Add it to the deny list. You don't wipe every block list or buy a new router.</span></a>
+<a class="note-row" href="allow-a-site"><span class="t">Allow a site in Pi-hole on purpose</span><span class="d">One domain the house needs that a block list keeps catching. Add it to the allow list. You don't wipe every list or buy a new router.</span></a>
+<a class="note-row" href="backup-pihole"><span class="t">Save a Pi-hole backup before you change things</span><span class="d">Export settings with Teleporter so a reinstall or a bad list does not wipe your allow list and local DNS. You don't need a new Raspberry Pi.</span></a>
+<a class="note-row" href="restore-pihole-backup"><span class="t">Put a Pi-hole backup back with Teleporter</span><span class="d">After a reinstall or a bad list, import the Teleporter zip so allow lists, deny entries, and local DNS names return. Fresh Pi-hole first. You don't need a new Raspberry Pi.</span></a>
+<a class="note-row" href="add-local-dns-name"><span class="t">Add a local name in Pi-hole</span><span class="d">Give the old PC a short house name so phones and laptops can open SSH, the share, and the admin page without remembering the number. You don't need a new router.</span></a>
+<a class="note-row" href="when-local-name-fails"><span class="t">When the house name won't resolve</span><span class="d">lab.home says unknown host, or SSH and the share still need the IP. Prove which DNS the device uses, check the Pi-hole record, then the reserved address. Skip a new router tonight.</span></a>
+
+
+<a class="note-row" href="leftover-box-uptime"><span class="t">See how long it has been awake</span><span class="d">Before you buy a UPS or a new mini PC, see how long the computer has been awake.</span></a>
+<a class="note-row" href="leftover-box-hostname"><span class="t">Give it a name that sticks</span><span class="d">Ping and SSH are easier if the computer has a short name. Something short is fine. Set it so the name survives a reboot.</span></a>
+<a class="note-row" href="leftover-box-os-release"><span class="t">See which OS it is already running</span><span class="d">Before you reinstall or buy a tiny computer, check which OS the computer already has.</span></a>
+<a class="note-row" href="open-share-from-phone"><span class="t">Open the house share from a phone</span><span class="d">The house folder is on the old PC. Open it from an iPhone or Android on house Wi-Fi. You don't need a NAS app for this.</span></a>
+<a class="note-row" href="phone-photos-to-share"><span class="t">Save phone photos to the house share</span><span class="d">Copy camera-roll photos from an iPhone or Android onto the house folder on the old PC. House Wi-Fi only. You don't need a NAS app or iCloud for this.</span></a>
+<a class="note-row" href="open-share-from-laptop"><span class="t">Open the house share from a laptop</span><span class="d">The house folder is on the old PC. Open it from Windows File Explorer or Mac Finder on the house network. You don't need a NAS for this.</span></a>
+<a class="note-row" href="map-share-drive"><span class="t">Map the house share as a drive</span><span class="d">Give Windows a letter (Z:) or keep Finder's Locations entry so the house folder on the old PC opens every time. You don't need a NAS.</span></a>
+<a class="note-row" href="open-share-from-chromebook"><span class="t">Open the house share from a Chromebook</span><span class="d">The house folder is on the old PC. Open it from a Chromebook Files app on house Wi-Fi. You don't need a NAS app for this.</span></a>
+
+<a class="note-row" href="open-share-from-linux"><span class="t">Open the house share from a Linux laptop</span><span class="d">The house folder is on the old PC. Open it from Ubuntu or Fedora Files (or KDE Dolphin) on the house network. You don't need a NAS for this.</span></a>
+
+<a class="note-row" href="time-machine-to-share"><span class="t">Back up a Mac to the house share with Time Machine</span><span class="d">Point Time Machine at a Samba folder on the old PC. Separate share from photos. Cap the size. You don't need a Time Capsule or a NAS for this.</span></a>
+<a class="note-row" href="when-time-machine-wont-backup"><span class="t">When Time Machine won't back up to the house share</span><span class="d">Finder can open the share, or it used to, but Time Machine fails, stalls, or says the disk disappeared. Check the computer, the fruit lines, free space, then the Mac. You don't need a Time Capsule.</span></a>
+
+<a class="note-row" href="file-history-to-share"><span class="t">Back up a Windows PC to the house share with File History</span><span class="d">Point Windows File History at a Samba folder on the old PC. Separate share from photos. You don't need a NAS for this.</span></a>
+<a class="note-row" href="when-file-history-wont-backup"><span class="t">When File History won't back up to the house share</span><span class="d">File Explorer can open the share, or it used to, but File History fails, stalls, or says the drive disappeared. Check the computer, credentials, free space, then Windows. You don't need a NAS.</span></a>
+<a class="note-row" href="house-folder-on-usb"><span class="t">Put the house folder on a USB disk</span><span class="d">Move the house share onto a USB disk that stays plugged into the old PC so photos don't fill the system drive. You don't need a NAS for this.</span></a>
+<a class="note-row" href="save-files-before-wipe"><span class="t">Copy your files off before you wipe</span><span class="d">Pull photos, papers, and downloads onto a USB stick before the installer erases the disk. Skip if the computer is empty. Then wipe.</span></a>
+<a class="note-row" href="wipe-marketplace-pc"><span class="t">Wipe a Marketplace PC before you install</span><span class="d">A used OptiPlex may still have the last owner's Windows and logins. Wipe the disk with the installer before you plug it into the house network.</span></a>
+<a class="note-row" href="make-boot-usb"><span class="t">Make a boot USB for the install</span><span class="d">Write Ubuntu Server or Debian onto a USB stick so the old PC can boot the installer. Use Etcher or Rufus. Don't drag the ISO into a folder.</span></a>
+<a class="note-row" href="boot-from-usb"><span class="t">Boot the old PC from the USB stick</span><span class="d">Plug in the installer stick, open the one-time boot menu, and pick the USB. Dell F12, HP Esc then F9, Lenovo F12. Don't dig through every BIOS screen tonight.</span></a>
+<a class="note-row" href="when-usb-wont-boot"><span class="t">When the boot USB won't start</span><span class="d">You flashed the stick and opened the boot menu, but the installer never appears. Try another port, the UEFI line, a reflash, then Secure Boot last. Skip a new mini PC tonight.</span></a>
+<a class="note-row" href="when-computer-wont-boot"><span class="t">When the old PC won't boot</span><span class="d">No fans, black screen, or stuck on the logo. Check power, the monitor, a hard power cycle, then try the installer USB before you buy a new board.</span></a>
+<a class="note-row" href="backup-to-another-pc"><span class="t">Copy the house folder to another old computer</span><span class="d">A second copy of the house folder, over the house network to another old PC. Not only a USB stick. You don't need a NAS for this.</span></a>
+<a class="note-row" href="common-router-dns"><span class="t">Point common home routers at Pi-hole</span><span class="d">Where to set DNS on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so the house asks Pi-hole. Prefer LAN DHCP DNS. You don't need a new router.</span></a>
+<a class="note-row" href="flush-dns-on-devices"><span class="t">Flush old DNS on phones and laptops</span><span class="d">After you point the router at Pi-hole, phones and laptops may still use the old DNS. Renew the Wi-Fi lease or flush the cache so ads drop. You don't need a new router.</span></a>
+<a class="note-row" href="common-router-reservation"><span class="t">Keep the computer on the same address on common routers</span><span class="d">Where to reserve DHCP on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so SSH and Pi-hole keep the same number after a reboot. You don't need a new router.</span></a>
+<a class="note-row" href="manual-dns-on-devices"><span class="t">Point a phone or laptop at Pi-hole when the router won't</span><span class="d">When Nest, Google Wifi, or an ISP gateway will not take custom DNS, set DNS on one phone or laptop so it asks Pi-hole. You don't need a new router for this device.</span></a>
+<a class="note-row" href="when-ssh-wont-connect"><span class="t">When SSH won't connect</span><span class="d">SSH hangs, says connection refused, or Permission denied. Check the computer is on, confirm the address, then the user and password. You don't need a new router or a KVM.</span></a>
+<a class="note-row" href="add-share-user"><span class="t">Add another person to the house share</span><span class="d">Give a partner or roommate their own login for the house folder on the old PC. Same share path. Separate Samba password. You don't need a NAS.</span></a>
+<a class="note-row" href="add-second-share"><span class="t">Add a second house share</span><span class="d">Make another Samba folder on the old PC: documents next to photos, or a quiet place for laptop backups. Same computer. You don't need a NAS.</span></a>
+<a class="note-row" href="remove-share-user"><span class="t">Remove someone from the house share</span><span class="d">Take a partner or roommate off the house folder on the old PC. Drop them from Samba, then from valid users. Optional: delete the Linux login. You don't need a NAS.</span></a>
+<a class="note-row" href="see-who-uses-share"><span class="t">See who is using the house share</span><span class="d">Check which logins and devices are connected to the Samba folder on the old PC. smbstatus. You don't need a NAS.</span></a>
+<a class="note-row" href="when-share-wont-open"><span class="t">When the house share won't open</span><span class="d">Finder, File Explorer, or the phone can't open the house folder. Check the computer is on, confirm the address, then match the error (path not found, login failed, can't write, disk full). You don't need a NAS.</span></a>
+<a class="note-row" href="when-share-wont-write"><span class="t">When you can open the house share but can't write</span><span class="d">The house folder opens, but copy, save, or phone upload fails. Check disk room, Samba read only, then folder ownership. You don't need a NAS.</span></a>
+<a class="note-row" href="when-share-is-slow"><span class="t">When the house share is slow</span><span class="d">The folder opens and copies work, but photos crawl. Check Wi-Fi vs a cable, link speed, disk room, then the laptop. You don't need a 10G switch.</span></a>
+<a class="note-row" href="forget-saved-share-login"><span class="t">Forget the saved house-share login</span><span class="d">Windows, Mac, or a phone still uses the old Samba password after you changed it. Clear Credential Manager, Keychain, or the phone bookmark, then open again. You don't need a NAS.</span></a>
+<a class="note-row" href="when-backup-wont-run"><span class="t">When the house backup won't run</span><span class="d">rsync failed, the USB is missing, or the second copy never landed. Check the stick, the mount, the source path, then match the error (no space, permission, connection). You don't need a NAS.</span></a>
+<a class="note-row" href="when-backup-usb-full"><span class="t">When the backup USB is full</span><span class="d">rsync says no space, or df shows the stick is packed. Confirm the mount, free room or use a bigger stick, or copy to another old PC. You don't need a NAS.</span></a>
+<a class="note-row" href="when-house-disk-full"><span class="t">When the computer's disk is full</span><span class="d">Photos won't copy, the share says no space, or df shows the system disk packed. Confirm it is the computer (not the backup stick), free room or move the house folder. You don't need a NAS.</span></a>
+<a class="note-row" href="see-disk-health"><span class="t">See if the old disk is dying</span><span class="d">SMART reports whether the drive still looks healthy. Install smartmontools, list the disk, run a quick health check before you trust photos on a Marketplace PC. You don't need a NAS.</span></a>
+<a class="note-row" href="when-disk-is-dying"><span class="t">When the old disk is dying</span><span class="d">SMART says FAILED, the disk clicks, or dmesg shows I/O errors. Copy the house folder off first, then plan a drive swap. You don't need a NAS tonight.</span></a>
+<a class="note-row" href="when-disk-is-read-only"><span class="t">When the disk went read-only</span><span class="d">apt fails, the share won't take photos, or mount shows ro after a power blip. Confirm read-only, copy off what you can, then remount or fsck. You don't need a NAS tonight.</span></a>
+
+<a class="note-row" href="format-usb-for-backup"><span class="t">Format a USB stick for the house backup</span><span class="d">Wipe and format a spare USB stick so the old PC can mount it for the house-folder backup. Ext4 for Linux. This erases the stick. You don't need a NAS.</span></a>
+<a class="note-row" href="auto-mount-backup-usb"><span class="t">Mount the backup USB automatically</span><span class="d">Leave the backup stick plugged in and mount it at boot by UUID, so weekly rsync finds /mnt/backup without a hand mount. You don't need a NAS.</span></a>
+<a class="note-row" href="unplug-backup-usb"><span class="t">Unplug the backup USB safely</span><span class="d">Finish disk writes, unmount /mnt/backup, then yank the stick into a drawer. Fixes target is busy. You don't need a NAS.</span></a>
+<a class="note-row" href="restore-house-folder"><span class="t">Put the house folder back from the backup</span><span class="d">After a wipe, a reinstall, or an empty share, copy the house folder from the USB (or second old PC) back onto the computer. You don't need a NAS.</span></a>
+<a class="note-row" href="local-chat-on-the-pc"><span class="t">Run a local chat on the old PC</span><span class="d">Install Ollama, pull a small model, chat over SSH. Stays on the house network. CPU is fine for a first try. Don't buy a GPU this weekend.</span></a>
+<a class="note-row" href="https://plan.labthrift.com"><span class="t">Lab plan</span><span class="d">Optional private checklist. Username and a passkey. No email. Export anytime.</span></a>
+<a class="note-row" href="lab-plan-passkeys"><span class="t">Keep a lab plan with a passkey, not an email</span><span class="d">Optional Lab plan on plan.labthrift.com. Username and a passkey. No email. Add a second passkey. Lose every passkey and the plan is gone.</span></a>
+<a class="note-row" href="ssh-from-phone"><span class="t">SSH from a phone</span><span class="d">Type commands on the old PC from an iPhone or Android on house Wi-Fi. Password login first. Don't open SSH to the internet.</span></a>
+<a class="note-row" href="ssh-from-away"><span class="t">SSH from away</span><span class="d">Reach the old PC from a coffee shop or cellular without opening port 22. Tailscale on the computer and on your laptop. Free personal plan is enough.</span></a>
+<a class="note-row" href="open-share-from-away"><span class="t">Open the house share from away</span><span class="d">Open the house folder from a coffee shop or cellular without forwarding SMB. Tailscale on the computer and on your laptop or phone. Free personal plan is enough.</span></a>
+<a class="note-row" href="when-tailscale-wont-connect"><span class="t">When Tailscale won't connect</span><span class="d">SSH to the Tailscale address fails, or the laptop never shows Connected. Check both ends online on the same account, the 100.x address, captive portal, then house SSH — before you forward port 22.</span></a>
+<a class="note-row" href="fixed-address-on-pc"><span class="t">Give the computer a fixed address when the router won't</span><span class="d">Nest or an ISP gateway won't reserve DHCP. Set one stable number on Ubuntu Server so SSH and Pi-hole keep the same address after a reboot. You don't need a new router.</span></a>
+
+
+</div>
+<h2 id="switches"><a href="#switches">Faster network</a></h2>
+<p class="path-lead">A cable first. A new switch is later.</p>
+<div class="note-list">
+<a class="note-row" href="leftover-box-ethernet"><span class="t">A cable beats Wi-Fi for the old PC</span><span class="d">Once it is doing real work, plug it into the router with a cable. Skip if it is already on a cable.</span></a>
+<a class="note-row" href="wifi-on-the-pc"><span class="t">Put the old PC on house Wi-Fi</span><span class="d">Ubuntu Server on an old laptop often has no cable nearby. Join house Wi-Fi so SSH and Pi-hole can work. Skip this if ethernet already works.</span></a>
+<a class="note-row" href="when-wifi-password-changed"><span class="t">When the house Wi-Fi password changed</span><span class="d">You (or the ISP) changed the Wi-Fi passphrase. The old PC on radio is offline — SSH hangs, ads are back. Update the saved password on the computer. Skip a new mesh kit tonight.</span></a>
+<a class="note-row" href="leftover-box-wifi-off"><span class="t">Keep Wi-Fi off after a reboot</span><span class="d">After the cable works, stop Wi-Fi from coming back so it keeps one address.</span></a>
+<a class="note-row" href="when-computer-has-two-addresses"><span class="t">When the old PC has two house addresses</span><span class="d">SSH works on one number, Pi-hole or the reservation on another — Wi-Fi and the cable both live. Keep one link. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-ip-addr"><span class="t">See its address on the house network</span><span class="d">You need its number before you reserve DHCP or SSH from another room.</span></a>
+<a class="note-row" href="leftover-box-ping"><span class="t">Check that it can reach the house router</span><span class="d">Before you blame the switch or buy a new cable, ping the router from the computer.</span></a>
+<a class="note-row" href="leftover-box-internet"><span class="t">Check that it can reach the internet</span><span class="d">Before you blame the computer or buy a mesh kit, ping a number past the house router.</span></a>
+<a class="note-row" href="leftover-box-link-speed"><span class="t">See the cable speed</span><span class="d">Before you buy a faster switch, check whether the computer is already at gigabit, or stuck at 100.</span></a>
+<a class="note-row" href="leftover-box-mac-addr"><span class="t">See its hardware address</span><span class="d">Before you reserve its number, write down the sticker-like address the router uses to recognize it.</span></a>
+<a class="note-row" href="leftover-box-dhcp-reservation"><span class="t">Keep it on the same number</span><span class="d">SSH and Pi-hole keep working after a reboot when the router always gives the computer the same address.</span></a>
+<a class="note-row" href="fixed-address-on-pc"><span class="t">Give the computer a fixed address when the router won't</span><span class="d">Nest or an ISP gateway won't reserve DHCP. Set one stable number on Ubuntu Server so SSH and Pi-hole keep the same address after a reboot. You don't need a new router.</span></a>
+
+<a class="note-row" href="when-login-password-fails"><span class="t">When you forgot the computer's login password</span><span class="d">SSH and the keyboard both reject the password. Boot recovery or the installer USB, remount the disk, set a new one. Skip wiping the whole PC if the files are fine.</span></a>
+<a class="note-row" href="leftover-box-change-password"><span class="t">Change the login password</span><span class="d">Once SSH from the couch works, set a password you chose. Do this before you leave the install password sitting around.</span></a>
+<a class="note-row" href="leftover-box-other-accounts"><span class="t">See if it still has old login accounts</span><span class="d">Before you leave a Marketplace box on the house network, look at who else can still log in. You don't need extra login software for this.</span></a>
+<a class="note-row" href="leftover-box-sudo"><span class="t">See if your login can use admin commands</span><span class="d">Before you change passwords or turn on the firewall, check that your login can use sudo. You don't need extra login software.</span></a>
+<a class="note-row" href="leftover-box-ssh-host-key"><span class="t">When SSH says the computer looks different</span><span class="d">After you reinstall, SSH can refuse because your laptop still remembers the old ID. Clear that memory. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-ssh-keys"><span class="t">Log in with a key, not the password every time</span><span class="d">After password SSH works for a while, put a key on your laptop so the computer trusts that laptop. Keep the password as a backup at first.</span></a>
+<a class="note-row" href="leftover-box-authorized-keys"><span class="t">See which laptop keys it already trusts</span><span class="d">Before you turn off password login, look at which laptop keys can already get in. Remove leftovers from an old Marketplace box. You don't need a YubiKey for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-config"><span class="t">Give it a short name on your laptop</span><span class="d">After SSH works, put a short name in your laptop SSH config so you type a short name instead of the long address. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-second-key"><span class="t">Put a key on a second computer first</span><span class="d">Before you turn off password login, give a second laptop its own key so you are not locked out if the first one dies. You don't need a YubiKey.</span></a>
+<a class="note-row" href="leftover-box-ssh-agent"><span class="t">Unlock your key once per laptop session</span><span class="d">After the key has a passphrase, load it once with ssh-add so you are not typing that passphrase on every SSH login. You don't need a YubiKey.</span></a>
+<a class="note-row" href="leftover-box-scp"><span class="t">Copy a file to it from your laptop</span><span class="d">After SSH works, use scp to move one file without a USB stick. A short hostname makes the typing shorter. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-nano"><span class="t">Edit a file from the couch</span><span class="d">After SSH works, open a file with nano, change a line, and save. The keys at the bottom of the screen are the whole trick. You don't need a new editor.</span></a>
+<a class="note-row" href="leftover-box-history"><span class="t">Reuse a command you already typed</span><span class="d">After SSH works, flip back through commands with the Up arrow or history. You don't need a notebook for the same long line twice.</span></a>
+<a class="note-row" href="leftover-box-ls"><span class="t">See what's in a folder</span><span class="d">After SSH works, list the folder you are sitting in with ls. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-cd"><span class="t">Move into a folder</span><span class="d">After SSH works, change folders with cd. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-pwd"><span class="t">See which folder you are in</span><span class="d">After SSH works, print the full path with pwd so you know where ls and nano will land. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-mkdir"><span class="t">Make a folder</span><span class="d">After SSH works, make a folder with mkdir so copies and edits have a place to land. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-cp"><span class="t">Copy a file without leaving the computer</span><span class="d">After SSH works, copy a file with cp so you can edit a spare without wrecking the original. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-mv"><span class="t">Rename or move a file</span><span class="d">After SSH works, rename or move a file with mv so the name matches the job. The old name is gone. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-rm"><span class="t">Delete a file carefully</span><span class="d">After SSH works, delete one file with rm -i. Ask first. Skip rm -rf. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-cat"><span class="t">Read a file without opening the editor</span><span class="d">After SSH works, print a file with cat so you can read it without opening nano. Short files only. You don't need a file viewer app for this.</span></a>
+<a class="note-row" href="leftover-box-less"><span class="t">Read a file one screen at a time</span><span class="d">After SSH works, open a file with less so a long file does not flood the window. Space turns the page. q leaves. You don't need a file viewer app for this.</span></a>
+<a class="note-row" href="leftover-box-grep"><span class="t">Find a word in a file</span><span class="d">After SSH works, search a file with grep so you see only the matching lines. You don't need a file viewer app for this.</span></a>
+<a class="note-row" href="leftover-box-find"><span class="t">Find a file by name</span><span class="d">After SSH works, search the computer for a file by name with find so you don't have to open every folder. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-tail"><span class="t">See the end of a file</span><span class="d">After SSH works, print the last lines of a file with tail so a long file does not flood the window. You don't need a log viewer app for this.</span></a>
+<a class="note-row" href="leftover-box-wc"><span class="t">See how long a file is</span><span class="d">After SSH works, count lines with wc so you know if a dump will flood the window. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-file"><span class="t">See what kind of file this is</span><span class="d">After SSH works, ask what kind of file this is with file before you dump it. You don't need a file viewer app for this.</span></a>
+<a class="note-row" href="leftover-box-head"><span class="t">See the start of a file</span><span class="d">After SSH works, print the first lines of a file with head so a long file does not flood the window. You don't need a file viewer app for this.</span></a>
+<a class="note-row" href="leftover-box-diff"><span class="t">See whether two files are the same</span><span class="d">After SSH works, compare two files with diff so you can tell if the spare still matches. You don't need a file viewer app for this.</span></a>
+<a class="note-row" href="leftover-box-touch"><span class="t">Make an empty file</span><span class="d">After SSH works, make an empty file with touch so nano and copies have a file to land on. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-echo"><span class="t">Put a short line into a file</span><span class="d">After SSH works, put one short line into a file with echo so you don't need to open nano. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-chmod"><span class="t">Make a file runnable</span><span class="d">After SSH works, change file permissions with chmod so a practice script can run. You don't need a permissions GUI for this.</span></a>
+<a class="note-row" href="leftover-box-ln"><span class="t">Make a shortcut</span><span class="d">After SSH works, make a shortcut with ln -s so a second name points at the same file. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-which"><span class="t">See where a command lives</span><span class="d">After SSH works, ask where a command lives with command -v so you know if nano or python is installed before you chase a missing package. You don't need a software store for this.</span></a>
+<a class="note-row" href="leftover-box-help"><span class="t">Ask a command what it does</span><span class="d">After SSH works, ask a command what it does with --help so you can read the short cheat sheet without leaving the window. Optional man for the longer page. You don't need a software store for this.</span></a>
+<a class="note-row" href="leftover-box-pipe"><span class="t">Send output into another command with a pipe</span><span class="d">After SSH works, send output into another command with | so a long dump does not flood the window. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-redirect"><span class="t">Save output to a file</span><span class="d">After SSH works, save command output to a file with &gt; so you can read it later. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-tee"><span class="t">Watch and save output at once with tee</span><span class="d">After SSH works, watch command output and save it at the same time with tee. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-sort"><span class="t">Put lines in order with sort</span><span class="d">After SSH works, put lines in order with sort so a mixed list is easier to scan. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-uniq"><span class="t">Drop duplicate lines with uniq</span><span class="d">After SSH works, drop duplicate lines with uniq so a mixed list shows each line once. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-cut"><span class="t">Pull one column with cut</span><span class="d">After SSH works, pull one column with cut so a mixed line is easier to scan. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-tr"><span class="t">Change characters with tr</span><span class="d">After SSH works, change characters with tr so a mixed line is easier to clean. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-paste"><span class="t">Join columns side by side with paste</span><span class="d">After SSH works, join columns side by side with paste so two lists become one line each. You don't need a file manager app for this.</span></a>
+
+<a class="note-row" href="leftover-box-nl"><span class="t">Number lines with nl</span><span class="d">After SSH works, number lines with nl so a long file is easier to point at. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-fold"><span class="t">Wrap long lines with fold</span><span class="d">After SSH works, wrap long lines with fold so they don't run off the window. You don't need a file manager app for this.</span></a>
+
+<a class="note-row" href="leftover-box-curl"><span class="t">Download a file onto the computer</span><span class="d">After SSH works, pull one file from a web address with curl so the computer has the file without a USB stick. You don't need a browser on it for this.</span></a>
+<a class="note-row" href="leftover-box-sha256sum"><span class="t">Check a file fingerprint with sha256sum</span><span class="d">After SSH works, check a file with sha256sum so you know the file you pulled still matches the fingerprint you expected. You don't need a download manager for this.</span></a>
+<a class="note-row" href="leftover-box-stat"><span class="t">See file size, date, and permissions with stat</span><span class="d">After SSH works, look at one file with stat so you can see its size, last-change date, and permissions without opening it. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-tar"><span class="t">Pack files into one archive with tar</span><span class="d">After SSH works, pack files into one archive with tar so you can copy one file instead of a folder. You don't need a zip app for this.</span></a>
+<a class="note-row" href="leftover-box-gzip"><span class="t">Shrink one file with gzip</span><span class="d">After SSH works, shrink one file with gzip so a copy is smaller. You don't need a zip app for this.</span></a>
+<a class="note-row" href="leftover-box-xargs"><span class="t">Run one command per line with xargs</span><span class="d">After SSH works, run one command once per line with xargs so a list drives many short jobs. You don't need a scripting app for this.</span></a>
+<a class="note-row" href="leftover-box-base64"><span class="t">Encode a file so you can paste it</span><span class="d">After SSH works, turn a file into pasteable text with base64 so you can copy small text without a USB stick. You don't need a zip app for this.</span></a>
+<a class="note-row" href="leftover-box-split"><span class="t">Split a file into smaller pieces</span><span class="d">After SSH works (and after encode/paste when useful), split one file into smaller pieces with split so a paste or copy fits size limits. You don't need a zip app for this.</span></a>
+<a class="note-row" href="leftover-box-rsync"><span class="t">Sync files so only changes copy</span><span class="d">After SSH works, sync files with rsync so a copy only moves what changed. You don't need a NAS sync app for this.</span></a>
+<a class="note-row" href="leftover-box-sftp"><span class="t">Browse folders then copy one file</span><span class="d">After SSH works, browse folders with sftp so you can pick a file and copy it. You don't need FileZilla or a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-unzip"><span class="t">Unpack a zip you already have</span><span class="d">After SSH works, unpack a zip with unzip so files come out of a zip. You don't need a zip desktop app for this.</span></a>
+<a class="note-row" href="leftover-box-tree"><span class="t">See folders as a tree</span><span class="d">After SSH works, show nested folders with tree so you can see what is inside without clicking around. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-du"><span class="t">See how big one folder is</span><span class="d">After SSH works, check how big one folder is with du so you know before you copy or delete. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-numfmt"><span class="t">Make sizes readable with numfmt</span><span class="d">After du or disk-space (or any big byte count), use numfmt so a huge number becomes something like 1.4G that a first-timer can read. You don't need extra system software beyond coreutils.</span></a>
+<a class="note-row" href="leftover-box-zip"><span class="t">Pack files into a zip a laptop can open</span><span class="d">After SSH works, pack files into a zip with zip so a Windows laptop can open them. You don't need a zip desktop app for this.</span></a>
+<a class="note-row" href="leftover-box-watch"><span class="t">See change without typing again</span><span class="d">After SSH works, re-run a command every few seconds with watch so size (or clock) updates by itself. You don't need a monitoring app for this.</span></a>
+<a class="note-row" href="leftover-box-timeout"><span class="t">Stop a command after a few seconds</span><span class="d">After SSH works, stop a command after a few seconds with timeout so it does not hang. You don't need a monitoring app for this.</span></a>
+<a class="note-row" href="leftover-box-time"><span class="t">See how long a command took</span><span class="d">After SSH works, see how long a command took with time so you know if it was a few seconds. You don't need a monitoring app for this.</span></a>
+<a class="note-row" href="leftover-box-date"><span class="t">See what time the computer thinks it is</span><span class="d">After SSH works, see what time the computer thinks it is with date so logs and backups make sense. You don't need a clock app for this.</span></a>
+<a class="note-row" href="leftover-box-cal"><span class="t">See month on a calendar</span><span class="d">After SSH works, see month on a calendar with cal so dates make sense on a grid. You don't need a calendar app for this.</span></a>
+<a class="note-row" href="leftover-box-whoami"><span class="t">See login name</span><span class="d">After SSH works, see login name with whoami so home and sudo make sense. You don't need extra login software for this.</span></a>
+<a class="note-row" href="leftover-box-id"><span class="t">See user number and groups</span><span class="d">After whoami, see user number and groups with id so home numbers and sudo groups make sense. You don't need extra login software for this.</span></a>
+<a class="note-row" href="leftover-box-uname"><span class="t">See kernel name and architecture</span><span class="d">After id, see kernel name and architecture with uname so driver notes and 64-bit vs 32-bit make sense. You don't need extra system software for this.</span></a>
+<a class="note-row" href="leftover-box-printenv"><span class="t">See HOME and PATH</span><span class="d">After uname, see HOME and PATH with printenv so login environment makes sense. You don't need extra system software for this.</span></a>
+<a class="note-row" href="leftover-box-locale"><span class="t">See language and region</span><span class="d">After printenv, see language and region with locale so dates, number format, and character set (UTF-8) make sense. You don't need extra system software for this.</span></a>
+<a class="note-row" href="leftover-box-tty"><span class="t">See terminal name</span><span class="d">After locale, see terminal name with tty so SSH session vs keyboard session makes sense. You don't need extra system software for this.</span></a>
+<a class="note-row" href="leftover-box-clear"><span class="t">Clear the window</span><span class="d">After tty, clear the window with clear so old output stops cluttering the session. You don't need extra system software for this.</span></a>
+<a class="note-row" href="leftover-box-stty"><span class="t">See window size</span><span class="d">After clear, see window size with stty size so rows and columns make sense. You don't need extra system software for this.</span></a>
+<a class="note-row" href="leftover-box-reset"><span class="t">Fix a garbled terminal</span><span class="d">After stty, fix a garbled terminal with reset so prompt and typing make sense again. You don't need extra system software for this.</span></a>
+<a class="note-row" href="leftover-box-tput"><span class="t">See terminal columns and colors</span><span class="d">After reset, see terminal columns (and colors) with tput so window width and color support make sense. You don't need extra system software for this.</span></a>
+<a class="note-row" href="leftover-box-seq"><span class="t">Print a number list</span><span class="d">After tput, print a number list with seq so practice lines (and clear drills) make sense. You don't need extra system software for this.</span></a>
+<a class="note-row" href="leftover-box-yes"><span class="t">Repeat a line until you stop</span><span class="d">After seq, repeat a line with yes so practice floods (and clear drills) make sense. You don't need extra system software for this.</span></a>
+<a class="note-row" href="leftover-box-shuf"><span class="t">Mix lines</span><span class="d">After yes, mix lines with shuf so practice lists (and seq drills) are not always in order. You don't need extra system software for this.</span></a>
+<a class="note-row" href="leftover-box-tac"><span class="t">Reverse lines</span><span class="d">After shuf, reverse lines with tac so practice lists (and seq drills) can be last-first. You don't need extra system software for this.</span></a>
+<a class="note-row" href="leftover-box-fmt"><span class="t">Reflow paragraphs</span><span class="d">After rev, reflow paragraphs with fmt so practice notes (and echo drills) wrap to a readable width. You don't need extra system software for this.</span></a>
+<a class="note-row" href="leftover-box-expand"><span class="t">Turn tabs into spaces with expand</span><span class="d">After fmt, turn tabs into spaces with expand so practice notes (and echo drills) line up without tab stops jumping. You don't need extra system software for this.</span></a>
+<a class="note-row" href="leftover-box-unexpand"><span class="t">Turn spaces into tabs with unexpand</span><span class="d">After expand, turn spaces into tabs with unexpand so practice notes (and echo drills) can go back to tabs after expand. You don't need extra system software for this.</span></a>
+<a class="note-row" href="leftover-box-column"><span class="t">Line lists up in columns</span><span class="d">After unexpand, line lists up in columns with column so practice notes (and echo drills) sit in columns that line up. You don't need extra system software for this.</span></a>
+<a class="note-row" href="leftover-box-join"><span class="t">Match files on a shared field</span><span class="d">After column, match files on a shared field with join so practice lists (and echo drills) can line up on a shared key. You don't need extra system software for this.</span></a>
+<a class="note-row" href="leftover-box-comm"><span class="t">Compare sorted lists</span><span class="d">After join, compare sorted lists with comm so practice lists (and echo drills) show what is only in list 1, only in list 2, or in both. You don't need extra system software for this.</span></a>
+<a class="note-row" href="leftover-box-cmp"><span class="t">See whether two files match byte for byte</span><span class="d">After comm, compare files byte for byte with cmp so practice copies (and echo drills) show whether two files match exactly. You don't need extra system software for this.</span></a>
+<a class="note-row" href="leftover-box-realpath"><span class="t">See full path</span><span class="d">After cmp, see full path with realpath so practice files (and ln drills) show where names actually live. You don't need extra system software for this.</span></a>
+<a class="note-row" href="leftover-box-basename"><span class="t">See the last name with basename</span><span class="d">After realpath, print last name with basename so practice files (and realpath drills) show file name without folder path. You don't need extra system software for this.</span></a>
+<a class="note-row" href="leftover-box-dirname"><span class="t">See the folder path with dirname</span><span class="d">After basename, print folder path with dirname so practice files (and basename drills) show folder path without last name. You don't need extra system software for this.</span></a>
+<a class="note-row" href="leftover-box-readlink"><span class="t">See the shortcut target with readlink</span><span class="d">After dirname, print shortcut target with readlink so practice shortcuts (and ln drills) show path the shortcut points at. You don't need extra system software for this.</span></a>
+<a class="note-row" href="leftover-box-mktemp"><span class="t">Make a temporary practice file with mktemp</span><span class="d">After readlink, make a temporary practice file with mktemp so practice names (and echo/printf drills) get a unique name in /tmp (or home) without guessing a name. You don't need extra system software for this.</span></a>
+<a class="note-row" href="leftover-box-printf"><span class="t">Print words exactly with printf</span><span class="d">After mktemp, print words exactly with printf so practice files (and mktemp drills) get text without extra line echo always adds. You don't need extra system software for this.</span></a>
+<a class="note-row" href="leftover-box-sync"><span class="t">Finish disk writes</span><span class="d">After printf, finish disk writes with sync so practice files (and USB/backup copies) are really on the disk before you unplug or power off. You don't need extra system software for this.</span></a>
+<a class="note-row" href="leftover-box-od"><span class="t">Peek at file bytes</span><span class="d">After sync (or after writing a practice file), peek with od so you see the characters and bytes that are actually on disk. You don't need extra system software beyond coreutils.</span></a>
+<a class="note-row" href="leftover-box-truncate"><span class="t">Empty or shrink a practice file with truncate</span><span class="d">After od (or after writing a practice file), use truncate so you empty or shrink the file without deleting its name. You don't need extra system software beyond coreutils.</span></a>
+<a class="note-row" href="leftover-box-strings"><span class="t">See printable text with strings</span><span class="d">After od (or after writing a practice file), use strings so you see readable text without dumping every byte. You don't need extra system software beyond binutils.</span></a>
+<a class="note-row" href="leftover-box-rev"><span class="t">Reverse characters</span><span class="d">After tac, reverse characters on each line with rev so practice words (and echo drills) can be last-letter-first. You don't need extra system software for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+<a class="note-row" href="leftover-box-listening"><span class="t">See which doors the computer left open</span><span class="d">Before you turn on the firewall, ask which ports are already listening.</span></a>
+<a class="note-row" href="leftover-box-ufw"><span class="t">Turn on a simple firewall without locking yourself out</span><span class="d">After SSH from the couch works, allow OpenSSH, then turn on ufw. The computer stays reachable. Surprise inbound ports don't.</span></a>
+<a class="note-row" href="leftover-box-fail2ban"><span class="t">Slow down password guesses on SSH</span><span class="d">After the firewall is on and key login is boring, you can let the computer briefly refuse an address that keeps guessing the password. Skip this on day one. Don't forward port 22.</span></a>
+<a class="note-row" href="leftover-box-last-login"><span class="t">See who logged into the computer recently</span><span class="d">Before you buy a camera or a monitoring box, peek at the computer login history with last.</span></a>
+<a class="note-row" href="leftover-box-who"><span class="t">See who is on the computer right now</span><span class="d">Before you buy a camera or a monitoring box, ask who is logged into the computer right now with who.</span></a>
+<a class="note-row" href="leftover-box-failed-guesses"><span class="t">See if anyone guessed the password</span><span class="d">Before you buy a camera or extra login software, peek at failed logins with lastb.</span></a>
+<a class="note-row" href="leftover-box-unattended"><span class="t">Let the computer apply weekly fixes without you</span><span class="d">After the weekly two-command habit is boring, you can let the computer apply those same fixes by itself. Skip this until that habit is boring. Don't let it reboot on its own.</span></a>
+<a class="note-row" href="leftover-box-after-reboot"><span class="t">After a reboot, check the computer still does its jobs</span><span class="d">The computer came back up. Confirm SSH, house ad block, and the file share still work before you buy anything.</span></a>
+<a class="note-row" href="leftover-box-enable-boot"><span class="t">Make sure house jobs start after every reboot</span><span class="d">Before you buy a monitoring box, check that Pi-hole and the house share are set to start when the computer boots.</span></a>
+<a class="note-row" href="leftover-box-read-logs"><span class="t">When something broke, look at the log</span><span class="d">SSH works, but a house job doesn't. Read the program's recent log before you buy a monitoring box.</span></a>
+<a class="note-row" href="leftover-box-free-memory"><span class="t">See if the computer still has free memory</span><span class="d">The computer feels slow. Check free memory before you buy a new mini PC.</span></a>
+<a class="note-row" href="leftover-box-whats-busy"><span class="t">See what is keeping the computer busy</span><span class="d">The computer feels slow. Check which program is using the CPU before you buy a new mini PC.</span></a>
+<a class="note-row" href="leftover-box-failed-units"><span class="t">See if any house jobs failed to start</span><span class="d">After a reboot, check failed units before you blame the network or buy a new box.</span></a>
+<a class="note-row" href="2-5g-switch"><span class="t">A faster switch for a first home lab</span><span class="d">If file copies crawl, start with a small silent switch that has eight faster ports.</span></a>
+<a class="note-row" href="tp-link-tl-sg108s-m2"><span class="t">Eight quiet faster ports when file copies crawl: TP-Link TL-SG108S-M2</span><span class="d">Eight quiet faster ports when file copies crawl. Buy the S-M2, not the older SG108-M2.</span></a>
+<a class="note-row" href="trendnet-teg-s562"><span class="t">Quiet faster closet ports plus a real 10G cage: TRENDnet TEG-S562</span><span class="d">Quiet faster closet ports plus a real 10G cage, without VLANs or eight copper ports.</span></a>
+<a class="note-row" href="tp-link-tl-sg105s-m2"><span class="t">Five quiet faster ports for one NAS and one PC: TP-Link TL-SG105S-M2</span><span class="d">Five quiet faster ports for one NAS and one PC. Skip the eight-port box until you count more plugs.</span></a>
+<a class="note-row" href="8-port-vs-5-port-2-5g-switch"><span class="t">8-port vs 5-port 2.5G switch for a closet lab</span><span class="d">Count the real endpoints and add two.</span></a>
+<a class="note-row" href="2-5g-vs-10g-uplink-switch"><span class="t">Buy the extra 10G cage only if one copy already fills the faster house port</span><span class="d">Stay on a quiet faster-port switch until one file copy fills 2.5G.</span></a>
+<a class="note-row" href="teg-s562-vs-qsw-2104-2s"><span class="t">Pick today's cheaper quiet box with four faster ports and two 10G cages: TEG-S562 vs QSW-2104-2S</span><span class="d">Two quiet unmanaged boxes with four faster ports and two 10G cages. Pick by today's price.</span></a>
+<a class="note-row" href="tp-link-tl-sg105pp-m2"><span class="t">Two Wi-Fi APs plus a faster NAS without a rack PoE heater: TP-Link TL-SG105PP-M2</span><span class="d">Two Wi-Fi APs plus a faster NAS without a rack PoE heater.</span></a>
+<a class="note-row" href="managed-vs-unmanaged-2-5g-switch"><span class="t">Managed vs unmanaged 2.5G: when VLANs are worth the tax</span><span class="d">Unmanaged unless you already know you need VLANs.</span></a>
+<a class="note-row" href="tp-link-sg3210x-m2"><span class="t">Quiet managed eight faster ports when you actually need VLANs: TP-Link SG3210X-M2</span><span class="d">Quiet managed eight faster ports when you actually need VLANs. Skip it if unmanaged still fits.</span></a>
+<a class="note-row" href="sg3210x-m2-vs-teg-3102ws"><span class="t">Quiet managed eight faster ports and two 10G cages when you need VLANs: SG3210X-M2 vs TEG-3102WS</span><span class="d">Pick a quiet managed switch with eight faster ports and two 10G cages when you actually need VLANs.</span></a>
+<a class="note-row" href="tp-link-sg2210xmp-m2"><span class="t">Quiet switch that powers two house APs and talks faster to a file box: TP-Link SG2210XMP-M2</span><span class="d">A quiet switch that can power two house APs and still talk faster to a file box.</span></a>
+<a class="note-row" href="sg2210xmp-m2-vs-sg3210xhp-m2"><span class="t">Power house APs from a quiet desk switch, not a loud rack heater: SG2210XMP-M2 vs SG3210XHP-M2</span><span class="d">Power house APs from a quiet desk switch. Skip the louder rack HP version for a closet that stays closed.</span></a>
+<a class="note-row" href="tl-sg105s-m2-vs-teg-s350"><span class="t">Two quiet five-port faster boxes; pick by today's price: TL-SG105S-M2 vs TEG-S350</span><span class="d">Two quiet five-port faster boxes. Specs are twins. Pick by today's price.</span></a>
+<a class="note-row" href="netgear-ms308-vs-tl-sg108s-m2"><span class="t">Metal 8-port that costs more than the shipped TP-Link default: Netgear MS308 vs TL-SG108S-M2</span><span class="d">A metal 8-port that costs more than the shipped TP-Link default.</span></a>
+<a class="note-row" href="netgear-ms305-vs-tl-sg105s-m2"><span class="t">MS305 vs TL-SG105S-M2: five quiet 2.5G ports</span><span class="d">Five quiet faster ports. Prefer the TP-Link unless the Netgear is clearly cheaper the day you buy.</span></a>
+<a class="note-row" href="qnap-qsw-1105-5t-vs-tl-sg105s-m2"><span class="t">QSW-1105-5T vs TL-SG105S-M2: same five ports, usually more money</span><span class="d">Same five faster ports as the $35–39 TP-Link. Skip the QNAP unless the price is close.</span></a>
+<a class="note-row" href="qnap-qsw-1108-8t-r2-vs-tl-sg108s-m2"><span class="t">QSW-1108-8T-R2 vs TL-SG108S-M2: same eight ports, usually more money</span><span class="d">Eight quiet faster ports. Skip the QNAP tax unless you already live in QNAP and the price is close.</span></a>
+<a class="note-row" href="qnap-qsw-2104-2s"><span class="t">Four faster ports and two 10G cages when you already live in QNAP: QNAP QSW-2104-2S</span><span class="d">Four faster ports and two 10G cages when you already own a QNAP.</span></a>
+<a class="note-row" href="mikrotik-crs310-8g-2s-in"><span class="t">Learn RouterOS and VLANs when you want that work: MikroTik CRS310-8G+2S+IN</span><span class="d">Learn RouterOS and VLANs when you want that work. Skip it if you want silent unmanaged switching.</span></a>
+</div>
+<h2 id="mini-pcs"><a href="#mini-pcs">Small computers</a></h2>
+<p class="path-lead">Old gear first. A tiny new PC is later.</p>
+<div class="note-list">
+<a class="note-row" href="start-with-what-you-have"><span class="t">Start with what you already have</span><span class="d">Don't buy anything yet. Old laptop first, or a retired OptiPlex from Marketplace.</span></a>
+<a class="note-row" href="what-os-to-pick"><span class="t">What OS to put on it</span><span class="d">Debian or Ubuntu Server if you can dedicate the old PC. Leave Windows if you still use the laptop.</span></a>
+<a class="note-row" href="leftover-box-os-release"><span class="t">See which OS it is already running</span><span class="d">Before you reinstall or buy a tiny computer, check which OS the computer already has.</span></a>
+<a class="note-row" href="leftover-box-cpu"><span class="t">See how many workers the computer already has</span><span class="d">Before you buy a tiny computer, check how many workers the computer already has.</span></a>
+<a class="note-row" href="leftover-box-ram"><span class="t">See how much memory the computer already has</span><span class="d">Before you buy a tiny computer, check how much memory the computer already has.</span></a>
+<a class="note-row" href="leftover-box-virt"><span class="t">See if the computer can run a pretend computer</span><span class="d">Before you buy a tiny computer for Proxmox, check whether the computer already has the CPU feature for VMs.</span></a>
+<a class="note-row" href="leftover-box-model"><span class="t">See what computer you already have</span><span class="d">Before you buy a tiny computer, check what model you already have.</span></a>
+<a class="note-row" href="leftover-box-disk"><span class="t">See how big the computer disk already is</span><span class="d">Before you buy a tiny computer or a NAS, check how big the computer disk already is.</span></a>
+<a class="note-row" href="leftover-box-swap"><span class="t">See if the computer already has extra memory on disk</span><span class="d">Before you buy a tiny computer, check whether the computer already has overflow memory on the disk.</span></a>
+<a class="note-row" href="n100-mini-pc"><span class="t">A tiny computer you can leave on</span><span class="d">Quiet, about the size of a book. Buy 16 GB of memory. N100 or N150, whichever is on sale.</span></a>
+<a class="note-row" href="beelink-eq13-n200-dual-1g"><span class="t">Dual gigabit living-room mini, not the 2.5G listing: Beelink EQ13</span><span class="d">A dual gigabit living-room mini. Don't confuse it with EQ14 2.5G listings. Buy EQ12 if you wanted two faster ports.</span></a>
+<a class="note-row" href="beelink-eq14-n150-dual-lan-proxmox"><span class="t">Read the network ports before you buy this N150 mini: Beelink EQ14</span><span class="d">The same EQ14 name is sold with gigabit or faster 2.5G ports. Confirm which ports you are actually buying.</span></a>
+<a class="note-row" href="protectli-vp2430e-n150-4x-2-5g-proxmox"><span class="t">Fanless four-port closet firewall you can warrant: Protectli VP2430e</span><span class="d">A fanless four-port closet firewall or router box with US support and coreboot. Not a living-room HDMI toy.</span></a>
+<a class="note-row" href="protectli-vp2440e-n150-10g-sfp"><span class="t">Quiet N150 with a 10G cage when MS-01 is gone: Protectli VP2440e</span><span class="d">A small quiet box with a 10G fiber-style cage you can actually buy, when the Minisforum MS-01 is gone. Skip if you don't have a 10G job yet.</span></a>
+<a class="note-row" href="aoostar-n1-pro-n150-soldered-12gb"><span class="t">Skip the palm box whose 12 GB cannot grow: AOOSTAR N1 Pro</span><span class="d">Skip the tiny living-room box whose memory cannot grow. Soldered RAM means memory you cannot add later. 12 GB is the trap. Buy one you can upgrade, or wait.</span></a>
+<a class="note-row" href="n150-amazon-listing-traps"><span class="t">Match CPU, ports, and RAM before you click Buy on Amazon</span><span class="d">Before you click Buy on Amazon, match the real CPU, the real network ports, and whether memory can be upgraded. Title slugs lie. Skip a listing that only wins on the title.</span></a>
+<a class="note-row" href="gmktec-g3-plus-n150-2-5g"><span class="t">Living-room mini PC with one faster port: GMKtec G3 Plus</span><span class="d">A living-room mini PC with one faster house ethernet port. Not the router. Skip 8 GB. No live 16 GB listing on fetch.</span></a>
+<a class="note-row" href="gmktec-g3-pro-i3-10110u"><span class="t">Skip the old thin-laptop chip listing that claims it beats N150: GMKtec G3 Pro</span><span class="d">Skip the listing that claims it beats an N150. That chip is an old thin-laptop part. Buy a current N150 box instead.</span></a>
+<a class="note-row" href="gmktec-g5-n97-12gb-lpddr5"><span class="t">Skip the sold-out soldered 12 GB cube: GMKtec G5</span><span class="d">Skip this sold-out 12 GB cube. One slow network port and soldered RAM, which means memory you cannot add later. Wait for a current N150 living-room box.</span></a>
+<a class="note-row" href="beelink-s12-pro-vs-s13-living-room-node"><span class="t">Pick the cheap living-room palm box; confirm the LAN: Mini S12 Pro vs Mini S13</span><span class="d">Pick a small living-room box. Confirm the network ports on the exact Amazon listing. Buy whichever is cheaper once the ports match.</span></a>
+<a class="note-row" href="beelink-mini-s13-lpddr5-vs-ddr4"><span class="t">Skip the soldered LPDDR5 listing; wait for upgradable RAM: Beelink Mini S13</span><span class="d">Skip the 12 GB soldered listing. Soldered RAM means memory you cannot add later. Wait for the version where you can add RAM, or pick another box.</span></a>
+<a class="note-row" href="beelink-eq12-n100-dual-2-5g"><span class="t">Quiet dual-faster-port mini still sold new: Beelink EQ12</span><span class="d">A quiet mini with two faster house ethernet ports for home services you leave on. Still sold new. Not EQ14, not a four-port firewall.</span></a>
+<a class="note-row" href="beelink-me-pro-n150-2bay-nas"><span class="t">Quiet two-disk media box, not a four-port firewall: Beelink ME Pro</span><span class="d">A mini PC that can hold two disks when you want a quiet media or backup box, not a four-port firewall. Soldered RAM and pre-order risk are the skip reasons.</span></a>
+<a class="note-row" href="cwwk-n100-4x-i226-amazon"><span class="t">Cheap four-port Amazon barebone; treat the listing as hostile: CWWK</span><span class="d">A cheap four-port Amazon barebone for a house firewall. Same port count as Protectli, worse firmware and support. Often ships with no RAM. Treat the listing as hostile.</span></a>
+<a class="note-row" href="protectli-vp2430e-vs-cwwk-4nic"><span class="t">Pay for US support or gamble on Amazon: Protectli vs CWWK</span><span class="d">Four faster ports for a house firewall. Pay extra for US support and coreboot, or gamble on the cheaper Amazon barebone.</span></a>
+<a class="note-row" href="dual-lan-mini-vs-4x-2-5g-appliance"><span class="t">Living-room dual-port mini vs closet four-port appliance</span><span class="d">A living-room box with one or two network ports versus a closet four-port appliance. A USB faster-port dongle is usually a worse idea than buying the appliance once.</span></a>
+<a class="note-row" href="n100-n150-ram-ceiling-soldered-traps"><span class="t">Buy RAM you can add later; skip soldered 12 GB cubes</span><span class="d">Buy enough memory you can actually add later. Soldered RAM means memory you cannot add later. Skip 12 GB cubes. 16 GB is the floor for a mini PC.</span></a>
+<a class="note-row" href="n100-n150-quicksync-proxmox-lxc"><span class="t">Transcode checklist under Proxmox, not stream-count theater</span><span class="d">A kernel and driver checklist for transcode on a mini PC under Proxmox. Not a stream-count contest. Quick Sync in a container. I won't invent stream counts.</span></a>
+<a class="note-row" href="n100-n150-idle-watts-fan-noise"><span class="t">Bedroom-shelf quiet versus closet door-shut heat</span><span class="d">Pick a quiet box for a bedroom shelf or a closet with the door shut. Extra network ports usually mean more heat when idle. Published maker ranges only.</span></a>
+</div>
+<h2 id="first-nas"><a href="#first-nas">File storage</a></h2>
+<p class="path-lead">A folder on the old PC first. A NAS is later.</p>
+<div class="note-list">
+<a class="note-row" href="first-file-share"><span class="t">A file share</span><span class="d">A folder on the old PC that the house can open from a laptop or a phone. You don't need a NAS for this.</span></a>
+<a class="note-row" href="open-share-from-phone"><span class="t">Open the house share from a phone</span><span class="d">The house folder is on the old PC. Open it from an iPhone or Android on house Wi-Fi. You don't need a NAS app for this.</span></a>
+<a class="note-row" href="open-share-from-away"><span class="t">Open the house share from away</span><span class="d">Open the house folder from a coffee shop or cellular without forwarding SMB. Tailscale on the computer and on your laptop or phone. Free personal plan is enough.</span></a>
+<a class="note-row" href="phone-photos-to-share"><span class="t">Save phone photos to the house share</span><span class="d">Copy camera-roll photos from an iPhone or Android onto the house folder on the old PC. House Wi-Fi only. You don't need a NAS app or iCloud for this.</span></a>
+<a class="note-row" href="open-share-from-laptop"><span class="t">Open the house share from a laptop</span><span class="d">The house folder is on the old PC. Open it from Windows File Explorer or Mac Finder on the house network. You don't need a NAS for this.</span></a>
+<a class="note-row" href="map-share-drive"><span class="t">Map the house share as a drive</span><span class="d">Give Windows a letter (Z:) or keep Finder's Locations entry so the house folder on the old PC opens every time. You don't need a NAS.</span></a>
+<a class="note-row" href="open-share-from-chromebook"><span class="t">Open the house share from a Chromebook</span><span class="d">The house folder is on the old PC. Open it from a Chromebook Files app on house Wi-Fi. You don't need a NAS app for this.</span></a>
+
+<a class="note-row" href="open-share-from-linux"><span class="t">Open the house share from a Linux laptop</span><span class="d">The house folder is on the old PC. Open it from Ubuntu or Fedora Files (or KDE Dolphin) on the house network. You don't need a NAS for this.</span></a>
+
+<a class="note-row" href="time-machine-to-share"><span class="t">Back up a Mac to the house share with Time Machine</span><span class="d">Point Time Machine at a Samba folder on the old PC. Separate share from photos. Cap the size. You don't need a Time Capsule or a NAS for this.</span></a>
+<a class="note-row" href="when-time-machine-wont-backup"><span class="t">When Time Machine won't back up to the house share</span><span class="d">Finder can open the share, or it used to, but Time Machine fails, stalls, or says the disk disappeared. Check the computer, the fruit lines, free space, then the Mac. You don't need a Time Capsule.</span></a>
+
+<a class="note-row" href="file-history-to-share"><span class="t">Back up a Windows PC to the house share with File History</span><span class="d">Point Windows File History at a Samba folder on the old PC. Separate share from photos. You don't need a NAS for this.</span></a>
+<a class="note-row" href="when-file-history-wont-backup"><span class="t">When File History won't back up to the house share</span><span class="d">File Explorer can open the share, or it used to, but File History fails, stalls, or says the drive disappeared. Check the computer, credentials, free space, then Windows. You don't need a NAS.</span></a>
+<a class="note-row" href="house-folder-on-usb"><span class="t">Put the house folder on a USB disk</span><span class="d">Move the house share onto a USB disk that stays plugged into the old PC so photos don't fill the system drive. You don't need a NAS for this.</span></a>
+<a class="note-row" href="add-share-user"><span class="t">Add another person to the house share</span><span class="d">Give a partner or roommate their own login for the house folder on the old PC. Same share path. Separate Samba password. You don't need a NAS.</span></a>
+<a class="note-row" href="add-second-share"><span class="t">Add a second house share</span><span class="d">Make another Samba folder on the old PC: documents next to photos, or a quiet place for laptop backups. Same computer. You don't need a NAS.</span></a>
+<a class="note-row" href="remove-share-user"><span class="t">Remove someone from the house share</span><span class="d">Take a partner or roommate off the house folder on the old PC. Drop them from Samba, then from valid users. Optional: delete the Linux login. You don't need a NAS.</span></a>
+<a class="note-row" href="see-who-uses-share"><span class="t">See who is using the house share</span><span class="d">Check which logins and devices are connected to the Samba folder on the old PC. smbstatus. You don't need a NAS.</span></a>
+<a class="note-row" href="leftover-box-samba-password"><span class="t">Set or change the house-share password</span><span class="d">Finder and File Explorer ask for a share password that is not always the login. Samba keeps its own copy. Set it once. Change it when you forget.</span></a>
+<a class="note-row" href="when-share-wont-open"><span class="t">When the house share won't open</span><span class="d">Finder, File Explorer, or the phone can't open the house folder. Check the computer is on, confirm the address, then match the error (path not found, login failed, can't write, disk full). You don't need a NAS.</span></a>
+<a class="note-row" href="when-share-wont-write"><span class="t">When you can open the house share but can't write</span><span class="d">The house folder opens, but copy, save, or phone upload fails. Check disk room, Samba read only, then folder ownership. You don't need a NAS.</span></a>
+<a class="note-row" href="when-share-is-slow"><span class="t">When the house share is slow</span><span class="d">The folder opens and copies work, but photos crawl. Check Wi-Fi vs a cable, link speed, disk room, then the laptop. You don't need a 10G switch.</span></a>
+<a class="note-row" href="forget-saved-share-login"><span class="t">Forget the saved house-share login</span><span class="d">Windows, Mac, or a phone still uses the old Samba password after you changed it. Clear Credential Manager, Keychain, or the phone bookmark, then open again. You don't need a NAS.</span></a>
+<a class="note-row" href="when-backup-wont-run"><span class="t">When the house backup won't run</span><span class="d">rsync failed, the USB is missing, or the second copy never landed. Check the stick, the mount, the source path, then match the error (no space, permission, connection). You don't need a NAS.</span></a>
+<a class="note-row" href="when-backup-usb-full"><span class="t">When the backup USB is full</span><span class="d">rsync says no space, or df shows the stick is packed. Confirm the mount, free room or use a bigger stick, or copy to another old PC. You don't need a NAS.</span></a>
+<a class="note-row" href="when-house-disk-full"><span class="t">When the computer's disk is full</span><span class="d">Photos won't copy, the share says no space, or df shows the system disk packed. Confirm it is the computer (not the backup stick), free room or move the house folder. You don't need a NAS.</span></a>
+<a class="note-row" href="see-disk-health"><span class="t">See if the old disk is dying</span><span class="d">SMART reports whether the drive still looks healthy. Install smartmontools, list the disk, run a quick health check before you trust photos on a Marketplace PC. You don't need a NAS.</span></a>
+<a class="note-row" href="when-disk-is-dying"><span class="t">When the old disk is dying</span><span class="d">SMART says FAILED, the disk clicks, or dmesg shows I/O errors. Copy the house folder off first, then plan a drive swap. You don't need a NAS tonight.</span></a>
+<a class="note-row" href="when-disk-is-read-only"><span class="t">When the disk went read-only</span><span class="d">apt fails, the share won't take photos, or mount shows ro after a power blip. Confirm read-only, copy off what you can, then remount or fsck. You don't need a NAS tonight.</span></a>
+
+<a class="note-row" href="leftover-box-share-check"><span class="t">When the house share disappeared, check the computer</span><span class="d">The computer is awake, but Finder or File Explorer cannot see the folder. Check that Samba is still running before you buy a NAS.</span></a>
+<a class="note-row" href="restart-house-services"><span class="t">Restart Pi-hole or the house share</span><span class="d">Ads vanished or Finder lost the folder, but the computer is still on. Restart the one service that died. You don't need a full reboot or a new mini PC.</span></a>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="leftover-box-lsblk"><span class="t">See disks and USB sticks on the computer</span><span class="d">After SSH works (and before you blame a missing USB backup), list disks and USB sticks with lsblk so you see names like sda and sdb without opening a disk app.</span></a>
+<a class="note-row" href="leftover-box-findmnt"><span class="t">See which folders are already attached</span><span class="d">After you can list disks with lsblk (and before you blame a missing USB backup), use findmnt to see which folders are already attached (mounted) so you know what is live as / or a USB path.</span></a>
+<a class="note-row" href="leftover-box-blkid"><span class="t">Read disk labels and UUIDs</span><span class="d">After you can list disks with lsblk and see which folders are attached with findmnt, use blkid to read labels, UUIDs, and filesystem types on disk slices so you can tell which stick or slice is which.</span></a>
+<a class="note-row" href="leftover-box-by-uuid"><span class="t">See stable disk names by UUID</span><span class="d">After blkid shows labels and UUIDs, use ls on /dev/disk/by-uuid (and optional by-label) so you see the fixed paths Linux already made — names that don't move when sdb becomes sdc.</span></a>
+<a class="note-row" href="leftover-box-by-id"><span class="t">See stable disk names by hardware id</span><span class="d">After by-uuid shows filesystem UUID paths, use ls on /dev/disk/by-id (and optional by-path) so you see hardware-style fixed names — ata-…, usb-…, nvme-… — that don't move when sdb becomes sdc.</span></a>
+<a class="note-row" href="leftover-box-udevadm"><span class="t">Peek at disk details with udevadm</span><span class="d">After by-id shows hardware-style fixed names, use udevadm info (look-only) on a disk path so you see the properties udev already knows — without mounting or rewriting anything.</span></a>
+<a class="note-row" href="leftover-box-fdisk-list"><span class="t">Peek at partition tables with fdisk</span><span class="d">After udevadm shows disk properties, use fdisk -l (look-only) so you see the partition table layout — sizes and slice names — without creating, deleting, or rewriting anything.</span></a>
+<a class="note-row" href="leftover-box-parted-list"><span class="t">Peek at partition layout with parted</span><span class="d">After fdisk -l shows the partition table, use parted -l (look-only) so you see a second layout printout — sizes and filesystem hints — without creating, resizing, or rewriting anything.</span></a>
+<a class="note-row" href="leftover-box-proc-partitions"><span class="t">Peek at partitions via /proc/partitions</span><span class="d">After parted -l shows a layout printout, read /proc/partitions (look-only) so you see the kernel’s plain name and size list — without creating, wiping, or mounting anything.</span></a>
+<a class="note-row" href="leftover-box-inodes"><span class="t">When copies fail but free space looks fine</span><span class="d">Before you buy a bigger drive or a NAS, check file slots when copies fail but gigabytes still look free.</span></a>
+<a class="note-row" href="leftover-box-largest-folders"><span class="t">See which folders are eating the disk</span><span class="d">Before you buy a bigger drive or a NAS, ask which folders are taking the room.</span></a>
+<a class="note-row" href="leftover-box-disk"><span class="t">See how big the computer disk already is</span><span class="d">Before you buy a tiny computer or a NAS, check how big the computer disk already is.</span></a>
+<a class="note-row" href="leftover-box-apt-clean"><span class="t">Clear old package downloads when the disk is tight</span><span class="d">After weekly updates, old downloads can sit on the disk. Clear them safely before you buy a bigger drive or a NAS.</span></a>
+<a class="note-row" href="leftover-box-old-logs"><span class="t">Clear old logs when the disk is tight</span><span class="d">Before you buy a bigger drive or a NAS, see how much room the diary is using, then trim old entries safely.</span></a>
+<a class="note-row" href="first-backup"><span class="t">A backup of the house folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another old computer. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-usb-disk"><span class="t">See if the USB backup disk showed up</span><span class="d">Before you trust the weekly copy, confirm the computer can see the USB disk.</span></a>
+<a class="note-row" href="format-usb-for-backup"><span class="t">Format a USB stick for the house backup</span><span class="d">Wipe and format a spare USB stick so the old PC can mount it for the house-folder backup. Ext4 for Linux. This erases the stick. You don't need a NAS.</span></a>
+<a class="note-row" href="auto-mount-backup-usb"><span class="t">Mount the backup USB automatically</span><span class="d">Leave the backup stick plugged in and mount it at boot by UUID, so weekly rsync finds /mnt/backup without a hand mount. You don't need a NAS.</span></a>
+<a class="note-row" href="unplug-backup-usb"><span class="t">Unplug the backup USB safely</span><span class="d">Finish disk writes, unmount /mnt/backup, then yank the stick into a drawer. Fixes target is busy. You don't need a NAS.</span></a>
+<a class="note-row" href="leftover-box-backup-check"><span class="t">Check that the backup actually copied</span><span class="d">After the copy finishes, look on the USB disk and confirm the files are there before you trust it. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="leftover-box-restore-one"><span class="t">Restore one file from the USB backup</span><span class="d">A backup you never copied back is a hope. Pull one file off the USB onto the computer so you know you can get it. You don't need a NAS for this.</span></a>
+<a class="note-row" href="restore-house-folder"><span class="t">Put the house folder back from the backup</span><span class="d">After a wipe, a reinstall, or an empty share, copy the house folder from the USB (or second old PC) back onto the computer. You don't need a NAS.</span></a>
+<a class="note-row" href="when-the-clock-is-wrong"><span class="t">When the computer's clock is wrong</span><span class="d">HTTPS fails, apt says the Release file is not valid yet, or logs look like 2019. Check the clock, turn network time on, set the house zone. You don't need a GPS clock hat.</span></a>
+<a class="note-row" href="leftover-box-timezone"><span class="t">Set the computer clock to your house</span><span class="d">Logs, updates, and weekly backups only make sense if the computer uses your local time. timedatectl sets the city zone. It keeps the clock correct over the network.</span></a>
+<a class="note-row" href="leftover-box-timers"><span class="t">See what the computer already runs on a schedule</span><span class="d">Before you add a weekly backup or buy a monitoring box, list the computer's scheduled jobs.</span></a>
+<a class="note-row" href="leftover-box-backup-timer"><span class="t">Back up the folder every week without remembering</span><span class="d">After one manual USB (or second-box) copy works, let the computer run the same rsync on a weekly timer. A phone reminder is still fine if you prefer.</span></a>
+<a class="note-row" href="first-nas"><span class="t">A first file box (NAS) for one person</span><span class="d">A quiet box for photos and backups. Two drives if you want sleep.</span></a>
+<a class="note-row" href="synology-ds223-review"><span class="t">Quiet overnight backups on DSM without the Plus tax: DS223</span><span class="d">Quiet overnight backups on DSM without the Plus tax. Skip Plus if that is the whole job. Skip the j.</span></a>
+<a class="note-row" href="synology-ds224-plus-review"><span class="t">Quiet overnight backups with Synology DSM: DS224+</span><span class="d">Quiet overnight backups with DSM when Plus extras matter. Skip if sleep backups alone are the job.</span></a>
+<a class="note-row" href="synology-ds423-plus-review"><span class="t">Four-bay overnight backups on DSM: DS423+</span><span class="d">Four-bay overnight backups on Synology DSM when two bays are not enough. Still gigabit.</span></a>
+<a class="note-row" href="ugreen-dxp2800-review"><span class="t">Quiet overnight photos on a 2-bay: UGREEN DXP2800</span><span class="d">Quiet overnight photos on a 2-bay with a faster port, without paying for 10G.</span></a>
+<a class="note-row" href="terramaster-f2-425-review"><span class="t">Cheap quiet 2-bay without Synology DSM: TerraMaster F2-425</span><span class="d">Cheap quiet 2-bay with one faster port when you want Intel and don't need Synology DSM.</span></a>
+<a class="note-row" href="terramaster-f2-424-vs-f2-425"><span class="t">Stay on the cheap quiet 2-bay unless you will use two faster ports</span><span class="d">Skip the extra $125 unless you will use dual 2.5G or NVMe cache. F2-425 stays the cheap TOS default.</span></a>
+<a class="note-row" href="qnap-ts-262a-review"><span class="t">Quiet 2-bay on QNAP software: QNAP TS-262A</span><span class="d">Quiet 2-bay on QNAP software with a faster port and room for fast solid-state cache.</span></a>
+<a class="note-row" href="qnap-ts-264-vs-ts-262a"><span class="t">Stay on the QNAP 2-bay default unless you will use the extra port</span><span class="d">Skip the extra $120 unless you use the second 2.5G port, HDMI, or PCIe. TS-262A stays the QTS 2-bay default.</span></a>
+<a class="note-row" href="terramaster-f4-425-review"><span class="t">Four bays at 2-bay Plus money: TerraMaster F4-425</span><span class="d">Four bays when you want to start with two disks and add later. Still one faster port. Still no M.2.</span></a>
+<a class="note-row" href="asustor-as5402t-review"><span class="t">Asustor AS5402T review: four NVMe slots on a 2-bay NAS</span><span class="d">A 2-bay file box that can run fast solid-state disks if apps need speed. Skip it if you only need two spinning disks for photos.</span></a>
+<a class="note-row" href="asustor-as5404t-review"><span class="t">Asustor AS5404T review: 4-bay, dual 2.5GbE, four M.2</span><span class="d">Four bays when two are not enough, with a faster port than Synology's gigabit Plus boxes.</span></a>
+<a class="note-row" href="terramaster-f4-424-pro-truenas"><span class="t">32 GB 4-bay for Docker or TrueNAS: TerraMaster F4-424 Pro</span><span class="d">i3-N305 and 32 GB. TOS in the box. x86 people actually re-image.</span></a>
+<a class="note-row" href="ds224-plus-vs-ds423-plus"><span class="t">DS224+ vs DS423+: 2-bay or 4-bay Synology Plus</span><span class="d">Pick two bays or four when overnight backups on DSM is the job. Four bays cost about $200 more for empty slots, not a faster network.</span></a>
+<a class="note-row" href="synology-shr-vs-raid-1"><span class="t">Two identical disks mirror each other: SHR ≈ RAID 1 on two bays</span><span class="d">Two identical disks mirror each other; SHR ≈ RAID 1 on two bays. RAID is not backup.</span></a>
+<a class="note-row" href="nas-hdd-picks-2026-cmr"><span class="t">Buy hard drives a first file box can rebuild: CMR, not the cheap packed style</span><span class="d">Buy hard drives a first file box can rebuild. CMR writes everywhere, skip the cheap packed style.</span></a>
+<a class="note-row" href="nas-2-5-vs-3-5-drives"><span class="t">2.5-inch vs 3.5-inch in a first NAS: HDD bulk vs SATA SSD apps</span><span class="d">Put big quiet disks in a first file box, not an old laptop drive. Small laptop disks are the wrong size for bulk photos. A small fast SSD is only if apps need speed, not for a photo dump.</span></a>
+<a class="note-row" href="nas-2-5g-vs-10g"><span class="t">2.5G vs 10G on a first NAS: when the NIC is the waste</span><span class="d">Skip a 10G port on a first two-drive file box. Two spinning disks cannot fill even the faster 2.5G port.</span></a>
+<a class="note-row" href="nas-power-noise-first-box"><span class="t">Bedroom overnight box vs closet next to a workstation</span><span class="d">Pick by watts and noise, not by brand. Maker lab numbers only.</span></a>
+<a class="note-row" href="first-nas-diy-vs-appliance"><span class="t">Stay on the maker OS, or wipe an x86 4-bay for TrueNAS</span><span class="d">Stay on the maker OS, or wipe an x86 4-bay for TrueNAS.</span></a>
+</div>
+<h2 id="cheap-poe"><a href="#cheap-poe">Better Wi-Fi</a></h2>
+<p class="path-lead">House ad block first. A new mesh kit is later.</p>
+<div class="note-list">
+<a class="note-row" href="first-useful-service"><span class="t">The first useful thing</span><span class="d">Put a house-wide ad block on the old PC. The rest of the house keeps using the internet as usual. You don't need a Raspberry Pi.</span></a>
+<a class="note-row" href="leftover-box-router-dns"><span class="t">Point the house at the ad block</span><span class="d">After Pi-hole is installed, point the house router at the computer for DNS. Phones and laptops need no app. Sites still load. A lot of ads don't.</span></a>
+<a class="note-row" href="common-router-dns"><span class="t">Point common home routers at Pi-hole</span><span class="d">Where to set DNS on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so the house asks Pi-hole. Prefer LAN DHCP DNS. You don't need a new router.</span></a>
+<a class="note-row" href="flush-dns-on-devices"><span class="t">Flush old DNS on phones and laptops</span><span class="d">After you point the router at Pi-hole, phones and laptops may still use the old DNS. Renew the Wi-Fi lease or flush the cache so ads drop. You don't need a new router.</span></a>
+<a class="note-row" href="common-router-reservation"><span class="t">Keep the computer on the same address on common routers</span><span class="d">Where to reserve DHCP on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so SSH and Pi-hole keep the same number after a reboot. You don't need a new router.</span></a>
+<a class="note-row" href="manual-dns-on-devices"><span class="t">Point a phone or laptop at Pi-hole when the router won't</span><span class="d">When Nest, Google Wifi, or an ISP gateway will not take custom DNS, set DNS on one phone or laptop so it asks Pi-hole. You don't need a new router for this device.</span></a>
+<a class="note-row" href="leftover-box-ad-block-check"><span class="t">When ads come back, check the ad block</span><span class="d">The computer is awake, but banners are back. Check that Pi-hole is still answering before you buy a mesh kit or blame the router.</span></a>
+<a class="note-row" href="when-one-phone-shows-ads"><span class="t">When one phone still shows ads</span><span class="d">Everyone else's ads dropped. One phone still shows banners. Check Private DNS, Private Relay, a VPN, then the Wi-Fi lease. You don't need a new router.</span></a>
+<a class="note-row" href="when-one-laptop-shows-ads"><span class="t">When one laptop still shows ads</span><span class="d">Everyone else's ads dropped. One laptop (or one browser) still shows banners. Check Chrome, Edge, or Firefox Secure DNS, Windows encrypted DNS, Mac Private Relay, then a VPN. You don't need a new router.</span></a>
+<a class="note-row" href="when-a-site-wont-load"><span class="t">When a site won't load after Pi-hole</span><span class="d">A bank, streamer, or login page breaks after Pi-hole. Pause blocking for five minutes, then allow the domain you need. You don't need a new router.</span></a>
+<a class="note-row" href="when-dns-is-slow"><span class="t">When browsing feels slow after Pi-hole</span><span class="d">Pages hang a few seconds, then load. Ads may still be blocked. Time a DNS lookup, check Pi-hole and its upstream, then prove it with a bypass. You don't need a faster plan tonight.</span></a>
+<a class="note-row" href="allow-a-site"><span class="t">Allow a site in Pi-hole on purpose</span><span class="d">One domain the house needs that a block list keeps catching. Add it to the allow list. You don't wipe every list or buy a new router.</span></a>
+<a class="note-row" href="when-pihole-wont-open"><span class="t">When the Pi-hole admin page won't open</span><span class="d">http://pi.hole/admin or the computer's address plus /admin won't load. Check house Wi-Fi, the address, then Pi-hole and the web service. You don't need a new router.</span></a>
+<a class="note-row" href="when-router-admin-wont-open"><span class="t">When the home router page won't open</span><span class="d">192.168.x.1, routerlogin.net, or the sticker URL won't load. Find the gateway number, use http on house Wi-Fi, then log in. You don't need a new router.</span></a>
+<a class="note-row" href="when-router-password-fails"><span class="t">When the router password won't work</span><span class="d">The gateway login page loads, but sticker, app, or old password fails. Try the right account and maker app before a factory reset. A reset wipes DNS and reservations.</span></a>
+<a class="note-row" href="leftover-box-dns-check"><span class="t">See which name server the computer is using</span><span class="d">When names fail or ads come back, check which DNS the computer asks before you buy a mesh kit.</span></a>
+<a class="note-row" href="leftover-box-name-lookup"><span class="t">Look up a site name from the computer</span><span class="d">When a website name fails, try resolving it from the computer before you buy a mesh kit.</span></a>
+<a class="note-row" href="backup-pihole"><span class="t">Save a Pi-hole backup before you change things</span><span class="d">Export settings with Teleporter so a reinstall or a bad list does not wipe your allow list and local DNS. You don't need a new Raspberry Pi.</span></a>
+<a class="note-row" href="add-local-dns-name"><span class="t">Add a local name in Pi-hole</span><span class="d">Give the old PC a short house name so phones and laptops can open SSH, the share, and the admin page without remembering the number. You don't need a new router.</span></a>
+<a class="note-row" href="when-local-name-fails"><span class="t">When the house name won't resolve</span><span class="d">lab.home says unknown host, or SSH and the share still need the IP. Prove which DNS the device uses, check the Pi-hole record, then the reserved address. Skip a new router tonight.</span></a>
+
+
+<a class="note-row" href="leftover-box-pihole-password"><span class="t">Change the Pi-hole admin password</span><span class="d">After the house ad block is up, change the admin password the installer printed. That password is not the login.</span></a>
+<a class="note-row" href="cheap-poe"><span class="t">Power two Wi-Fi points from one small switch</span><span class="d">Enough watts and enough ports. Not a controller religion on day one.</span></a>
+<a class="note-row" href="tp-link-tl-sg1005p"><span class="t">Power two house APs from one quiet brick: TP-Link TL-SG1005P</span><span class="d">Four PoE+ ports, one spare uplink, no fan, no controller.</span></a>
+<a class="note-row" href="tp-link-tl-sg108pe"><span class="t">More ports for a fuller closet, still only four PoE: TP-Link TL-SG108PE</span><span class="d">More ports for a fuller closet. Still only four PoE+ at 64 W.</span></a>
+<a class="note-row" href="tp-link-tl-sg105pe"><span class="t">Same quiet two-AP brick with VLAN menus when you need them: TP-Link TL-SG105PE</span><span class="d">Same quiet two-AP brick with VLAN menus. Skip if you only need power.</span></a>
+<a class="note-row" href="eap613-small-house-af"><span class="t">Two floors, one gigabit house, cheap af power: EAP613</span><span class="d">Two floors, one gigabit house, cheap af power.</span></a>
+<a class="note-row" href="eap615-wall"><span class="t">In-wall house AP when the cable already comes out of the wall box: EAP615-Wall</span><span class="d">In-wall house AP when the cable already comes out of the wall box.</span></a>
+<a class="note-row" href="eap613-vs-eap653"><span class="t">Two about-$80 APs. Radio and power class differ. The cheap injector can be the trap: EAP613 vs EAP653</span><span class="d">Two about-$80 APs. Radio and power class differ. Cheap injector can be the trap.</span></a>
+<a class="note-row" href="omada-eap653-vs-unifi-u7-lite"><span class="t">Pick the house Wi-Fi software you will actually live with: Omada EAP653 vs UniFi U7 Lite</span><span class="d">Pick the house Wi-Fi software you will actually live with.</span></a>
+<a class="note-row" href="unifi-u7-lite-review"><span class="t">Simple ceiling Wi-Fi 7 for a UniFi house: UniFi U7 Lite</span><span class="d">Simple ceiling Wi-Fi 7 for a UniFi house. Honest dual-band, no 6 GHz.</span></a>
+<a class="note-row" href="wifi-7-tax-closet-lab"><span class="t">Skip the $190 Wi-Fi 7 puck until the WAN is faster than the AP</span><span class="d">Skip the extra-money 6 GHz puck until the house internet is faster than gigabit.</span></a>
+<a class="note-row" href="instant-on-ap21-ap22-house"><span class="t">House Wi-Fi with an app, no license, no controller VM: Aruba Instant On AP21 vs AP22</span><span class="d">House Wi-Fi with an app, no license, no controller VM. Skip the denser AP25.</span></a>
+<a class="note-row" href="grandstream-gwn7660-embedded-controller"><span class="t">Quiet house AP that runs its own controller: Grandstream GWN7660</span><span class="d">Quiet house AP that runs its own controller. Skip if you already picked Omada or UniFi.</span></a>
+<a class="note-row" href="cudy-ap3000-openwrt"><span class="t">Ceiling AP you can later flash OpenWrt on: Cudy AP3000</span><span class="d">Ceiling AP you can later flash OpenWrt on. Stock is fine. Flash is not one-click.</span></a>
+<a class="note-row" href="gl-mt6000-ap-mode-no-poe"><span class="t">Living-room router as an AP when the closet has no PoE yet: Flint 2 (GL-MT6000)</span><span class="d">Living-room router as an AP when the closet has no PoE yet. Barrel plug, not a splitter.</span></a>
+<a class="note-row" href="8-port-2-5g-poe-closet"><span class="t">Quiet switch that powers two Lite APs without a loud 24-port heater: 8-port 2.5G PoE</span><span class="d">Quiet switch that powers two Lite APs without a loud 24-port heater.</span></a>
+<a class="note-row" href="poe-injector-vs-switch-two-aps"><span class="t">One injector, two injectors, or a 4-port PoE+ switch</span><span class="d">One AP can use a small injector. Two APs is when a tiny PoE switch starts making sense.</span></a>
+<a class="note-row" href="poe-af-at-bt-closet-budget"><span class="t">af, at, bt: match the AP class before you buy the switch</span><span class="d">Match the AP power class before you buy the switch.</span></a>
+<a class="note-row" href="passive-24v-poe-traps"><span class="t">Old 24 V passive bricks will not power a modern house AP like an U7 Lite</span><span class="d">Old 24 V passive bricks will not power a modern house AP. Skip them.</span></a>
+<a class="note-row" href="sg2210mp-fan-noise-vs-fanless"><span class="t">Buy the quiet fanless PoE switch. Don't keep the loud SG2210MP and mod the fan</span><span class="d">Buy the fanless SKU. Don't mod the fan.</span></a>
+<a class="note-row" href="eap670-2-5g-wifi6"><span class="t">Faster Wi-Fi 6 ceiling puck when you already have 2.5G PoE and no Wi-Fi 7 phones: EAP670</span><span class="d">Faster Wi-Fi 6 when you already have 2.5G PoE and no Wi-Fi 7 phones.</span></a>
+</div>
+<h2 id="used-vs-new"><a href="#used-vs-new">Used or new</a></h2>
+<p class="path-lead">Old gear first. Used vs new is later.</p>
+<div class="note-list">
+<a class="note-row" href="start-with-what-you-have"><span class="t">Start with what you already have</span><span class="d">Don't buy anything yet. Old laptop first, or a retired OptiPlex from Marketplace.</span></a>
+<a class="note-row" href="used-vs-new"><span class="t">When used office gear is a gift</span><span class="d">Start with gear you already have. Add a cheap used switch later, but skip boxes built for a data-center aisle.</span></a>
+<a class="note-row" href="new-2-5g-vs-used-c3560-myth"><span class="t">The $40 used Catalyst is still 1G</span><span class="d">A used Catalyst 3560-class 24-port is still a gigabit box.</span></a>
+<a class="note-row" href="minisforum-ms-01-vs-used-1u"><span class="t">Run a quiet 10G closet lab without a loud used 1U: Minisforum MS-01</span><span class="d">Run a quiet 10G closet lab without the noise and depth of a used Dell R630.</span></a>
+<a class="note-row" href="minisforum-ms-a2-closet-lab"><span class="t">More CPU in a compact 10G closet box, still not a rack server: Minisforum MS-A2</span><span class="d">More CPU in a compact 10G closet box than the MS-01, with a fan and a higher price. Still not a rack server.</span></a>
+<a class="note-row" href="protectli-vp2420e-vs-used-firewall"><span class="t">Quiet fanless four-port house firewall instead of a loud used 1U: Protectli VP2420e</span><span class="d">Quiet fanless four-port house firewall instead of a loud used 1U. Skip the dual-Xeon boat anchor.</span></a>
+<a class="note-row" href="mikrotik-crs305-vs-used-cisco-10g"><span class="t">Four quiet desk 10G links without a used Catalyst: MikroTik CRS305</span><span class="d">Four quiet desk 10G links without bringing a loud used Catalyst into the closet.</span></a>
+<a class="note-row" href="qnap-qsw-2104-2s-closet"><span class="t">Connect a 10G NAS and four faster PCs without a used Cisco chassis: QNAP QSW-2104-2S</span><span class="d">Connect a 10G NAS and four faster PCs without putting a used Cisco chassis in the closet.</span></a>
+<a class="note-row" href="lifetime-warranty-vs-smartnet"><span class="t">Buy paper you can call on a closet lot, not SmartNet you cannot transfer</span><span class="d">On a closet lot you don't get SmartNet. Buy new paper you can actually call.</span></a>
+<a class="note-row" href="110v-brick-vs-208v-1u"><span class="t">If the PSU wants 208 V, it does not belong in a closet</span><span class="d">A closet is a 120 V duplex. Buy the brick.</span></a>
+<a class="note-row" href="1u-vs-pizza-box-closet"><span class="t">1U is for a rack. A closet gets a pizza box.</span><span class="d">Used 1U is deep, loud, and wants rails. The closet objects are pizza boxes.</span></a>
+<a class="note-row" href="unifi-usw-ultra-vs-used-catalyst-poe"><span class="t">New fanless PoE for a UniFi house, not a used 48-port Catalyst: Switch Ultra</span><span class="d">If the house is already UniFi, buy the Ultra 60W new. Not a used Catalyst PoE.</span></a>
+<a class="note-row" href="synology-cpo-vs-amazon-renewed"><span class="t">Buy a new or Synology-certified DS224+. Skip random “renewed.”</span><span class="d">Amazon Renewed is not Synology CPO. New diskless DS224+ is the clean US buy.</span></a>
+<a class="note-row" href="ugreen-dxp4800-plus-vs-used-synology"><span class="t">New 10G in the chassis, not a used Synology: UGREEN DXP4800 Plus</span><span class="d">New 10G in the chassis. Don't buy a used DS918+ for 10G.</span></a>
+<a class="note-row" href="asus-nuc-14-pro-vs-used-xeon-d"><span class="t">Supported small 4×4, not a used Xeon-D boat anchor: ASUS NUC 14 Pro</span><span class="d">Supported small 4×4 with a name on the firmware, not a used Xeon-D boat anchor.</span></a>
+<a class="note-row" href="new-dac-x710-vs-mystery-10g"><span class="t">Buy a new 10Gtek DAC and a named X710. Skip “works great” NICs.</span><span class="d">Buy a new short DAC and a network card that names its chip. Skip random used 10G cards and mystery optics from a drawer.</span></a>
+<a class="note-row" href="beelink-n150-vs-used-1u-bill"><span class="t">A $339 Beelink N150 vs the yearly cost of a used 1U</span><span class="d">A small new mini PC often costs less over a year of power than a loud used server. Skip the used 1U if heat and noise matter. This note is only about the power bill, not which chip wins.</span></a>
+<a class="note-row" href="unifi-ucg-ultra-vs-used-usg"><span class="t">New USB-C UniFi gateway, not a used USG plus Cloud Key: Cloud Gateway Ultra</span><span class="d">Built-in controller. Faster WAN. USB-C. Skip used USG-3P lots.</span></a>
+<a class="note-row" href="unifi-flex-mini-2-5g-vs-used-us-8"><span class="t">New $49 faster puck, not a used gigabit US-8: UniFi Flex Mini 2.5G</span><span class="d">UI store $49. Used US-8 and Flex Mini 1G lots are still gigabit.</span></a>
+<a class="note-row" href="unifi-express-7-vs-used-udr"><span class="t">New Wi-Fi 7 gateway, not a used Dream Router: UniFi Express 7</span><span class="d">UI store $199. Used UDR and original Express lots are still Wi-Fi 6 and 1G.</span></a>
+<a class="note-row" href="unifi-lite-8-poe-vs-used-us-8-60w"><span class="t">New $109 fanless UniFi PoE, not a used US-8-60W: Lite 8 PoE</span><span class="d">UI store $109. Used US-8-60W lots are last-gen 1G PoE.</span></a>
+</div>
+<h2 id="closet-adjacent"><a href="#closet-adjacent">Closet extras</a></h2>
+<p class="path-lead">An old PC does not need a shelf yet. Buy this after the path.</p>
+<div class="note-list">
+<a class="note-row" href="leftover-box-no-ups"><span class="t">You don't need a UPS yet</span><span class="d">The computer can sit on a house outlet. A blink of the lights is a reboot. Skip a battery box this weekend.</span></a>
+<a class="note-row" href="usb-vs-pcie-2-5g-nic"><span class="t">Meet a faster closet switch without swapping the mini PC</span><span class="d">A $20–$30 adapter is the cheapest way to meet a faster closet switch without buying a new computer.</span></a>
+<a class="note-row" href="sfp-plus-dac-closet"><span class="t">SFP+ DAC cables for a closet 10G hop</span><span class="d">The cheapest short cable between two boxes that already have a fiber-style cage. No glass fiber. No tiny optics to mix up. Skip if neither box has that cage yet.</span></a>
+<a class="note-row" href="cat6a-vs-cat5e-closet"><span class="t">Cat6a vs Cat5e in a closet that already does 2.5G</span><span class="d">2.5GBASE-T is specified to run on existing Cat5e. Don't rip walls.</span></a>
+<a class="note-row" href="cheap-ups-closet"><span class="t">Cheap UPS for a closet that stays on overnight</span><span class="d">A small battery box so a blink of the lights is not a reboot. Skip a huge rack UPS this weekend.</span></a>
+<a class="note-row" href="closet-pdu-not-a-fire-hazard"><span class="t">A metal rack power strip that is not a fire hazard</span><span class="d">UL-listed all-metal 15 A 1U strip with a switch cover.</span></a>
+<a class="note-row" href="2-5-ssd-proxmox-boot"><span class="t">A small boot disk for the old PC, not a place for VMs</span><span class="d">A small disk so the computer can start. 250–500 GB SATA with a DRAM cache. Don't put guests on the boot disk.</span></a>
+<a class="note-row" href="hdmi-dummy-plug-headless"><span class="t">HDMI dummy plug for a headless mini PC</span><span class="d">A $16 HDMI plug so a closet mini PC thinks a monitor is attached. Skip if you already have a screen.</span></a>
+<a class="note-row" href="cheap-kvm-over-ip"><span class="t">Cheap KVM-over-IP for a closet you don't want to sit in</span><span class="d">Reach the old PC screen from the couch when it won't boot. A $100 HDMI+USB box does that.</span></a>
+<a class="note-row" href="fanless-60w-psu"><span class="t">Fanless 60 W brick that is not a mystery barrel</span><span class="d">Mean Well GST60A is a silent, Level VI, UL/TUV desktop adapter.</span></a>
+<a class="note-row" href="closet-label-maker"><span class="t">A label maker you will actually use on patch leads</span><span class="d">Brother TZe laminated tape on a Bluetooth cube.</span></a>
+<a class="note-row" href="closet-cable-management"><span class="t">Hook-and-loop, not zip ties, in a closet</span><span class="d">A 100-pack of 8-inch hook-and-loop is the whole cable-management budget.</span></a>
+<a class="note-row" href="10gtek-x520-vs-tx201"><span class="t">New 10G SFP+ NIC vs staying on 2.5G copper</span><span class="d">Don't buy 10G until a single flow fills 2.5. New card plus a DAC, not an eBay pull.</span></a>
+<a class="note-row" href="tx401-10gbase-t-later"><span class="t">When one copy fills the faster house port: the 10G copper card</span><span class="d">The copper 10G card when the file box talks 10G over a normal ethernet jack.</span></a>
+<a class="note-row" href="closet-1u-shelf"><span class="t">A 1U shelf so the NAS is not sitting on the UPS</span><span class="d">10-inch vented cantilever. The 7-inch sibling is too short for a DS224+.</span></a>
+<a class="note-row" href="closet-cat6-patch-panel"><span class="t">A 19-inch 12-port Cat6 panel for the StarTech 12U</span><span class="d">Wall drops become numbered ports. A 1U 12-port punch-down on the 19-inch 2-post.</span></a>
+<a class="note-row" href="closet-1ft-cat6-patch"><span class="t">1-foot Cat6 patch leads for the 12-port panel</span><span class="d">The panel-to-switch hop is one foot, not the 7-foot router cable. Five colors, one per hop.</span></a>
+<a class="note-row" href="closet-usb-console-cable"><span class="t">A USB-to-RJ45 console cable that is not an ethernet dongle</span><span class="d">Get a prompt on a switch that will not take an IP. Serial over RJ45, FTDI chip.</span></a>
+<a class="note-row" href="closet-passthru-crimper"><span class="t">Terminate your own drop on a pass-thru plug: Klein VDV226-110</span><span class="d">Terminate your own drop on a pass-thru plug. It will not crimp a standard plug.</span></a>
+<a class="note-row" href="closet-punchdown-tool"><span class="t">A 110 punch-down tool so the 12-port panel is not a paperweight</span><span class="d">Klein VDV427-300 is the named 66/110 impact tool.</span></a>
+<a class="note-row" href="closet-lan-explorer"><span class="t">Map a drop before you blame the switch: Klein VDV526-100</span><span class="d">Map a drop before you blame the switch. One button, remote in the tester.</span></a>
+</div>
+<h2 id="mini-rack"><a href="#mini-rack">Skinny wall racks</a></h2>
+<p class="path-lead">An old PC does not need a rack. 19-inch is later. 10-inch only if the wall is too narrow.</p>
+<div class="note-list">
+<a class="note-row" href="10-inch-mini-rack"><span class="t">10-inch mini rack for a closet that is not 19-inch</span><span class="d">Buy 10-inch only if the wall is the constraint. NavePoint 6U is the named start.</span></a>
+<a class="note-row" href="navepoint-10-inch-15-75"><span class="t">Extra depth for a longer skinny switch, still not 19-inch: NavePoint 6U 15.75</span><span class="d">Extra depth for a longer skinny switch, still not 19-inch. Default remains the shorter 11.8-inch box.</span></a>
+<a class="note-row" href="navepoint-10-inch-15-75-glass"><span class="t">Extra depth and a window, still not 19-inch: NavePoint 6U 15.75 glass</span><span class="d">Extra depth and a window, still not 19-inch. A cheaper glass door is worse air, not a 19-inch switch.</span></a>
+<a class="note-row" href="navepoint-10-inch-glass"><span class="t">Same money as mesh, worse air: NavePoint 6U glass</span><span class="d">Same money as the mesh door, worse air. Buy glass only if you want to look at LEDs. Perforated stays the default.</span></a>
+<a class="note-row" href="navepoint-10-inch-9u"><span class="t">Three extra U does not make a 19-inch switch hang: NavePoint 9U</span><span class="d">Three extra U does not make a 19-inch switch hang. If the wall takes 19-inch, buy the StarTech 12U.</span></a>
+<a class="note-row" href="navepoint-10-inch-9u-glass"><span class="t">Extra U and a window, still not 19-inch: NavePoint 9U glass</span><span class="d">Extra U and a window, still not 19-inch. Glass is worse air for less money. Buy the StarTech 12U if the wall takes 19-inch.</span></a>
+<a class="note-row" href="navepoint-10-inch-9u-15-75"><span class="t">Taller and deeper, still not 19-inch: NavePoint 9U 15.75</span><span class="d">Taller and deeper, still not 19-inch. Extra U plus extra depth is not a 19-inch switch.</span></a>
+<a class="note-row" href="navepoint-10-inch-9u-15-75-glass"><span class="t">Taller, deeper, and a window, still not 19-inch: NavePoint 9U 15.75 glass</span><span class="d">Taller, deeper, and a window, still not 19-inch. A cheaper glass door is not a 19-inch switch.</span></a>
+<a class="note-row" href="trendnet-tc-p12c6"><span class="t">The 10-inch 12-port Cat6 panel for the skinny cabinet: TRENDnet TC-P12C6</span><span class="d">The 19-inch Cable Matters will not hang here. This 10-inch 12-port is the Cat6 default.</span></a>
+<a class="note-row" href="trendnet-tc-p08c6"><span class="t">Four fewer punches to save a few dollars: TRENDnet TC-P08C6</span><span class="d">Four fewer punches to save a few dollars. The 12-port stays the 10-inch default.</span></a>
+<a class="note-row" href="navepoint-10-inch-cat6-panel"><span class="t">Skip the shielded 10-inch panel for the TRENDnet 12: NavePoint CAT6 STP</span><span class="d">Shielded and Krone-only, about $18 more than the TRENDnet. The punch-down stays the 10-inch default.</span></a>
+<a class="note-row" href="navepoint-10-inch-keystone-panel"><span class="t">A blank face for jacks you buy separately: NavePoint keystone panel</span><span class="d">A blank face for jacks you buy separately. The TRENDnet punch-down stays the Cat6 default.</span></a>
+<a class="note-row" href="navepoint-10-inch-shelf"><span class="t">An extra tray for the 6U, not a 19-inch 10-inch-deep: NavePoint 10-inch shelf</span><span class="d">The cabinet already ships two. Buy a third only if those two are full. Skip 19-inch trays labeled 10-inch deep.</span></a>
+<a class="note-row" href="navepoint-10-inch-blank"><span class="t">A spare 1U plate, not a 19-inch spacer: NavePoint 10-inch blank</span><span class="d">The 6U already ships one. Buy a spare only if the kit plate is already on a hole. Skip 19-inch 1U blanks.</span></a>
+<a class="note-row" href="12u-vs-10-inch-closet-rack"><span class="t">12U open frame vs 10-inch wall cabinet</span><span class="d">The 19-inch 12U 2-post is still the default if your gear is 19-inch.</span></a>
+</div>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+
+<script>
+(function(){
+ var q = document.getElementById("q");
+ var countEl = document.getElementById("note-count");
+ if (!q) return;
+ var rows = document.querySelectorAll(".note-list .note-row");
+ var seenHref = Object.create(null);
+ var total = 0;
+ rows.forEach(function(row){
+ var href = row.getAttribute("href") || "";
+ if (seenHref[href]) return;
+ seenHref[href] = true;
+ total++;
+ });
+ function render(){
+ var s = q.value.trim().toLowerCase();
+ var shownHref = Object.create(null);
+ var shown = 0;
+ var lists = document.querySelectorAll(".note-list");
+ lists.forEach(function(list){
+ var any = false;
+ list.querySelectorAll(".note-row").forEach(function(row){
+ var hit = !s || (row.textContent || "").toLowerCase().indexOf(s) !== -1;
+ row.hidden = !hit;
+ if (hit){
+ any = true;
+ var href = row.getAttribute("href") || "";
+ if (!shownHref[href]){ shownHref[href] = true; shown++; }
+ }
+ });
+ list.hidden = s && !any;
+ var h = list.previousElementSibling;
+ if (h && h.tagName === "H2") h.hidden = s && !any;
+ });
+ if (countEl){
+ countEl.textContent = s ? (shown + " of " + total) : (total + " notes");
+ }
+ }
+ function syncQuery(){
+ var s = q.value.trim();
+ var url = new URL(location.href);
+ var cur = url.searchParams.get("q") || "";
+ if (s === cur) return;
+ if (s) url.searchParams.set("q", s);
+ else url.searchParams.delete("q");
+ history.replaceState(null, "", url.pathname + url.search + url.hash);
+ }
+ try {
+ var seed = new URLSearchParams(location.search).get("q");
+ if (seed) q.value = seed;
+ } catch (e) {}
+ render();
+ q.addEventListener("input", function(){
+ render();
+ syncQuery();
+ });
+ document.addEventListener("keydown", function(e){
+ if (e.key !== "/" || e.metaKey || e.ctrlKey || e.altKey) return;
+ var t = e.target;
+ var tag = (t && t.tagName) ? t.tagName.toLowerCase() : "";
+ if (tag === "input" || tag === "textarea" || tag === "select" || (t && t.isContentEditable)) return;
+ e.preventDefault();
+ q.focus();
+ });
+})();
+</script>
+<script src="../theme.js" defer></script>
+</body></html>

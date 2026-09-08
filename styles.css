@@ -1,0 +1,1166 @@
+@font-face{
+  font-family:"Source Serif 4";
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+  src:url("assets/fonts/source-serif-4-latin-400-normal.woff2") format("woff2");
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face{
+  font-family:"Source Serif 4";
+  font-style:normal;
+  font-weight:600;
+  font-display:swap;
+  src:url("assets/fonts/source-serif-4-latin-600-normal.woff2") format("woff2");
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face{
+  font-family:"Source Serif 4";
+  font-style:normal;
+  font-weight:700;
+  font-display:swap;
+  src:url("assets/fonts/source-serif-4-latin-700-normal.woff2") format("woff2");
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+:root{
+  color-scheme:light;
+  --paper:#f4efe4; --ink:#1c1914; --mute:#5c564c; --line:#d8cfc0;
+  --copper:#b4532a; --copper-deep:#8a3b1c; --card:#fffaf2; --ok:#2f5d3a;
+  --wash: color-mix(in srgb, var(--copper) 18%, var(--card));
+  --grain:
+    radial-gradient(circle at 1px 1px, rgba(28,25,20,.032) .55px, transparent .7px),
+    radial-gradient(circle at 6px 8px, rgba(180,83,42,.022) .45px, transparent .6px),
+    radial-gradient(circle at 11px 3px, rgba(28,25,20,.018) .4px, transparent .55px);
+  --grain-size: 13px 16px, 17px 13px, 21px 19px;
+}
+
+html[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#1c1914; --ink:#f4efe4; --mute:#b9b2a6; --line:#3f392f;
+  --copper:#e08a5c; --copper-deep:#f0b089; --card:#2a261f; --ok:#8fbf98;
+  --wash: color-mix(in srgb, var(--copper) 22%, var(--card));
+  --grain:
+    radial-gradient(circle at 1px 1px, rgba(244,239,228,.045) .55px, transparent .7px),
+    radial-gradient(circle at 6px 8px, rgba(224,138,92,.04) .45px, transparent .6px),
+    radial-gradient(circle at 11px 3px, rgba(244,239,228,.028) .4px, transparent .55px);
+}
+@media (prefers-color-scheme: dark){
+  html[data-theme="system"], html:not([data-theme]){
+  color-scheme:dark;
+  --paper:#1c1914; --ink:#f4efe4; --mute:#b9b2a6; --line:#3f392f;
+  --copper:#e08a5c; --copper-deep:#f0b089; --card:#2a261f; --ok:#8fbf98;
+  --wash: color-mix(in srgb, var(--copper) 22%, var(--card));
+  --grain:
+    radial-gradient(circle at 1px 1px, rgba(244,239,228,.045) .55px, transparent .7px),
+    radial-gradient(circle at 6px 8px, rgba(224,138,92,.04) .45px, transparent .6px),
+    radial-gradient(circle at 11px 3px, rgba(244,239,228,.028) .4px, transparent .55px);
+  }
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;color-scheme:inherit;background-color:var(--paper);color:var(--ink);
+  background-image:var(--grain);background-size:var(--grain-size);
+  font:18px/1.55 "Source Serif 4","Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif}
+a{color:var(--copper)} a:hover{color:var(--copper-deep)}
+
+/* Notebook underlines: sit off the glyphs. Nav keeps the current-page border. */
+main a{
+  text-underline-offset:.16em;
+  text-decoration-thickness:.07em;
+}
+.deck a,
+.table-wrap a,
+table a,
+.sources a{
+  text-underline-offset:.16em;
+  text-decoration-thickness:.07em;
+}
+
+a:focus-visible:not(.skip),
+button:focus-visible,
+.jump:focus-visible,
+header nav a:focus-visible{
+  outline:2px solid var(--copper);
+  outline-offset:2px;
+}
+
+.skip{
+  position:absolute;left:12px;top:-80px;z-index:40;
+  width:auto;height:auto;padding:8px 12px;margin:0;
+  overflow:visible;white-space:nowrap;border:0;
+  background:var(--paper);color:var(--copper);
+  font-size:14px;text-decoration:none;
+}
+.skip:focus,.skip:focus-visible{
+  position:fixed;left:12px;top:12px;
+  clip:auto;clip-path:none;
+  background:var(--card);color:var(--copper);
+  border:1px solid var(--copper);border-radius:2px;
+  outline:2px solid var(--copper);outline-offset:2px;
+  box-shadow:0 2px 10px rgba(28,25,20,.16);
+}
+
+header{
+  display:flex;align-items:center;gap:12px 16px;
+  padding:12px 7vw;
+  /* Notebook rule under the masthead, same copper mix as .index-tools. */
+  border-bottom:1px solid color-mix(in srgb, var(--copper) 45%, var(--line));
+  background-color:var(--paper);
+  background-image:var(--grain);background-size:var(--grain-size);
+  position:sticky;top:0;z-index:20;
+  /* Notebook sit: sticky bar casts a short paper drop over the page. */
+  box-shadow:0 10px 18px -16px rgba(28,25,20,.55);
+}
+header a.home{
+  display:flex;align-items:center;gap:12px;
+  color:inherit;text-decoration:none;min-width:0;
+}
+header a.home:hover{color:inherit}
+header a.home:hover .brand{color:var(--copper)}
+/* Copper disc only — header paper shows through the letter cutouts. */
+header a.home > img{
+  width:44px;height:44px;flex:0 0 auto;
+  border:0;border-radius:0;background:transparent;
+  display:block;
+}
+footer .colophon img{
+  width:18px;height:18px;flex:0 0 auto;
+  border:0;border-radius:0;background:transparent;vertical-align:middle;
+}
+header .wordmark{display:flex;flex-direction:column;min-width:0}
+header .brand{font-weight:700;letter-spacing:-.02em;font-size:20px;line-height:1.15}
+header .tag{color:var(--mute);font-size:12px;line-height:1.3}
+
+header nav{margin-left:auto;display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;font-size:14px;min-width:0}
+header nav > a,header nav > .theme-toggle{flex:0 0 auto}
+header nav a{color:var(--ink);text-decoration:none;border-bottom:1px solid transparent}
+header nav a:hover{border-bottom-color:var(--copper)}
+/* Here-slip: current page is a copper stamp, not just a heavier underline. */
+header nav a[aria-current="page"]{
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  font-size:11px;
+  line-height:1.2;
+  color:var(--copper);
+  border:1px solid var(--copper);
+  border-bottom-color:var(--copper);
+  border-radius:2px;
+  padding:3px 8px 2px;
+  background-color:var(--card);
+  background-image:var(--grain);
+  background-size:var(--grain-size);
+}
+/* Theme slip: same family as the here-stamp, smaller, not a switch. */
+header nav .theme-toggle{
+  -webkit-appearance:none;appearance:none;
+  margin:0;cursor:pointer;
+  font:inherit;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  font-size:10px;
+  line-height:1.2;
+  color:var(--copper);
+  border:1px solid var(--copper);
+  border-radius:2px;
+  padding:3px 7px 2px;
+  background-color:var(--card);
+  background-image:var(--grain);
+  background-size:var(--grain-size);
+}
+header nav .theme-toggle:hover{
+  color:var(--copper-deep);
+  border-color:var(--copper-deep);
+}
+header nav .theme-toggle:focus{outline:none}
+header nav .theme-toggle:focus-visible{
+  outline:2px solid var(--copper);
+  outline-offset:2px;
+}
+
+main{padding:28px 7vw 64px;max-width:42rem;overflow-wrap:break-word}
+h1{font-size:40px;line-height:1.15;letter-spacing:-.03em;margin:10px 0 20px;text-wrap:balance}
+/* Notebook title tick: short copper rule, not the full h2 hairline. */
+h1::after{
+  content:"";
+  display:block;
+  width:2.75rem;
+  height:2px;
+  margin-top:12px;
+  background:var(--copper);
+}
+/* 404 missing-slip stamp: not a home clone. */
+body.miss h1::before{
+  content:"Missing slip";
+  display:inline-block;
+  margin:4px 0 14px;
+  padding:3px 10px 2px;
+  border:2px solid var(--copper);
+  color:var(--copper);
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  line-height:1.3;
+  transform:rotate(-7deg);
+  transform-origin:left center;
+}
+body.miss h1::after{margin-top:8px}
+/* Notebook section tick: same language as h1, shorter bar. Also/sources/start keep labels, no tick. */
+h2{font-size:24px;margin:40px 0 12px;padding-bottom:0;border-bottom:0;text-wrap:balance}
+h2::after{
+  content:"";
+  display:block;
+  width:1.75rem;
+  height:2px;
+  margin-top:10px;
+  background:var(--copper);
+}
+.also h2::after,
+.sources h2::after,
+a.start h2::after{display:none}
+main p{
+  -webkit-hyphens:auto;
+  hyphens:auto;
+  hyphenate-limit-chars:8 3 3;
+}
+/* Notebook lede: ink, not mute, plus a short tick under the deck so the title block sits as one slip. */
+p.deck{
+  font-size:20px;
+  color:var(--ink);
+  margin:0 0 18px;
+  max-width:65ch;
+  line-height:1.45;
+}
+p.deck::after{
+  content:"";
+  display:block;
+  width:1.25rem;
+  height:2px;
+  margin-top:12px;
+  background:color-mix(in srgb, var(--copper) 70%, var(--line));
+}
+/* Notebook stress: ink italic, copper underline. Links stay copper type. */
+em{
+  font-style:italic;
+  color:var(--ink);
+  text-decoration:underline;
+  text-decoration-color:rgba(180,83,42,.55);
+  text-underline-offset:.14em;
+  text-decoration-thickness:.07em;
+}
+/* Notebook stress: strong is ink + copper underline, same family as em. */
+strong{
+  font-weight:700;
+  color:var(--ink);
+  text-decoration:underline;
+  text-decoration-color:rgba(180,83,42,.55);
+  text-underline-offset:.14em;
+  text-decoration-thickness:.07em;
+}
+/* SKU chips: Amazon ASINs / Newegg SKUs in running copy read as paper stamps. */
+/* SKU chips as pasted endpaper: grain + copper mix, still no left tab. */
+code{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .86em;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .02em;
+  color: var(--ink);
+  background-color: var(--card);
+  background-image: var(--grain);
+  background-size: var(--grain-size);
+  border: 1px solid color-mix(in srgb, var(--copper) 45%, var(--line));
+  border-radius: 2px;
+  padding: .08em .38em .06em;
+}
+/* Command slip: a how-to line that is the whole paragraph, not a SKU chip. */
+main p > code:only-child{
+  display:block;
+  width:100%;
+  box-sizing:border-box;
+  font-size:15px;
+  line-height:1.45;
+  letter-spacing:0;
+  padding:10px 14px;
+  margin:4px 0 14px;
+  overflow-x:auto;
+  white-space:pre-wrap;
+  word-break:break-word;
+  border-left:3px solid var(--copper);
+  border-radius:2px;
+}
+/* Notebook gutter trail: copper margin tick + hairline, current page is ink serif. Not a pill. */
+.crumb{
+  font-size:13px;color:var(--mute);margin:0 0 14px;
+  padding:4px 0 6px 12px;
+  letter-spacing:.08em;text-transform:uppercase;font-weight:600;line-height:1.45;
+  border-left:2px solid var(--copper);
+  border-bottom:1px solid color-mix(in srgb, var(--copper) 35%, var(--line));
+}
+.crumb a{color:var(--copper);text-decoration:none;border-bottom:1px solid transparent}
+.crumb a:hover{border-bottom-color:var(--copper)}
+.crumb [aria-current="page"]{
+  color:var(--ink);letter-spacing:0;text-transform:none;font-weight:600;
+}
+/* Getting started path: quiet n of 9 under the crumb. Not a stamp. */
+.path-step{
+  margin:-6px 0 16px;
+  font-size:13px;
+  color:var(--mute);
+  font-variant-numeric:tabular-nums;
+  letter-spacing:.04em;
+}
+.path-step a{color:var(--copper);text-decoration:none;border-bottom:1px solid transparent}
+.path-step a:hover{border-bottom-color:var(--copper)}
+.path-step b{color:var(--ink);font-weight:700}
+/* Editorial banner as a pasted slip: grain already there, copper-mix edge, no left tab. */
+.note{
+  font-size:14px;color:var(--mute);
+  background-color:var(--card);
+  background-image:var(--grain);
+  background-size:var(--grain-size);
+  border:1px solid color-mix(in srgb, var(--copper) 45%, var(--line));
+  border-radius:2px;
+  padding:8px 12px;margin:18px 0;
+}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:28px 0}
+/* Seven cards: last slip spans the row so a lone closet card is not a stub. Phone 1-col ignores this. */
+@media(min-width:721px){
+  .grid a.card:last-child{grid-column:1/-1}
+}
+
+/* Home, about, notes index, 404: more paper for seven chips and the card grid. Article notes stay 42rem. */
+@media(min-width:721px){
+  main:has(> .grid),
+  main:has(> .lanes),
+  main:has(.index-tools){
+    max-width:52rem;
+  }
+}
+.card{
+  background-color:var(--card);
+  background-image:var(--grain);
+  background-size:var(--grain-size);
+  border:1px solid var(--line);
+  padding:16px 18px;border-radius:2px;
+}
+.card h3{margin:0 0 6px;font-size:18px;text-wrap:balance}
+.card p{margin:0;color:var(--mute);font-size:15px}
+.grid a.card{
+  text-decoration:none;color:inherit;display:block;
+  border-left-width:3px;
+  border-left-color:var(--copper);
+  transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease;
+}
+.grid a.card:hover,.grid a.card:focus-visible{
+  border-color:var(--copper);
+  color:inherit;
+}
+.grid a.card:focus-visible{outline:2px solid var(--copper);outline-offset:2px}
+
+.rules{display:flex;flex-direction:column;gap:12px;margin:28px 0 8px;max-width:65ch}
+.rule{
+  background-color:var(--card);
+  background-image:var(--grain);
+  background-size:var(--grain-size);
+  border:1px solid var(--line);
+  border-left:4px solid var(--copper);
+  padding:16px 18px 14px;border-radius:2px;
+}
+.rule.will{background-color:var(--wash);background-image:var(--grain);background-size:var(--grain-size)}
+.rule.will-not{
+  border-left-color:var(--mute);
+  background-color:color-mix(in srgb, var(--mute) 16%, var(--card));
+  background-image:var(--grain);
+  background-size:var(--grain-size);
+}
+.rule .lane{margin:0 0 6px}
+.rule p{margin:0;color:var(--ink);font-size:16px;line-height:1.5}
+
+/* Lane kicker as a copper slip: same stamp language as the nav here-slip, not a left tab. */
+.lane{
+  display:inline-block;
+  font-size:11px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  font-weight:700;
+  color:var(--copper);
+  margin:0 0 8px;
+  padding:3px 8px 2px;
+  line-height:1.2;
+  border:1px solid var(--copper);
+  border-radius:2px;
+  background-color:var(--card);
+  background-image:var(--grain);
+  background-size:var(--grain-size);
+}
+
+/* Jump / filter labels as copper slips: same stamp language as lane/also/pager, not plain uppercase. */
+.jump,
+.filter-wrap label,
+.filter-head label{
+  display:inline-block;
+  font-size:11px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  font-weight:700;
+  color:var(--copper);
+  margin:18px 0 8px;
+  padding:3px 8px 2px;
+  line-height:1.2;
+  border:1px solid var(--copper);
+  border-radius:2px;
+  background-color:var(--card);
+  background-image:var(--grain);
+  background-size:var(--grain-size);
+}
+.filter-wrap label,
+.filter-head label{margin:0 0 6px}
+.filter-wrap .filter-head label{margin:0}
+.lanes{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 28px}
+.lanes a{
+  display:inline-flex;align-items:baseline;gap:8px;
+  background-color:var(--card);
+  background-image:var(--grain);
+  background-size:var(--grain-size);
+  border:1px solid var(--line);
+  border-left:3px solid var(--copper);
+  padding:6px 12px;border-radius:2px;
+  text-decoration:none;color:var(--ink);font-size:14px;
+  transition:border-color .15s ease,transform .15s ease;
+}
+.lanes a:hover,.lanes a:focus-visible{
+  border-color:var(--copper);color:var(--copper);
+}
+.lanes a .n{
+  font-size:11px;color:var(--copper);
+  font-variant-numeric:tabular-nums;
+  letter-spacing:.04em;font-weight:600;
+}
+
+.notes{margin:8px 0 28px;padding-left:1.25em}
+.notes li{margin:.7em 0;line-height:1.45}
+.notes li a{font-weight:600}
+
+table{width:100%;border-collapse:collapse;font-size:15px;margin:18px 0;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--copper);
+  position:sticky;top:69px;z-index:5;
+  background-color:var(--paper);
+  background-image:var(--grain);background-size:var(--grain-size);
+  box-shadow:0 1px 0 color-mix(in srgb, var(--copper) 35%, var(--line))}
+thead th{position:sticky;top:69px;z-index:5}
+/* Spec slip: short-list sits on a pasted card, copper spine. Phone stacked cards skip the wrap chrome. */
+.table-wrap{
+  overflow-x:auto;overflow-y:visible;-webkit-overflow-scrolling:touch;
+  margin:18px 0;max-width:100%;
+  background-color:var(--card);
+  background-image:var(--grain);
+  background-size:var(--grain-size);
+  border:1px solid var(--line);
+  border-left:3px solid var(--copper);
+  border-radius:2px;
+  padding:2px 10px 6px;
+}
+@media(min-width:721px){
+  .table-wrap{overflow:visible}
+}
+.table-wrap table{margin:0;min-width:520px}
+.table-wrap th,.table-wrap thead th{background-color:var(--card)}
+.pick{background-color:var(--wash);background-image:var(--grain);background-size:var(--grain-size)}
+.pick td:first-child{border-left:3px solid var(--copper);padding-left:9px}
+
+/* STACK_NOTEBOOK_ROWS: phone short-lists as stacked cards. Desktop sticky th unchanged. */
+@media screen and (max-width:720px){
+  .table-wrap{
+    overflow:visible;
+    background:none;background-image:none;
+    border:0;border-radius:0;padding:0;
+  }
+  .table-wrap table{display:block;min-width:0;width:100%;margin:0}
+  .table-wrap tr:first-child{display:none}
+  .table-wrap tr{
+    display:block;
+    background-color:var(--card);
+    background-image:var(--grain);
+    background-size:var(--grain-size);
+    border:1px solid var(--line);
+    border-radius:2px;
+    margin:0 0 10px;
+    padding:12px 14px 10px;
+  }
+  .table-wrap td{
+    display:block;
+    border-bottom:0;
+    padding:7px 0;
+    vertical-align:top;
+  }
+  .table-wrap td:first-child{
+    font-weight:600;
+    font-size:16px;
+    line-height:1.3;
+    padding-top:0;
+    padding-bottom:8px;
+    border-bottom:1px solid var(--line);
+  }
+  .table-wrap td:not(:first-child)::before{
+    content:attr(data-label);
+    display:block;
+    font-size:11px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--copper);
+    font-weight:600;
+    margin:0 0 2px;
+  }
+  .table-wrap .pick{
+    background-color:var(--wash);
+    background-image:var(--grain);
+    background-size:var(--grain-size);
+    border-left:3px solid var(--copper);
+  }
+  .table-wrap .pick td:first-child{
+    border-left:0;
+    padding-left:0;
+  }
+}
+
+footer{
+  padding:22px 7vw 40px;
+  border-top:1px solid color-mix(in srgb, var(--copper) 45%, var(--line));
+  color:var(--mute);
+  font-size:12px;line-height:1.45;
+  /* Notebook endpaper: card stock under the colophon, not the page paper. */
+  background-color:var(--card);
+  background-image:var(--grain);
+  background-size:var(--grain-size);
+}
+
+/* Notebook list: short copper tick, not a browser disc. Same family as h2 ticks. */
+main ul:not(.note-list):not(.lanes){
+  list-style:none;
+  margin:12px 0 24px;
+  padding-left:0;
+  max-width:38rem;
+}
+main ul:not(.note-list):not(.lanes) li{
+  position:relative;
+  padding-left:1.1rem;
+  margin:0 0 .45em;
+}
+main ul:not(.note-list):not(.lanes) li::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:.65em;
+  width:.55rem;
+  height:2px;
+  background:var(--copper);
+}
+/* Notebook step-list: keep numbers, copper, tabular-nums. Not ticks. */
+main ol{
+  margin:12px 0 24px;
+  padding-left:1.4rem;
+  max-width:38rem;
+  font-variant-numeric:tabular-nums;
+}
+main ol li{
+  margin:0 0 .45em;
+}
+main ol li::marker{
+  color:var(--copper);
+  font-variant-numeric:tabular-nums;
+  font-weight:600;
+}
+h2[id]{scroll-margin-top:8px}
+h2[id] a{color:inherit;text-decoration:none}
+h2[id] a:hover{color:var(--copper)}
+
+@media(max-width:720px){
+  th,thead th{top:108px}
+  /* HOME_GRID_TIGHT: phone card stack — smaller gap, slightly tighter padding. Desktop 2-col + last-card span unchanged. */
+  .grid{grid-template-columns:1fr;gap:8px;margin:16px 0}
+  .grid a.card{padding:12px 14px}
+  .pager{grid-template-columns:1fr}
+  .pager a[rel="prev"],
+  .pager a[rel="next"]{grid-column:auto;text-align:left}
+  h1{font-size:32px}
+  header{flex-wrap:wrap;padding:10px 5vw}
+  header nav{
+    margin-left:0;width:100%;max-width:100%;
+    padding-top:8px;border-top:1px solid color-mix(in srgb, var(--copper) 45%, var(--line));
+    gap:8px 12px;
+    flex-wrap:wrap;
+    align-items:center;
+    /* If a very narrow viewport still can't wrap cleanly, scroll instead of clipping. */
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:thin;
+  }
+  header .tag{display:none}
+  main{padding:22px 5vw 48px}
+  footer{padding:20px 5vw 36px}
+  a.start{padding:16px 16px 14px}
+  a.start h2{font-size:22px}
+}
+
+main ul.notes{margin:8px 0 28px}
+
+.note-list{display:flex;flex-direction:column;gap:8px;margin:8px 0 32px}
+a.note-row{
+  display:block;width:100%;
+  background-color:var(--card);
+  background-image:var(--grain);
+  background-size:var(--grain-size);
+  border:1px solid var(--line);
+  border-left:3px solid var(--copper);
+  padding:14px 16px;border-radius:2px;
+  text-decoration:none;color:inherit;
+  transition:border-color .15s ease,transform .15s ease,box-shadow .15s ease;
+}
+a.note-row:hover,a.note-row:focus-visible{
+  border-color:var(--copper);color:inherit;
+}
+a.note-row:focus-visible{outline:2px solid var(--copper);outline-offset:2px}
+a.note-row .t{
+  display:block;color:var(--ink);font-weight:600;
+  font-size:17px;line-height:1.3;
+}
+a.note-row .d{
+  display:block;color:var(--mute);font-weight:400;
+  font-size:15px;line-height:1.4;margin-top:5px;
+}
+.note-row[hidden],.note-list[hidden],h2[hidden]{display:none !important}
+
+/* Getting started path: count the slips, leftover box is 1. */
+h2#start + .path-lead{
+  margin:0 0 12px;
+  max-width:65ch;
+  color:var(--mute);
+  font-size:16px;
+}
+h2#start + .path-lead + .note-list{
+  counter-reset: path;
+}
+h2#start + .path-lead + .note-list a.note-row{
+  padding-left:48px; /* room for the numeral; existing 3px copper left border stays */
+  position:relative;
+}
+h2#start + .path-lead + .note-list a.note-row::before{
+  counter-increment: path;
+  content: counter(path);
+  position:absolute;
+  left:14px;
+  top:14px;
+  font-size:13px;
+  font-variant-numeric:tabular-nums;
+  font-weight:700;
+  color:var(--copper);
+  letter-spacing:.04em;
+  line-height:1.3;
+}
+/* Keep the heading + intro with the list when the filter hides the lane. */
+h2#start:has(+ .path-lead + .note-list[hidden]),
+h2#start + .path-lead:has(+ .note-list[hidden]){
+  display:none !important;
+}
+h2#start + .path-lead + .note-list + p:has(+ .note-list[hidden]){
+  display:none !important;
+}
+
+/* Getting started Also extras: secondary to the numbered path. */
+h2#start + .path-lead + .note-list + p + .note-list a.note-row{
+  padding-top:10px;
+  padding-bottom:10px;
+}
+h2#start + .path-lead + .note-list + p + .note-list a.note-row .t{
+  font-size:16px;
+}
+h2#start + .path-lead + .note-list + p + .note-list a.note-row .d{
+  color:var(--mute);
+}
+
+/* Topic leftover-first leads: mute sentence under the h2. Not a numbered path. */
+h2#mini-pcs + .path-lead,
+h2#first-nas + .path-lead,
+h2#switches + .path-lead{
+  margin:0 0 12px;
+  max-width:65ch;
+  color:var(--mute);
+  font-size:16px;
+}
+h2#mini-pcs:has(+ .path-lead + .note-list[hidden]),
+h2#mini-pcs + .path-lead:has(+ .note-list[hidden]),
+h2#first-nas:has(+ .path-lead + .note-list[hidden]),
+h2#first-nas + .path-lead:has(+ .note-list[hidden]),
+h2#switches:has(+ .path-lead + .note-list[hidden]),
+h2#switches + .path-lead:has(+ .note-list[hidden]){
+  display:none !important;
+}
+
+.filter-wrap{margin:4px 0 22px}
+
+.filter{
+  display:block;width:100%;
+  padding:10px 12px;
+  color-scheme:inherit;
+  background-color:var(--card);
+  background-image:var(--grain);
+  background-size:var(--grain-size);
+  border:1px solid var(--line);
+  border-left-width:3px;
+  border-left-color:var(--copper);
+  color:var(--ink);border-radius:2px;
+  font:inherit;font-size:16px;
+  -webkit-appearance:none;appearance:none;
+  transition:border-color .15s ease;
+}
+.filter:focus{outline:none}
+.filter:focus-visible{
+  outline:2px solid var(--copper);
+  outline-offset:2px;
+  border-color:var(--copper);
+}
+.filter::placeholder{color:var(--mute)}
+.filter::-webkit-search-decoration{display:none}
+.filter::-webkit-search-cancel-button{
+  -webkit-appearance:none;appearance:none;
+  width:12px;height:12px;margin:0 0 0 8px;
+  background:
+    linear-gradient(45deg, transparent 0 40%, var(--mute) 40% 60%, transparent 60%),
+    linear-gradient(-45deg, transparent 0 40%, var(--mute) 40% 60%, transparent 60%);
+  cursor:pointer;
+}
+.filter::-webkit-search-cancel-button:hover{
+  background:
+    linear-gradient(45deg, transparent 0 40%, var(--copper) 40% 60%, transparent 60%),
+    linear-gradient(-45deg, transparent 0 40%, var(--copper) 40% 60%, transparent 60%);
+}
+.filter-head{
+  display:flex;align-items:baseline;justify-content:space-between;
+  gap:12px;margin-bottom:6px;
+}
+.filter-count{
+  display:inline-block;
+  font-size:11px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  font-weight:700;
+  color:var(--copper);
+  padding:3px 8px 2px;
+  line-height:1.2;
+  border:1px solid var(--copper);
+  border-radius:2px;
+  background-color:var(--card);
+  background-image:var(--grain);
+  background-size:var(--grain-size);
+  font-variant-numeric:tabular-nums;
+  white-space:nowrap;
+}
+
+.index-tools{
+  position:sticky;
+  top:69px;
+  z-index:10;
+  background-color:var(--paper);
+  background-image:var(--grain);
+  background-size:var(--grain-size);
+  padding:8px 0 12px;
+  margin:0 0 18px;
+  border-bottom:1px solid rgba(180,83,42,.45);
+}
+.index-tools .jump{margin:0 0 6px}
+.index-tools .lanes{margin:0 0 10px;gap:6px}
+.index-tools .filter-wrap{margin:0}
+.index-tools ~ h2[id]{scroll-margin-top:232px}
+
+@media(max-width:720px){
+  html{scroll-padding-top:116px}
+  .index-tools{top:108px}
+  .index-tools ~ h2[id]{scroll-margin-top:282px}
+}
+
+/* Lane :target — quiet copper wash + 3px spine. Index only. No flash. */
+.index-tools ~ h2[id]:target{
+  background-color:rgba(180,83,42,.10);
+  border-left:3px solid var(--copper);
+  padding:8px 12px 8px 14px;
+}
+
+/* Sticky chips follow the jump. Heading wash already exists; the tool row did not. */
+.index-tools:has(~ h2#start:target) .lanes a[href="#start"],
+.index-tools:has(~ h2#switches:target) .lanes a[href="#switches"],
+.index-tools:has(~ h2#mini-pcs:target) .lanes a[href="#mini-pcs"],
+.index-tools:has(~ h2#first-nas:target) .lanes a[href="#first-nas"],
+.index-tools:has(~ h2#cheap-poe:target) .lanes a[href="#cheap-poe"],
+.index-tools:has(~ h2#used-vs-new:target) .lanes a[href="#used-vs-new"],
+.index-tools:has(~ h2#closet-adjacent:target) .lanes a[href="#closet-adjacent"],
+.index-tools:has(~ h2#mini-rack:target) .lanes a[href="#mini-rack"]{
+  border-color:var(--copper);
+  color:var(--copper);
+  background-color:var(--wash);
+  background-image:var(--grain);
+  background-size:var(--grain-size);
+}
+.index-tools:has(~ h2#start:target) .lanes a[href="#start"] .n,
+.index-tools:has(~ h2#switches:target) .lanes a[href="#switches"] .n,
+.index-tools:has(~ h2#mini-pcs:target) .lanes a[href="#mini-pcs"] .n,
+.index-tools:has(~ h2#first-nas:target) .lanes a[href="#first-nas"] .n,
+.index-tools:has(~ h2#cheap-poe:target) .lanes a[href="#cheap-poe"] .n,
+.index-tools:has(~ h2#used-vs-new:target) .lanes a[href="#used-vs-new"] .n,
+.index-tools:has(~ h2#closet-adjacent:target) .lanes a[href="#closet-adjacent"] .n,
+.index-tools:has(~ h2#mini-rack:target) .lanes a[href="#mini-rack"] .n{
+  color:var(--copper);
+}
+
+
+.foot-lanes{
+  display:flex;flex-wrap:wrap;gap:6px;
+  margin:0 0 12px;font-size:13px;
+}
+/* Quiet endpaper chips: grain + copper mix, still no left tab. */
+.foot-lanes a{
+  display:inline-flex;align-items:center;
+  background-color:var(--card);
+  background-image:var(--grain);
+  background-size:var(--grain-size);
+  border:1px solid color-mix(in srgb, var(--copper) 45%, var(--line));
+  padding:4px 10px;border-radius:2px;
+  color:var(--ink);text-decoration:none;
+  transition:border-color .15s ease,color .15s ease;
+}
+.foot-lanes a:hover,.foot-lanes a:focus-visible{
+  color:var(--copper);border-color:var(--copper);
+}
+
+.colophon{
+  display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;
+  margin:0;padding-top:12px;
+  border-top:1px solid color-mix(in srgb, var(--copper) 45%, var(--line));
+  max-width:38rem;
+  font-size:12px;line-height:1.4;color:var(--mute);
+}
+.colophon img{
+  width:18px;height:18px;flex:0 0 auto;display:block;
+  border:1px solid color-mix(in srgb, var(--copper) 45%, var(--line));
+  border-radius:2px;
+  background-color:var(--card);
+  background-image:var(--grain);
+  background-size:var(--grain-size);
+}
+.colophon strong{font-weight:700;color:var(--ink);letter-spacing:-.02em;font-size:13px;text-decoration:none}
+.colophon .stamp{color:var(--mute)}
+.colophon a{color:inherit;text-decoration:none;border-bottom:1px solid transparent}
+.colophon a:hover{color:var(--copper);border-bottom-color:var(--copper)}
+
+.also{
+  margin-top:36px;padding-top:28px;
+  border-top:1px solid color-mix(in srgb, var(--copper) 45%, var(--line));
+  display:flex;flex-direction:column;gap:8px;
+}
+/* Also/Sources labels as copper slips: same stamp language as lane/pager/nav, not a left tab. */
+.also h2,
+.sources h2{
+  display:inline-block;
+  margin:0 0 8px;
+  padding:3px 8px 2px;
+  font-size:11px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  font-weight:700;
+  color:var(--copper);
+  line-height:1.2;
+  border:1px solid var(--copper);
+  border-radius:2px;
+  background-color:var(--card);
+  background-image:var(--grain);
+  background-size:var(--grain-size);
+}
+
+
+.sources{
+  margin:28px 0 8px;
+  padding:12px 16px 10px 18px;
+  background-color:var(--card);
+  background-image:var(--grain);
+  background-size:var(--grain-size);
+  border:1px solid var(--line);
+  border-left:3px solid rgba(180,83,42,.5);
+  border-radius:2px;
+  color:var(--mute);
+  font-size:14px;
+  line-height:1.5;
+}
+
+.sources p{margin:0 0 .55em}
+.sources p:last-child{margin:0}
+
+
+
+.pager{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;
+  margin:20px 0 0;
+}
+.pager a{
+  display:block;
+  background-color:var(--card);
+  background-image:var(--grain);
+  background-size:var(--grain-size);
+  border:1px solid var(--line);
+  border-left-width:3px;
+  padding:14px 16px;border-radius:2px;
+  text-decoration:none;color:inherit;
+  transition:border-color .15s ease,transform .15s ease,box-shadow .15s ease;
+}
+.pager a:hover,.pager a:focus-visible{
+  border-color:var(--copper);color:inherit;
+}
+.pager a:focus-visible{outline:2px solid var(--copper);outline-offset:2px}
+/* Pager kicker as a copper slip: same stamp language as lane/nav, not a left tab. Prev sits left, next sits right with the card. */
+.pager .kicker{
+  display:inline-block;
+  font-size:11px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  font-weight:700;
+  color:var(--copper);
+  margin:0 0 6px;
+  padding:3px 8px 2px;
+  line-height:1.2;
+  border:1px solid var(--copper);
+  border-radius:2px;
+  background-color:var(--card);
+  background-image:var(--grain);
+  background-size:var(--grain-size);
+}
+.pager .t{
+  display:block;color:var(--ink);font-weight:600;
+  font-size:17px;line-height:1.3;
+}
+.pager a:hover .t,.pager a:focus-visible .t{color:var(--copper)}
+.pager a[rel="prev"]{
+  grid-column:1;
+  border-left-color:var(--copper);
+}
+.pager a[rel="next"]{
+  grid-column:2;text-align:right;
+  border-left-width:1px;
+  border-right:3px solid var(--copper);
+}
+
+
+a.start{
+  display:block;width:100%;
+  background-color:var(--wash);
+  background-image:var(--grain);
+  background-size:var(--grain-size);
+  border:1px solid var(--line);
+  border-left:4px solid var(--copper);
+  padding:20px 22px 18px;border-radius:2px;
+  text-decoration:none;color:inherit;
+  margin:8px 0 22px;
+  transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease;
+}
+a.start:hover,a.start:focus-visible{
+  border-color:var(--copper);
+  color:inherit;
+}
+a.start:focus-visible{outline:2px solid var(--copper);outline-offset:2px}
+a.start h2{
+  font-size:26px;line-height:1.2;letter-spacing:-.02em;
+  margin:0 0 8px;padding:0;border:0;
+}
+a.start p{margin:0 0 12px;color:var(--mute);font-size:16px;max-width:42em}
+a.start .cta{
+  display:inline-block;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;
+  line-height:1.2;color:var(--copper);
+  background-color:var(--card);
+  background-image:var(--grain);
+  background-size:var(--grain-size);
+  border:1px solid var(--copper);
+  border-radius:2px;
+  padding:5px 10px 4px;
+}
+a.start:hover .cta,a.start:focus-visible .cta{
+  color:var(--copper-deep);border-color:var(--copper-deep);
+  background-color:var(--wash);
+}
+/* Home path-lead: same mute sentence as the notes index, tucked under a.start. */
+a.start + .path-lead{
+  margin:-8px 0 8px;
+  max-width:65ch;
+  color:var(--mute);
+  font-size:16px;
+}
+
+html{color-scheme:light dark;hanging-punctuation:first last;text-wrap:pretty;scrollbar-color:var(--copper) var(--paper);scrollbar-width:thin;caret-color:var(--copper);accent-color:var(--copper);-webkit-tap-highlight-color:rgba(180,83,42,.22);scroll-padding-top:76px;text-rendering:optimizeLegibility;font-kerning:normal;-webkit-text-size-adjust:100%;text-size-adjust:100%;overscroll-behavior-y:none}
+@media(max-width:720px){html{scroll-padding-top:116px}}
+
+::selection{background:rgba(180,83,42,.28);color:var(--ink)}
+::-moz-selection{background:rgba(180,83,42,.28);color:var(--ink)}
+
+@media (hover: hover) and (pointer: fine){
+  .grid a.card:hover,.grid a.card:focus-visible{ transform:translateY(-3px); box-shadow:0 6px 0 -2px rgba(180,83,42,.14) }
+  a.note-row:hover,a.note-row:focus-visible{ transform:translateY(-1px); box-shadow:0 4px 0 -2px rgba(180,83,42,.12) }
+  .pager a:hover,.pager a:focus-visible{ transform:translateY(-1px); box-shadow:0 4px 0 -2px rgba(180,83,42,.12) }
+  a.start:hover,a.start:focus-visible{ transform:translateY(-3px); box-shadow:0 6px 0 -2px rgba(180,83,42,.14) }
+  .lanes a:hover,.lanes a:focus-visible{ transform:translateY(-1px) }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .index-tools ~ h2[id]:target{
+    animation:none;
+    transition:none;
+  }
+  main a,
+  .deck a,
+  .table-wrap a,
+  table a,
+  .sources a{
+    transition:none;
+  }
+  a:focus-visible:not(.skip),
+  button:focus-visible,
+  .jump:focus-visible,
+  header nav a:focus-visible{
+    transition:none;
+  }
+  .grid a.card,
+  a.note-row,
+  a.start,
+  .lanes a,
+  .pager a,
+  .filter{
+    transition:none;
+  }
+  .grid a.card:hover,.grid a.card:focus-visible,
+  a.note-row:hover,a.note-row:focus-visible,
+  a.start:hover,a.start:focus-visible,
+  .lanes a:hover,.lanes a:focus-visible,
+  .pager a:hover,.pager a:focus-visible{
+    transform:none;
+  }
+}
+
+@media (prefers-contrast: more){
+  :root{
+    --ink:#110e0b;
+    --mute:#3a342c;
+    --line:#9c9080;
+    --copper:#8a3b1c;
+    --copper-deep:#6e2c14;
+    --ok:#1d3f26;
+  }
+  html[data-theme="dark"]{
+    --ink:#fff8ee;
+    --mute:#d8d0c4;
+    --line:#6a6154;
+    --copper:#f0b089;
+    --copper-deep:#f6c9a8;
+    --ok:#b5d9bc;
+  }
+  a:hover{color:var(--copper-deep)}
+  h2::after{background:var(--copper)}
+  .index-tools{border-bottom-color:var(--copper)}
+  .sources{border-left-color:var(--copper)}
+  .index-tools ~ h2[id]:target{
+    background-color:rgba(138,59,28,.18);
+  }
+  .index-tools:has(~ h2#start:target) .lanes a[href="#start"],
+  .index-tools:has(~ h2#switches:target) .lanes a[href="#switches"],
+  .index-tools:has(~ h2#mini-pcs:target) .lanes a[href="#mini-pcs"],
+  .index-tools:has(~ h2#first-nas:target) .lanes a[href="#first-nas"],
+  .index-tools:has(~ h2#cheap-poe:target) .lanes a[href="#cheap-poe"],
+  .index-tools:has(~ h2#used-vs-new:target) .lanes a[href="#used-vs-new"],
+  .index-tools:has(~ h2#closet-adjacent:target) .lanes a[href="#closet-adjacent"],
+  .index-tools:has(~ h2#mini-rack:target) .lanes a[href="#mini-rack"]{
+    background:rgba(138,59,28,.18);
+  }
+  ::selection{background:rgba(138,59,28,.40);color:var(--ink)}
+  ::-moz-selection{background:rgba(138,59,28,.40);color:var(--ink)}
+  a.start:hover .cta,a.start:focus-visible .cta{color:var(--copper-deep);border-color:var(--copper-deep)}
+}
+@media (prefers-color-scheme: dark) and (prefers-contrast: more){
+  html[data-theme="system"], html:not([data-theme]){
+    --ink:#fff8ee;
+    --mute:#d8d0c4;
+    --line:#6a6154;
+    --copper:#f0b089;
+    --copper-deep:#f6c9a8;
+    --ok:#b5d9bc;
+  }
+}
+
+@media print{
+  .skip,
+  header nav,
+  .crumb,
+  .foot-lanes,
+  .lanes,
+  .jump,
+  .filter-wrap,
+  .index-tools,
+  .also,
+  .pager{display:none !important}
+  html,body{
+    background:#fff;
+    background-image:none;
+    color:#1c1914;
+  }
+  header{
+    position:static;
+    background:none;
+    background-image:none;
+    padding:0 0 10px;
+    box-shadow:none;
+  }
+  main{padding:0;max-width:none}
+  footer{
+    padding:16px 0 0;
+    background:none;
+    background-image:none;
+  }
+  .colophon{max-width:none;padding-top:8px}
+  .table-wrap{overflow:visible}
+  .table-wrap table{display:table;min-width:0;width:100%}
+  .table-wrap tr{display:table-row;background:transparent;border:0;border-radius:0;margin:0;padding:0}
+  .table-wrap tr:first-child{display:table-row}
+  .table-wrap td{display:table-cell;padding:8px 6px;border-bottom:1px solid var(--line);font-weight:inherit;font-size:inherit}
+  .table-wrap td:first-child{padding:8px 6px;border-bottom:1px solid var(--line)}
+  .table-wrap td:not(:first-child)::before{content:none;display:none}
+  .table-wrap .pick{border-left:0}
+  .table-wrap .pick td:first-child{border-left:3px solid var(--copper);padding-left:9px}
+  th,thead th{
+    position:static;top:auto;z-index:auto;
+    box-shadow:none;background-image:none;
+  }
+  table{page-break-inside:auto}
+  tr, .pick{page-break-inside:avoid}
+  .card,
+  .note,
+  .rule,
+  a.note-row,
+  .sources,
+  code,
+  main p > code:only-child{
+    background-image:none;
+  }
+  .pick,
+  .rule.will,
+  a.start{
+    background-color:var(--wash);
+    background-image:none;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+  .rule.will-not{
+    background:color-mix(in srgb, var(--mute) 16%, var(--card));
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+  a{color:var(--copper)}
+  @page{margin:16mm 14mm}
+}

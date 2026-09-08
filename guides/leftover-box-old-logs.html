@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Clear old logs when the disk is tight — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Before you buy a bigger drive or a NAS, see how much room the computer diary is using, then trim old entries safely.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Clear old logs when the disk is tight — Labthrift">
+<meta property="og:description" content="Before you buy a bigger drive or a NAS, see how much room the computer diary is using, then trim old entries safely.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-old-logs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-old-logs">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Clear old logs when the disk is tight","description":"Before you buy a bigger drive or a NAS, see how much room the computer diary is using, then trim old entries safely.","url":"https://labthrift.com/guides/leftover-box-old-logs","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-28"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#first-nas">File storage</a> / <span aria-current="page">Clear old logs when the disk is tight</span></nav>
+<p class="note">Written 28 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Clear old logs when the disk is tight</h1>
+<p class="deck">Before you buy a bigger drive or a NAS, see how much room the computer diary is using, then trim old entries safely.</p>
+<p>The computer keeps a diary of what programs said. That diary can grow for months. When the disk is tight and <span><code>/var</code></span> looked big, this is a safe trim. You are not buying a bigger drive, a NAS, or a monitoring box for this.</p>
+
+<h2>Skip until you looked at disk room</h2>
+<p>If you have not checked room yet, stop. That look is <a href="leftover-box-disk-space">see if the computer still has room</a>. If you want to see which folders are taking the room, that is <a href="leftover-box-largest-folders">see which folders are eating the disk</a>. Clear leftover package downloads first if you have not: <a href="leftover-box-apt-clean">clear old package downloads when the disk is tight</a>. From the couch, ask:</p>
+<p><code>df -h</code></p>
+<p>Point at the line that ends in <span><code>/</code></span>. If <span><code>Use%</code></span> is fine, skip this note. If phones and laptops cannot open the house folder, fix that first: <a href="leftover-box-share-check">when the house share disappeared, check the computer</a>.</p>
+
+<h2>What this is</h2>
+<p><span><code>journalctl</code></span> is the Debian and Ubuntu tool that reads the computer diary. The same tool can tell you how big that diary is, and trim old pages. You are keeping recent words. You are not deleting the house folder, Pi-hole, or Samba. You are not installing a log app.</p>
+
+<h2>See how big the diary is</h2>
+<p>SSH in from the couch, then run:</p>
+<p><code>journalctl --disk-usage</code></p>
+<p>You should see a line like <span><code>Archived and active journals take up X</code></span>. A few hundred megabytes is common on a computer that has been on for weeks. A few gigabytes is worth trimming. If the number is tiny, skip the rest of this note.</p>
+
+<h2>Trim old entries</h2>
+<p>Keep about two weeks of diary, and drop older pages:</p>
+<p><code>sudo journalctl --vacuum-time=14d</code></p>
+<p>Or cap the diary at a size you pick (200 megabytes is a sensible computer ceiling):</p>
+<p><code>sudo journalctl --vacuum-size=200M</code></p>
+<p>Pick one. You don't need both tonight. Recent errors stay. Months-old noise goes. Don't run random <span><code>rm</code></span> under <span><code>/var/log</code></span>.</p>
+
+<h2>Check again</h2>
+<p>Ask about the diary size once more:</p>
+<p><code>journalctl --disk-usage</code></p>
+<p>Then look at disk room:</p>
+<p><code>df -h</code></p>
+<p>The longer look is still <a href="leftover-box-disk-space">see if the computer still has room</a>. If you need to read a current error, that is <a href="leftover-box-read-logs">when something broke, look at the log</a>. Don't buy a NAS because old diary pages filled an old laptop.</p>
+
+<h2>What next</h2>
+<p>Package download cleanup stays <a href="leftover-box-apt-clean">clear old package downloads when the disk is tight</a>. Folder hunters stay <a href="leftover-box-largest-folders">see which folders are eating the disk</a>. A second copy is <a href="first-backup">a backup of the house folder</a>. Skip a new 4TB drive this weekend.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip this note if disk room is fine.</li>
+<li>Skip this note if the diary size is already tiny.</li>
+<li>Skip a NAS for this look.</li>
+<li>Skip a new internal drive this weekend.</li>
+<li>Skip deleting <span><code>/var</code></span>, <span><code>/var/log</code></span>, or <span><code>/srv/share</code></span> by hand.</li>
+<li>Skip installing a log or monitoring app tonight.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/systemd/journalctl.1.en.html">Debian: journalctl</a> (--disk-usage, --vacuum-time, --vacuum-size). <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/journalctl.1.html">Ubuntu: journalctl</a>. Official pages only. For disk room, see <a href="leftover-box-disk-space">see if the computer still has room</a>. For which folders are big, see <a href="leftover-box-largest-folders">see which folders are eating the disk</a>. For leftover package downloads, see <a href="leftover-box-apt-clean">clear old package downloads when the disk is tight</a>. For reading a current error, see <a href="leftover-box-read-logs">when something broke, look at the log</a>. For the login, see <a href="first-ssh">SSH from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="leftover-box-largest-folders"><span class="t">See which folders are eating the disk</span><span class="d">Before you buy a bigger drive or a NAS, ask which folders are taking the room.</span></a>
+<a class="note-row" href="leftover-box-apt-clean"><span class="t">Clear old package downloads when the disk is tight</span><span class="d">After weekly updates, leftover downloads can sit on the disk. Clear them safely before you buy a bigger drive or a NAS.</span></a>
+<a class="note-row" href="leftover-box-read-logs"><span class="t">When something broke, look at the log</span><span class="d">SSH works, but a house job doesn't. Read the program's recent log before you buy a monitoring box.</span></a>
+<a class="note-row" href="first-backup"><span class="t">A backup of the house folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another computer. You don't need a NAS for this.</span></a>
+<a class="note-row" href="first-file-share"><span class="t">A file share on the computer</span><span class="d">A folder on the computer that the house can open from a laptop or a phone. You don't need a NAS for this.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-apt-clean"><span class="kicker">Previous</span><span class="t">Clear old package downloads when the disk is tight</span></a>
+<a rel="next" href="first-backup"><span class="kicker">Next</span><span class="t">A backup of the house folder</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

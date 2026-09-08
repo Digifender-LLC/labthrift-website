@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See how big the disk already is — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Before you buy a tiny computer or a NAS, check how big the disk already is.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See how big the disk already is — Labthrift">
+<meta property="og:description" content="Before you buy a tiny computer or a NAS, check how big the disk already is.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-disk">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-disk">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See how big the disk already is","description":"Before you buy a tiny computer or a NAS, check how big the disk already is.","url":"https://labthrift.com/guides/leftover-box-disk","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-27"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#mini-pcs">Small computers</a> / <span aria-current="page">See how big the disk already is</span></nav>
+<p class="note">Written 27 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>See how big the disk already is</h1>
+<p class="deck">Before you buy a tiny computer or a NAS, check how big the disk already is.</p>
+<p>The computer already has a disk. This note is that disk's total size, before you shop for an N100 or a file box. Free room when photos stop copying is a different look: <a href="leftover-box-disk-space">see if the computer still has room</a>. A USB stick for the weekly copy is <a href="leftover-box-usb-disk">see if the USB backup disk showed up</a>. You don't need a new mini this morning because the laptop is old.</p>
+
+<h2>Skip until SSH works</h2>
+<p>If ping fails and SSH hangs, start with <a href="leftover-box-still-on">is the computer still on?</a> If you have never logged in from the couch, that is <a href="first-ssh">SSH from the couch</a>. Prefer this look after the computer is doing real work, before you shop: <a href="start-with-what-you-have">start with what you already have</a>. This note assumes you can log in from the couch.</p>
+
+<h2>What this is</h2>
+<p>A look, not a shopping trip. You are reading how big the disk already is, so you know whether house ad block and a thin file share fit. You are not buying a bigger internal drive tonight. You are not buying an N100, an N150, a Protectli, or a NAS this morning.</p>
+
+<h2>Ask how big the disk is</h2>
+<p>SSH in from the couch, then run:</p>
+<p><code>lsblk -d -o NAME,SIZE,TYPE</code></p>
+<p>Point at a line whose <span><code>TYPE</code></span> is <span><code>disk</code></span>. The <span><code>SIZE</code></span> column is how big that disk already is. Skip loop and ram lines if they show up. 128G is an old laptop. Fine for Pi-hole plus a thin house share. 256G or 500G is comfortable. Don't buy a mini PC or a NAS because SIZE said 128G.</p>
+
+<h2>Optional disk name, and the OS folder size</h2>
+<p>If you want the disk's own name next to the size:</p>
+<p><code>lsblk -d -o NAME,SIZE,TYPE,MODEL</code></p>
+<p>The last column is the disk name, when the computer knows it. Keep this light. Don't shop from a model string. Don't wipe anything tonight.</p>
+<p>Optional filesystem size, if you want the OS folder instead of the whole disk:</p>
+<p><code>df -h /</code></p>
+<p>Point at the <span><code>Size</code></span> column, not <span><code>Use%</code></span>. Size is how big the OS disk looks. Use% is how full it is, and that look is <a href="leftover-box-disk-space">see if the computer still has room</a>. Keep this light. Don't install extra tools for this look.</p>
+
+<h2>If the disk is small</h2>
+<p>128G still runs the first lab if you keep the stack thin. House ad block barely uses any of it. A thin house share is fine. A movie library will fill an old laptop. If photos are already failing, check <a href="leftover-box-disk-space">see if the computer still has room</a> and <a href="leftover-box-apt-clean">clear old package downloads when the disk is tight</a> before you shop. A second copy on a USB disk you already have is <a href="first-backup">a backup of the house folder</a>. A later mini is <a href="n100-mini-pc">a tiny computer you can leave on</a>, when the computer is actually in the way. A real file box is later: <a href="first-nas">a first file box (NAS)</a>. Skip buying one this morning because SIZE said 128G.</p>
+
+<h2>What next</h2>
+<p>Drive health (SMART) stays <a href="see-disk-health">see if the old disk is dying</a>. Free room when copies fail stays <a href="leftover-box-disk-space">see if the computer still has room</a>. The USB stick look stays <a href="leftover-box-usb-disk">see if the USB backup disk showed up</a>. Total memory size stays <a href="leftover-box-ram">see how much memory the computer already has</a>. Worker count stays <a href="leftover-box-cpu">see how many workers the computer already has</a>. The computer name stays <a href="leftover-box-model">see what computer you already have</a>. Overflow memory on the disk is <a href="leftover-box-swap">see if the computer already has extra memory on disk</a>. The first rule stays <a href="start-with-what-you-have">start with what you already have</a>. The later buy is <a href="n100-mini-pc">a tiny computer you can leave on</a>, when you actually need it.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH fails. That is <a href="leftover-box-still-on">is the computer still on?</a> or <a href="first-ssh">SSH from the couch</a>.</li>
+<li>Skip buying an N100 or a NAS because <span><code>lsblk</code></span> SIZE printed 128G.</li>
+<li>Skip filling an old laptop with a movie library, then blaming the computer.</li>
+<li>Skip wiping or partitioning the disk tonight.</li>
+<li>Skip a new internal drive this weekend.</li>
+<li>Skip Proxmox tonight. That is <a href="what-is-a-vm">what a VM is, and when you don't need one</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/util-linux/lsblk.8.en.html">Debian: lsblk</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man8/lsblk.8.html">Ubuntu: lsblk</a>. <a href="https://manpages.debian.org/bookworm/coreutils/df.1.en.html">Debian: df</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/df.1.html">Ubuntu: df</a>. Official pages only. For free room when copies fail, see <a href="leftover-box-disk-space">see if the computer still has room</a>. For a USB stick, see <a href="leftover-box-usb-disk">see if the USB backup disk showed up</a>. For the first rule, see <a href="start-with-what-you-have">start with what you already have</a>. A later mini: <a href="n100-mini-pc">a tiny computer you can leave on</a>. A dedicated file box is later: <a href="first-nas">a first file box (NAS)</a>. For the login, see <a href="first-ssh">SSH from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="leftover-box-model"><span class="t">See what computer you already have</span><span class="d">Before you buy a tiny computer, check what computer you already have.</span></a>
+<a class="note-row" href="leftover-box-ram"><span class="t">See how much memory the computer already has</span><span class="d">Before you buy a tiny computer, check how much memory the computer already has.</span></a>
+<a class="note-row" href="see-disk-health"><span class="t">See if the old disk is dying</span><span class="d">SMART reports whether the drive still looks healthy. Install smartmontools, list the disk, run a quick health check before you trust photos on a Marketplace PC. You don't need a NAS.</span></a>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="leftover-box-largest-folders"><span class="t">See which folders are eating the disk</span><span class="d">Before you buy a bigger drive or a NAS, ask which folders are taking the room.</span></a>
+<a class="note-row" href="leftover-box-swap"><span class="t">See if the computer already has extra memory on disk</span><span class="d">Before you buy a tiny computer, check whether the computer already has overflow memory on the disk.</span></a>
+<a class="note-row" href="leftover-box-usb-disk"><span class="t">See if the USB backup disk showed up</span><span class="d">Before you trust the weekly copy, confirm the computer can see the USB disk.</span></a>
+<a class="note-row" href="start-with-what-you-have"><span class="t">Start with what you already have</span><span class="d">Don't buy anything yet. Old laptop first, or a retired OptiPlex from Marketplace.</span></a>
+<a class="note-row" href="n100-mini-pc"><span class="t">A tiny computer you can leave on</span><span class="d">Don't buy one of these first. Use the old laptop, or a retired OptiPlex from Marketplace. These quiet little PCs are the later buy, when you know you will leave a box on and you want it small and silent.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-model"><span class="kicker">Previous</span><span class="t">See what computer you already have</span></a>
+<a rel="next" href="leftover-box-swap"><span class="kicker">Next</span><span class="t">See if the computer already has extra memory on disk</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

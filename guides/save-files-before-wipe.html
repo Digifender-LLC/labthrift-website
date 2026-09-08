@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Copy your files off before you wipe the old PC — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Pull photos, papers, and downloads onto a USB stick before the Ubuntu or Debian installer erases the disk. Skip if the computer is empty. Then wipe.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Copy your files off before you wipe the old PC — Labthrift">
+<meta property="og:description" content="Pull photos, papers, and downloads onto a USB stick before the Ubuntu or Debian installer erases the disk. Skip if the computer is empty. Then wipe.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/save-files-before-wipe">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/save-files-before-wipe">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Copy your files off before you wipe the old PC","description":"Pull photos, papers, and downloads onto a USB stick before the Ubuntu or Debian installer erases the disk. Skip if the computer is empty. Then wipe.","url":"https://labthrift.com/guides/save-files-before-wipe","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-07"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">Copy your files off before you wipe</span></nav>
+<p class="note">Written 7 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>Copy your files off before you wipe the old PC</h1>
+<p class="deck">Pull photos, papers, and downloads onto a USB stick before the Ubuntu or Debian installer erases the disk. Skip if the computer is empty. Then wipe.</p>
+<p>Haven't found a computer yet? Start with <a href="start-with-what-you-have">what you already have</a>. The wipe itself is <a href="wipe-marketplace-pc">wipe a Marketplace PC before you install</a>. The install weekend is <a href="first-weekend">your first weekend</a>. This note is only the copy-off step those pages mention in one line.</p>
+
+<h2>Skip until there is something worth keeping</h2>
+<p>If the disk is empty, or you do not care about anything on it, skip this note and go straight to the wipe. A random Marketplace OptiPlex with someone else's Windows is often empty of <em>your</em> files — you still wipe it, you just do not copy first. This walk is for a hand-me-down laptop, your old daily driver, or a used box where you already know there are photos or papers you want.</p>
+
+<h2>What this is</h2>
+<p>A USB stick (or an external drive you already own) that holds a copy of the folders you care about. After you confirm those files open on another computer, the installer can erase the internal disk. You do not need a NAS, cloud upload, or a second home-lab box for this job.</p>
+
+<h2>Don't join the house network yet</h2>
+<p>If this is still someone else's Windows (Marketplace, buy-nothing), leave ethernet unplugged and skip house Wi-Fi until the fresh OS is on. Copy to a stick locally. An old login does not belong on the house network "just to upload to Drive." Your own retired laptop already on house Wi-Fi can stay online while you copy — that is fine.</p>
+
+<h2>Step 1: pick a stick with enough room</h2>
+<p>Use a spare USB stick or USB disk you already have. Check free space on the old PC first (File Explorer or Finder on the volume you care about), then pick a stick that is bigger than the folders you will copy. Format is not precious here: the stick only has to be readable on the machine you will open the files on later. Don't flash the Ubuntu installer onto this same stick until the copy is done and checked — you need a second stick for the installer, or free this one after you verify.</p>
+
+<h2>Step 2: log into Windows or macOS as usual</h2>
+<p>Boot the old PC into the OS that is already on it. Sign in with an account that can see the files. BitLocker or FileVault asking for a recovery key you do not have? Stop. Without the key you cannot read the disk from that OS either. Skip the copy, or recover the key from the seller / your Microsoft or Apple account first. The installer can still wipe a locked disk later; it just will not save the locked files.</p>
+
+<h2>Step 3: copy the folders that matter</h2>
+<p>Plug the stick in. Wait until it shows up.</p>
+<p>On Windows, open File Explorer. Copy Desktop, Documents, Pictures, Downloads, and any other folder you recognize as yours onto the stick. Skip <span><code>Windows</code></span>, <span><code>Program Files</code></span>, and AppData unless you know a specific file you need there.</p>
+<p>On a Mac, open Finder. Copy Desktop, Documents, Downloads, Pictures, and Movies the same way. Skip Library unless you know what you are after.</p>
+<p>Prefer whole folders over cherry-picking one photo at a time. Eject the stick safely when the copy finishes (Windows: Eject. Mac: Eject on the stick).</p>
+
+<h2>Step 4: open the copy on another computer</h2>
+<p>Plug the stick into a laptop or phone that is not the one you are about to wipe. Open a few photos and a document. If they open, the copy worked. If the stick is empty or files will not open, copy again before you wipe. Do not trust a progress bar alone.</p>
+
+<h2>Step 5: then wipe and install</h2>
+<p>When the stick is verified, make the installer stick (a different stick, or this one after you emptied and checked it onto somewhere safe): <a href="make-boot-usb">make a boot USB for the install</a>. Boot the old PC from that stick: <a href="boot-from-usb">boot the old PC from the USB stick</a>. Erase the whole internal disk in the installer: <a href="wipe-marketplace-pc">wipe a Marketplace PC before you install</a>. Continue with <a href="first-weekend">your first weekend</a>.</p>
+
+<h2>What this is not</h2>
+<p>This is not a full disk clone. It is not Time Machine or File History onto the house share yet (that comes after the share exists). It is not a reason to keep dual-boot Windows on a Marketplace box. It is not uploading someone else's private files to your cloud "to be safe." Copy what you need. Wipe the rest.</p>
+
+<h2>What next</h2>
+<p>Wipe and install: <a href="wipe-marketplace-pc">wipe a Marketplace PC before you install</a>, then <a href="first-weekend">your first weekend</a>. Still picking Debian vs Ubuntu Server? <a href="what-os-to-pick">What OS to put on it</a>. After the new OS is on the house network and you have a share, phone photos can land there: <a href="phone-photos-to-share">save phone photos to the house share</a>. A second copy of the house folder later: <a href="first-backup">a backup of the house folder</a>.</p>
+
+<p class="note">Optional: jot which folders you copied off in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip this if the disk is empty or you do not care about anything on it.</li>
+<li>Skip joining house Wi-Fi on a Marketplace Windows box just to copy files.</li>
+<li>Skip flashing the installer onto the only stick that still holds your only copy.</li>
+<li>Skip wiping before you open a few files on another computer.</li>
+<li>Skip cloning the whole disk or buying a NAS for a one-time copy-off.</li>
+<li>Skip keeping dual-boot Windows on a Marketplace box after you have the files.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://learn.microsoft.com/en-us/windows/configuration/windows-backup">Microsoft Learn: Windows backup</a>. <a href="https://support.apple.com/en-us/104984">Apple: back up your Mac</a>. Official pages only. For the wipe, see <a href="wipe-marketplace-pc">wipe a Marketplace PC before you install</a>. For the installer stick, see <a href="make-boot-usb">make a boot USB for the install</a>. For the install weekend, see <a href="first-weekend">your first weekend</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="wipe-marketplace-pc"><span class="t">Wipe a Marketplace PC before you install</span><span class="d">A used OptiPlex may still have the last owner's Windows and logins. Wipe the disk with the installer before you plug it into the house network.</span></a>
+<a class="note-row" href="make-boot-usb"><span class="t">Make a boot USB for the install</span><span class="d">Write Ubuntu Server or Debian onto a USB stick so the old PC can boot the installer. Use Etcher or Rufus. Don't drag the ISO into a folder.</span></a>
+<a class="note-row" href="boot-from-usb"><span class="t">Boot the old PC from the USB stick</span><span class="d">Plug in the installer stick, open the one-time boot menu, and pick the USB. Dell F12, HP Esc then F9, Lenovo F12. Don't dig through every BIOS screen tonight.</span></a>
+<a class="note-row" href="first-weekend"><span class="t">Your first weekend</span><span class="d">Install the OS, name it, and reach it from the couch. Don't buy anything this weekend.</span></a>
+<a class="note-row" href="start-with-what-you-have"><span class="t">Start with what you already have</span><span class="d">Don't buy anything yet. Old laptop first, or a retired OptiPlex from Marketplace.</span></a>
+<a class="note-row" href="what-os-to-pick"><span class="t">What OS to put on it</span><span class="d">Debian or Ubuntu Server if you can dedicate the old PC. Leave Windows if you still use the laptop as a laptop.</span></a>
+<a class="note-row" href="when-usb-wont-boot"><span class="t">When the boot USB won't start</span><span class="d">You flashed the stick and opened the boot menu, but the installer never appears. Try another port, the UEFI line, a reflash, then Secure Boot last. Skip a new mini PC tonight.</span></a>
+<a class="note-row" href="phone-photos-to-share"><span class="t">Save phone photos to the house share</span><span class="d">Copy camera-roll photos from an iPhone or Android onto the house folder on the old PC. House Wi-Fi only. You don't need a NAS app or iCloud for this.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="start-with-what-you-have"><span class="kicker">Previous</span><span class="t">Start with what you already have</span></a>
+<a rel="next" href="wipe-marketplace-pc"><span class="kicker">Next</span><span class="t">Wipe a Marketplace PC before you install</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

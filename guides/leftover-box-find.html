@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Find a file by name — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After SSH works, search the computer for a file by name with find so you don't have to open every folder. You don't need a file manager app for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Find a file by name — Labthrift">
+<meta property="og:description" content="After SSH works, search the computer for a file by name with find so you don't have to open every folder. You don't need a file manager app for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-find">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-find">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Find a file by name","description":"After SSH works, search the computer for a file by name with find so you don't have to open every folder. You don't need a file manager app for this.","url":"https://labthrift.com/guides/leftover-box-find","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-29"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Find a file by name</span></nav>
+<p class="note">Written 29 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Find a file by name</h1>
+<p class="deck">After SSH works, search the computer for a file by name with <span><code>find</code></span> so you don't have to open every folder. You don't need a file manager app for this.</p>
+<p><a href="leftover-box-ls">See what&apos;s in a folder</a> lists the folder you are sitting in. <a href="leftover-box-grep">Find a word in a file</a> searches inside one file. When you forgot which folder holds the file, <span><code>find</code></span> walks the tree and prints matching paths. You are still only looking. The computer does not need a desktop, a search app, or a NAS for this one job.</p>
+
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If you already know the folder and only need the names in it, that is <a href="leftover-box-ls">see what&apos;s in a folder</a>. If you already have the file and want one word inside it, that is <a href="leftover-box-grep">find a word in a file</a>. If a house job broke and you need the computer&apos;s own diary, that is <a href="leftover-box-read-logs">when something broke, look at the log</a>. Skip this whole note if you only need a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</p>
+
+<h2>What this is</h2>
+<p><span><code>find</code></span> walks a starting folder and prints paths whose names match what you asked for. You run it on the computer, after SSH. Matching paths print to the SSH window. The files stay on disk. You are only looking. It does not list only the current folder. That is <span><code>ls</code></span>. It does not open a file. That is <span><code>cat</code></span>, <span><code>less</code></span>, or <span><code>nano</code></span>. It does not search inside the file for a word. That is <span><code>grep</code></span>. One name pattern, same computer, only the matching paths.</p>
+
+<h2>Search a practice file</h2>
+<p>SSH in. Make a short throwaway file in a nested folder:</p>
+<p><code>mkdir -p ~/practice/notes &amp;&amp; printf &apos;hello\n&apos; &gt; ~/practice/notes/fruit.txt</code></p>
+<p>Then search your home folder for that exact name:</p>
+<p><code>find ~ -name &apos;fruit.txt&apos;</code></p>
+<p>You should see a path that ends in <span><code>practice/notes/fruit.txt</code></span>. That is the whole first-night trick.</p>
+<p>Match part of a name, ignoring capital letters:</p>
+<p><code>find ~ -iname &apos;*fruit*&apos;</code></p>
+<p>The stars mean “anything before or after.” You are only looking. Don't delete the hits yet.</p>
+<p>A real folder that is safe to practice on:</p>
+<p><code>find /etc -name &apos;hosts&apos;</code></p>
+<p>That file is already on Debian and Ubuntu. You are only looking. Don't edit it.</p>
+
+<h2>Useful extras, still looking only</h2>
+<p>Stop after the first hit when you only need one path:</p>
+<p><code>find ~ -name &apos;fruit.txt&apos; | head -n 1</code></p>
+<p>Limit how deep the walk goes so a huge home folder stays quiet:</p>
+<p><code>find ~ -maxdepth 3 -name &apos;fruit.txt&apos;</code></p>
+<p>If you see command not found, install the usual tools, then try again:</p>
+<p><code>sudo apt install findutils</code></p>
+<p>Debian and Ubuntu Server usually already have it. That install is not a reason to buy a file manager app.</p>
+<p>When you are done practicing:</p>
+<p><code>rm -i ~/practice/notes/fruit.txt &amp;&amp; rmdir ~/practice/notes ~/practice</code></p>
+
+<h2>What this is not</h2>
+<p>This is not a list of the folder you are sitting in. That is <a href="leftover-box-ls">see what&apos;s in a folder</a>. It is not a search inside a file for a word. That is <a href="leftover-box-grep">find a word in a file</a>. It is not a dump of a short file. That is <a href="leftover-box-cat">read a file without opening the editor</a>. It is not paging through a long file. That is <a href="leftover-box-less">read a file one screen at a time</a>. It is not an editor. That is <a href="leftover-box-nano">edit a file from the couch</a>. It is not which folders are eating the disk. That is <a href="leftover-box-largest-folders">see which folders are eating the disk</a>. It is not a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</p>
+
+<h2>What next</h2>
+<p>Need the names in one folder only? <a href="leftover-box-ls">See what&apos;s in a folder</a>. Need to sit in the folder you found? <a href="leftover-box-cd">Move into a folder</a>. Need only the lines with one word? <a href="leftover-box-grep">Find a word in a file</a>. Need the last lines of a long file? <a href="leftover-box-tail">See the end of a file</a>. Need a short file printed all at once? <a href="leftover-box-cat">Read a file without opening the editor</a>. Need the whole long file one screen at a time? <a href="leftover-box-less">Read a file one screen at a time</a>. Need to change a line? <a href="leftover-box-nano">Edit a file from the couch</a>. Need a spare before you edit? <a href="leftover-box-cp">Copy a file without leaving the computer</a>. Need the throwaway gone for real? <a href="leftover-box-rm">Delete a file carefully</a>. Need a file from the laptop instead? <a href="leftover-box-scp">Copy a file to the computer from your laptop</a>. When key login is boring on every computer you use, <a href="leftover-box-ssh-no-password">turn off password login once the key works</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip <span><code>ls</code></span> through every nested folder by hand when you forgot the path. That walk is the wrong tool for a hunt.</li>
+<li>Skip <span><code>find /</code></span> on day one. Start under <span><code>~</code></span> or one folder you trust. The whole disk is slow and noisy.</li>
+<li>Skip <span><code>-exec rm</code></span>, <span><code>-delete</code></span>, and any find that changes or removes files. Looking is the job today.</li>
+<li>Skip fancy regex, permission filters, and size filters on day one. One name pattern is enough.</li>
+<li>Skip buying a file manager app, a “cloud IDE,” or a NAS to find one file by name.</li>
+<li>Skip SSH settings, <span><code>/etc/shadow</code></span>, and anything under <span><code>/etc/ssh</code></span>. Looking at trusted laptop keys is <a href="leftover-box-authorized-keys">see which laptop keys the computer already trusts</a>.</li>
+<li>Skip opening SSH to the internet so you can hunt files from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/findutils/find.1.en.html">Debian: find</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/find.1.html">Ubuntu: find</a>. <a href="https://www.gnu.org/software/findutils/manual/html_node/find_html/">GNU Findutils manual</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For names in one folder, see <a href="leftover-box-ls">see what&apos;s in a folder</a>. For a word inside a file, see <a href="leftover-box-grep">find a word in a file</a>. For a short dump, see <a href="leftover-box-cat">read a file without opening the editor</a>. For paging, see <a href="leftover-box-less">read a file one screen at a time</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-ls"><span class="t">See what&apos;s in a folder</span><span class="d">After SSH works, list the folder you are sitting in with ls. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-cd"><span class="t">Move into a folder</span><span class="d">After SSH works, change folders with cd. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-grep"><span class="t">Find a word in a file</span><span class="d">After SSH works, search a file with grep so you see only the matching lines. You don't need a file viewer app for this.</span></a>
+<a class="note-row" href="leftover-box-cat"><span class="t">Read a file without opening the editor</span><span class="d">After SSH works, print a file with cat so you can read it without opening nano. Short files only. You don't need a file viewer app for this.</span></a>
+<a class="note-row" href="leftover-box-less"><span class="t">Read a file one screen at a time</span><span class="d">After SSH works, open a file with less so a long file does not flood the window. Space turns the page. q leaves. You don't need a file viewer app for this.</span></a>
+<a class="note-row" href="leftover-box-nano"><span class="t">Edit a file from the couch</span><span class="d">After SSH works, open a file with nano, change a line, and save. The keys at the bottom of the screen are the whole trick. You don't need a new editor.</span></a>
+<a class="note-row" href="leftover-box-rm"><span class="t">Delete a file carefully</span><span class="d">After SSH works, delete one file with rm -i. Ask first. Skip rm -rf. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-largest-folders"><span class="t">See which folders are eating the disk</span><span class="d">Before you buy a bigger drive or a NAS, ask which folders are taking the room.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-grep"><span class="kicker">Previous</span><span class="t">Find a word in a file</span></a>
+<a rel="next" href="leftover-box-tail"><span class="kicker">Next</span><span class="t">See the end of a file</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

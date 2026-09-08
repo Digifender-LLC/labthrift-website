@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Delete a file carefully — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After SSH works, delete one file with rm -i. Ask first. Skip rm -rf. You don't need a NAS for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Delete a file carefully — Labthrift">
+<meta property="og:description" content="After SSH works, delete one file with rm -i. Ask first. Skip rm -rf. You don't need a NAS for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-rm">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-rm">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Delete a file carefully","description":"After SSH works, delete one file with rm -i. Ask first. Skip rm -rf. You don't need a NAS for this.","url":"https://labthrift.com/guides/leftover-box-rm","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-29"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Delete a file carefully</span></nav>
+<p class="note">Written 29 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Delete a file carefully</h1>
+<p class="deck">After SSH works, delete one file with <span><code>rm -i</code></span>. The computer asks before it goes. Skip <span><code>rm -rf</code></span>. You don't need a NAS for this.</p>
+<p><a href="leftover-box-mv">Rename or move a file</a> keeps the bytes under a new name. Tonight the throwaway practice file can go away for real. <span><code>rm</code></span> is remove. One file, home folder, ask first. Useful after <a href="leftover-box-cp">copy a file without leaving the computer</a> left a spare you no longer want. The computer does not need a trash can app, a desktop, or a NAS for this one job.</p>
+
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If you want the file under a better name and still on disk, that is <a href="leftover-box-mv">rename or move a file</a>. If you want a second copy and the original to stay, that is <a href="leftover-box-cp">copy a file without leaving the computer</a>. If the file is still only on the laptop, that is <a href="leftover-box-scp">copy a file to the computer from your laptop</a>. Skip this whole note if you only need a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</p>
+
+<h2>What this is</h2>
+<p><span><code>rm</code></span> deletes a file. You run it on the computer, after SSH. The name is gone. There is no Recycle Bin on a typical server. That is why tonight we type <span><code>rm -i</code></span>. The <span><code>-i</code></span> means ask. It does not rename. That is <span><code>mv</code></span>. It does not leave a spare. That is <span><code>cp</code></span>. It does not talk to the laptop. That is <span><code>scp</code></span>. One path, same computer, file gone.</p>
+
+<h2>Make a throwaway, then delete it</h2>
+<p>SSH in. Make a practice file in home if you don't already have one:</p>
+<p><code>echo 'delete me' &gt; ~/delete-me.txt</code></p>
+<p>See that it is there:</p>
+<p><code>ls ~/delete-me.txt</code></p>
+<p>Then ask before delete:</p>
+<p><code>rm -i ~/delete-me.txt</code></p>
+<p>The computer should ask something like remove regular file. Type <span><code>y</code></span> and Enter if that is the file you meant. Type <span><code>n</code></span> if it is not. Swap the name for yours. Practice in home. Skip anything under <span><code>/</code></span> or <span><code>/etc</code></span>.</p>
+
+<h2>See that it is gone</h2>
+<p>List home:</p>
+<p><code>ls ~</code></p>
+<p>You don't want <span><code>delete-me.txt</code></span> any more. Optional exact check:</p>
+<p><code>ls ~/delete-me.txt</code></p>
+<p>You want “No such file or directory.” That is success. The computer removed the file. It did not hide it in a trash folder.</p>
+
+<h2>Optional: one empty folder</h2>
+<p>Empty folders are a different tool. If you made a practice folder with <a href="leftover-box-mkdir">make a folder</a> and it is empty:</p>
+<p><code>rmdir ~/notes-practice</code></p>
+<p><span><code>rmdir</code></span> only works when the folder has nothing inside. If it complains the directory is not empty, list it with <a href="leftover-box-ls">see what's in a folder</a>, move or delete the files first, then try again. Skip <span><code>rm -rf</code></span>. That flag can wipe a whole tree with no useful undo, and it is not tonight’s job.</p>
+
+<h2>What this is not</h2>
+<p>This is not a rename that keeps the bytes. That is <a href="leftover-box-mv">rename or move a file</a>. It is not a second copy. That is <a href="leftover-box-cp">copy a file without leaving the computer</a>. It is not a file from the laptop. That is <a href="leftover-box-scp">copy a file to the computer from your laptop</a>. It is not emptying the disk of old logs. That is <a href="leftover-box-old-logs">clear old logs when the disk is tight</a>. It is not a checked backup. That is <a href="first-backup">a backup of the folder</a>.</p>
+
+<h2>What next</h2>
+<p>Need a spare before you delete? <a href="leftover-box-cp">Copy a file without leaving the computer</a>. Need the name to change instead? <a href="leftover-box-mv">Rename or move a file</a>. Need the names again? <a href="leftover-box-ls">See what's in a folder</a>. Need a folder for practice files? <a href="leftover-box-mkdir">Make a folder</a>. Need to read a file without opening the editor? <a href="leftover-box-cat">Read a file without opening the editor</a>. Need to change a line first? <a href="leftover-box-nano">Edit a file from the couch</a>. Need a file from the laptop instead? <a href="leftover-box-scp">Copy a file to the computer from your laptop</a>. Tired of retyping the same long line? <a href="leftover-box-history">Reuse a command you already typed</a>. When key login is boring on every computer you use, <a href="leftover-box-ssh-no-password">turn off password login once the key works</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip <span><code>mv</code></span> if you want the file gone. That tool keeps the bytes under a new name.</li>
+<li>Skip <span><code>rm -rf</code></span>, <span><code>rm -rf /</code></span>, and anything under <span><code>/etc</code></span> or SSH settings.</li>
+<li>Skip buying a NAS, a “cloud drive,” or a trash-can app to delete one practice file.</li>
+<li>Skip deleting the only copy of something you care about. Make a <a href="leftover-box-cp">copy</a> or a <a href="first-backup">backup</a> first.</li>
+<li>Skip opening SSH to the internet so you can delete files from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.gnu.org/software/coreutils/manual/html_node/rm-invocation.html">GNU coreutils: rm invocation</a>. <a href="https://manpages.debian.org/bookworm/coreutils/rm.1.en.html">Debian: rm</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/rm.1.html">Ubuntu: rm</a>. <a href="https://www.gnu.org/software/coreutils/manual/html_node/rmdir-invocation.html">GNU coreutils: rmdir invocation</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For a rename that keeps the file, see <a href="leftover-box-mv">rename or move a file</a>. For a spare that keeps the original, see <a href="leftover-box-cp">copy a file without leaving the computer</a>. For listing names, see <a href="leftover-box-ls">see what's in a folder</a>. For making a folder, see <a href="leftover-box-mkdir">make a folder</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-mv"><span class="t">Rename or move a file</span><span class="d">After SSH works, rename or move a file with mv so the name matches the job. The old name is gone. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-cp"><span class="t">Copy a file without leaving the computer</span><span class="d">After SSH works, copy a file with cp so you can edit a spare without wrecking the original. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-mkdir"><span class="t">Make a folder</span><span class="d">After SSH works, make a folder with mkdir so copies and edits have a place to land. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-ls"><span class="t">See what's in a folder</span><span class="d">After SSH works, list the folder you are sitting in with ls. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-scp"><span class="t">Copy a file to the computer from your laptop</span><span class="d">After SSH works, use scp to move one file without a USB stick. A short name like lab makes the typing shorter. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-nano"><span class="t">Edit a file from the couch</span><span class="d">After SSH works, open a file with nano, change a line, and save. The keys at the bottom of the screen are the whole trick. You don't need a new editor.</span></a>
+<a class="note-row" href="leftover-box-history"><span class="t">Reuse a command you already typed</span><span class="d">After SSH works, flip back through commands with the Up arrow or history. You don't need a notebook for the same long line twice.</span></a>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-mv"><span class="kicker">Previous</span><span class="t">Rename or move a file</span></a>
+<a rel="next" href="leftover-box-cat"><span class="kicker">Next</span><span class="t">Read a file without opening the editor</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

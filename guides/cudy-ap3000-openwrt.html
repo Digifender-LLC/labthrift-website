@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Ceiling AP you can later flash OpenWrt on: Cudy AP3000 — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Stock firmware is fine for a house. The flash is not one-click.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Ceiling AP you can later flash OpenWrt on: Cudy AP3000 — Labthrift">
+<meta property="og:description" content="Stock firmware is fine for a house. The flash is not one-click.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/cudy-ap3000-openwrt">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/cudy-ap3000-openwrt">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BlogPosting",
+ "headline": "Ceiling AP you can later flash OpenWrt on: Cudy AP3000",
+ "description": "Stock firmware is fine for a house. The flash is not one-click.",
+ "url": "https://labthrift.com/guides/cudy-ap3000-openwrt",
+ "image": "https://labthrift.com/assets/og-1200.png",
+ "datePublished": "2026-08-22"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+ {
+ "@type": "ListItem",
+ "position": 1,
+ "name": "Home",
+ "item": "https://labthrift.com/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 2,
+ "name": "Notes",
+ "item": "https://labthrift.com/guides/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 3,
+ "name": "Cheap PoE + APs",
+ "item": "https://labthrift.com/guides/#cheap-poe"
+ },
+ {
+ "@type": "ListItem",
+ "position": 4,
+ "name": "Ceiling AP you can later flash OpenWrt on: Cudy AP3000",
+ "item": "https://labthrift.com/guides/cudy-ap3000-openwrt"
+ }
+ ]
+}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#cheap-poe">Better Wi-Fi</a> / <span aria-current="page">Ceiling AP you can later flash OpenWrt on: Cudy AP3000</span></nav>
+<p class="note">Written 22 Aug 2026. Specs from the maker pages linked below. Prices from those stores. I haven't used these.</p>
+
+<h1>Ceiling AP you can later flash OpenWrt on: Cudy AP3000</h1>
+<p class="deck">Stock firmware is fine for a house. The flash is not one-click.</p>
+<p>GL.iNet Flint 2 is the known OpenWrt box, but it is a 12 V / 4 A router, not PoE. That guide is <a href="gl-mt6000-ap-mode-no-poe">Flint 2 in AP mode</a>. The ceiling AP that actually takes 802.3at and has in-tree OpenWrt (24.10.x, <code>cudy_ap3000-v1</code>) is Cudy AP3000.</p>
+<p>Radios: 2402 + 574, 2×2, 160 MHz. One 2.5G PoE-in. Power: 802.3at/af, 48–57 V passive, 12 V DC; 12 W max. AP3000 is the puck with no adapter. AP3000_P includes a 48 V passive injector. 48–57 V passive is not 24 V. Don't hang this off an airMAX brick. See <a href="passive-24v-poe-traps">24 V traps</a>.</p>
+
+<h2>What to buy</h2>
+<div class="table-wrap">
+<table>
+<tr><th>Box</th><th>What it is</th><th>Street, 22 Aug 2026</th><th>Buy if</th></tr>
+<tr class="pick"><td data-label="Box">Cudy AP3000</td><td data-label="What it is">AX3000, 1× 2.5G PoE-in, 802.3at/af + 48–57 V passive + 12 V DC. 12 W. No adapter in the box.</td><td data-label="Street, 22 Aug 2026">Amazon $69.90 (<a href="https://www.amazon.com/Cudy-Wireless-Business-Solution-Seamless/dp/B0BXNB7CC3">B0BXNB7CC3</a>).</td><td data-label="Buy if">You want a 2.5G ceiling AP and a real OpenWrt target, or you just want stock firmware cheap.</td></tr>
+<tr><td data-label="Box">Cudy AP3000_P</td><td data-label="What it is">Same radio. 48 V passive injector in the box.</td><td data-label="Street, 22 Aug 2026">Same family. Confirm the exact listing.</td><td data-label="Buy if">You have no PoE switch yet and you accept 48 V passive, not 24 V.</td></tr>
+<tr><td data-label="Box">Cudy AP3000 Outdoor</td><td data-label="What it is">Different radio and housing.</td><td data-label="Street, 22 Aug 2026">Amazon B0CYT44ZYL $119.99.</td><td data-label="Buy if">Outside. Don't conflate with the indoor puck.</td></tr>
+</table>
+</div>
+<p>Twelve watts means two of these fit a 64 W fanless 4-PoE+ switch. Same closet math as <a href="cheap-poe">cheap PoE for two APs</a>. and they also fit a 2.5G PoE closet switch. <a href="8-port-2-5g-poe-closet">8-port 2.5G PoE</a>. They don't need a 150 W noisy gigabit MP brick. OpenWrt 24.10.x support landed via <a href="https://github.com/openwrt/openwrt/pull/17225">openwrt/openwrt#17225</a>. Flash the Cudy transition image first. I haven't flashed one here.</p>
+<h2>Skip</h2>
+<p>Skip the outdoor SKU for a ceiling. Skip pretending this is one-click OpenWrt. Skip a PoE splitter on a Flint 2 instead of buying this. Skip used Ruckus.</p>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.cudy.com/en-us/products/ap3000-1-0">Cudy AP3000</a>. <a href="https://www.amazon.com/Cudy-Wireless-Business-Solution-Seamless/dp/B0BXNB7CC3">Amazon B0BXNB7CC3</a>. <a href="https://openwrt.org/releases/24.10/notes-24.10.5">OpenWrt 24.10.5 notes</a>. <a href="https://github.com/openwrt/openwrt/pull/17225">PR 17225</a>.</p>
+</section>
+
+
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="gl-mt6000-ap-mode-no-poe"><span class="t">Living-room router as an AP when the closet has no PoE yet: Flint 2 (GL-MT6000)</span><span class="d">Living-room router as an AP when the closet has no PoE yet.</span></a>
+<a class="note-row" href="8-port-2-5g-poe-closet"><span class="t">Quiet switch that powers two Lite APs without a loud 24-port heater: 8-port 2.5G PoE</span><span class="d">Quiet switch that powers two Lite APs without a loud 24-port heater.</span></a>
+<a class="note-row" href="poe-injector-vs-switch-two-aps"><span class="t">One injector, two injectors, or a 4-port PoE+ switch</span><span class="d">One AP can use a small injector. Two APs is when a tiny PoE switch starts making sense.</span></a>
+</section>
+
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="grandstream-gwn7660-embedded-controller"><span class="kicker">Previous</span><span class="t">Quiet house AP that runs its own controller: Grandstream GWN7660</span></a>
+<a rel="next" href="gl-mt6000-ap-mode-no-poe"><span class="kicker">Next</span><span class="t">Living-room router as an AP when the closet has no PoE yet: Flint 2 (GL-MT6000)</span></a>
+</nav>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+</p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Look up a site name from the computer — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="When a website name fails, try resolving it from the computer before you buy a mesh kit.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Look up a site name from the computer — Labthrift">
+<meta property="og:description" content="When a website name fails, try resolving it from the computer before you buy a mesh kit.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-name-lookup">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-name-lookup">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Look up a site name from the computer","description":"When a website name fails, try resolving it from the computer before you buy a mesh kit.","url":"https://labthrift.com/guides/leftover-box-name-lookup","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-27"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#cheap-poe">Better Wi-Fi</a> / <span aria-current="page">Look up a site name from the computer</span></nav>
+<p class="note">Written 27 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Look up a site name from the computer</h1>
+<p class="deck">When a website name fails, try resolving it from the computer before you buy a mesh kit.</p>
+<p>You already know which name server the computer is asking from <a href="leftover-box-dns-check">see which name server the computer is using</a>. This note asks that server to turn a site name into a number. Resolve is that lookup. If ping to a number works but the name fails, this is the look.</p>
+
+<h2>Skip until SSH works</h2>
+<p>If you have never logged in from the couch, that is <a href="first-ssh">SSH from the couch</a>. If you never installed Pi-hole, start with <a href="first-useful-service">the first useful thing on the computer</a>. Prefer this look after you know which name server the computer is asking: <a href="leftover-box-dns-check">see which name server the computer is using</a>. If even a number past the router fails, fix that first: <a href="leftover-box-internet">check that the computer can reach the internet</a>. This note assumes you can log in from the couch, or sit at the keyboard.</p>
+
+<h2>What this is</h2>
+<p>A look, not a shopping trip. If the computer can ping <span><code>1.1.1.1</code></span> but cannot look up a site name, that is DNS, not a dead access point. Check the lookup before you buy a mesh kit. You are not buying Omada, UniFi, or a Protectli tonight.</p>
+
+<h2>Look up a name</h2>
+<p>SSH in from the couch, or sit at the keyboard, then run. Replace example.com with the site that failed:</p>
+<p><code>resolvectl query example.com</code></p>
+<p>A number back means names work from the computer. Timeout, SERVFAIL, or NXDOMAIN means the name server is wrong or Pi-hole is not answering. That is <a href="leftover-box-dns-check">see which name server the computer is using</a> or <a href="leftover-box-ad-block-check">when ads come back, check the ad block</a>.</p>
+<p>A blocked ad name can come back as <span><code>0.0.0.0</code></span>. That is Pi-hole doing its job, not a broken lookup. Try a site you actually use, not an ad tracker.</p>
+
+<h2>Optional older print</h2>
+<p>If you want the older one-line print:</p>
+<p><code>getent hosts example.com</code></p>
+<p>A number and the name on one line means the computer resolved it. Empty output means the lookup failed. Keep this light. Don't edit resolved configs tonight.</p>
+
+<h2>What the look means</h2>
+<p>Failed lookup means fix the pointing in <a href="leftover-box-router-dns">point the house at the ad block</a>, check which server the computer is asking in <a href="leftover-box-dns-check">see which name server the computer is using</a>, or check that Pi-hole is still answering in <a href="leftover-box-ad-block-check">when ads come back, check the ad block</a>. If even <span><code>1.1.1.1</code></span> will not ping, that is past the router: <a href="leftover-box-internet">check that the computer can reach the internet</a>. Don't buy Omada or UniFi for this look. The admin password is a different note: <a href="leftover-box-pihole-password">change the Pi-hole admin password</a>.</p>
+
+<h2>What next</h2>
+<p>Which name server: <a href="leftover-box-dns-check">see which name server the computer is using</a>. Past the router: <a href="leftover-box-internet">check that the computer can reach the internet</a>. Ads check: <a href="leftover-box-ad-block-check">when ads come back, check the ad block</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH fails. That is <a href="first-ssh">SSH from the couch</a>.</li>
+<li>Skip a mesh kit for a failed name.</li>
+<li>Skip buying a Protectli.</li>
+<li>Skip forwarding port 53.</li>
+<li>Skip Proxmox tonight. That is <a href="what-is-a-vm">what a VM is, and when you don't need one</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/systemd/resolvectl.1.en.html">Debian: resolvectl</a>. <a href="https://manpages.debian.org/bookworm/manpages/getent.1.en.html">Debian: getent</a>. Official pages only. For which name server, see <a href="leftover-box-dns-check">see which name server the computer is using</a>. For the ads check, see <a href="leftover-box-ad-block-check">when ads come back, check the ad block</a>. For router DNS, see <a href="leftover-box-router-dns">point the house at the ad block</a>. For ping past the router, see <a href="leftover-box-internet">check that the computer can reach the internet</a>. For the path to the router, see <a href="leftover-box-ping">check that the computer can reach the house router</a>. For the admin password, see <a href="leftover-box-pihole-password">change the Pi-hole admin password</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="leftover-box-internet"><span class="t">Check that the computer can reach the internet</span><span class="d">Before you blame the computer or buy a mesh kit, ping a number past the house router.</span></a>
+<a class="note-row" href="leftover-box-dns-check"><span class="t">See which name server the computer is using</span><span class="d">When names fail or ads come back, check which DNS the computer asks before you buy a mesh kit.</span></a>
+<a class="note-row" href="leftover-box-ad-block-check"><span class="t">See if house ad block is answering</span><span class="d">The computer is awake, but banners are back. Check that Pi-hole is still answering before you buy a mesh kit or blame the router.</span></a>
+<a class="note-row" href="leftover-box-router-dns"><span class="t">Point the house at Pi-hole</span><span class="d">After Pi-hole is installed, point the house router at the computer for DNS. Phones and laptops need no app. Sites still load. A lot of ads don't.</span></a>
+<a class="note-row" href="leftover-box-pihole-password"><span class="t">Reset the Pi-hole web password</span><span class="d">After the house ad block is up, change the admin password the installer printed. That password is not the login.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-dns-check"><span class="kicker">Previous</span><span class="t">See which name server the computer is using</span></a>
+<a rel="next" href="leftover-box-pihole-password"><span class="kicker">Next</span><span class="t">Reset the Pi-hole web password</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When the Pi-hole admin page won't open — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="http://pi.hole/admin or the computer's address plus /admin won't load. Check house Wi-Fi, the address, then Pi-hole and the web service. You don't need a new router.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When the Pi-hole admin page won't open — Labthrift">
+<meta property="og:description" content="http://pi.hole/admin or the computer's address plus /admin won't load. Check house Wi-Fi, the address, then Pi-hole and the web service. You don't need a new router.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-pihole-wont-open">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-pihole-wont-open">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When the Pi-hole admin page won't open","description":"http://pi.hole/admin or the computer's address plus /admin won't load. Check house Wi-Fi, the address, then Pi-hole and the web service. You don't need a new router.","url":"https://labthrift.com/guides/when-pihole-wont-open","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-05"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When the Pi-hole admin page won't open</span></nav>
+<p class="note">Written 5 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When the Pi-hole admin page won't open</h1>
+<p class="deck"><a href="http://pi.hole/admin">http://pi.hole/admin</a> or the computer's address plus <code>/admin</code> won't load. Check house Wi-Fi, the address, then Pi-hole and the web service. You don't need a new router.</p>
+<p>Haven't installed Pi-hole yet? Start with <a href="first-useful-service">the first useful thing</a>. Ads are back house-wide, but the dashboard still opens? That is <a href="when-ads-come-back">when ads come back</a>. Login form shows and the password fails? That is <a href="leftover-box-pihole-password">change the Pi-hole admin password</a>. This note is the blank or timed-out browser tab.</p>
+
+<h2>Skip until Pi-hole is installed</h2>
+<p>If you never ran the installer, stop here. Put ad block on the old PC first: <a href="first-useful-service">the first useful thing</a>. Don't buy a Raspberry Pi because a bookmark failed. Don't open port 80 or 443 on the router to "test" the dashboard from outside.</p>
+
+<h2>What this is</h2>
+<p>The admin page is a small web UI on the same computer that runs Pi-hole. The browser has to reach that computer on the house network, then the web service has to be up. <code>pi.hole</code> is only a shortcut when your DNS already asks Pi-hole. The number plus <code>/admin</code> works even when the shortcut name does not.</p>
+
+<h2>Step 1: same house network</h2>
+<p>Phone or laptop on house Wi-Fi (or a cable into the same router). Guest Wi-Fi often cannot see the computer. Cellular never will. Guest SSID still weird for ads? See <a href="guest-wifi-dns">when guest Wi-Fi still shows ads</a>.</p>
+
+<h2>Step 2: prove the computer is awake</h2>
+<p>Power light. Fan. Soft-off looks like a dead dashboard. Check before you reinstall: <a href="leftover-box-still-on">is it still on?</a>. Wake from the couch if it is soft-off: <a href="wake-on-lan">wake the computer from the house network</a>.</p>
+<p>SSH from the laptop on the house network:</p>
+<p><code>ssh youruser@192.168.1.50</code></p>
+<p>Swap the login and the number. Can't connect? Fix that first: <a href="when-ssh-wont-connect">when SSH won't connect</a>. Forgot the number? <a href="find-the-leftover-box">find it on the house network</a>.</p>
+
+<h2>Step 3: try the number, not only pi.hole</h2>
+<p>In the browser, type exactly (swap the address):</p>
+<p><code>http://192.168.1.50/admin</code></p>
+<p>Use <code>http</code>, not <code>https</code>, unless you set TLS on purpose. A padlock error or a blank https tab is often the wrong scheme. If the number works and <a href="http://pi.hole/admin">http://pi.hole/admin</a> does not, DNS on that phone or laptop is not asking Pi-hole yet. Point the router: <a href="leftover-box-router-dns">point the house at the ad block</a>, or brand menus in <a href="common-router-dns">point common home routers at Pi-hole</a>. One device when the router won't: <a href="manual-dns-on-devices">point a phone or laptop at Pi-hole when the router won't</a>. A short house name later: <a href="add-local-dns-name">add a local name in Pi-hole</a>.</p>
+
+<h2>Step 4: match what the browser shows</h2>
+<div class="table-wrap">
+<table>
+<tr><th>What you see</th><th>Likely cause</th></tr>
+<tr><td data-label="What you see">Timed out / can't reach this page / site can't be reached</td><td data-label="Likely cause">Wrong address, asleep computer, guest Wi-Fi, or the web service is down. Steps 2–5.</td></tr>
+<tr><td data-label="What you see">Connection refused</td><td data-label="Likely cause">Nothing listening on port 80, or a firewall blocked it. Steps 5–6.</td></tr>
+<tr><td data-label="What you see">Login form loads, password fails</td><td data-label="Likely cause">Wrong page. Reset the admin password: <a href="leftover-box-pihole-password">change the Pi-hole admin password</a>.</td></tr>
+<tr><td data-label="What you see">https warning / certificate error</td><td data-label="Likely cause">Try <code>http://</code> plus the number and <code>/admin</code>. Skip forcing https on day one.</td></tr>
+<tr><td data-label="What you see">pi.hole fails, number works</td><td data-label="Likely cause">That device is not using Pi-hole for DNS. Step 3.</td></tr>
+</table>
+</div>
+
+<h2>Step 5: check Pi-hole and the web service</h2>
+<p>From SSH on the computer:</p>
+<p><code>pihole status</code></p>
+<p>You want FTL running and blocking enabled. Then see if the web service answers on the computer itself:</p>
+<p><code>curl -I http://127.0.0.1/admin/</code></p>
+<p>A <code>200</code> or <code>301</code>/<code>302</code> means the page is up locally. If curl fails on the box, restart DNS and the usual services:</p>
+<p><code>pihole restartdns</code></p>
+<p><code>sudo systemctl restart lighttpd</code></p>
+<p>On some installs the unit is <code>pihole-FTL</code> only and lighttpd is gone; if <code>systemctl status lighttpd</code> says the unit is missing, skip that restart and rely on <code>pihole restartdns</code>, then try curl again. Still dead after a status failure? The quieter check before you buy anything: <a href="leftover-box-ad-block-check">when ads come back, check the ad block</a>.</p>
+
+<h2>Step 6: firewall without locking yourself out</h2>
+<p>If you turned on ufw and forgot HTTP:</p>
+<p><code>sudo ufw status</code></p>
+<p>Allow house LAN HTTP only if you understand the rule, or temporarily:</p>
+<p><code>sudo ufw allow from 192.168.0.0/16 to any port 80 proto tcp</code></p>
+<p>Swap the house range if yours is <code>10.</code> something. Don't <code>ufw allow 80</code> to the whole internet. Fuller walk: <a href="leftover-box-ufw">turn on a simple firewall without locking yourself out</a>.</p>
+
+<h2>Step 7: confirm from the laptop</h2>
+<p>Reload <code>http://THE-NUMBER/admin</code> on house Wi-Fi. Log in. If the form appears, you are done with this page. Change a sticky-note password: <a href="leftover-box-pihole-password">change the Pi-hole admin password</a>. Weekly software and lists: <a href="update-pihole">keep Pi-hole updated</a>. One bank page broken while ads stay gone: <a href="when-a-site-wont-load">when a site won't load after Pi-hole</a>.</p>
+
+<h2>What this is not</h2>
+<p>This is not a reason to buy a Raspberry Pi, a mesh kit, or a new router. It is not opening the admin page past the house network. It is not "ads came back on every device" (that is <a href="when-ads-come-back">when ads come back</a>). It is not a wrong admin password when the login form already loads.</p>
+
+<h2>What next</h2>
+<p>When the dashboard opens, leave it on the house network. Point the router if you have not: <a href="common-router-dns">point common home routers at Pi-hole</a>. Router login blank instead of Pi-hole? <a href="when-router-admin-wont-open">When the home router page won't open</a>. Keep a Teleporter export before scary changes: <a href="backup-pihole">save a Pi-hole backup</a>. A file share on this same computer can wait: <a href="first-file-share">a file share</a>. Soft restart without a full reboot: <a href="restart-house-services">restart Pi-hole or the house share</a>.</p>
+
+<p class="note">Optional: note which browser error you hit in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip opening port 80 or 443 on the router to the internet.</li>
+<li>Skip buying a Raspberry Pi because <code>pi.hole</code> failed once.</li>
+<li>Skip forcing https on day one.</li>
+<li>Skip a mesh kit for a blank admin tab.</li>
+<li>Skip reinstalling Pi-hole before you try the number plus <code>/admin</code>.</li>
+<li>Skip this if ads are back house-wide but the dashboard already loads. That is a different walk.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://docs.pi-hole.net/">Pi-hole docs</a>. <a href="https://docs.pi-hole.net/main/basic-install/">Pi-hole basic install</a> (admin URL). <a href="https://docs.pi-hole.net/core/pihole-command/">Pi-hole command</a> (status, restartdns). Official pages only. For install, see <a href="first-useful-service">the first useful thing</a>. For ads returning house-wide, see <a href="when-ads-come-back">when ads come back</a>. For the password when the form already loads, see <a href="leftover-box-pihole-password">change the Pi-hole admin password</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-useful-service"><span class="t">The first useful thing</span><span class="d">Put a house-wide ad block on the old PC. The rest of the house keeps using the internet as usual. You don't need a Raspberry Pi.</span></a>
+<a class="note-row" href="see-what-pihole-blocked"><span class="t">See what Pi-hole blocked</span><span class="d">Open the query log (or watch it over SSH) so you can tell ads are dying, which device asked, and which name to allow later. You don't need a new router.</span></a>
+<a class="note-row" href="when-house-wont-browse"><span class="t">When the house won't browse after Pi-hole</span><span class="d">Phones say no internet, or every site times out, after you pointed the house at Pi-hole. Put router DNS back on automatic so dinner works, then fix the computer. You don't need a new router.</span></a>
+<a class="note-row" href="when-ads-come-back"><span class="t">When ads come back</span><span class="d">Ads are back, sites won't load, or a phone still shows banners. Check the computer, Pi-hole, router DNS, then the phone.</span></a>
+<a class="note-row" href="restart-house-services"><span class="t">Restart Pi-hole or the house share</span><span class="d">Ads vanished or Finder lost the folder, but the computer is still on. Restart the one service that died. You don't need a full reboot or a new mini PC.</span></a>
+<a class="note-row" href="leftover-box-pihole-password"><span class="t">Change the Pi-hole admin password</span><span class="d">After the house ad block is up, change the admin password the installer printed. That password is not the login.</span></a>
+<a class="note-row" href="leftover-box-ad-block-check"><span class="t">When ads come back, check the ad block</span><span class="d">The computer is awake, but banners are back. Check that Pi-hole is still answering before you buy a mesh kit or blame the router.</span></a>
+<a class="note-row" href="when-a-site-wont-load"><span class="t">When a site won't load after Pi-hole</span><span class="d">A bank, streamer, or login page breaks after Pi-hole. Pause blocking for five minutes, then allow the domain you need. You don't need a new router.</span></a>
+<a class="note-row" href="common-router-dns"><span class="t">Point common home routers at Pi-hole</span><span class="d">Where to set DNS on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so the house asks Pi-hole. Prefer LAN DHCP DNS. You don't need a new router.</span></a>
+<a class="note-row" href="when-router-admin-wont-open"><span class="t">When the home router page won't open</span><span class="d">192.168.x.1, routerlogin.net, or the sticker URL won't load. Find the gateway number, use http on house Wi-Fi, then log in. You don't need a new router.</span></a>
+<a class="note-row" href="when-router-password-fails"><span class="t">When the router password won't work</span><span class="d">The gateway login page loads, but sticker, app, or old password fails. Try the right account and maker app before a factory reset. A reset wipes DNS and reservations.</span></a>
+<a class="note-row" href="add-local-dns-name"><span class="t">Add a local name in Pi-hole</span><span class="d">Give the old PC a short house name so phones and laptops can open SSH, the share, and the admin page without remembering the number. You don't need a new router.</span></a>
+<a class="note-row" href="when-ssh-wont-connect"><span class="t">When SSH won't connect</span><span class="d">SSH hangs, says connection refused, or Permission denied. Check the computer is on, confirm the address, then the user and password. You don't need a new router or a KVM.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="first-useful-service"><span class="kicker">Previous</span><span class="t">The first useful thing</span></a>
+<a rel="next" href="when-ads-come-back"><span class="kicker">Next</span><span class="t">When ads come back</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

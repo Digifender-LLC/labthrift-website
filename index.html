@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Labthrift — a first home lab, explained</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Labthrift explains how to start a first home lab, in plain English. Old gear first. What to skip, and what is worth money later.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Labthrift — a first home lab, explained">
+<meta property="og:description" content="Labthrift explains how to start a first home lab, in plain English. Old gear first. What to skip, and what is worth money later.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:url" content="https://labthrift.com/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="llms-txt" type="text/plain" href="/llms.txt">
+<link rel="canonical" href="https://labthrift.com/">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebSite",
+ "name": "Labthrift",
+ "url": "https://labthrift.com/",
+ "description": "Labthrift explains how to start a first home lab, in plain English. Old gear first. What to skip, and what is worth money later.",
+ "publisher": {
+ "@type": "Organization",
+ "name": "Labthrift",
+ "url": "https://labthrift.com/"
+ }
+}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="./">
+ <img src="assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="./" aria-current="page">Home</a>
+ <a href="guides/">Notes</a>
+ <a href="about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+
+<p class="note">Updated 7 Sep 2026. Start with gear you already have. The buy notes are for later.</p>
+<h1>A home lab, without the jargon</h1>
+<p class="deck">A home lab is just a quiet setup you leave on. You don't need to buy anything to start. Use the old laptop, or a retired office PC from Marketplace. What to skip, and what is worth money later.</p>
+<a class="start" href="guides/start-with-what-you-have">
+ <span class="lane">Start here</span>
+ <h2>Don't buy anything yet</h2>
+ <p>The first lab is an old laptop that still turns on, or a retired OptiPlex from Marketplace. Spending can wait.</p>
+ <span class="cta">Start with what you have</span>
+</a>
+<p class="path-lead">Nine notes on the start path, from an old PC to a VM you don't need yet. <a href="guides/#start">The path</a>.</p>
+<p class="jump">Topics</p>
+<nav class="lanes" aria-label="Lanes">
+ <a href="guides/#start">Getting started <span class="n">111</span></a>
+ <a href="guides/#switches">Faster network <span class="n">142</span></a>
+ <a href="guides/#mini-pcs">Small computers <span class="n">29</span></a>
+ <a href="guides/#first-nas">File storage <span class="n">77</span></a>
+ <a href="guides/#cheap-poe">Better Wi-Fi <span class="n">39</span></a>
+ <a href="guides/#used-vs-new">Used or new <span class="n">21</span></a>
+ <a href="guides/#closet-adjacent">Closet extras <span class="n">21</span></a>
+ <a href="guides/#mini-rack">Skinny wall racks <span class="n">15</span></a>
+</nav>
+<div class="grid">
+ <a class="card" href="guides/first-weekend"><span class="lane">Getting started</span><h3>Your first weekend</h3><p>Install the OS, name it, leave it on. Don't buy anything this weekend.</p></a>
+ <a class="card" href="guides/find-the-leftover-box"><span class="lane">Getting started</span><h3>Find it on the house network</h3><p>The number you type in SSH. Router list or hostname -I. No new router.</p></a>
+ <a class="card" href="guides/first-ssh"><span class="lane">Getting started</span><h3>SSH from the couch</h3><p>Type commands on it from the laptop. House network only.</p></a>
+ <a class="card" href="guides/what-os-to-pick"><span class="lane">Getting started</span><h3>What OS to put on it</h3><p>Debian or Ubuntu Server if you can dedicate the old PC. Leave Windows if you still use the laptop.</p></a>
+ <a class="card" href="guides/first-useful-service"><span class="lane">Getting started</span><h3>The first useful thing</h3><p>House-wide ad block on that computer. No Raspberry Pi.</p></a>
+ <a class="card" href="guides/n100-mini-pc"><span class="lane">Computers</span><h3>A tiny computer you can leave on</h3><p>Buy this later. An old laptop or a Marketplace OptiPlex is the first box.</p></a>
+ <a class="card" href="guides/8-port-vs-5-port-2-5g-switch"><span class="lane">Network</span><h3>Five ports or eight?</h3><p>Later. Count the gadgets you will plug in, add two, and that number picks the switch.</p></a>
+</div>
+<h2>When to spend</h2>
+<p>Start with gear you already have. If an upgrade doesn't fix something you can feel (slow file copies, a dead Wi-Fi corner, a machine that won't stay on), keep the money. Gear you never plug in is a waste.</p>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="guides/start-with-what-you-have">Start</a>
+ <a href="guides/2-5g-switch">Network</a>
+ <a href="guides/n100-mini-pc">Computers</a>
+ <a href="guides/first-nas">Storage</a>
+ <a href="guides/cheap-poe">Wi-Fi</a>
+ <a href="guides/used-vs-new">Used</a>
+ <a href="guides/10-inch-mini-rack">Racks</a>
+ <a href="guides/">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="theme.js" defer></script>
+</body></html>

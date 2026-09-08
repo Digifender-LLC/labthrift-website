@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Make a shortcut — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After SSH works, make a shortcut with ln -s so a second name points at the same file. You don't need a file manager app for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Make a shortcut — Labthrift">
+<meta property="og:description" content="After SSH works, make a shortcut with ln -s so a second name points at the same file. You don't need a file manager app for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-ln">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-ln">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Make a shortcut","description":"After SSH works, make a shortcut with ln -s so a second name points at the same file. You don't need a file manager app for this.","url":"https://labthrift.com/guides/leftover-box-ln","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-29"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Make a shortcut</span></nav>
+<p class="note">Written 29 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Make a shortcut</h1>
+<p class="deck">After SSH works, make a shortcut with <span><code>ln -s</code></span> so a second name points at the same file. You don't need a file manager app for this.</p>
+<p><a href="leftover-box-cp">Copy a file without leaving the computer</a> makes a second pile of bytes. Tonight you only need a second name. <span><code>ln -s</code></span> puts a shortcut next to a file you already have. Change the real file, and the shortcut shows the same words. You are still only practicing in home. The computer does not need a desktop, a file manager, or a NAS for this one job.</p>
+
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If you need a real second copy, that is <a href="leftover-box-cp">copy a file without leaving the computer</a>. If you only need a new name and the old one can go, that is <a href="leftover-box-mv">rename or move a file</a>. Skip this whole note if you only need a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</p>
+
+<h2>What this is</h2>
+<p><span><code>ln -s</code></span> means link, symbolic. The computer also calls this a symbolic link. You can keep calling it a shortcut. It makes a new name that points at a file that is already there. You run it on the computer, after SSH. It does not copy the words. That is <span><code>cp</code></span>. It does not rename the file. That is <span><code>mv</code></span>. It does not change who can read or run it. That is <a href="leftover-box-chmod">make a file runnable</a>. Two names, one file.</p>
+
+<h2>Make a practice shortcut</h2>
+<p>SSH in. Put one short practice file in home. A short name with no spaces is easier to type later:</p>
+<p><code>echo &apos;hello from the computer&apos; &gt; ~/hello.txt</code></p>
+<p>Then make a shortcut next to it. The first path is the real file. The second path is the new name:</p>
+<p><code>ln -s ~/hello.txt ~/hello-link.txt</code></p>
+<p>Use a path that starts with <span><code>~</code></span> or <span><code>/</code></span> so the shortcut still works after you move into another folder. A short name with no spaces is easier to type later.</p>
+<p>See the arrow:</p>
+<p><code>ls -l ~/hello-link.txt</code></p>
+<p>You want a line that starts with <span><code>l</code></span> (for link) and an arrow to the real file, something like <span><code>hello-link.txt -&gt; /home/you/hello.txt</code></span>. The computer prints your real home path, not the word you. Peek through the shortcut:</p>
+<p><code>cat ~/hello-link.txt</code></p>
+<p>You should see <span><code>hello from the computer</code></span>. That is the whole first-night trick.</p>
+
+<h2>Useful extras, still practicing only</h2>
+<p>Need to see where a shortcut points without dumping the file?</p>
+<p><code>readlink ~/hello-link.txt</code></p>
+<p>You want the path you gave <span><code>ln -s</code></span>.</p>
+<p>Change the real file, then peek at the shortcut again:</p>
+<p><code>echo &apos;hello again&apos; &gt; ~/hello.txt</code></p>
+<p><code>cat ~/hello-link.txt</code></p>
+<p>You want the new line. There is still only one pile of words. The shortcut did not keep a spare.</p>
+<p>Need a shortcut to a folder you already made? <a href="leftover-box-mkdir">Make a folder</a> first if you don't have one, then:</p>
+<p><code>ln -s ~/practice ~/practice-link</code></p>
+<p><code>ls -l ~/practice-link</code></p>
+<p>Same arrow, same idea. Skip that until a folder shortcut is the job.</p>
+<p>If you see command not found, install the usual tools, then try again:</p>
+<p><code>sudo apt install coreutils</code></p>
+<p>Debian and Ubuntu Server usually already have it. That install is not a reason to buy a file manager.</p>
+<p>When you are done practicing, delete the shortcut first. That does not delete the real file:</p>
+<p><code>rm -i ~/hello-link.txt</code></p>
+<p>Then the practice file, if you want it gone too:</p>
+<p><code>rm -i ~/hello.txt</code></p>
+<p>If you delete <span><code>hello.txt</code></span> first, the shortcut still sits there, but <span><code>cat ~/hello-link.txt</code></span> fails. That leftover name is a broken shortcut. Remove it with <span><code>rm -i</code></span> too.</p>
+
+<h2>What this is not</h2>
+<p>This is not a second copy of the words. That is <a href="leftover-box-cp">copy a file without leaving the computer</a>. It is not a rename. That is <a href="leftover-box-mv">rename or move a file</a>. It is not flipping the run bit. That is <a href="leftover-box-chmod">make a file runnable</a>. It is not a file from the laptop. That is <a href="leftover-box-scp">copy a file to the computer from your laptop</a>. It is not a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</p>
+
+<h2>What next</h2>
+<p>Need a real spare instead of a pointer? <a href="leftover-box-cp">Copy a file without leaving the computer</a>. Need the names and arrows again? <a href="leftover-box-ls">See what&apos;s in a folder</a>. Need the run bit on a practice script? <a href="leftover-box-chmod">Make a file runnable</a>. Need a short line before the file exists? <a href="leftover-box-echo">Put a short line into a file</a>. Need a folder for shortcuts to land in? <a href="leftover-box-mkdir">Make a folder</a>. Need a file from the laptop instead? <a href="leftover-box-scp">Copy a file to the computer from your laptop</a>. When a house job broke, look at the computer&apos;s own diary: <a href="leftover-box-read-logs">when something broke, look at the log</a>. When key login is boring on every computer you use, <a href="leftover-box-ssh-no-password">turn off password login once the key works</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip <span><code>ln</code></span> without <span><code>-s</code></span>. That other kind of link is harder to undo. Tonight: the shortcut, <span><code>ln -s</code></span>.</li>
+<li>Skip <span><code>ln -sf</code></span>, shortcuts under <span><code>/etc</code></span>, SSH settings, or a file you care about. Practice only in home tonight.</li>
+<li>Skip a relative shortcut from a random folder. If you later <span><code>cd</code></span> somewhere else, that pointer can break. Start the real path with <span><code>~</code></span> or <span><code>/</code></span>.</li>
+<li>Skip SSH settings, <span><code>/etc/shadow</code></span>, and anything under <span><code>/etc/ssh</code></span>. Looking at trusted laptop keys is <a href="leftover-box-authorized-keys">see which laptop keys the computer already trusts</a>.</li>
+<li>Skip buying a file manager, a “cloud drive,” or a NAS to make one shortcut.</li>
+<li>Skip opening SSH to the internet so you can make shortcuts from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/coreutils/ln.1.en.html">Debian: ln</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/ln.1.html">Ubuntu: ln</a>. <a href="https://www.gnu.org/software/coreutils/manual/html_node/ln-invocation.html">GNU coreutils: ln</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For a real copy, see <a href="leftover-box-cp">copy a file without leaving the computer</a>. For listing arrows, see <a href="leftover-box-ls">see what&apos;s in a folder</a>. For the run bit, see <a href="leftover-box-chmod">make a file runnable</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-cp"><span class="t">Copy a file without leaving the computer</span><span class="d">After SSH works, copy a file with cp so you can edit a spare without wrecking the original. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-mv"><span class="t">Rename or move a file</span><span class="d">After SSH works, rename or move a file with mv so the name matches the job. The old name is gone. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-chmod"><span class="t">Make a file runnable</span><span class="d">After SSH works, change file permissions with chmod so a practice script can run. You don't need a permissions GUI for this.</span></a>
+<a class="note-row" href="leftover-box-ls"><span class="t">See what&apos;s in a folder</span><span class="d">After SSH works, list the folder you are sitting in with ls. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-echo"><span class="t">Put a short line into a file</span><span class="d">After SSH works, put one short line into a file with echo so you don't need to open nano. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-rm"><span class="t">Delete a file carefully</span><span class="d">After SSH works, delete one file with rm -i. Ask first. Skip rm -rf. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-which"><span class="t">See where a command lives</span><span class="d">After SSH works, ask where a command lives with command -v so you know if nano or python is installed before you chase a missing package. You don't need a software store for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-chmod"><span class="kicker">Previous</span><span class="t">Make a file runnable</span></a>
+<a rel="next" href="leftover-box-which"><span class="kicker">Next</span><span class="t">See where a command lives</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

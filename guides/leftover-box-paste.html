@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Join columns side by side — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After SSH works, join columns side by side with paste so two lists become one line each. You don't need a file manager for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Join columns side by side — Labthrift">
+<meta property="og:description" content="After SSH works, join columns side by side with paste so two lists become one line each. You don't need a file manager for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-paste">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-paste">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Join columns side by side","description":"After SSH works, join columns side by side with paste so two lists become one line each. You don't need a file manager for this.","url":"https://labthrift.com/guides/leftover-box-paste","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-30"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"Faster network","item":"https://labthrift.com/guides/#switches"},{"@type":"ListItem","position":3,"name":"Join columns side by side"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Join columns side by side</span></nav>
+<p class="note">Written 30 Aug 2026. This is a how-to, not a product card.</p>
+<h1>Join columns side by side</h1>
+<p class="deck">After SSH works, join columns side by side with paste so two lists become one line each. You don&apos;t need a file manager for this.</p>
+<p><a href="leftover-box-tr">Change characters</a> cleaned mixed lines. <a href="leftover-box-cut">Pull one column</a> kept fruit and color apart. Tonight you join columns side by side so two lists become one line each. <span><code>paste</code></span> does that. Fruit can sit next to color. You are still only looking. The computer does not need a desktop, a file manager, or a new mini PC for this one job.</p>
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If a column pulled is what you want, that is <a href="leftover-box-cut">pull one column</a>. If files matched on a shared field are what you want, that is <a href="leftover-box-join">match files on a shared field</a>. <span><code>join</code></span> is a different tool. Skip this whole note if you only need a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</p>
+<h2>What this is</h2>
+<p><span><code>paste</code></span> joins columns side by side. You type <span><code>paste</code></span>, then two files. <span><code>-d</code></span> is delimiter: the character that sits between columns. Default join is tab. Comma is optional tonight. It prints joined lines. It does not rewrite the files unless you ask it to.</p>
+<p>It is not join. Join matches files on a shared field. Paste joins columns side by side without matching keys. It is not cut. Cut pulls one column out. It is not nl. Nl numbers lines.</p>
+<h2>Join columns from practice files</h2>
+<p>SSH into the computer.</p>
+<p>Make two tiny files in home:</p>
+<p><code>printf &apos;apple\nbanana\npear\n&apos; &gt; ~/fruit.txt</code></p><p><code>printf &apos;red\nyellow\ngreen\n&apos; &gt; ~/color.txt</code></p><p>That save is <a href="leftover-box-redirect">save output to a file</a>. Peek first:</p>
+<p><code>cat ~/fruit.txt</code></p><p>You want apple, then banana, then pear. Peek color too:</p>
+<p><code>cat ~/color.txt</code></p><p>Join them side by side:</p>
+<p><code>paste ~/fruit.txt ~/color.txt</code></p><p>You want apple next to red, banana next to yellow, pear next to green. That is enough for tonight. Practice only in home.</p>
+<p>Debian and Ubuntu usually already have <span><code>paste</code></span>. Don't make apt the job. If <span><code>paste</code></span> is missing:</p>
+<p><code>sudo apt install coreutils</code></p><p>Then stop. That install is not the lesson.</p>
+<p>When you are done, throw the practice files away. Careful delete only. That is <a href="leftover-box-rm">delete a file carefully</a>. Skip <span><code>rm -rf</code></span>.</p>
+<p><code>rm ~/fruit.txt ~/color.txt</code></p><h2>Useful extras, still looking only</h2>
+<p>Optional: comma between columns:</p>
+<p><code>paste -d, ~/fruit.txt ~/color.txt</code></p><p>Optional: a pipe character:</p>
+<p><code>paste -d &apos;|&apos; ~/fruit.txt ~/color.txt</code></p><p>Don't make <span><code>-d</code></span> required. You can stay on the default tab.</p>
+<h2>What this is not</h2>
+<p>This is not join. That is <a href="leftover-box-join">match files on a shared field</a>. It is not cut. That is <a href="leftover-box-cut">pull one column</a>. It is not tr. That is <a href="leftover-box-tr">change characters</a>. It is not nl. That is <a href="leftover-box-nl">number lines</a>. It is not a house share. That is <a href="first-file-share">a folder the house can open</a>. It is not opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>What next</h2>
+<p>Need one column pulled? <a href="leftover-box-cut">Pull one column</a>. Need files matched on a key? <a href="leftover-box-join">Match files on a shared field</a>. Need characters cleaned? <a href="leftover-box-tr">Change characters</a>. Need lines numbered? <a href="leftover-box-nl">Number lines</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip join, cut, tr, and nl as tonight&apos;s job. Those pages already exist.</li>
+<li>Skip paste into <span><code>rm</code></span>. Paste prints. Don't mix delete into this drill.</li>
+<li>Skip files under <span><code>/etc</code></span>, SSH folders, or paths you don't own. Practice only in home.</li>
+<li>Skip <span><code>rm -rf</code></span>. Careful delete only: <a href="leftover-box-rm">delete a file carefully</a>.</li>
+<li>Skip opening SSH to the internet so you can do this from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.gnu.org/software/coreutils/manual/html_node/paste-invocation.html">GNU coreutils: paste invocation</a>. <a href="https://manpages.debian.org/bookworm/coreutils/paste.1.en.html">Debian: paste</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/paste.1.html">Ubuntu: paste</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For one column, see <a href="leftover-box-cut">pull one column</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-cut"><span class="t">Pull one column</span><span class="d">After SSH works, pull one column with cut so a mixed line is easier to scan. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-join"><span class="t">Match files on a shared field</span><span class="d">After column, match two practice files on a shared field with join so the lists line up on a key. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-tr"><span class="t">Change characters</span><span class="d">After SSH works, change characters with tr so a mixed line is easier to clean. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-uniq"><span class="t">Drop duplicate lines</span><span class="d">After SSH works, drop duplicate lines with uniq so a mixed list shows each line once. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-sort"><span class="t">Put lines in order</span><span class="d">After SSH works, put lines in order with sort so a mixed list is easier to scan. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-pipe"><span class="t">Send output into another command</span><span class="d">After SSH works, send output into another command with | so a long dump does not flood the window. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-grep"><span class="t">Find a word in a file</span><span class="d">After SSH works, search a file with grep so you see only the matching lines. You don&apos;t need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-cat"><span class="t">Read a file without opening the editor</span><span class="d">After SSH works, print a file with cat so you can read it without opening nano. Short files only. You don&apos;t need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-nl"><span class="t">Number lines</span><span class="d">After SSH works, number lines with nl. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-tr"><span class="kicker">Previous</span><span class="t">Change characters</span></a>
+<a rel="next" href="leftover-box-nl"><span class="kicker">Next</span><span class="t">Number lines</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

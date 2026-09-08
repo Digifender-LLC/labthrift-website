@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>DS224+ vs DS423+: 2-bay or 4-bay Synology Plus — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Pick two bays or four when overnight backups on Synology DSM is the job. Four bays cost about $200 more for extra empty slots, not a faster network. Skip four bays if two drives is the whole house.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="DS224+ vs DS423+: 2-bay or 4-bay Synology Plus — Labthrift">
+<meta property="og:description" content="Pick two bays or four when overnight backups on Synology DSM is the job. Four bays cost about $200 more for extra empty slots, not a faster network. Skip four bays if two drives is the whole house.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/ds224-plus-vs-ds423-plus">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/ds224-plus-vs-ds423-plus">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BlogPosting",
+ "headline": "DS224+ vs DS423+: 2-bay or 4-bay Synology Plus",
+ "description": "Pick two bays or four when overnight backups on Synology DSM is the job. Four bays cost about $200 more for extra empty slots, not a faster network. Skip four bays if two drives is the whole house.",
+ "url": "https://labthrift.com/guides/ds224-plus-vs-ds423-plus",
+ "image": "https://labthrift.com/assets/og-1200.png",
+ "datePublished": "2026-08-22"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+ {
+ "@type": "ListItem",
+ "position": 1,
+ "name": "Home",
+ "item": "https://labthrift.com/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 2,
+ "name": "Notes",
+ "item": "https://labthrift.com/guides/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 3,
+ "name": "First NAS",
+ "item": "https://labthrift.com/guides/#first-nas"
+ },
+ {
+ "@type": "ListItem",
+ "position": 4,
+ "name": "DS224+ vs DS423+: 2-bay or 4-bay Synology Plus",
+ "item": "https://labthrift.com/guides/ds224-plus-vs-ds423-plus"
+ }
+ ]
+}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#first-nas">File storage</a> / <span aria-current="page">DS224+ vs DS423+: 2-bay or 4-bay Synology Plus</span></nav>
+<p class="note">Written 22 Aug 2026. Specs from the maker pages linked below. Prices from those stores. I haven't used these. Confirm the diskless SKU before you click: Amazon is full of drive bundles.</p>
+<h1>DS224+ vs DS423+: 2-bay or 4-bay Synology Plus</h1>
+<p class="deck">Pick two bays or four when overnight backups on Synology DSM is the job. Four bays cost about $200 more for extra empty slots, not a faster network. Skip four bays if two drives is the whole house.</p>
+<p>This is not Synology vs UGREEN. If you want 10G and Docker, the existing <a href="first-nas">first-NAS guide</a> already made that pick. Stay here only if DSM is the decision and the question is two bays or four.</p>
+<div class="table-wrap">
+<table>
+<tr><th>Box</th><th>DS224+</th><th>DS423+</th></tr>
+<tr><td data-label="">CPU</td><td data-label="DS224+">J4125 4C/4T, 2.0 / 2.7 GHz</td><td data-label="DS423+">Same</td></tr>
+<tr><td data-label="">RAM official</td><td data-label="DS224+">2 GB + 1 slot, max 6 GB</td><td data-label="DS423+">2 GB + 1 slot, max 6 GB</td></tr>
+<tr><td data-label="">NIC</td><td data-label="DS224+">2× 1GbE, MTU 1500</td><td data-label="DS423+">2× 1GbE, MTU 1500</td></tr>
+<tr class="pick"><td data-label="">Bays</td><td data-label="DS224+">2× 3.5" / 2.5" SATA</td><td data-label="DS423+">4× SATA + 2× M.2 2280 NVMe</td></tr>
+<tr><td data-label="">RAID</td><td data-label="DS224+">SHR, Basic, JBOD, 0, 1</td><td data-label="DS423+">Those plus 5 / 6 / 10</td></tr>
+<tr><td data-label="">Fans</td><td data-label="DS224+">1× 92 mm</td><td data-label="DS423+">2× 92 mm</td></tr>
+<tr><td data-label="">Maker power / noise</td><td data-label="DS224+">14.69 W / 4.41 W, 22 dB(A)</td><td data-label="DS423+">28.30 W / 8.45 W, 19.8 dB(A)</td></tr>
+<tr><td data-label="">Brick</td><td data-label="DS224+">60 W</td><td data-label="DS423+">90 W</td></tr>
+<tr><td data-label="">Warranty</td><td data-label="DS224+">2 years (to 4 with EW Plus, NA/EU)</td><td data-label="DS423+">3 years (to 5 with EW201 / EW Plus)</td></tr>
+<tr><td data-label="">Street, found</td><td data-label="DS224+">~$300 class MSRP; Amazon B0C6927XPX (confirm diskless)</td><td data-label="DS423+">B&amp;H $499.99 diskless; Amazon B0BXMS9GFF was unavailable 22 Aug 2026</td></tr>
+</table>
+</div>
+<p>SHR on two identical disks is enough when the job is laptop backup, Photos, and Hyper Backup. Empty bays matter more than a faster NIC the day you know the third disk is coming, because neither of these boxes gets a NIC upgrade. M.2 on the DS423+ is the only place a VM or app volume has a chance; 5400 / 5640 RPM HDD in either chassis is not an iSCSI datastore. <a href="synology-shr-vs-raid-1">SHR vs RAID 1</a>. <a href="nas-hdd-picks-2026-cmr">CMR drives</a>.</p>
+<p>Buy the <a href="synology-ds224-plus-review">DS224+</a> if the box lives in a bedroom and two disks is the plan. Buy the <a href="synology-ds423-plus-review">DS423+</a> if you already want four bays or NVMe cache and you are staying in DSM. Don't buy four bays “for later” if later is actually 2.5G, you will still be on gigabit.</p>
+
+<h2>Skip</h2>
+<p>Skip using this comparison to justify a used DS918+. Skip either Plus if 2.5G is the actual bottleneck; look at <a href="ugreen-dxp2800-review">DXP2800</a> or <a href="asustor-as5402t-review">AS5402T</a>. Skip SMR in SHR. Skip drive bundles on Amazon.</p>
+<section class="sources">
+<h2>Sources</h2>
+<p>DS224+ product page + spec PDF (17 Jun 2026). DS423+ spec PDF (23 Apr 2025). B&amp;H 1781611-REG and 1757288-REG. Amazon B0C6927XPX / B0BXMS9GFF. <a href="https://www.wundertech.net/synology-raid-calculator-shr-vs-raid/">WunderTech SHR calculator</a>.</p>
+</section>
+
+
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="synology-shr-vs-raid-1"><span class="t">Two identical disks mirror each other: SHR ≈ RAID 1 on two bays</span><span class="d">Two identical disks: SHR ≈ RAID 1. RAID is not backup.</span></a>
+<a class="note-row" href="nas-hdd-picks-2026-cmr"><span class="t">Buy hard drives a first file box can rebuild: CMR, not the cheap packed style</span><span class="d">Buy the kind of hard drive a first file box can rebuild. CMR writes everywhere, not the cheap packed style.</span></a>
+<a class="note-row" href="nas-2-5-vs-3-5-drives"><span class="t">2.5-inch vs 3.5-inch in a first NAS: HDD bulk vs SATA SSD apps</span><span class="d">Put big quiet disks in a first file box, not an old laptop drive. Small laptop disks are the wrong size for bulk photos. A small fast SSD is only if apps need speed, not for a photo dump.</span></a>
+</section>
+
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="terramaster-f4-424-pro-truenas"><span class="kicker">Previous</span><span class="t">TerraMaster F4-424 Pro: 32 GB DDR5 4-bay for Docker or TrueNAS</span></a>
+<a rel="next" href="synology-shr-vs-raid-1"><span class="kicker">Next</span><span class="t">Two identical disks mirror each other: SHR ≈ RAID 1 on two bays</span></a>
+</nav>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+</p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

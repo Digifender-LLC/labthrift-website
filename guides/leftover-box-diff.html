@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See whether two files are the same — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After SSH works, compare two files with diff so you can tell if the spare still matches. You don't need a file viewer for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See whether two files are the same — Labthrift">
+<meta property="og:description" content="After SSH works, compare two files with diff so you can tell if the spare still matches. You don't need a file viewer for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-diff">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-diff">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See whether two files are the same","description":"After SSH works, compare two files with diff so you can tell if the spare still matches. You don't need a file viewer for this.","url":"https://labthrift.com/guides/leftover-box-diff","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-29"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">See whether two files are the same</span></nav>
+<p class="note">Written 29 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>See whether two files are the same</h1>
+<p class="deck">After SSH works, compare two files with <span><code>diff</code></span> so you can tell if the spare still matches. You don't need a file viewer for this.</p>
+<p><a href="leftover-box-cp">Copy a file without leaving the computer</a> makes a spare. <a href="leftover-box-cat">Read a file without opening the editor</a> dumps one short file. After you edit the spare, <span><code>diff</code></span> tells you whether the two files still match, without opening both. You are still only looking. It does not need a desktop, a compare app, or a NAS for this one job.</p>
+
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If you only need a spare, that is <a href="leftover-box-cp">copy a file without leaving the computer</a>. If you want to dump one short file, that is <a href="leftover-box-cat">read a file without opening the editor</a>. If you want to change a line, that is <a href="leftover-box-nano">edit a file from the couch</a>. Skip this whole note if you only need a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</p>
+
+<h2>What this is</h2>
+<p><span><code>diff</code></span> compares two files line by line. You run it on the computer, after SSH. The files stay on disk. You are only looking. It does not make a spare. That is <span><code>cp</code></span>. It does not dump one file. That is <span><code>cat</code></span>. It does not open an editor. That is <span><code>nano</code></span>. It does not ask what kind of file this is. That is <span><code>file</code></span>. Two paths, same computer, a match or the lines that differ.</p>
+
+<h2>Compare two files</h2>
+<p>SSH in. Make a throwaway text file, then a spare:</p>
+<p><code>printf &apos;apple\\nbanana\\ncherry\\n&apos; &gt; ~/fruit.txt</code></p>
+<p><code>cp ~/fruit.txt ~/fruit-spare.txt</code></p>
+<p>Then ask whether they match:</p>
+<p><code>diff ~/fruit.txt ~/fruit-spare.txt</code></p>
+<p>A blank window means they match. That is the whole first-night trick. No news is the good answer.</p>
+<p>Now change the spare and ask again:</p>
+<p><code>printf &apos;apple\\nblueberry\\ncherry\\n&apos; &gt; ~/fruit-spare.txt</code></p>
+<p><code>diff ~/fruit.txt ~/fruit-spare.txt</code></p>
+<p>You should see the banana line and the blueberry line. Lines with <span><code>&lt;</code></span> are in the first file. Lines with <span><code>&gt;</code></span> are in the second. You don't need to memorize the rest of the marks tonight.</p>
+
+<h2>Useful extras, still looking only</h2>
+<p>Need a spare first? That is <a href="leftover-box-cp">copy a file without leaving the computer</a>. Need to know if the path is even text? That is <a href="leftover-box-file">see what kind of file this is</a>. Need a short dump of one file? That is <a href="leftover-box-cat">read a file without opening the editor</a>.</p>
+<p>If you see command not found, install the usual tool, then try again:</p>
+<p><code>sudo apt install diffutils</code></p>
+<p>Debian and Ubuntu Server usually already have it. That install is not a reason to buy a compare app.</p>
+<p>When you are done practicing:</p>
+<p><code>rm -i ~/fruit.txt ~/fruit-spare.txt</code></p>
+
+<h2>What this is not</h2>
+<p>This is not a copy. That is <a href="leftover-box-cp">copy a file without leaving the computer</a>. It is not a dump of one file. That is <a href="leftover-box-cat">read a file without opening the editor</a>. It is not an editor. That is <a href="leftover-box-nano">edit a file from the couch</a>. It is not a line count. That is <a href="leftover-box-wc">see how long a file is</a>. It is not asking what kind of file this is. That is <a href="leftover-box-file">see what kind of file this is</a>. It is not a search for a word. That is <a href="leftover-box-grep">find a word in a file</a>. It is not a hunt for a file by name. That is <a href="leftover-box-find">find a file by name</a>. It is not an empty file. That is <a href="leftover-box-touch">make an empty file</a>. It is not a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</p>
+
+<h2>What next</h2>
+<p>Need an empty file first? <a href="leftover-box-touch">Make an empty file</a>. Need a spare to compare against? <a href="leftover-box-cp">Copy a file without leaving the computer</a>. Need to change the spare? <a href="leftover-box-nano">Edit a file from the couch</a>. Need a short dump of one file? <a href="leftover-box-cat">Read a file without opening the editor</a>. Need to know if the path is text before you compare it? <a href="leftover-box-file">See what kind of file this is</a>. Need the first lines of a long file? <a href="leftover-box-head">See the start of a file</a>. Need the last lines? <a href="leftover-box-tail">See the end of a file</a>. Need only the lines with one word? <a href="leftover-box-grep">Find a word in a file</a>. Need the throwaway gone for real? <a href="leftover-box-rm">Delete a file carefully</a>. Need a file from the laptop instead? <a href="leftover-box-scp">Copy a file to the computer from your laptop</a>. When a house job broke, look at the computer&apos;s own diary: <a href="leftover-box-read-logs">when something broke, look at the log</a>. When key login is boring on every computer you use, <a href="leftover-box-ssh-no-password">turn off password login once the key works</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip <span><code>diff</code></span> on photos, zip files, or programs. Those print junk. Two text files are the job. Ask first with <a href="leftover-box-file">see what kind of file this is</a>.</li>
+<li>Skip a compare app, Git, or a NAS to see whether one spare still matches.</li>
+<li>Skip extra flags tonight. A blank window or the differing lines is enough. You don't need a side-by-side view.</li>
+<li>Skip SSH settings, <span><code>/etc/shadow</code></span>, and anything under <span><code>/etc/ssh</code></span>. Looking at trusted laptop keys is <a href="leftover-box-authorized-keys">see which laptop keys the computer already trusts</a>.</li>
+<li>Skip opening SSH to the internet so you can compare files from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/diffutils/diff.1.en.html">Debian: diff</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/diff.1.html">Ubuntu: diff</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For a spare, see <a href="leftover-box-cp">copy a file without leaving the computer</a>. For a short dump, see <a href="leftover-box-cat">read a file without opening the editor</a>. For a kind-of-file check, see <a href="leftover-box-file">see what kind of file this is</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-cp"><span class="t">Copy a file without leaving the computer</span><span class="d">After SSH works, copy a file with cp so you can edit a spare without wrecking the original. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-cat"><span class="t">Read a file without opening the editor</span><span class="d">After SSH works, print a file with cat so you can read it without opening nano. Short files only. You don't need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-nano"><span class="t">Edit a file from the couch</span><span class="d">After SSH works, open a file with nano, change a line, and save. The keys at the bottom of the screen are the whole trick. You don't need a new editor.</span></a>
+<a class="note-row" href="leftover-box-file"><span class="t">See what kind of file this is</span><span class="d">After SSH works, ask what kind of file this is with file before you dump it. You don't need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-head"><span class="t">See the start of a file</span><span class="d">After SSH works, print the first lines of a file with head so a long file does not flood the window. You don't need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-wc"><span class="t">See how long a file is</span><span class="d">After SSH works, count lines with wc so you know if a dump will flood the window. You don't need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-ls"><span class="t">See what&apos;s in a folder</span><span class="d">After SSH works, list the folder you are sitting in with ls. You don't need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-rm"><span class="t">Delete a file carefully</span><span class="d">After SSH works, delete one file with rm -i. Ask first. Skip rm -rf. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-touch"><span class="t">Make an empty file</span><span class="d">After SSH works, make an empty file with touch so nano and copies have a file to land on. You don't need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-head"><span class="kicker">Previous</span><span class="t">See the start of a file</span></a>
+<a rel="next" href="leftover-box-touch"><span class="kicker">Next</span><span class="t">Make an empty file</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

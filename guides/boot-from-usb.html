@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Boot the old PC from the USB stick — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Plug in the installer stick, open the one-time boot menu, and pick the USB. Dell F12, HP Esc then F9, Lenovo F12. Don't dig through every BIOS screen tonight.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Boot the old PC from the USB stick — Labthrift">
+<meta property="og:description" content="Plug in the installer stick, open the one-time boot menu, and pick the USB. Dell F12, HP Esc then F9, Lenovo F12. Don't dig through every BIOS screen tonight.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/boot-from-usb">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/boot-from-usb">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Boot the old PC from the USB stick","description":"Plug in the installer stick, open the one-time boot menu, and pick the USB. Dell F12, HP Esc then F9, Lenovo F12. Don't dig through every BIOS screen tonight.","url":"https://labthrift.com/guides/boot-from-usb","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-04"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">Boot the old PC from the USB stick</span></nav>
+<p class="note">Written 4 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>Boot the old PC from the USB stick</h1>
+<p class="deck">Plug in the installer stick, open the one-time boot menu, and pick the USB. Dell F12, HP Esc then F9, Lenovo F12. Don't dig through every BIOS screen tonight.</p>
+<p>Haven't written the stick yet? Start with <a href="make-boot-usb">make a boot USB for the install</a>. Still picking Debian or Ubuntu Server? See <a href="what-os-to-pick">what OS to put on it</a>. This note is only the boot step: get the old PC to start from that stick once, then the installer takes over.</p>
+
+<h2>Skip until the stick is ready</h2>
+<p>If Etcher or Rufus has not finished writing the ISO, stop. A half-written stick fails quietly. You need a keyboard and a screen on the old PC for this step. A headless Marketplace box still needs a monitor for the first install. Skip changing the permanent boot order tonight. The one-time boot menu is enough.</p>
+
+<h2>What this is</h2>
+<p>Every PC can start from the internal disk, or from a USB stick, for one power-on. The boot menu is that short list. You pick the USB, the installer loads, and next reboot goes back to the internal disk unless you install. You are not rewriting the BIOS for fun.</p>
+
+<h2>What you need</h2>
+<ul>
+<li>The USB stick you already flashed</li>
+<li>A keyboard plugged into the old PC</li>
+<li>A screen (HDMI, DisplayPort, or the laptop lid)</li>
+<li>About two minutes of tapping a key at power-on</li>
+</ul>
+<p>Marketplace Windows still on the disk? Fine for this step. Wipe during install: <a href="wipe-marketplace-pc">wipe a Marketplace PC before you install</a>. Leave house ethernet unplugged until the wipe or fresh install is done if that box still has someone else's Windows.</p>
+
+<h2>Plug the stick in first</h2>
+<p>Power the computer off. Plug the stick into a USB port on the back of a desktop when you can — those ports are usually simpler. On a laptop, try a USB-A port on the machine itself before a hub. Then power on and start tapping the brand key below. Fast Boot can skip past a slow tap, so mash early and often.</p>
+
+<h2>One-time boot keys by brand</h2>
+<p>Pick the row that matches the badge on the case. Keys vary a little by year. If the first key does nothing, try the backup, or open Setup with Del / F2 and look for a Boot Menu / Boot Override line.</p>
+<table>
+<thead><tr><th>Brand</th><th>Boot menu</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td data-label="Brand">Dell (OptiPlex, Latitude)</td><td data-label="Boot menu">F12</td><td data-label="Notes">Common on Marketplace office PCs. Pick the USB UEFI entry when you see both.</td></tr>
+<tr><td data-label="Brand">HP (EliteDesk, ProDesk, ProBook)</td><td data-label="Boot menu">Esc, then F9</td><td data-label="Notes">Esc opens a menu. F9 is Boot Device Options. Some older boxes use F9 alone.</td></tr>
+<tr><td data-label="Brand">Lenovo (ThinkCentre, ThinkPad)</td><td data-label="Boot menu">F12</td><td data-label="Notes">Some ThinkPads want Enter first, then F12. Novo button on tiny desktops can open the same menu.</td></tr>
+<tr><td data-label="Brand">ASUS</td><td data-label="Boot menu">Esc</td><td data-label="Notes">F8 on some boards. Setup is often Del or F2.</td></tr>
+<tr><td data-label="Brand">Acer</td><td data-label="Boot menu">F12</td><td data-label="Notes">F12 may need enabling once in Setup. Setup is usually F2.</td></tr>
+<tr><td data-label="Brand">Microsoft Surface</td><td data-label="Boot menu">Volume-down + power</td><td data-label="Notes">Hold volume-down, press power, keep holding volume until the boot screen. USB-C stick or hub that the Surface likes.</td></tr>
+<tr><td data-label="Brand">Other / unknown</td><td data-label="Boot menu">Esc, F10, F11, or F12</td><td data-label="Notes">Watch the splash screen. It often prints the key for one second. Setup (Del / F2) has a Boot tab if the menu never appears.</td></tr>
+</tbody>
+</table>
+
+<h2>Pick the USB line</h2>
+<p>In the list you want the stick, not the internal hard disk, not the network boot (PXE / IPv4), not a second empty USB. Names look like <span><code>UEFI: Kingston DataTraveler</code></span>, <span><code>USB HDD</code></span>, or the stick brand. Prefer a line that says UEFI when both UEFI and Legacy / USB appear. Arrow keys, Enter.</p>
+<p>Ubuntu Server or Debian should show their installer menu in under a minute. That is success. Continue the install weekend from there: <a href="first-weekend">your first weekend</a>.</p>
+
+<h2>If the stick is missing from the list</h2>
+<ul>
+<li>Power off. Move the stick to another port. Try a USB 2 port if the back has blue and black ports — black is often USB 2.</li>
+<li>Reflash with Etcher if the stick never worked on any PC. That path is <a href="make-boot-usb">make a boot USB for the install</a>.</li>
+<li>Disable Fast Boot / Quick Boot in Setup for one try so the keyboard is awake early.</li>
+<li>On a few office PCs, USB boot is turned off in Setup under Boot or Security. Turn USB boot on. Leave Secure Boot alone at first — official Ubuntu Server and Debian installers usually boot with it on.</li>
+</ul>
+
+<h2>If it boots, then says the disk is locked or Secure Boot blocked it</h2>
+<p>Official Ubuntu Server and current Debian live/installer images are signed for Secure Boot on most house PCs. A random remix ISO may not be. Re-download from the official pages linked in <a href="make-boot-usb">make a boot USB</a>. Turning Secure Boot off is a last resort for tonight, not homework. If Windows BitLocker asks for a recovery key on a Marketplace box, you are not unlocking their Windows — wipe the whole disk in the installer instead: <a href="wipe-marketplace-pc">wipe a Marketplace PC before you install</a>.</p>
+
+<h2>What this is not</h2>
+<p>This is not a full BIOS rewrite. It is not a reason to buy a new mini PC because F12 felt scary. It is not Ventoy homework. It is one power-on from the stick you already made.</p>
+
+<h2>What next</h2>
+<p>Installer on screen: keep going with <a href="first-weekend">your first weekend</a> (name, user, SSH checkbox, ethernet after install). Marketplace disk still full of old Windows? Wipe during that install: <a href="wipe-marketplace-pc">wipe a Marketplace PC before you install</a>. Stick not written yet? <a href="make-boot-usb">Make a boot USB for the install</a>. Still stuck after picking USB? <a href="when-usb-wont-boot">When the boot USB won't start</a>.</p>
+
+<p class="note">Optional: note which PC booted the stick in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip rewriting the permanent boot order when the one-time menu works.</li>
+<li>Skip buying a new USB stick before you try a second port.</li>
+<li>Skip turning Secure Boot off before you try an official ISO.</li>
+<li>Skip dual-boot with leftover Marketplace Windows.</li>
+<li>Skip this if the old PC already boots the installer without help.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://ubuntu.com/tutorials/install-ubuntu-server">Ubuntu: install Ubuntu Server</a>. <a href="https://www.debian.org/releases/stable/amd64/ch03s06.en.html">Debian: booting the installer on amd64</a>. <a href="https://www.dell.com/support/kbdoc/en-us/000125184/how-to-use-the-one-time-boot-menu-on-a-dell-pc">Dell: one-time boot menu</a>. Brand support pages only for the key chart. For the flash step, see <a href="make-boot-usb">make a boot USB for the install</a>. For the weekend install, see <a href="first-weekend">your first weekend</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="when-computer-wont-boot"><span class="t">When the old PC won't boot</span><span class="d">No fans, black screen, or stuck on the logo. Check power, the monitor, a hard power cycle, then try the installer USB before you buy a new board.</span></a>
+<a class="note-row" href="make-boot-usb"><span class="t">Make a boot USB for the install</span><span class="d">Write Ubuntu Server or Debian onto a USB stick so the old PC can boot the installer. Use Etcher or Rufus. Don't drag the ISO into a folder.</span></a>
+<a class="note-row" href="when-usb-wont-boot"><span class="t">When the boot USB won't start</span><span class="d">You flashed the stick and opened the boot menu, but the installer never appears. Try another port, the UEFI line, a reflash, then Secure Boot last. Skip a new mini PC tonight.</span></a>
+<a class="note-row" href="wipe-marketplace-pc"><span class="t">Wipe a Marketplace PC before you install</span><span class="d">A used OptiPlex may still have the last owner's Windows and logins. Wipe the disk with the installer before you plug it into the house network.</span></a>
+<a class="note-row" href="first-weekend"><span class="t">Your first weekend</span><span class="d">Install the OS, name it, and reach it from the couch. Don't buy anything this weekend.</span></a>
+<a class="note-row" href="what-os-to-pick"><span class="t">What OS to put on it</span><span class="d">Debian or Ubuntu Server if you can dedicate the old PC. Leave Windows if you still use the laptop as a laptop.</span></a>
+<a class="note-row" href="start-with-what-you-have"><span class="t">Start with what you already have</span><span class="d">Don't buy anything yet. Old laptop first, or a retired OptiPlex from Marketplace.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="make-boot-usb"><span class="kicker">Previous</span><span class="t">Make a boot USB for the install</span></a>
+<a rel="next" href="first-weekend"><span class="kicker">Next</span><span class="t">Your first weekend</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

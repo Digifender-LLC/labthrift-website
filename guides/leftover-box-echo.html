@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Put a short line into a file — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After SSH works, put one short line into a file with echo so you don't need to open nano. You don't need a file manager for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Put a short line into a file — Labthrift">
+<meta property="og:description" content="After SSH works, put one short line into a file with echo so you don't need to open nano. You don't need a file manager for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-echo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-echo">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Put a short line into a file","description":"After SSH works, put one short line into a file with echo so you don't need to open nano. You don't need a file manager for this.","url":"https://labthrift.com/guides/leftover-box-echo","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-29"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Put a short line into a file</span></nav>
+<p class="note">Written 29 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Put a short line into a file</h1>
+<p class="deck">After SSH works, put one short line into a file with <span><code>echo</code></span> so you don't need to open nano. You don't need a file manager for this.</p>
+<p><a href="leftover-box-touch">Make an empty file</a> makes a blank name. <a href="leftover-box-nano">Edit a file from the couch</a> opens the editor. Tonight you only need one short line on disk. <span><code>echo</code></span> prints those words, and the arrow next to it parks them in a file. You are still only writing a practice line in home. The computer does not need a desktop, a file manager, or a NAS for this one job.</p>
+
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If you only need an empty name with no words yet, that is <a href="leftover-box-touch">make an empty file</a>. If you need to change several lines, that is <a href="leftover-box-nano">edit a file from the couch</a>. If you only want to read a file that already has words, that is <a href="leftover-box-cat">read a file without opening the editor</a>. Skip this whole note if you only need a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</p>
+
+<h2>What this is</h2>
+<p><span><code>echo</code></span> prints a short line. The single arrow <span><code>&gt;</code></span> puts that line into a file (and replaces whatever was there). The double arrow <span><code>&gt;&gt;</code></span> adds a line at the end. You run it on the computer, after SSH.</p>
+<p>It does not open an editor, make an empty file, or dump a file you already have. Those jobs are <span><code>nano</code></span>, <span><code>touch</code></span>, and <span><code>cat</code></span>. One short line, same computer, parked in a file you named.</p>
+
+<h2>Write one line in home</h2>
+<p>SSH in. Put one short line into a practice file. A short name with no spaces is easier to type later:</p>
+<p><code>echo &apos;hello from the computer&apos; &gt; ~/hello.txt</code></p>
+<p>The tilde <span><code>~</code></span> is a short name for your home folder. Single quotes keep the words together. The single arrow <span><code>&gt;</code></span> means put this into the file. If <span><code>hello.txt</code></span> already had words, they are gone. That is the whole first-night trick for a brand-new line.</p>
+<p>Then peek without opening the editor:</p>
+<p><code>cat ~/hello.txt</code></p>
+<p>You should see that same short line. That is enough for tonight.</p>
+
+<h2>Useful extras, still writing only</h2>
+<p>Need a second line under the first? Use the double arrow so you don't wipe the first line:</p>
+<p><code>echo &apos;second line&apos; &gt;&gt; ~/hello.txt</code></p>
+<p><code>cat ~/hello.txt</code></p>
+<p>You should see both lines. The double arrow <span><code>&gt;&gt;</code></span> means add at the end.</p>
+<p>Need the file empty again before a clean rewrite? That empty-file job is <a href="leftover-box-touch">make an empty file</a>, or rewrite with one <span><code>echo</code></span> and a single arrow.</p>
+<p>Need a folder first? That is <a href="leftover-box-mkdir">make a folder</a>. Then keep the filename and drop the line inside:</p>
+<p><code>echo &apos;hello from the computer&apos; &gt; ~/notes/hello.txt</code></p>
+<p>If <span><code>notes</code></span> is missing, make it first. <span><code>echo</code></span> will not invent the folder for you.</p>
+<p>If you see command not found, install the usual tools, then try again:</p>
+<p><code>sudo apt install coreutils</code></p>
+<p>Debian and Ubuntu Server usually already have it. That install is not a reason to buy a file manager.</p>
+<p>When you are done practicing:</p>
+<p><code>rm -i ~/hello.txt</code></p>
+
+<h2>What this is not</h2>
+<p>This is not an empty file with no words. That is <a href="leftover-box-touch">make an empty file</a>. It is not an editor for several lines. That is <a href="leftover-box-nano">edit a file from the couch</a>. It is not a dump of a file you already have. That is <a href="leftover-box-cat">read a file without opening the editor</a>.</p>
+
+<h2>What next</h2>
+<p>Need an empty name first? <a href="leftover-box-touch">Make an empty file</a>. Need to change several lines? <a href="leftover-box-nano">Edit a file from the couch</a>. Need a short dump after you write? <a href="leftover-box-cat">Read a file without opening the editor</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip <span><code>printenv</code></span> as tonight&apos;s job. Printenv prints HOME and PATH, not echo: <a href="leftover-box-printenv">see HOME and PATH</a>.</li>
+<li>Skip <span><code>yes</code></span> as tonight&apos;s job. Yes repeats a line: <a href="leftover-box-yes">repeat a line until you stop</a>. Echo prints once.</li>
+<li>Skip pointing the single arrow at anything under <span><code>/etc</code></span>, SSH settings, or a file you care about. Practice only in home tonight. A single arrow replaces the whole file.</li>
+<li>Skip <span><code>nano</code></span> if one short line is enough. That editor job is <a href="leftover-box-nano">edit a file from the couch</a>.</li>
+<li>Skip SSH settings, <span><code>/etc/shadow</code></span>, and anything under <span><code>/etc/ssh</code></span>. Looking at trusted laptop keys is <a href="leftover-box-authorized-keys">see which laptop keys the computer already trusts</a>.</li>
+<li>Skip buying a file manager, a “cloud IDE,” or a NAS to put one short line in a text file.</li>
+<li>Skip opening SSH to the internet so you can write files from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/coreutils/echo.1.en.html">Debian: echo</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/echo.1.html">Ubuntu: echo</a>. <a href="https://www.gnu.org/software/coreutils/manual/html_node/echo-invocation.html">GNU coreutils: echo</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For an empty file, see <a href="leftover-box-touch">make an empty file</a>. For the editor, see <a href="leftover-box-nano">edit a file from the couch</a>. For a short dump, see <a href="leftover-box-cat">read a file without opening the editor</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-touch"><span class="t">Make an empty file</span><span class="d">After SSH works, make an empty file with touch so nano and copies have a file to land on. You don't need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-nano"><span class="t">Edit a file from the couch</span><span class="d">After SSH works, open a file with nano, change a line, and save. The keys at the bottom of the screen are the whole trick. You don't need a new editor.</span></a>
+<a class="note-row" href="leftover-box-cat"><span class="t">Read a file without opening the editor</span><span class="d">After SSH works, print a file with cat so you can read it without opening nano. Short files only. You don't need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-mkdir"><span class="t">Make a folder</span><span class="d">After SSH works, make a folder with mkdir so copies and edits have a place to land. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-cp"><span class="t">Copy a file without leaving the computer</span><span class="d">After SSH works, copy a file with cp so you can edit a spare without wrecking the original. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-diff"><span class="t">See whether two files are the same</span><span class="d">After SSH works, compare two files with diff so you can tell if the spare still matches. You don't need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-rm"><span class="t">Delete a file carefully</span><span class="d">After SSH works, delete one file with rm -i. Ask first. Skip rm -rf. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-touch"><span class="kicker">Previous</span><span class="t">Make an empty file</span></a>
+<a rel="next" href="leftover-box-chmod"><span class="kicker">Next</span><span class="t">Make a file runnable</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

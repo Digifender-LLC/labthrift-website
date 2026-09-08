@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>You don't need a UPS yet — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="The computer can sit on a house outlet. A blink of the lights is a reboot. Skip a battery box this weekend.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="You don't need a UPS yet — Labthrift">
+<meta property="og:description" content="The computer can sit on a house outlet. A blink of the lights is a reboot. Skip a battery box this weekend.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-no-ups">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-no-ups">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"You don't need a UPS yet","description":"The computer can sit on a house outlet. A blink of the lights is a reboot. Skip a battery box this weekend.","url":"https://labthrift.com/guides/leftover-box-no-ups","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-25"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#closet-adjacent">Closet extras</a> / <span aria-current="page">You don't need a UPS yet</span></nav>
+<p class="note">Written 25 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>You don't need a UPS yet</h1>
+<p class="deck">The computer can sit on a house outlet. A blink of the lights is a reboot. Skip a battery box this weekend.</p>
+<p>A UPS is a battery box that keeps a computer on through a blink. First-timers hear they must protect the lab, and they buy one before the computer even has Pi-hole. The computer can sit on a house outlet. You don't need a battery box this weekend.</p>
+
+<h2>A blink of the lights is a reboot</h2>
+<p>When the lights blink, the computer reboots. Pi-hole comes back. SSH comes back. That is <a href="leftover-box-still-on">is the computer still on?</a>. If you were in the middle of <a href="leftover-box-updates">keep the computer updated</a>, run the update again. That is annoying. It is not a reason to buy hardware.</p>
+
+<h2>When a UPS is later</h2>
+<p>Come back to a battery box only if the computer already runs overnight backups, and a blink would leave a half-written copy. Even then, a USB disk you can re-run is cheaper than a UPS this month. That is <a href="first-backup">a backup of the house folder</a>. That day is not this weekend.</p>
+
+<h2>Skip a lab UPS</h2>
+<p>Don't buy a lab UPS with extra outlets and a screen. Don't buy a rackmount UPS. Those are closet-later. A house outlet is enough for the computer.</p>
+
+<h2>What next</h2>
+<p>If you are done for the night, <a href="leftover-box-shutdown">shut down the computer without yanking the plug</a>. If you have no second copy of the house folder, <a href="first-backup">a backup of the house folder</a>. Don't buy a NAS. Don't buy a rack. Prefer the BIOS switch before a battery box: <a href="power-on-after-outage">turn the old PC back on after a power blip</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip a UPS this weekend. The computer can sit on a house outlet.</li>
+<li>An old laptop battery is not a UPS. Confirm the charger: <a href="leftover-box-plugged-in">see if the old laptop is actually plugged in</a>.</li>
+<li>Skip a lab UPS with extra outlets and a screen.</li>
+<li>Skip a rackmount UPS. Those are closet-later.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/systemd-sysv/shutdown.8.en.html">Debian: shutdown</a>. <a href="https://manpages.debian.org/bookworm/iputils-ping/ping.8.en.html">Debian: ping</a>. Official pages only. For the computer, see <a href="start-with-what-you-have">start with what you already have</a>. For the night, see <a href="leftover-box-shutdown">shut down the computer without yanking the plug</a>. For a blink, see <a href="leftover-box-still-on">is the computer still on?</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="power-on-after-outage"><span class="t">Turn the old PC back on after a power blip</span><span class="d">Lights come back, but the OptiPlex stays off until you press the button. Flip Restore AC / Power On After Power Loss in Setup. Skip a UPS for this.</span></a>
+<a class="note-row" href="leftover-box-plugged-in"><span class="t">See if the old laptop is actually plugged in</span><span class="d">Before you trust the old laptop overnight, confirm it is drawing wall power. A dying battery is not a reason to buy a UPS.</span></a>
+<a class="note-row" href="leftover-box-shutdown"><span class="t">Shut down the computer without yanking the plug</span><span class="d">When you're done for the night, shut it down and let it finish writing files before it powers off. Don't yank the cord. Skip this if you only need a reboot after updates.</span></a>
+<a class="note-row" href="leftover-box-still-on"><span class="t">Is the computer still on?</span><span class="d">You left the computer on. This morning ads are back, or SSH hangs. Check if it is awake before you buy anything.</span></a>
+<a class="note-row" href="first-backup"><span class="t">A backup of the house folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another computer. You don't need a NAS for this.</span></a>
+<a class="note-row" href="start-with-what-you-have"><span class="t">Start with what you already have</span><span class="d">Don't buy anything yet. Old laptop first, or a retired OptiPlex from Marketplace.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-shutdown"><span class="kicker">Previous</span><span class="t">Shut down the computer without yanking the plug</span></a>
+<a rel="next" href="leftover-box-heat"><span class="kicker">Next</span><span class="t">Don't cook the computer</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

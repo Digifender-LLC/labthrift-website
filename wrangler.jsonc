@@ -1,0 +1,36 @@
+{
+  "name": "labthrift",
+  "compatibility_date": "2026-08-21",
+  "main": "worker/index.js",
+  "workers_dev": true,
+  "preview_urls": true,
+  "assets": {
+    "directory": ".",
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page",
+    "run_worker_first": true
+  },
+  "d1_databases": [
+    {
+      "binding": "METRICS",
+      "database_name": "labthrift-metrics",
+      "database_id": "8135e54a-4463-412a-9d33-a0a41bfc29ae",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+  "routes": [
+    {
+      "pattern": "labthrift.com",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.labthrift.com",
+      "custom_domain": true
+    }
+  ]
+}

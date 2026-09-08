@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See disks and USB sticks — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After SSH works (and before you blame a missing USB backup), list disks and USB sticks with lsblk so you see names like sda and sdb without opening a disk app.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See disks and USB sticks — Labthrift">
+<meta property="og:description" content="After SSH works (and before you blame a missing USB backup), list disks and USB sticks with lsblk so you see names like sda and sdb without opening a disk app.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-lsblk">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-lsblk">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See disks and USB sticks","description":"After SSH works (and before you blame a missing USB backup), list disks and USB sticks with lsblk so you see names like sda and sdb without opening a disk app.","url":"https://labthrift.com/guides/leftover-box-lsblk","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-01"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"File storage","item":"https://labthrift.com/guides/#first-nas"},{"@type":"ListItem","position":3,"name":"See disks and USB sticks"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#first-nas">File storage</a> / <span aria-current="page">See disks and USB sticks</span></nav>
+<p class="note">Written 1 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>See disks and USB sticks</h1>
+<p class="deck">After SSH works (and before you blame a missing USB backup), list disks and USB sticks with <span><code>lsblk</code></span> so you see names like <span><code>sda</code></span> and <span><code>sdb</code></span> without opening a disk app.</p>
+<p>The computer already has at least one disk. A USB stick for backup is a second block device when you plug it in. Tonight you only want the list: which disks are attached, how big they look, and whether a stick you just plugged in showed up. You don't need a NAS, a disk utility app, or a shopping cart for this look.</p>
+
+<h2>Skip until SSH works</h2>
+<p>If you cannot log in from the couch yet, stop. That is <a href="first-ssh">SSH from the couch</a>. Disk names don't help a login that fails.</p>
+<p>If you only need room left on the main disk, that is <a href="leftover-box-disk-space">see if the computer still has room</a> (<span><code>df</code></span>). If you only need one folder&apos;s size, that is <a href="leftover-box-du">see how big one folder is</a>. If you only need how big the main disk already is, that is <a href="leftover-box-disk">see how big the disk already is</a>.</p>
+
+<h2>What this is</h2>
+<p><span><code>lsblk</code></span> lists block devices: whole disks, the slices on them called partitions, and USB sticks when they are plugged in. A disk is the whole drive. A partition is one slice of that drive (you often see <span><code>sda1</code></span> under <span><code>sda</code></span>). Mount means the computer made that slice show up as a folder path. Tonight you take a look. <span><code>lsblk</code></span> does not format, mount, or wipe anything.</p>
+
+<h2>Practice: list what is attached</h2>
+<p>SSH in from the couch, then run:</p>
+<p><code>lsblk</code></p>
+<p>You should see a short table. In plain English:</p>
+<ul>
+<li><span><code>NAME</code></span>: the short name the computer uses (<span><code>sda</code></span>, <span><code>sdb</code></span>, sometimes <span><code>nvme0n1</code></span>).</li>
+<li><span><code>SIZE</code></span>: how big that disk or slice looks.</li>
+<li><span><code>TYPE</code></span>: <span><code>disk</code></span> for the whole drive, <span><code>part</code></span> for a partition under it.</li>
+<li><span><code>MOUNTPOINTS</code></span>: folder paths where a partition is already attached (often <span><code>/</code></span> for the main system).</li>
+</ul>
+<p>Point at the disk line whose partition shows <span><code>/</code></span>. That is the main disk. A second disk name that appeared when you plugged a USB stick in is usually that stick. Home-safe look only. Don't pick a name at random for a wipe.</p>
+<p>Optional: see filesystem labels and types too:</p>
+<p><code>lsblk -f</code></p>
+<p>Same list, with a little more about how each slice is labeled. Still a look. Still no format.</p>
+
+<h2>Optional: after you plug in a USB for backup</h2>
+<p>Plug the stick into the computer. Run <span><code>lsblk</code></span> again. Notice the new name (often a second <span><code>sd*</code></span> disk with a partition under it). Use the name <span><code>lsblk</code></span> actually printed, not a guess.</p>
+<p>Don't make formatting, partitioning, or mounting tonight&apos;s job. Once the stick is visible, the backup job is <a href="first-backup">a backup of the folder</a>. A shorter “did the USB show up?” check also lives on <a href="leftover-box-usb-disk">see if the USB backup disk showed up</a>.</p>
+
+<h2>Useful extras, still a look</h2>
+<p>Skip rewriting disks, <span><code>dd</code></span>, <span><code>shred</code></span>, <span><code>fdisk</code></span>, <span><code>parted</code></span>, or <span><code>wipefs</code></span> as the job. Tonight: the list.</p>
+<p>Skip buying a NAS because <span><code>lsblk</code></span> showed a small disk. A small old laptop disk is normal for house ad block and a thin share. Free room is <a href="leftover-box-disk-space">disk-space</a>. Total size of the main disk is <a href="leftover-box-disk">disk</a>.</p>
+<p>Skip <span><code>screen</code></span>, <span><code>tmux</code></span>, and port 22 forwarding. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>.</p>
+<p>Skip <span><code>awk</code></span>, <span><code>sed</code></span>, and install as new pages this cycle.</p>
+
+<h2>What this is not</h2>
+<p>This is not <span><code>findmnt</code></span>. That shows which folders are already attached: <a href="leftover-box-findmnt">see which folders are already attached</a>. It is not disk-space (<span><code>df</code></span>). That shows how full a mounted filesystem is: <a href="leftover-box-disk-space">see if the computer still has room</a>. It is not <span><code>du</code></span>. That measures one folder: <a href="leftover-box-du">see how big one folder is</a>. It is not <span><code>disk</code></span>, which focuses on how big the main disk already is: <a href="leftover-box-disk">see how big the disk already is</a>. It is not <span><code>numfmt</code></span>. That only reformats a big number: <a href="leftover-box-numfmt">make sizes readable with numfmt</a>. It is not free memory: <a href="leftover-box-free-memory">see if the computer still has free memory</a>. It is not ranking heavy folders: <a href="leftover-box-largest-folders">see which folders are eating the disk</a>. It is not the backup copy itself: <a href="first-backup">a backup of the folder</a>.</p>
+
+<h2>What next</h2>
+<p>Need which folders are already attached (mounted)? <a href="leftover-box-findmnt">See which folders are already attached</a>. Need labels, UUIDs, and filesystem types on a slice? <a href="leftover-box-blkid">Read disk labels and UUIDs</a>. Need room left on the main disk? <a href="leftover-box-disk-space">See if the computer still has room</a>. Need one folder&apos;s size? <a href="leftover-box-du">See how big one folder is</a>. Need how big the main disk already is? <a href="leftover-box-disk">See how big the disk already is</a>. Need a huge byte count made readable? <a href="leftover-box-numfmt">Make sizes readable with numfmt</a>. Stick visible and ready for a second copy? <a href="first-backup">A backup of the folder</a>. If the computer feels slow and the disk is fine, later: <a href="leftover-box-free-memory">see if the computer still has free memory</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. awk, sed, and install stay deferred this cycle.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip <span><code>df</code></span>, <span><code>du</code></span>, or total disk size as tonight&apos;s job if you only came to list attached disks. Those notes already exist.</li>
+<li>Skip rewriting disks, <span><code>dd</code></span>, <span><code>shred</code></span>, <span><code>fdisk</code></span>, <span><code>parted</code></span>, <span><code>wipefs</code></span>, and mounting as the lesson.</li>
+<li>Skip buying a NAS because the list showed a small disk.</li>
+<li>Skip <span><code>awk</code></span>/<span><code>sed</code></span>/install as new pages this cycle, <span><code>screen</code></span>, <span><code>tmux</code></span>, and port 22 forwarding.</li>
+<li>Skip opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+</ul>
+
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/util-linux/lsblk.8.en.html">Debian: lsblk(8)</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man8/lsblk.8.html">Ubuntu: lsblk(8)</a>. Part of util-linux. Official pages only. For free room, see <a href="leftover-box-disk-space">see if the computer still has room</a>. For one folder&apos;s size, see <a href="leftover-box-du">see how big one folder is</a>. For total disk size, see <a href="leftover-box-disk">see how big the disk already is</a>. For a second copy once the stick is visible, see <a href="first-backup">a backup of the folder</a>. For the login, see <a href="first-ssh">SSH from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-findmnt"><span class="t">See which folders are already attached</span><span class="d">After you can list disks with lsblk (and before you blame a missing USB backup), use findmnt to see which folders are already attached (mounted) so you know what is live as / or a USB path.</span></a>
+<a class="note-row" href="leftover-box-blkid"><span class="t">Read disk labels and UUIDs</span><span class="d">After you can list disks with lsblk and see which folders are attached with findmnt, use blkid to read labels, UUIDs, and filesystem types on disk slices so you can tell which stick or slice is which.</span></a>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="leftover-box-disk"><span class="t">See how big the disk already is</span><span class="d">Before you buy a tiny computer or a NAS, check how big the computer disk already is.</span></a>
+<a class="note-row" href="leftover-box-du"><span class="t">See how big one folder is</span><span class="d">After SSH works, check how big one folder is with du so you know before you copy or delete. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-usb-disk"><span class="t">See if the USB backup disk showed up</span><span class="d">Before you trust the weekly copy, confirm the computer can see the USB disk.</span></a>
+<a class="note-row" href="first-backup"><span class="t">A backup of the folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another leftover computer. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-numfmt"><span class="t">Make sizes readable with numfmt</span><span class="d">After du or disk-space (or any big byte count), use numfmt so a huge number becomes something like 1.4G that a first-timer can read. You don't need extra system software beyond coreutils.</span></a>
+<a class="note-row" href="leftover-box-free-memory"><span class="t">See if the computer still has free memory</span><span class="d">The computer feels slow. Check free memory before you buy a new mini PC.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-disk-space"><span class="kicker">Previous</span><span class="t">See if the computer still has room</span></a>
+<a rel="next" href="first-backup"><span class="kicker">Next</span><span class="t">A backup of the folder</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

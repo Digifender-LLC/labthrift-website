@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Set the computer clock to your house — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Logs, updates, and weekly backups only make sense if the computer uses your local time. timedatectl sets the city zone. The computer keeps the clock correct over the network.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Set the computer clock to your house — Labthrift">
+<meta property="og:description" content="Logs, updates, and weekly backups only make sense if the computer uses your local time. timedatectl sets the city zone. The computer keeps the clock correct over the network.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-timezone">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-timezone">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Set the computer clock to your house","description":"Logs, updates, and weekly backups only make sense if the computer uses your local time. timedatectl sets the city zone. The computer keeps the clock correct over the network.","url":"https://labthrift.com/guides/leftover-box-timezone","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-25"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#first-nas">File storage</a> / <span aria-current="page">Set the computer clock to your house</span></nav>
+<p class="note">Written 25 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Set the computer clock to your house</h1>
+<p class="deck">Logs, updates, and weekly backups only make sense if the computer uses your local time. timedatectl sets the city zone. The computer keeps the clock correct over the network.</p>
+<p>The computer needs to know which city clock to use, or Sunday 2am backups become wrong. A timezone is that city clock. NTP is how the computer asks the internet for the correct time, so it does not drift.</p>
+
+<h2>Skip if the clock is already right</h2>
+<p>On the computer, ask:</p>
+<p><code>timedatectl</code></p>
+<p>Or the short check:</p>
+<p><code>date</code></p>
+<p>If you see your local zone and a time that matches the house, you are done. You don't need this note. Year wrong, HTTPS failing, or apt complaining about dates? That is <a href="when-the-clock-is-wrong">when the computer's clock is wrong</a>.</p>
+
+<h2>Why it matters</h2>
+<p>A weekly timer in <a href="leftover-box-backup-timer">back up the house folder every week without remembering</a> wakes on the computer's idea of Sunday morning. Log lines and apt timestamps use the same clock. If the computer still looks like UTC, first-timers stare at a "wrong" hour and think the job failed.</p>
+
+<h2>List zones lightly</h2>
+<p>Pick the city zone that matches the house. America/Chicago is one example. It is not the only one. Browse a short list:</p>
+<p><code>timedatectl list-timezones | grep America</code></p>
+<p>Swap America for Europe, Asia, or Africa if that is where the house is. Choose the city closest to home, not a random airport code.</p>
+
+<h2>Set it</h2>
+<p>On Debian or Ubuntu, set the zone with timedatectl. Swap America/Chicago for your city:</p>
+<p><code>sudo timedatectl set-timezone America/Chicago</code></p>
+<p>Confirm:</p>
+<p><code>timedatectl</code></p>
+<p>You should see Time zone with your city, and a sensible local time. On modern Ubuntu and Debian, NTP or timesync is usually already on. If the status line shows <span><code>NTP: inactive</code></span>, turn it on:</p>
+<p><code>sudo timedatectl set-ntp true</code></p>
+<p>That is the whole network-time step. The computer asks the internet for the correct time and keeps it.</p>
+
+<h2>Check</h2>
+<p>Ask once more:</p>
+<p><code>date</code></p>
+<p>It should match the house clock. When you are ready for a weekly copy, that is <a href="leftover-box-backup-timer">back up the house folder every week without remembering</a>.</p>
+
+<h2>What next</h2>
+<p>If the weekly timer is not set yet, set it after one manual copy worked: <a href="leftover-box-backup-timer">back up the house folder every week without remembering</a>. Once a week, <a href="leftover-box-updates">keep the computer updated</a>. Clock still years off after this? <a href="when-the-clock-is-wrong">When the computer's clock is wrong</a>. Don't buy a GPS clock or an RTC hat for this.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip RTC modules and battery clock hats.</li>
+<li>Skip GPS NTP appliances.</li>
+<li>Skip dual-boot Windows clock lectures.</li>
+<li>Skip changing the BIOS clock by hand if NTP works.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/systemd/timedatectl.1.en.html">Debian: timedatectl</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/timedatectl.1.html">Ubuntu: timedatectl</a>. Official pages only. For the computer install, see <a href="first-weekend">your first weekend</a>. For the weekly copy, see <a href="leftover-box-backup-timer">back up the house folder every week without remembering</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="when-the-clock-is-wrong"><span class="t">When the computer's clock is wrong</span><span class="d">HTTPS fails, apt says the Release file is not valid yet, or logs look like 2019. Check the clock, turn network time on, set the house zone. You don't need a GPS clock hat.</span></a>
+<a class="note-row" href="first-backup"><span class="t">A backup of the house folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another computer. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-backup-timer"><span class="t">Back up the house folder every week without remembering</span><span class="d">After one manual USB (or second-box) copy works, let the computer run the same rsync on a weekly timer. A phone reminder is still fine if you prefer.</span></a>
+<a class="note-row" href="leftover-box-updates"><span class="t">Keep the computer updated</span><span class="d">Once a week, give the computer its fixes so SSH and Pi-hole are not sitting on last year's bugs. Skip this until next week if you just finished first weekend.</span></a>
+<a class="note-row" href="first-weekend"><span class="t">Your first weekend with the computer</span><span class="d">Install the OS, name it, and reach it from the couch.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-restore-one"><span class="kicker">Previous</span><span class="t">Restore one computer file from the USB backup</span></a>
+<a rel="next" href="leftover-box-timers"><span class="kicker">Next</span><span class="t">See what the computer already runs on a schedule</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

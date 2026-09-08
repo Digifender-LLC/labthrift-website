@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See if your login can use admin commands — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Before you change passwords or turn on the firewall, check that your login can use sudo. You don't need extra login software.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See if your login can use admin commands — Labthrift">
+<meta property="og:description" content="Before you change passwords or turn on the firewall, check that your login can use sudo. You don't need extra login software.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-sudo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-sudo">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See if your login can use admin commands","description":"Before you change passwords or turn on the firewall, check that your login can use sudo. You don't need extra login software.","url":"https://labthrift.com/guides/leftover-box-sudo","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-28"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">See if your login can use admin commands</span></nav>
+<p class="note">Written 28 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>See if your login can use admin commands</h1>
+<p class="deck">Before you change passwords or turn on the firewall, check that your login can use sudo. You don't need extra login software.</p>
+<p>You can SSH in from the couch. Then a note says type <span><code>sudo</code></span>, and the computer answers that your login is not in the sudoers file. That is not a broken router. That is not a reason to buy a new mini PC. Your login is missing the admin club. Marketplace boxes do this a lot: the old owner kept the admin login, and the account you use every day cannot install or change much.</p>
+
+<h2>Skip until SSH works</h2>
+<p>If you cannot log in from the couch, stop. That is <a href="first-ssh">SSH from the couch</a>. You can also type this at the keyboard. Prefer this look after you know who else can still log in: <a href="leftover-box-other-accounts">see if the computer still has old login accounts</a>. This note assumes you can log in from the couch, or sit at the keyboard.</p>
+
+<h2>What sudo is</h2>
+<p>sudo is the computer's "do this as an admin" button. Everyday install, update, firewall, and share notes use it. Without sudo, password changes for other people, weekly fixes, and ufw all stop. The admin club on Debian and Ubuntu is usually a group named <span><code>sudo</code></span>. Some images say <span><code>admin</code></span> or <span><code>wheel</code></span> instead. Same idea.</p>
+
+<h2>Ask who you are, then which clubs</h2>
+<p>SSH in from the couch, or sit at the keyboard, then ask:</p>
+<p><code>whoami</code></p>
+<p>That prints your login name. Then ask which clubs that login is in:</p>
+<p><code>groups</code></p>
+<p>Look for the word <span><code>sudo</code></span> in the list. <span><code>admin</code></span> or <span><code>wheel</code></span> counts too. If you want the same answer as a numbered list:</p>
+<p><code>id</code></p>
+<p>You should see something like <span><code>groups=…(sudo)</code></span> when you are in the club.</p>
+
+<h2>Confirm with a harmless sudo</h2>
+<p>Check sudo without changing anything:</p>
+<p><code>sudo -v</code></p>
+<p>Type your login password when it asks. If it returns to a quiet prompt, you are in. If it says you are not in the sudoers file, or that the password is wrong after you know the password is right, your login is not an admin yet.</p>
+<p>Optional one-liner that needs no password prompt when sudo already trusts this session:</p>
+<p><code>sudo -n true && echo can sudo || echo cannot sudo</code></p>
+
+<h2>If you are not in the club</h2>
+<p>Don't buy login software. Sit at the keyboard and log in as the account that can already use sudo (often the first install user, or an old Marketplace admin you found in <a href="leftover-box-other-accounts">see if the computer still has old login accounts</a>). From that admin login, add your everyday name to the club. Swap youruser for the name from <span><code>whoami</code></span>:</p>
+<p><code>sudo usermod -aG sudo youruser</code></p>
+<p>Then log out and log back in (a new SSH session is enough). Ask <span><code>groups</code></span> again. You should see <span><code>sudo</code></span>. Then retry <span><code>sudo -v</code></span>.</p>
+<p>If no login can use sudo, you are stuck until you recover from a live USB or reinstall. That is a bigger job than this note. Don't open SSH to the internet to "fix" it.</p>
+
+<h2>What next</h2>
+<p>Once sudo works, set a password you chose: <a href="leftover-box-change-password">change the login password</a>. Then put a key on your laptop: <a href="leftover-box-ssh-keys">log in with a key, not the password every time</a>. After a reinstall scare, that is <a href="leftover-box-ssh-host-key">when SSH says the computer looks different</a>. Skip buying a camera or extra login software for this look.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip this note if <span><code>groups</code></span> already shows <span><code>sudo</code></span> (or <span><code>admin</code></span> / <span><code>wheel</code></span>) and <span><code>sudo -v</code></span> works.</li>
+<li>Skip if SSH from the couch does not work yet. That is <a href="first-ssh">SSH from the couch</a>.</li>
+<li>Skip buying a camera, a monitoring box, or extra login software because sudo failed.</li>
+<li>Skip editing <span><code>/etc/sudoers</code></span> by hand tonight. Use <span><code>usermod -aG sudo</code></span> from an account that already works.</li>
+<li>Skip opening SSH to the internet.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/coreutils/groups.1.en.html">Debian: groups</a>. <a href="https://manpages.debian.org/bookworm/coreutils/id.1.en.html">Debian: id</a>. <a href="https://manpages.debian.org/bookworm/coreutils/whoami.1.en.html">Debian: whoami</a>. <a href="https://manpages.debian.org/bookworm/sudo/sudo.8.en.html">Debian: sudo</a>. <a href="https://manpages.debian.org/bookworm/passwd/usermod.8.en.html">Debian: usermod</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man8/sudo.8.html">Ubuntu: sudo</a>. Official pages only. For old Marketplace logins, see <a href="leftover-box-other-accounts">see if the computer still has old login accounts</a>. For the login, see <a href="first-ssh">SSH from the couch</a>. For the password, see <a href="leftover-box-change-password">change the login password</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="leftover-box-other-accounts"><span class="t">See if the computer still has old login accounts</span><span class="d">Before you leave a Marketplace box on the house network, look at who else can still log in. You don't need extra login software for this.</span></a>
+<a class="note-row" href="leftover-box-change-password"><span class="t">Change the login password</span><span class="d">Once SSH from the couch works, set a password you chose. Do this before you leave the install password sitting around.</span></a>
+<a class="note-row" href="leftover-box-ssh-host-key"><span class="t">When SSH says the computer looks different</span><span class="d">After you reinstall, SSH can refuse because your laptop still remembers the old ID. Clear that memory. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-ssh-keys"><span class="t">Log in with a key, not the password every time</span><span class="d">After password SSH works for a while, put a key on your laptop so the computer trusts that laptop. Keep the password as a backup at first.</span></a>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-other-accounts"><span class="kicker">Previous</span><span class="t">See if the computer still has old login accounts</span></a>
+<a rel="next" href="leftover-box-ssh-host-key"><span class="kicker">Next</span><span class="t">When SSH says the computer looks different</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

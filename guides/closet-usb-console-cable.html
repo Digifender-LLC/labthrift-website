@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>A USB-to-RJ45 console cable that is not an ethernet dongle — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Get a prompt on a switch that will not take an IP. Console is serial over RJ45, so you want USB to serial with an FTDI chip. Skip USB-C ethernet adapters and no-name Prolific lots.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="A USB-to-RJ45 console cable that is not an ethernet dongle — Labthrift">
+<meta property="og:description" content="Get a prompt on a switch that will not take an IP. Console is serial over RJ45, so you want USB to serial with an FTDI chip. Skip USB-C ethernet adapters and no-name Prolific lots.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/closet-usb-console-cable">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/closet-usb-console-cable">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BlogPosting",
+ "headline": "A USB-to-RJ45 console cable that is not an ethernet dongle",
+ "description": "Get a prompt on a switch that will not take an IP. Console is serial over RJ45, so you want USB to serial with an FTDI chip. Skip USB-C ethernet adapters and no-name Prolific lots.",
+ "url": "https://labthrift.com/guides/closet-usb-console-cable",
+ "image": "https://labthrift.com/assets/og-1200.png",
+ "datePublished": "2026-08-23"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+ {
+ "@type": "ListItem",
+ "position": 1,
+ "name": "Home",
+ "item": "https://labthrift.com/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 2,
+ "name": "Notes",
+ "item": "https://labthrift.com/guides/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 3,
+ "name": "Closet adjacent",
+ "item": "https://labthrift.com/guides/#closet-adjacent"
+ },
+ {
+ "@type": "ListItem",
+ "position": 4,
+ "name": "A USB-to-RJ45 console cable that is not an ethernet dongle",
+ "item": "https://labthrift.com/guides/closet-usb-console-cable"
+ }
+ ]
+}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#closet-adjacent">Closet extras</a> / <span aria-current="page">A USB-to-RJ45 console cable that is not an ethernet dongle</span></nav>
+<p class="note">Written 23 Aug 2026. Specs from the maker pages linked below. Prices from those stores. I haven't used these.</p>
+
+<h1>A USB-to-RJ45 console cable that is not an ethernet dongle</h1>
+<p class="deck">Get a prompt on a switch that will not take an IP. The port labeled Console is serial over RJ45, so the cable you want is USB to serial with an FTDI chip. A USB-C ethernet adapter is a NIC and will not do it.</p>
+<p>The RJ45 on a switch labeled Console is a serial port, not ethernet. Hang this next to the <a href="12u-vs-10-inch-closet-rack">StarTech 12U</a> with the <a href="closet-cat6-patch-panel">12-port panel</a>. The <a href="cheap-kvm-over-ip">HDMI KVM</a> is for BIOS. This cable is for IOS, RouterOS, and a switch that will not take an IP.</p>
+
+<h2>What to buy</h2>
+<div class="table-wrap">
+<table>
+<tr><th>Cable</th><th>What it is</th><th>Street, 23 Aug 2026</th><th>Buy if</th></tr>
+<tr class="pick"><td data-label="Cable">Cable Matters 202065-6</td><td data-label="What it is">USB-A 2.0 male to RJ45 8P/8C male, 6 ft rollover. Chipset FTDI FT232RQ (maker QSG). 250 Kbps. Bus-powered. Cisco-standard pin-out. Windows / macOS / Linux. ASIN B078PVJ5ZQ. UPC 818707023136.</td><td data-label="Street, 23 Aug 2026">Cable Matters catalog $17.99, sale $17.49. Amazon listing $17.49, in stock, sold by Cable Matters, ships from Amazon.</td><td data-label="Buy if">Default. The closet laptop still has USB-A, or you keep a USB-A dongle in the drawer.</td></tr>
+<tr><td data-label="Cable">Cable Matters 201065-6</td><td data-label="What it is">USB-C 2.0 male to RJ45 male, same 6 ft FTDI rollover recipe. Chipset FTDI FT232RQ. 250 Kbps. Thunderbolt 3 port compatible per maker. ASIN B078PT5N24. UPC 818707023143. Product ID 201065-6.</td><td data-label="Street, 23 Aug 2026">Cable Matters catalog $19.99, sale $17.99. Amazon listing $17.99, in stock, sold by Cable Matters, ships from Amazon. Newegg listing $42.99, don't make that the buy.</td><td data-label="Buy if">The laptop is USB-C only. Same chip, other plug.</td></tr>
+<tr><td data-label="Cable">StarTech ICUSBROLLOVR</td><td data-label="What it is">USB-A 2.0 male to RJ45 male, 6 ft / 1.8 m. Chipset Prolific PL2303GC (maker datasheet). 460.8 Kbps. 28 AWG. 2-year warranty. UPC 065030880459. ASIN B07PN72J97.</td><td data-label="Street, 23 Aug 2026">StarTech.com $33.81, in stock. Newegg $38.04, in stock. Aztek $36.59. No B&amp;H listing this pass.</td><td data-label="Buy if">You want StarTech paper and will install the Prolific driver. Not the FTDI default.</td></tr>
+</table>
+</div>
+<h2>Skip</h2>
+<p>Skip USB-C to ethernet adapters, those are NICs, not console. Skip no-name Amazon “Cisco console” lots that don't name FTDI; many are Prolific clones that drop off Windows 11. Skip a DB9 adapter plus a separate rollover lead; one cable is the whole kit. Skip Cable Matters 180010-CAT6 (that is the 12-port panel). Skip StarTech CABSHELFV1U (that is the 1U shelf). Used eBay lots are out.</p>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.cablematters.com/pc-993-137-usb-to-rj45-ftdi-console-cable-6-feet.aspx">Cable Matters 202065-6 maker page</a> (USB-A 2.0 to RJ45, FTDI UART, 6 ft, 250 Kbps, Product ID 202065-6). <a href="https://www.cablematters.com/images/Product/files/202065/Manual/202065%20USB-A%20to%20RJ45%20Console%20Cable%20Quick%20Start%20Guide.pdf">Cable Matters 202065 QSG</a> (chipset FTDI FT232RQ; 201065 USB-C / 202065 USB-A). Cable Matters catalog $17.99 / sale $17.49 this fetch. <a href="https://www.amazon.com/Cable-Matters-Console-Compatible-Rollover/dp/B078PVJ5ZQ">Amazon B078PVJ5ZQ</a> ($17.49, in stock, sold by Cable Matters, ships from Amazon, UPC 818707023136). <a href="https://www.cablematters.com/pc-994-123-usb-c-to-rj45-ftdi-console-cable-6-feet.aspx">Cable Matters 201065-6 maker page</a> (USB-C, FTDI, Product ID 201065-6). Catalog $19.99 / sale $17.99. <a href="https://www.amazon.com/Cable-Matters-Console-Compatible-Rollover/dp/B078PT5N24">Amazon B078PT5N24</a> ($17.99, in stock, UPC 818707023143). Newegg USB-C listing $42.99. <a href="https://www.startech.com/en-us/cables/icusbrollovr">StarTech ICUSBROLLOVR maker page</a> ($33.81, in stock). <a href="https://media.startech.com/cms/pdfs/icusbrollovr_datasheet.pdf">StarTech ICUSBROLLOVR datasheet</a> (Prolific PL2303GC, 460.8 Kbps, UPC 065030880459, 2-year). <a href="https://www.newegg.com/p/N82E16812399314">Newegg ICUSBROLLOVR</a> ($38.04, in stock).</p>
+</section>
+
+
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="closet-cat6-patch-panel"><span class="t">A 19-inch 12-port Cat6 panel for the StarTech 12U</span><span class="d">The 2-post is 19-inch. Hang a 1U 12-port punch-down.</span></a>
+<a class="note-row" href="closet-1u-shelf"><span class="t">A 1U shelf so the NAS is not sitting on the UPS</span><span class="d">10-inch vented cantilever. The 7-inch sibling is too short for a DS224+.</span></a>
+<a class="note-row" href="12u-vs-10-inch-closet-rack"><span class="t">12U open frame vs 10-inch wall cabinet</span><span class="d">The 19-inch 12U 2-post is the default.</span></a>
+</section>
+
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="closet-1ft-cat6-patch"><span class="kicker">Previous</span><span class="t">1-foot Cat6 patch leads for the 12-port panel</span></a>
+<a rel="next" href="closet-punchdown-tool"><span class="kicker">Next</span><span class="t">A 110 punch-down tool so the 12-port panel is not a paperweight</span></a>
+</nav>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+</p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

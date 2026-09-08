@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When the house share is slow — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="The folder opens and copies work, but photos crawl. Check Wi-Fi vs a cable, link speed, disk room, then the laptop. You don't need a 10G switch.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When the house share is slow — Labthrift">
+<meta property="og:description" content="The folder opens and copies work, but photos crawl. Check Wi-Fi vs a cable, link speed, disk room, then the laptop. You don't need a 10G switch.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-share-is-slow">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-share-is-slow">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When the house share is slow","description":"The folder opens and copies work, but photos crawl. Check Wi-Fi vs a cable, link speed, disk room, then the laptop. You don't need a 10G switch.","url":"https://labthrift.com/guides/when-share-is-slow","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-06"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When the house share is slow</span></nav>
+<p class="note">Written 6 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When the house share is slow</h1>
+<p class="deck">The folder opens and copies work, but photos crawl. Check Wi-Fi vs a cable, link speed, disk room, then the laptop. You don't need a 10G switch.</p>
+<p>Haven't set up a share yet? Start with <a href="first-file-share">a file share</a>. Folder won't open at all? That is <a href="when-share-wont-open">when the house share won't open</a>. Opens but every write fails? <a href="when-share-wont-write">when you can open the house share but can't write</a>. This note is the middle case: open works, tiny files land, and a big photo dump still crawls.</p>
+
+<h2>Skip until copies actually work</h2>
+<p>If Finder, File Explorer, or the phone never shows the share, stop here: <a href="when-share-wont-open">when the house share won't open</a>. If a small text file won't save, that is write, not speed: <a href="when-share-wont-write">when you can open the house share but can't write</a>. Don't buy a 10G switch because one phone dump felt slow. Don't open SMB to the internet to "test" speed.</p>
+
+<h2>What this is</h2>
+<p>Slow and broken are different jobs. A one-megabyte text file can finish in a blink while a camera-roll folder takes forever. Common causes: Wi-Fi on the old PC (or the laptop doing the copy), a cable stuck at 100 Mbps Fast Ethernet, a nearly full or dying disk, Windows Defender scanning every SMB write, or a phone far from the access point. Cheap checks first. You do not need a new switch tonight.</p>
+
+<h2>1. Confirm it is slow, not broken</h2>
+<p>From the laptop or phone on the house network, copy one tiny text file into the share. It should finish quickly. Then try a folder of photos (or one large video). If the tiny file fails, leave this page: <a href="when-share-wont-write">when you can open the house share but can't write</a>. If the folder never opens, use <a href="when-share-wont-open">when the house share won't open</a>. If the tiny file is fine and the photo dump crawls, keep going.</p>
+
+<h2>2. Same house Wi-Fi — not guest, VPN, or cellular</h2>
+<p>The phone or laptop must be on the same house Wi-Fi as the old PC. Guest Wi-Fi often isolates devices so the share never appears, or it crawls through a captive path. Turn off VPN for this test. Cellular will not reach the computer. Open walks if you need them: <a href="open-share-from-laptop">from a laptop</a>, <a href="open-share-from-phone">from a phone</a>.</p>
+
+<h2>3. Prefer ethernet on the old PC</h2>
+<p>Wi-Fi is fine for browsing. For big photo dumps, plug a cable into the old PC if it has a port. Fewer drops overnight. If you are timing a copy from a laptop, plug that laptop too when you can. A short Cat5e from the drawer is enough. Don't buy Cat6 or a new switch for this test.</p>
+
+<h2>4. Check link speed on the computer</h2>
+<p>SSH in (or sit at the keyboard), then:</p>
+<p><code>ip -br link</code></p>
+<p>Skip <code>lo</code>. Point at the ethernet line that is UP (often a name that starts with <code>en</code>, or <code>eth0</code>). Ask for the speed (swap NAME):</p>
+<p><code>cat /sys/class/net/NAME/speed</code></p>
+<p>One number comes back in megabits per second. <code>1000</code> is gigabit — fine for a house PC. <code>100</code> is Fast Ethernet: photo dumps feel like a crawl. Try another cable from the drawer and another LAN port on the router, then ask again. If <code>ethtool</code> is already installed:</p>
+<p><code>ethtool NAME</code></p>
+<p>Read the Speed line. Or check the router's client list for the same number. Don't buy a 10G switch on day one. A fuller look is <a href="leftover-box-link-speed">see the cable speed</a>. When you actually need a faster switch later: <a href="2-5g-switch">a faster switch for a first home lab</a>.</p>
+
+<h2>5. Disk nearly full or dying</h2>
+<p>A packed disk can make writes crawl before they fail. Print human sizes:</p>
+<p><code>df -h /</code></p>
+<p>Point at the line that ends in <code>/</code>. If <code>Use%</code> is high, free room: <a href="when-house-disk-full">when the computer's disk is full</a>. Quieter look: <a href="leftover-box-disk-space">see if the computer still has room</a>. If the house folder lives on a stay-in USB, check that mount too:</p>
+<p><code>df -h /srv/share</code></p>
+<p>Swap the path if yours differs. Old Marketplace disks sometimes crawl while dying. A quick SMART look: <a href="see-disk-health">see if the old disk is dying</a>.</p>
+
+<h2>6. Antivirus scanning every write on the laptop</h2>
+<p>On Windows, Defender (or another antivirus) can scan every file as it lands on a mapped share. That turns a photo dump into molasses. For a short test only: exclude the mapped drive letter (or the <code>\\address\share</code> path) from real-time scanning, then copy again. Or compare: copy the same folder from a Mac or phone on house Wi-Fi. If those are fast and Windows is slow, the scanner is the clue. Turn the exclusion off after the test if you prefer. Map a drive letter: <a href="map-share-drive">map the house share as a drive</a>.</p>
+
+<h2>7. Phone over weak Wi-Fi</h2>
+<p>Phones far from the access point drop rate and retry. Move closer to the AP (or the router) and try one album again. Stay on house Wi-Fi, not guest. The dump walk itself: <a href="phone-photos-to-share">save phone photos to the house share</a>. Huge dumps are often happier from a laptop on a cable: <a href="open-share-from-laptop">open the house share from a laptop</a>.</p>
+
+<h2>What this is not</h2>
+<p>This is not a reason to buy a 10G switch, a NAS, or a new mesh kit tonight. It is not opening SMB past the house network. It is not the "folder won't open" page (<a href="when-share-wont-open">when the house share won't open</a>) or the "can't write" page (<a href="when-share-wont-write">when you can open the house share but can't write</a>). It is not turning off antivirus forever.</p>
+
+<h2>What next</h2>
+<p>Cable speed look: <a href="leftover-box-link-speed">see the cable speed</a>. Disk room: <a href="when-house-disk-full">when the computer's disk is full</a>. Phone dump: <a href="phone-photos-to-share">save phone photos to the house share</a>. Second copy of the house folder: <a href="first-backup">a backup of the house folder</a>. When you outgrow gigabit on purpose: <a href="2-5g-switch">a faster switch for a first home lab</a>.</p>
+
+<p class="note">Optional: note that photo dumps crawled (and whether you were on Wi-Fi or a cable) in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip a 10G switch because one photo dump felt slow.</li>
+<li>Skip buying Cat6 when Cat5e from the drawer is fine for this test.</li>
+<li>Skip opening SMB to the internet.</li>
+<li>Skip leaving antivirus off after a one-time exclusion test.</li>
+<li>Skip this page if the folder never opens — use <a href="when-share-wont-open">when the house share won't open</a>.</li>
+<li>Skip this page if tiny writes fail — use <a href="when-share-wont-write">when you can open the house share but can't write</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/iproute2/ip-link.8.en.html">Debian: ip-link</a>. <a href="https://manpages.debian.org/bookworm/ethtool/ethtool.8.en.html">Debian: ethtool</a>. <a href="https://wiki.samba.org/index.php/Setting_up_Samba_as_a_Standalone_Server">Samba wiki: standalone server</a>. Official pages only. For the share itself, see <a href="first-file-share">a file share</a>. For open failures, see <a href="when-share-wont-open">when the house share won't open</a>. For write failures, see <a href="when-share-wont-write">when you can open the house share but can't write</a>. For cable speed, see <a href="leftover-box-link-speed">see the cable speed</a>. For a full disk, see <a href="when-house-disk-full">when the computer's disk is full</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="when-the-computer-is-slow"><span class="t">When the old PC feels slow</span><span class="d">SSH lags, apt crawls, or the house share feels sticky. Check load, memory, disk room, then one busy job. Skip a new mini PC tonight.</span></a>
+<a class="note-row" href="first-file-share"><span class="t">A file share</span><span class="d">A folder on the old PC that the house can open from a laptop or a phone. You don't need a NAS for this.</span></a>
+<a class="note-row" href="when-share-wont-open"><span class="t">When the house share won't open</span><span class="d">Finder, File Explorer, or the phone can't open the house folder. Check the computer is on, confirm the address, then match the error (path not found, login failed, can't write, disk full). You don't need a NAS.</span></a>
+<a class="note-row" href="when-share-wont-write"><span class="t">When you can open the house share but can't write</span><span class="d">The house folder opens, but copy, save, or phone upload fails. Check disk room, Samba read only, then folder ownership. You don't need a NAS.</span></a>
+<a class="note-row" href="leftover-box-link-speed"><span class="t">See the cable speed</span><span class="d">Before you buy a faster switch, check whether the computer is already at gigabit, or stuck at 100.</span></a>
+<a class="note-row" href="when-house-disk-full"><span class="t">When the computer's disk is full</span><span class="d">Photos won't copy, the share says no space, or df shows the system disk packed. Confirm it is the computer (not the backup stick), free room or move the house folder. You don't need a NAS.</span></a>
+<a class="note-row" href="see-disk-health"><span class="t">See if the old disk is dying</span><span class="d">SMART reports whether the drive still looks healthy. Install smartmontools, list the disk, run a quick health check before you trust photos on a Marketplace PC. You don't need a NAS.</span></a>
+<a class="note-row" href="open-share-from-laptop"><span class="t">Open the house share from a laptop</span><span class="d">The house folder is on the old PC. Open it from Windows File Explorer or Mac Finder on the house network. You don't need a NAS for this.</span></a>
+<a class="note-row" href="phone-photos-to-share"><span class="t">Save phone photos to the house share</span><span class="d">Copy camera-roll photos from an iPhone or Android onto the house folder on the old PC. House Wi-Fi only. You don't need a NAS app or iCloud for this.</span></a>
+<a class="note-row" href="map-share-drive"><span class="t">Map the house share as a drive</span><span class="d">Give Windows a letter (Z:) or keep Finder's Locations entry so the house folder on the old PC opens every time. You don't need a NAS.</span></a>
+<a class="note-row" href="2-5g-switch"><span class="t">A faster switch for a first home lab</span><span class="d">If file copies crawl, start with a small silent switch that has eight faster ports.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="when-share-wont-write"><span class="kicker">Previous</span><span class="t">When you can open the house share but can't write</span></a>
+<a rel="next" href="when-house-disk-full"><span class="kicker">Next</span><span class="t">When the computer's disk is full</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

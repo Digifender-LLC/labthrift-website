@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Stay on the maker OS, or wipe an x86 4-bay for TrueNAS — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Stay on the maker software (DSM, ADM, or TOS), or wipe an x86 4-bay for TrueNAS. DIY on a mini PC is already the pain path. This is the next question.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Stay on the maker OS, or wipe an x86 4-bay for TrueNAS — Labthrift">
+<meta property="og:description" content="Stay on the maker software (DSM, ADM, or TOS), or wipe an x86 4-bay for TrueNAS. DIY on a mini PC is already the pain path. This is the next question.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/first-nas-diy-vs-appliance">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/first-nas-diy-vs-appliance">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BlogPosting",
+ "headline": "Stay on the maker OS, or wipe an x86 4-bay for TrueNAS",
+ "description": "Stay on the maker software (DSM, ADM, or TOS), or wipe an x86 4-bay for TrueNAS. DIY on a mini PC is already the pain path. This is the next question.",
+ "url": "https://labthrift.com/guides/first-nas-diy-vs-appliance",
+ "image": "https://labthrift.com/assets/og-1200.png",
+ "datePublished": "2026-08-22"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+ {
+ "@type": "ListItem",
+ "position": 1,
+ "name": "Home",
+ "item": "https://labthrift.com/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 2,
+ "name": "Notes",
+ "item": "https://labthrift.com/guides/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 3,
+ "name": "First NAS",
+ "item": "https://labthrift.com/guides/#first-nas"
+ },
+ {
+ "@type": "ListItem",
+ "position": 4,
+ "name": "Stay on the maker OS, or wipe an x86 4-bay for TrueNAS",
+ "item": "https://labthrift.com/guides/first-nas-diy-vs-appliance"
+ }
+ ]
+}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#first-nas">File storage</a> / <span aria-current="page">Stay on the maker OS, or wipe an x86 4-bay for TrueNAS</span></nav>
+<p class="note">Written 22 Aug 2026. Specs from the maker pages linked below. Prices from those stores. I haven't used these. Confirm the diskless SKU before you click. Amazon is full of drive bundles.</p>
+<h1>Stay on the maker OS, or wipe an x86 4-bay for TrueNAS</h1>
+<p class="deck">Stay on the maker software (DSM, ADM, or TOS), or wipe an x86 4-bay for TrueNAS. DIY on a mini PC is already the pain path. This is the next question.</p>
+<p>Stay on the maker software (DSM, ADM, or TOS), or wipe an x86 4-bay for TrueNAS. Don't send a first-backup user to a used LSI HBA scavenger hunt. That is a project. Projects are allowed. They are not the default buy. ECC is the Mini X+ argument, and Mini is not the SKU on this page.</p>
+<div class="table-wrap">
+<table>
+<tr><th>Path</th><th>What you buy</th><th>You win</th><th>You lose</th></tr>
+<tr class="pick"><td data-label="Path">Appliance, DSM / ADM</td><td data-label="What you buy"><a href="synology-ds224-plus-review">DS224+</a> B0C6927XPX; <a href="synology-ds423-plus-review">DS423+</a> B&amp;H; <a href="asustor-as5402t-review">AS5402T</a> B0C5MB5MTS</td><td data-label="You win">Snapshots that restore. Sleep / S3. Not spending a weekend on an HCL.</td><td data-label="You lose">RAM lids (6 GB Plus, 16 GB AS54). App tax on Synology. 1GbE on Plus.</td></tr>
+<tr><td data-label="Path">Re-image path</td><td data-label="What you buy"><a href="terramaster-f4-424-pro-truenas">F4-424 Pro</a> B0CPPD51B9; <a href="ugreen-dxp2800-review">DXP2800</a> B0D22HBFK1; optionally <a href="terramaster-f4-425-review">F4-425</a></td><td data-label="You win">RAM, Docker, ZFS, no app tax. x86 board you can wipe.</td><td data-label="You lose">Non-ECC on the TerraMaster / UGREEN. You own the install. I haven't re-imaged these.</td></tr>
+<tr><td data-label="Path">Mini X+ (comparison)</td><td data-label="What you buy">iXsystems configurator. Forum 2026 ~$1909 diskless. C3758, 32 GB ECC, dual 10GBase-T.</td><td data-label="You win">ECC and a supported TrueNAS appliance.</td><td data-label="You lose">Not the CTA. Historical Amazon B08FCWBVWX is not a stable buy link. linhpham.org $1448 is an older snapshot. Label it historical.</td></tr>
+</table>
+</div>
+<p>DIY wins when you already know you want ZFS and you will read a HCL. Appliance wins when the copies have to work on a Sunday and you have not named a HBA chipset this year. The existing <a href="first-nas">first-NAS page</a> still holds: two-bay Synology if you want sleep; DXP4800 Plus if you want 10G and Docker; mini-PC DIY only if you already like pain. This page just names the x86 appliances you can re-image instead of scavenging a 1U.</p>
+<p>Drives stay CMR on every path. <a href="nas-hdd-picks-2026-cmr">ST8000VN004</a> (7200) or WD80EFPX (5640, still CMR). Skip <code>EFAX</code> / <code>EZAZ</code> / BarraCuda 3.5" 4 / 8 TB SMR. IronWolf 1–6 TB is 5400. ZFS does not make SMR polite. 5400 RPM does not make a VM LUN fast.</p>
+<p>Live retail, no tags: <a href="https://www.amazon.com/Synology-2-Bay-DiskStation-DS224-Diskless/dp/B0C6927XPX">DS224+ B0C6927XPX</a>, <a href="https://www.bhphotovideo.com/c/product/1757288-REG/synology_diskstation_ds423_4_bay_nas.html">DS423+ B&amp;H</a>, <a href="https://www.amazon.com/Asustor-AS5402T-Quad-Core-2x2-5GbE-Attached/dp/B0C5MB5MTS">AS5402T B0C5MB5MTS</a>, <a href="https://www.amazon.com/TERRAMASTER-F4-424-Pro-NAS-Storage/dp/B0CPPD51B9">F4-424 Pro B0CPPD51B9</a>, <a href="https://www.terra-master.com/products/f4-424-pro">TerraMaster F4-424 Pro store</a> ($730.99 on 22 Aug 2026), <a href="https://www.amazon.com/UGREEN-DXP2800-Quad-core-Attached-Diskless/dp/B0D22HBFK1">DXP2800 B0D22HBFK1</a>, <a href="https://www.truenas.com/truenas-mini/">TrueNAS Mini</a> (comparison).</p>
+
+<h2>Skip</h2>
+<p>Skip eBay “LSI 9211 flashed to IT mode, untested.” Skip Mini as the hero SKU. Skip used DS918+. Skip SMR in ZFS. Skip calling a first backup box a “homelab” until Hyper Backup or zfs send actually landed somewhere else.</p>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://evezone.evetech.co.za/deep-dives/diy-truenas-vs-a-pre-built-nas-appliance-which-should-you-build">Evezone 2026, DIY TrueNAS vs appliance</a>. TerraMaster F4-424 Pro official spec. Synology DS224+ official page. iXsystems Mini page. TrueNAS forum 2026 US configurator $1909. linhpham.org Mini X+ older $1448 snapshot (historical). I haven't installed TrueNAS on a TerraMaster in this lab.</p>
+</section>
+
+
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-nas"><span class="t">First NAS for a one-person lab</span><span class="d">Two bays and boring software if you want backups that restore.</span></a>
+<a class="note-row" href="synology-ds224-plus-review"><span class="t">Quiet overnight backups with Synology DSM: DS224+</span><span class="d">Quiet overnight backups with DSM when Plus extras matter. Skip if sleep backups alone are the job.</span></a>
+<a class="note-row" href="synology-ds423-plus-review"><span class="t">Four-bay overnight backups on DSM when two bays are not enough: DS423+</span><span class="d">Four-bay overnight backups on Synology DSM when two bays are not enough. Still gigabit.</span></a>
+</section>
+
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="nas-power-noise-first-box"><span class="kicker">Previous</span><span class="t">Bedroom overnight box vs closet next to a workstation: pick by watts and noise</span></a>
+</nav>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+</p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>8-port vs 5-port 2.5G switch for a closet lab — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Count the real endpoints: router LAN, NAS, desktop, AP backhaul, mini PC. Add two. That number picks the box.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="8-port vs 5-port 2.5G switch for a closet lab — Labthrift">
+<meta property="og:description" content="Count the real endpoints: router LAN, NAS, desktop, AP backhaul, mini PC. Add two. That number picks the box.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/8-port-vs-5-port-2-5g-switch">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/8-port-vs-5-port-2-5g-switch">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BlogPosting",
+ "headline": "8-port vs 5-port 2.5G switch for a closet lab",
+ "description": "Count the real endpoints: router LAN, NAS, desktop, AP backhaul, mini PC. Add two. That number picks the box.",
+ "url": "https://labthrift.com/guides/8-port-vs-5-port-2-5g-switch",
+ "image": "https://labthrift.com/assets/og-1200.png",
+ "datePublished": "2026-08-22"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+ {
+ "@type": "ListItem",
+ "position": 1,
+ "name": "Home",
+ "item": "https://labthrift.com/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 2,
+ "name": "Notes",
+ "item": "https://labthrift.com/guides/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 3,
+ "name": "2.5G switches",
+ "item": "https://labthrift.com/guides/#switches"
+ },
+ {
+ "@type": "ListItem",
+ "position": 4,
+ "name": "8-port vs 5-port 2.5G switch for a closet lab",
+ "item": "https://labthrift.com/guides/8-port-vs-5-port-2-5g-switch"
+ }
+ ]
+}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">8-port vs 5-port 2.5G switch for a closet lab</span></nav>
+<p class="note">Written 22 Aug 2026. Specs from the maker pages linked below. Prices from those stores. I haven't used these.</p>
+
+<h1>8-port vs 5-port 2.5G switch for a closet lab</h1>
+<p class="deck">Count the real endpoints: router LAN, NAS, desktop, AP backhaul, mini PC. Add two. That number picks the box.</p>
+<p>Already know you want eight copper ports and no SFP+? Buy from the <a href="2-5g-switch">8-port roundup</a>. This page is just the port-count decision. All six boxes below are fanless and have no PoE. Netgear's 8-port lists 0 fans and 7.98 W max. TEG-S380 V2 max is 7.26 W.</p>
+
+<h2>What to buy</h2>
+<div class="table-wrap">
+<table>
+<tr><th>Box</th><th>Ports</th><th>Street, 22 Aug 2026</th><th>Buy if</th></tr>
+<tr class="pick"><td data-label="Box"><a href="2-5g-switch">TP-Link TL-SG108S-M2</a></td><td data-label="Ports">8× 2.5G</td><td data-label="Street, 22 Aug 2026">MSRP $79.99. Tom's Hardware, 26 Jun 2026 Prime, $49.99 (ASIN B0CMFX748Y).</td><td data-label="Buy if">You counted five or more, or you want a spare. This is the closet default.</td></tr>
+<tr><td data-label="Box"><a href="tp-link-tl-sg105s-m2">TP-Link TL-SG105S-M2</a></td><td data-label="Ports">5× 2.5G</td><td data-label="Street, 22 Aug 2026">MSRP about $60. Street $35–40 on 2026 sales. See the 5-port note.</td><td data-label="Buy if">You counted four or fewer and you will not add a mini PC next month.</td></tr>
+<tr><td data-label="Box">TRENDnet TEG-S380</td><td data-label="Ports">8× 2.5G</td><td data-label="Street, 22 Aug 2026">Maker $87.99. Newegg $79.99.</td><td data-label="Buy if">Warranty paper over the TP-Link 8-port default. Already in the roundup.</td></tr>
+<tr><td data-label="Box"><a href="tl-sg105s-m2-vs-teg-s350">TRENDnet TEG-S350</a></td><td data-label="Ports">5× 2.5G</td><td data-label="Street, 22 Aug 2026">Maker $65.99. Amazon $48.99. B&amp;H $59.99.</td><td data-label="Buy if">Lifetime / NDAA on five ports. TP-Link still wins street.</td></tr>
+<tr><td data-label="Box">Netgear MS308</td><td data-label="Ports">8× 2.5G</td><td data-label="Street, 22 Aug 2026">Maker $109.99 (was $199.99).</td><td data-label="Buy if">Brand-trust only. See <a href="netgear-ms308-vs-tl-sg108s-m2">MS308 vs TL-SG108S-M2</a>.</td></tr>
+<tr><td data-label="Box">Netgear MS305</td><td data-label="Ports">5× 2.5G</td><td data-label="Street, 22 Aug 2026">Maker / Amazon $99.99 (was $134.99).</td><td data-label="Buy if">A bad deal next to TL-SG105S-M2 at $35–60. Also-ran, not a hero.</td></tr>
+</table>
+</div>
+<h2>Skip</h2>
+<p>Skip 5-port leftovers with one 2.5G uplink and four 1G ports. Skip SODOLA / HASIVO toys. Skip buying five ports "to start" if the AP and the mini PC are already in the cart. Two unused 2.5G ports cost less than a second switch later.</p>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.amazon.com/TP-Link-TL-SG105S-M2-Multi-Gigabit-Unmanaged-Operation/dp/B0CMXXPTVH">Amazon TL-SG105S-M2</a>. <a href="https://www.tomshardware.com/networking/network-switches/tp-links-8-port-2-5g-unmanaged-ethernet-switch-is-a-smokin-bargain-at-usd50-upgrade-your-home-network-for-half-price">Tom's Hardware, 26 Jun 2026</a> (TL-SG108S-M2 Prime $49.99). <a href="https://www.trendnet.com/store/products/2-5g-switch/5-port-unmanaged-2-5g-switch-TEG-S350_v2">TRENDnet TEG-S350 V2 store</a>. <a href="https://www.netgear.com/business/wired/switches/unmanaged/ms308/">Netgear MS308</a>. Street ranges move. Check the live price before you click.</p>
+</section>
+
+
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="2-5g-vs-10g-uplink-switch"><span class="t">Buy the extra 10G cage only if one copy already fills the faster house port</span><span class="d">Buy the SFP+ box only if one flow can fill 2.5G.</span></a>
+<a class="note-row" href="teg-s562-vs-qsw-2104-2s"><span class="t">Pick today's cheaper quiet box with four faster ports and two 10G cages: TEG-S562 vs QSW-2104-2S</span><span class="d">Two quiet unmanaged boxes with four faster ports and two 10G cages. Pick by today's price.</span></a>
+<a class="note-row" href="tp-link-tl-sg105pp-m2"><span class="t">Two Wi-Fi APs plus a faster NAS without a rack PoE heater: TP-Link TL-SG105PP-M2</span><span class="d">Two Wi-Fi APs plus a faster NAS without a rack PoE heater.</span></a>
+</section>
+
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="tp-link-tl-sg105s-m2"><span class="kicker">Previous</span><span class="t">Five quiet faster ports for one NAS and one PC: TP-Link TL-SG105S-M2</span></a>
+<a rel="next" href="2-5g-vs-10g-uplink-switch"><span class="kicker">Next</span><span class="t">Buy the extra 10G cage only if one copy already fills the faster house port</span></a>
+</nav>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+</p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

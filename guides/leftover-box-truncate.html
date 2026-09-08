@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Empty or shrink a practice file — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After od (or after writing a practice file), use truncate so you empty or shrink the file without deleting its name. You don't need extra software beyond coreutils.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Empty or shrink a practice file — Labthrift">
+<meta property="og:description" content="After od (or after writing a practice file), use truncate so you empty or shrink the file without deleting its name. You don't need extra software beyond coreutils.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-truncate">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-truncate">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Empty or shrink a practice file","description":"After od (or after writing a practice file), use truncate so you empty or shrink the file without deleting its name. You don't need extra software beyond coreutils.","url":"https://labthrift.com/guides/leftover-box-truncate","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-01"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"Faster network","item":"https://labthrift.com/guides/#switches"},{"@type":"ListItem","position":3,"name":"Empty or shrink a practice file"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Empty or shrink a practice file</span></nav>
+<p class="note">Written 1 Sep 2026. This is a how-to, not a product card.</p>
+<h1>Empty or shrink a practice file</h1>
+<p class="deck">After <span><code>od</code></span> (or after writing a practice file), use <span><code>truncate</code></span> so you empty or shrink the file without deleting its name. You don&apos;t need extra software beyond coreutils.</p>
+<p><a href="leftover-box-sync">Finish disk writes</a> flushed pending writes. <a href="leftover-box-od">Peek at file bytes</a> showed what landed. Tonight you change a file's size on purpose: keep the same home path, but empty or shrink the file. <span><code>truncate</code></span> sets length. It does not remove the name. Removing the name is <a href="leftover-box-rm">delete a file carefully</a>. That is not a wipe with shred. That is not copying disks with dd. You are still only practicing in home on the computer. It does not need htop, Grafana, or a NAS for this one job.</p>
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If you only need to write practice words, that is <a href="leftover-box-printf">print words exactly</a> or <a href="leftover-box-echo">put a short line into a file</a>. If you only need to flush writes, that is <a href="leftover-box-sync">finish disk writes</a>. If you only need a peek at bytes, that is <a href="leftover-box-od">peek at file bytes</a>. If you only need the throwaway gone, that is <a href="leftover-box-rm">delete a file carefully</a>. Skip this whole note if you only need a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</p>
+<h2>What this is</h2>
+<p><span><code>truncate</code></span> sets a file&apos;s length in bytes. <span><code>-s 0</code></span> empties the file and leaves the name. <span><code>-s N</code></span> sets the exact size to N bytes (shrink keeps the start of the file; grow can pad with empty space, sometimes called a hole). It does not delete the path. It is not <span><code>rm -i</code></span>. Rm removes the name. Truncate changes size.</p>
+<h2>Practice truncate in home</h2>
+<p>SSH in. Make sure home is where you sit:</p>
+<p><code>pwd</code></p><p>You want a path that ends in your login name. If not:</p>
+<p><code>cd ~</code></p><p>Park one short practice line (see <a href="leftover-box-printf">printf</a> or <a href="leftover-box-echo">echo</a>):</p>
+<p><code>printf &apos;hello\n&apos; &gt; ~/trunc-a.txt</code></p><p>Optional flush (see <a href="leftover-box-sync">sync</a>):</p>
+<p><code>sync</code></p><p>Note the size before you change it:</p>
+<p><code>ls -l ~/trunc-a.txt</code></p><p>You want a small non-zero size (hello plus a newline is typically 6 bytes).</p>
+<p>Optional peek (see <a href="leftover-box-od">od</a>):</p>
+<p><code>od -c ~/trunc-a.txt</code></p><p>Empty the file, keep the name (tonight's job):</p>
+<p><code>truncate -s 0 ~/trunc-a.txt</code></p><p>Check again:</p>
+<p><code>ls -l ~/trunc-a.txt</code></p><p>You want size 0. The name <span><code>~/trunc-a.txt</code></span> is still there. That is the whole point of tonight.</p>
+<p>Optional shrink after rewrite: put the line back, then keep only the first three bytes:</p>
+<p><code>printf &apos;hello\n&apos; &gt; ~/trunc-a.txt</code></p>
+<p><code>truncate -s 3 ~/trunc-a.txt</code></p>
+<p><code>od -c ~/trunc-a.txt</code></p><p>You want something like the letters <span><code>h e l</code></span> and then the prompt back. The rest is gone, the name remains.</p>
+<p>Optional grow (lightly. Don't make sparse files the lesson):</p>
+<p><code>truncate -s 10 ~/trunc-a.txt</code></p>
+<p><code>ls -l ~/trunc-a.txt</code></p><p>Size can show 10 even if the middle is empty space on disk. You only need two: empty with <span><code>-s 0</code></span>, or shrink with a small N. Skip sparse deep-dives.</p>
+<p>Debian and Ubuntu usually already have <span><code>truncate</code></span> (coreutils). Don't make apt the lesson. If it is somehow missing:</p>
+<p><code>sudo apt install coreutils</code></p><p>Then stop. That install is not a reason to buy disk tools.</p>
+<p>When you are done practicing:</p>
+<p><code>rm -i ~/trunc-a.txt</code></p><p>Ask first. Say yes only if the name matches. That careful delete is <a href="leftover-box-rm">delete a file carefully</a>. Skip <span><code>rm -rf</code></span>.</p>
+<h2>Useful extras, still home-safe</h2>
+<p>Skip <span><code>truncate</code></span> on <span><code>/etc</code></span>, whole disks, USB device nodes, or anything outside home. Tonight: one tiny home practice file.</p>
+<p>Skip <span><code>truncate</code></span> as a wipe. Emptying a practice file is not shred and not dd. Those are different (and scarier) jobs.</p>
+<p>Skip huge files as tonight&apos;s job. Tonight: a tiny home file, not logs, images, or disk images.</p>
+<p>Skip piping <span><code>truncate</code></span> into <span><code>rm</code></span>. Truncate changes size. Rm deletes. Don't mix those jobs.</p>
+<p>Skip <span><code>awk</code></span>, <span><code>sed</code></span>, and install as new pages this cycle. Free space is already <a href="leftover-box-disk-space">see if the computer still has room</a> (that is the df look. Don't invent a separate df how-to).</p>
+<p>Skip <span><code>hexdump</code></span> and <span><code>xxd</code></span> as tonight&apos;s job. Peeking stays on <a href="leftover-box-od">od</a>.</p>
+<p>Skip <span><code>screen</code></span>, <span><code>tmux</code></span>, port 22 forwarding, apt as the lesson, htop, Grafana, and a NAS. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>What this is not</h2>
+<p>This is not <span><code>sync</code></span>. That is <a href="leftover-box-sync">finish disk writes</a>. It is not <span><code>od</code></span>. That peeks at bytes: <a href="leftover-box-od">peek at file bytes</a>. It is not <span><code>strings</code></span>. That shows printable text without a full dump: <a href="leftover-box-strings">see printable text with strings</a>. It is not <span><code>printf</code></span> or <span><code>echo</code></span>. Those write words: <a href="leftover-box-printf">print words exactly</a>, <a href="leftover-box-echo">put a short line into a file</a>. It is not <span><code>rm</code></span>. That removes the name: <a href="leftover-box-rm">delete a file carefully</a>. It is not <span><code>cat</code></span>. That prints text as text: <a href="leftover-box-cat">read a file without opening the editor</a>. It is not <span><code>cmp</code></span>. That compares two files: <a href="leftover-box-cmp">see whether two files match byte for byte</a>. It is not <span><code>sha256sum</code></span>. That fingerprints one file: <a href="leftover-box-sha256sum">check a file fingerprint</a>. It is not free disk space. That is <a href="leftover-box-disk-space">see if the computer still has room</a>. It is not opening SSH to the internet so you can shrink files from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>What next</h2>
+<p>Need a peek first? <a href="leftover-box-od">Peek at file bytes</a>. Need printable text without a full dump? <a href="leftover-box-strings">See printable text with strings</a>. Need a flush first? <a href="leftover-box-sync">Finish disk writes</a>. Need exact practice words? <a href="leftover-box-printf">Print words exactly</a>. Need the throwaway gone (name and all)? <a href="leftover-box-rm">Delete a file carefully</a>. Need free space? <a href="leftover-box-disk-space">See if the computer still has room</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip <span><code>sync</code></span>, <span><code>od</code></span>, <span><code>printf</code></span>, or <span><code>echo</code></span> as tonight&apos;s job if you only came to change size. Those notes already exist.</li>
+<li>Skip <span><code>truncate</code></span> on <span><code>/etc</code></span>, disks, USB devices, or anything outside home.</li>
+<li>Skip <span><code>truncate</code></span> as a wipe (not shred/dd), huge files as the job, and piping <span><code>truncate</code></span> into <span><code>rm</code></span>.</li>
+<li>Skip <span><code>awk</code></span>/<span><code>sed</code></span>/install as new pages this cycle, <span><code>hexdump</code></span>/<span><code>xxd</code></span> as the job, <span><code>screen</code></span>, <span><code>tmux</code></span>, apt as the lesson, htop, Grafana, and a NAS.</li>
+<li>Skip <span><code>rm -rf</code></span>. Careful delete only: <a href="leftover-box-rm">delete a file carefully</a>.</li>
+<li>Skip opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/coreutils/truncate.1.en.html">Debian: truncate(1)</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/truncate.1.html">Ubuntu: truncate(1)</a>. <a href="https://www.gnu.org/software/coreutils/manual/html_node/truncate-invocation.html">GNU coreutils: truncate</a>. Official pages only. For the peek, see <a href="leftover-box-od">peek at file bytes</a>. For the flush, see <a href="leftover-box-sync">finish disk writes</a>. For exact words, see <a href="leftover-box-printf">print words exactly</a>. For a careful delete, see <a href="leftover-box-rm">delete a file carefully</a>. For the login, see <a href="first-ssh">SSH from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-sync"><span class="t">Finish disk writes</span><span class="d">After a practice write, finish disk writes with sync so the file is really on disk before you unplug or power off. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-od"><span class="t">Peek at file bytes</span><span class="d">After writing a practice file, peek with od so you see the characters and bytes that are actually on disk. You don&apos;t need extra software beyond coreutils.</span></a>
+<a class="note-row" href="leftover-box-strings"><span class="t">See printable text with strings</span><span class="d">After od, use strings so you see readable text without dumping every byte. You don&apos;t need extra software beyond binutils.</span></a>
+<a class="note-row" href="leftover-box-printf"><span class="t">Print words exactly</span><span class="d">Print words exactly with printf so a practice file gets the text you meant, without the extra newline echo always adds. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-echo"><span class="t">Put a short line into a file</span><span class="d">After SSH works, put one short line into a file with echo so you don't need to open nano. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-rm"><span class="t">Delete a file carefully</span><span class="d">After SSH works, delete one file with rm -i. Ask first. Skip rm -rf. You don&apos;t need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">Before you buy a bigger drive, check free space with df.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-od"><span class="kicker">Previous</span><span class="t">Peek at file bytes</span></a>
+<a rel="next" href="leftover-box-strings"><span class="kicker">Next</span><span class="t">See printable text with strings</span></a>
+</nav>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

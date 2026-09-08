@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When the backup USB is full — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="rsync says no space, or df shows the stick is packed. Confirm the mount, free room or use a bigger stick, or copy to another old PC. You don't need a NAS.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When the backup USB is full — Labthrift">
+<meta property="og:description" content="rsync says no space, or df shows the stick is packed. Confirm the mount, free room or use a bigger stick, or copy to another old PC. You don't need a NAS.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-backup-usb-full">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-backup-usb-full">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When the backup USB is full","description":"rsync says no space, or df shows the stick is packed. Confirm the mount, free room or use a bigger stick, or copy to another old PC. You don't need a NAS.","url":"https://labthrift.com/guides/when-backup-usb-full","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-05"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When the backup USB is full</span></nav>
+<p class="note">Written 5 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When the backup USB is full</h1>
+<p class="deck">rsync says no space, or <code>df</code> shows the stick is packed. Confirm the mount, free room or use a bigger stick, or copy to another old PC. You don't need a NAS.</p>
+<p>Haven't made a second copy yet? Start with <a href="first-backup">a backup of the house folder</a>. Other rsync errors (missing stick, permission, SSH)? That wider walk is <a href="when-backup-wont-run">when the house backup won't run</a>. This note is only for a destination that ran out of room.</p>
+
+<h2>Skip until you see no space</h2>
+<p>Copy the exact line. <code>No space left on device</code> is this page. A stick that never mounted is not "full." Don't buy a NAS because one 32&nbsp;GB stick filled up with photos.</p>
+
+<h2>What this is</h2>
+<p>The house folder grew. The USB (or the second PC folder you copy into) did not. <code>rsync</code> needs free bytes on the destination. Sometimes the failure is a fake full: you wrote into an empty <code>/mnt/backup</code> on the system disk because the stick never mounted. The checks below separate those two problems before you delete anything.</p>
+
+<h2>Step 1: awake, then SSH</h2>
+<p>Power light. Fan. If it looks asleep, start with <a href="leftover-box-still-on">is the computer still on?</a>. You need SSH from the couch: <a href="first-ssh">SSH from the couch</a>. Connect fails? <a href="when-ssh-wont-connect">when SSH won't connect</a>.</p>
+
+<h2>Step 2: confirm the stick is really mounted</h2>
+<p>Plug the backup USB in. See it:</p>
+<p><code>lsblk</code></p>
+<p>You should see a disk and a partition (often <code>sdb1</code>). Fuller look: <a href="leftover-box-usb-disk">see if the USB backup disk showed up</a>.</p>
+<p>Mount the usual way if it is not already attached:</p>
+<p><code>sudo mkdir -p /mnt/backup &amp;&amp; sudo mount /dev/sdb1 /mnt/backup</code></p>
+<p>Swap <code>/dev/sdb1</code> for what <code>lsblk</code> printed. Confirm the mount:</p>
+<p><code>findmnt /mnt/backup</code></p>
+<p>A line with a real device under <code>SOURCE</code> means the stick is attached. No line means the mount failed. Do not run <code>rsync</code> into a bare folder on the system disk. Blank or Windows-formatted stick? <a href="format-usb-for-backup">Format a USB stick for the house backup</a>.</p>
+
+<h2>Step 3: see how full the destination is</h2>
+<p>Print human sizes for the backup mount and the system disk:</p>
+<p><code>df -h /mnt/backup /</code></p>
+<p>Look at the <code>Use%</code> and <code>Avail</code> columns. If <code>/mnt/backup</code> shows 95–100% (or <code>Avail</code> is tiny) and the source is a USB device, the stick is the problem. If <code>/</code> is full and <code>/mnt/backup</code> is not a USB device, you filled the computer itself. System disk check: <a href="leftover-box-disk-space">see if the computer still has room</a>.</p>
+
+<h2>Step 4: see what is eating the stick</h2>
+<p>List top-level sizes on the backup folder:</p>
+<p><code>sudo du -h --max-depth=1 /mnt/backup | sort -h</code></p>
+<p>You usually see one big <code>share</code> (or whatever folder name you used) that matches the house folder. Old practice copies, leftover ISOs, or a second dated folder from an earlier experiment are fair game to delete. Do not wipe the only good second copy unless you already have another one (second old PC, or a fresh stick you just filled).</p>
+<p>Compare to the live house folder:</p>
+<p><code>sudo du -sh /srv/share /mnt/backup/share</code></p>
+<p>If the live share is bigger than the stick's free space plus what is already on the stick, a plain <code>rsync</code> cannot finish on this stick. You need a bigger destination, not a luckier retry.</p>
+
+<h2>Step 5: pick one fix</h2>
+<div class="table-wrap">
+<table>
+<tr><th>Situation</th><th>What to do</th></tr>
+<tr><td data-label="Situation">Stick is full; you still want USB</td><td data-label="What to do">Delete junk you recognize on the stick, or move to a bigger spare. A clean bigger stick: <a href="format-usb-for-backup">format a USB stick for the house backup</a>, then run the copy from <a href="first-backup">a backup of the house folder</a>.</td></tr>
+<tr><td data-label="Situation">You can spare another old PC</td><td data-label="What to do">Park the second copy on the network instead: <a href="backup-to-another-pc">copy the house folder to another old computer</a>. Keep the small stick for a short emergency copy if you want, or retire it.</td></tr>
+<tr><td data-label="Situation">Live share filled the system disk</td><td data-label="What to do">The house folder itself needs a bigger home on a disk that stays plugged in: <a href="house-folder-on-usb">put the house folder on a USB disk</a>. That is the live share, not the backup stick.</td></tr>
+<tr><td data-label="Situation">Mount was empty; system disk filled</td><td data-label="What to do">You may have written a fake "backup" onto <code>/</code>. Free room on the computer (<a href="leftover-box-disk-space">see if the computer still has room</a>), mount the stick for real, then copy again. Confirm it landed: <a href="leftover-box-backup-check">check that the backup actually copied</a>.</td></tr>
+</table>
+</div>
+<p>Deleting on the stick (only after you know what it is):</p>
+<p><code>rm -ri /mnt/backup/some-old-folder</code></p>
+<p>Ask first. Skip <code>rm -rf /</code>. Skip wiping the live <code>/srv/share</code> to "make the backup fit."</p>
+
+<h2>Step 6: copy again, then unplug safely</h2>
+<p>With room available and the stick mounted:</p>
+<p><code>rsync -a /srv/share/ /mnt/backup/share/</code></p>
+<p>Then look:</p>
+<p><code>ls /mnt/backup/share</code></p>
+<p>You should see the same folders as <code>/srv/share</code>. Check free space again:</p>
+<p><code>df -h /mnt/backup</code></p>
+<p>Leave a little headroom so next week's photos don't fail on day one. Unmount before you yank the cable: <a href="unplug-backup-usb">unplug the backup USB safely</a>.</p>
+
+<h2>What this is not</h2>
+<p>This is not a reason to buy a NAS tonight. It is not RAID. It is not a cloud plan until a plain second copy exists on a stick or another old PC. It is not deleting the live house folder to shrink the backup. It is not leaving the only backup stick plugged in forever so one bad day can wipe both copies.</p>
+
+<h2>What next</h2>
+<p>First successful copy still lives on <a href="first-backup">a backup of the house folder</a>. Other failure modes: <a href="when-backup-wont-run">when the house backup won't run</a>. Confirm files landed: <a href="leftover-box-backup-check">check that the backup actually copied</a>. Bigger destination on the network: <a href="backup-to-another-pc">copy the house folder to another old computer</a>. Weekly habit: <a href="leftover-box-backup-timer">back up the folder every week without remembering</a>. Live system disk packed (not the stick): <a href="when-house-disk-full">when the computer's disk is full</a>. Whole folder back after a wipe: <a href="restore-house-folder">put the house folder back from the backup</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip buying a NAS because one stick filled up.</li>
+<li>Skip RAID. RAID is not a backup.</li>
+<li>Skip deleting the live house folder to make rsync fit.</li>
+<li>Skip <code>rm -rf</code> on paths you have not listed with <code>du</code> first.</li>
+<li>Skip running rsync into <code>/mnt/backup</code> when <code>findmnt</code> prints nothing.</li>
+<li>Skip leaving the only backup stick plugged in forever.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/coreutils/df.1.en.html">Debian: df</a>. <a href="https://manpages.debian.org/bookworm/coreutils/du.1.en.html">Debian: du</a>. <a href="https://manpages.debian.org/bookworm/rsync/rsync.1.en.html">Debian: rsync</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/df.1.html">Ubuntu: df</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/du.1.html">Ubuntu: du</a>. Official pages only. For the copy this unblocks, see <a href="first-backup">a backup of the house folder</a>. For other rsync failures, see <a href="when-backup-wont-run">when the house backup won't run</a>. For a bigger network destination, see <a href="backup-to-another-pc">copy the house folder to another old computer</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="when-backup-wont-run"><span class="t">When the house backup won't run</span><span class="d">rsync failed, the USB is missing, or the second copy never landed. Check the stick, the mount, the source path, then match the error (no space, permission, connection). You don't need a NAS.</span></a>
+<a class="note-row" href="first-backup"><span class="t">A backup of the house folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another old computer. You don't need a NAS for this.</span></a>
+<a class="note-row" href="format-usb-for-backup"><span class="t">Format a USB stick for the house backup</span><span class="d">Wipe and format a spare USB stick so the old PC can mount it for the house-folder backup. Ext4 for Linux. This erases the stick. You don't need a NAS.</span></a>
+<a class="note-row" href="unplug-backup-usb"><span class="t">Unplug the backup USB safely</span><span class="d">Finish disk writes, unmount /mnt/backup, then yank the stick into a drawer. Fixes target is busy. You don't need a NAS.</span></a>
+<a class="note-row" href="backup-to-another-pc"><span class="t">Copy the house folder to another old computer</span><span class="d">A second copy of the house folder, over the house network to another old PC. Not only a USB stick. You don't need a NAS for this.</span></a>
+<a class="note-row" href="when-house-disk-full"><span class="t">When the computer's disk is full</span><span class="d">Photos won't copy, the share says no space, or df shows the system disk packed. Confirm it is the computer (not the backup stick), free room or move the house folder. You don't need a NAS.</span></a>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="house-folder-on-usb"><span class="t">Put the house folder on a USB disk</span><span class="d">Move the house share onto a USB disk that stays plugged into the old PC so photos don't fill the system drive. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-backup-check"><span class="t">Check that the backup actually copied</span><span class="d">After the copy finishes, look on the USB disk and confirm the files are there before you trust it. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="restore-house-folder"><span class="t">Put the house folder back from the backup</span><span class="d">After a wipe, a reinstall, or an empty share, copy the house folder from the USB (or second old PC) back onto the computer. You don't need a NAS.</span></a>
+<a class="note-row" href="leftover-box-usb-disk"><span class="t">See if the USB backup disk showed up</span><span class="d">Before you trust the weekly copy, confirm the computer can see the USB disk.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="when-backup-wont-run"><span class="kicker">Previous</span><span class="t">When the house backup won't run</span></a>
+<a rel="next" href="format-usb-for-backup"><span class="kicker">Next</span><span class="t">Format a USB stick for the house backup</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

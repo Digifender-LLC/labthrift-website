@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Back up a Mac to the house share with Time Machine — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Point Time Machine at a Samba folder on the old PC. Use a separate share from photos, and cap the size so one Mac does not fill the disk. You don't need a Time Capsule or a NAS for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Back up a Mac to the house share with Time Machine — Labthrift">
+<meta property="og:description" content="Point Time Machine at a Samba folder on the old PC. Use a separate share from photos, and cap the size so one Mac does not fill the disk. You don't need a Time Capsule or a NAS for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/time-machine-to-share">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/time-machine-to-share">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Back up a Mac to the house share with Time Machine","description":"Point Time Machine at a Samba folder on the old PC. Use a separate share from photos, and cap the size so one Mac does not fill the disk. You don't need a Time Capsule or a NAS for this.","url":"https://labthrift.com/guides/time-machine-to-share","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-04"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">Back up a Mac to the house share with Time Machine</span></nav>
+<p class="note">Written 4 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>Back up a Mac to the house share with Time Machine</h1>
+<p class="deck">Point Time Machine at a Samba folder on the old PC. Use a separate share from photos, and cap the size so one Mac does not fill the disk. You don't need a Time Capsule or a NAS for this.</p>
+<p>Haven't made a share yet? Start with <a href="first-file-share">a file share</a>. Opening photos from Finder first is safer: <a href="open-share-from-laptop">open the house share from a laptop</a>. Need the computer's address? <a href="find-the-leftover-box">Find it on the house network</a>. This note is the Mac Time Machine walk on a separate Samba share.</p>
+
+<h2>Skip until the share works and the disk is big enough</h2>
+<p>If Finder cannot open a normal share yet, stop and fix that first. Time Machine wants a lot of free space — often hundreds of gigabytes for one laptop. If the old PC is a 128 GB SSD that already holds the OS, Pi-hole, and photos, skip this and use a USB disk or another old computer for Mac backups instead. Don't put Time Machine on the same tiny photos share you use for day-to-day files.</p>
+
+<h2>What this is</h2>
+<p>macOS Time Machine can back up over SMB when Samba advertises Time Machine support with the fruit module. You make a dedicated folder, tell Samba it is a Time Machine target, set a size cap, then pick that share in System Settings. The Mac creates its own sparsebundle. You are not opening SMB to the internet.</p>
+
+<h2>What you need</h2>
+<ul>
+<li>A Mac on the house network (Wi-Fi is fine; plug a cable for the first long backup if you can)</li>
+<li>SSH or a keyboard on the computer (Debian or Ubuntu Server)</li>
+<li>Free disk room on the computer — check with <a href="leftover-box-disk-space">see if the computer still has room</a></li>
+<li>The Samba username and share password from <a href="leftover-box-samba-password">set or change the house-share password</a></li>
+<li>About twenty minutes for the setup, then leave the first backup running</li>
+</ul>
+
+<h2>1. Make a separate folder</h2>
+<p>Keep Time Machine off the photos folder. Example path:</p>
+<p><code>sudo mkdir -p /srv/timemachine</code></p>
+<p><code>sudo chown youruser:youruser /srv/timemachine</code></p>
+<p>Swap <span><code>youruser</code></span> for the Linux login Samba already uses. Prefer a USB disk or a second internal drive mounted at that path when the system disk is small. See <a href="leftover-box-usb-disk">see if the USB backup disk showed up</a> if you are parking this on a stick or USB drive for now.</p>
+
+<h2>2. Install the Apple-friendly Samba bits</h2>
+<p>You already need Samba for the house folder. Add the VFS modules package if it is not there yet:</p>
+<p><code>sudo apt install samba samba-vfs-modules</code></p>
+<p>Say yes. That package brings the fruit, catia, and streams_xattr modules Time Machine expects.</p>
+
+<h2>3. Add a Time Machine share in smb.conf</h2>
+<p>Open the Samba config:</p>
+<p><code>sudo nano /etc/samba/smb.conf</code></p>
+<p>Leave your existing <span><code>[photos]</code></span> block alone. At the bottom, add a second share. Swap the user and the size cap for yours. Indentation with spaces is fine in this file.</p>
+<pre>[timemachine]
+   path = /srv/timemachine
+   valid users = youruser
+   read only = no
+   browseable = yes
+   vfs objects = catia fruit streams_xattr
+   fruit:time machine = yes
+   fruit:time machine max size = 500G
+</pre>
+<p>The max size is what Samba reports to Time Machine. Cap it so one Mac does not eat the whole disk. Samba's docs say do not store other day-to-day files in a share that uses that size cap — keep photos on <span><code>[photos]</code></span>. Test the file before you restart:</p>
+<p><code>testparm -s</code></p>
+<p>Fix any typo it prints. Then restart Samba:</p>
+<p><code>sudo systemctl restart smbd</code></p>
+<p>If the share password was never set for this user:</p>
+<p><code>sudo smbpasswd -a youruser</code></p>
+
+<h2>4. Point Time Machine at the share (Mac)</h2>
+<p>On the Mac, open Finder → Go → Connect to Server (Command-K). Connect once so the Mac has credentials:</p>
+<p><code>smb://192.168.1.50/timemachine</code></p>
+<p>Swap the number for the computer's address. Sign in as Registered User with the Samba username and share password. Remember the password in the keychain if you want.</p>
+<p>Then open System Settings → General → Time Machine (on older macOS, System Preferences → Time Machine). Click Add Backup Disk. Pick the timemachine share. Enter the same Samba username and password if asked. Start the backup and leave the Mac awake on house Wi-Fi or ethernet for the first long run.</p>
+<p>Don't hand-build a sparsebundle unless a support note tells you to. Let Time Machine create it on the share.</p>
+
+<h2>5. Check that it is writing</h2>
+<p>On the Mac, Time Machine should show a backup in progress, then a recent successful time. On the computer:</p>
+<p><code>ls -la /srv/timemachine</code></p>
+<p>You should see a <span><code>.sparsebundle</code></span> (or similar) for that Mac after the first pass starts. Recheck free space: <a href="leftover-box-disk-space">see if the computer still has room</a>. Prefer a cable for the old PC while big backups run: <a href="leftover-box-ethernet">a cable beats Wi-Fi for the old PC</a>.</p>
+
+<h2>If Time Machine cannot see the disk</h2>
+<p>Full walk when backups fail, stall, or the disk disappears: <a href="when-time-machine-wont-backup">when Time Machine won't back up to the house share</a>. Confirm Finder can still open <span><code>smb://…/timemachine</code></span> on the house network, not guest Wi-Fi. Recheck <span><code>fruit:time machine = yes</code></span> and that <span><code>samba-vfs-modules</code></span> is installed. Run <span><code>testparm -s</code></span> again after edits. Restart <span><code>smbd</code></span>. If a normal photos share also vanished, start with <a href="leftover-box-share-check">when the house share disappeared, check the computer</a>.</p>
+<p>On newer macOS releases, network Time Machine can be picky about SMB signing. If the share mounts in Finder but Time Machine fails with a disconnected-disk style error, Apple and Samba threads often point at an <span><code>/etc/nsmb.conf</code></span> on the Mac with signing enabled — only chase that after the share and fruit lines are confirmed. Keep SMB on the house network only.</p>
+
+<h2>What this is not</h2>
+<p>This is not a reason to buy a Time Capsule, Synology, or a mesh kit on day one. It is not an offsite backup. A second copy of the house folder on USB or another PC is still <a href="first-backup">a backup of the house folder</a> / <a href="backup-to-another-pc">copy to another old computer</a>. It is not forwarding SMB to the internet. Windows File History is a different walk: <a href="file-history-to-share">back up a Windows PC to the house share with File History</a>. This page is Mac only.</p>
+
+<h2>What next</h2>
+<p>Backups failing after setup? <a href="when-time-machine-wont-backup">When Time Machine won't back up to the house share</a>. Leave the first backup finish. Need a plain documents share without Time Machine options? <a href="add-second-share">Add a second house share</a>. Keep using the photos share for day-to-day files: <a href="open-share-from-laptop">open the house share from a laptop</a>. Watch disk room: <a href="leftover-box-disk-space">see if the computer still has room</a>. On Windows, overnight Libraries backups can land on a separate share: <a href="file-history-to-share">File History to the house share</a>. When you want a second copy of the house folder itself, that is still <a href="first-backup">a backup of the house folder</a>. A dedicated file box is later: <a href="first-nas">a first file box (NAS)</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip this if you don't have a Mac.</li>
+<li>Skip this if the computer disk is already tight.</li>
+<li>Skip stuffing Time Machine into the photos share.</li>
+<li>Skip buying a Time Capsule for a first house folder.</li>
+<li>Skip exposing SMB to the internet.</li>
+<li>Skip treating Time Machine as your only copy of the house share.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.samba.org/samba/docs/current/man-html/vfs_fruit.8.html">Samba: vfs_fruit man page</a> (Time Machine options). <a href="https://support.apple.com/guide/mac-help/back-up-files-with-time-machine-mh35860/mac">Apple: back up files with Time Machine</a>. <a href="https://wiki.samba.org/index.php/Configure_Samba_to_Work_Better_with_Mac_OS_X">Samba wiki: better with macOS</a>. Official pages only. Menu labels move by macOS release. For the plain share this builds on, see <a href="first-file-share">a file share</a>. For Finder connect, see <a href="open-share-from-laptop">open the house share from a laptop</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="when-time-machine-wont-backup"><span class="t">When Time Machine won't back up to the house share</span><span class="d">Finder can open the share, or it used to, but Time Machine fails, stalls, or says the disk disappeared. Check the computer, the fruit lines, free space, then the Mac. You don't need a Time Capsule.</span></a>
+<a class="note-row" href="first-file-share"><span class="t">A file share</span><span class="d">A folder on the old PC that the house can open from a laptop or a phone. You don't need a NAS for this.</span></a>
+<a class="note-row" href="add-second-share"><span class="t">Add a second house share</span><span class="d">Make another Samba folder on the old PC: documents next to photos, or a quiet place for laptop backups. Same computer. You don't need a NAS.</span></a>
+<a class="note-row" href="open-share-from-laptop"><span class="t">Open the house share from a laptop</span><span class="d">The house folder is on the old PC. Open it from Windows File Explorer or Mac Finder on the house network. You don't need a NAS for this.</span></a>
+<a class="note-row" href="file-history-to-share"><span class="t">Back up a Windows PC to the house share with File History</span><span class="d">Point Windows File History at a Samba folder on the old PC. Separate share from photos. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="first-backup"><span class="t">A backup of the house folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another old computer. You don't need a NAS for this.</span></a>
+<a class="note-row" href="backup-to-another-pc"><span class="t">Copy the house folder to another old computer</span><span class="d">A second copy of the house folder, over the house network to another old PC. Not only a USB stick. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-samba-password"><span class="t">Set or change the house-share password</span><span class="d">Finder and File Explorer ask for a share password that is not always the login. Samba keeps its own copy. Set it once. Change it when you forget.</span></a>
+<a class="note-row" href="first-nas"><span class="t">A first file box (NAS) for one person</span><span class="d">A quiet box for photos and backups. Two drives if you want sleep.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="open-share-from-laptop"><span class="kicker">Previous</span><span class="t">Open the house share from a laptop</span></a>
+<a rel="next" href="file-history-to-share"><span class="kicker">Next</span><span class="t">Back up a Windows PC to the house share with File History</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

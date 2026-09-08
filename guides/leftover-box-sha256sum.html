@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Check a file fingerprint — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After SSH works, check a file with sha256sum so you know the file you pulled still matches the fingerprint you expected. You don't need a download manager for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Check a file fingerprint — Labthrift">
+<meta property="og:description" content="After SSH works, check a file with sha256sum so you know the file you pulled still matches the fingerprint you expected. You don't need a download manager for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-sha256sum">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-sha256sum">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Check a file fingerprint","description":"After SSH works, check a file with sha256sum so you know the file you pulled still matches the fingerprint you expected. You don't need a download manager for this.","url":"https://labthrift.com/guides/leftover-box-sha256sum","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-30"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"Faster network","item":"https://labthrift.com/guides/#switches"},{"@type":"ListItem","position":3,"name":"Check a file fingerprint"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Check a file fingerprint</span></nav>
+<p class="note">Written 30 Aug 2026. This is a how-to, not a product card.</p>
+<h1>Check a file fingerprint</h1>
+<p class="deck">After SSH works, check a file with <span><code>sha256sum</code></span> so you know the file you pulled still matches the fingerprint you expected. You don&apos;t need a download manager for this.</p>
+<p><a href="leftover-box-curl">Download a file onto the computer</a> put one practice file in home. Tonight you ask for a fingerprint of that file. <span><code>sha256sum</code></span> does that. A fingerprint is a long fixed-looking string made from the file bytes. Change one byte and you get a different string. You are still only practicing on the computer. It does not need a download manager, a new mini PC, or paid checksum software for this one job.</p>
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. Prefer a practice file from <a href="leftover-box-curl">download a file onto the computer</a> (<span><code>~/example.html</code></span>). If you only need to pull the file, that is curl. If you only need a file from your laptop, that is <a href="leftover-box-scp">copy a file to the computer from your laptop</a>. If you only need to compare two files side by side, that is <a href="leftover-box-diff">see whether two files are the same</a>. If you only need a word search, that is <a href="leftover-box-grep">find a word in a file</a>. Skip this whole note if you only need a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</p>
+<h2>What this is</h2>
+<p><span><code>sha256sum</code></span> means print a fingerprint of this file. You type <span><code>sha256sum</code></span>, then a path in home. It prints a long hex string, then the filename. Hex means digits and letters a-f. That string is the fingerprint. Same bytes, same fingerprint. Change one byte, new fingerprint. It is not a download. That is <a href="leftover-box-curl">download a file onto the computer</a>. It is not a copy from your laptop. That is <a href="leftover-box-scp">copy a file to the computer from your laptop</a>. It is not comparing two files line by line. That is <a href="leftover-box-diff">see whether two files are the same</a>. It is not searching for a word. That is <a href="leftover-box-grep">find a word in a file</a>. It is not dumping the file text. That is <a href="leftover-box-cat">read a file without opening the editor</a>. It is not wrapping long lines. That is <a href="leftover-box-fold">wrap long lines</a>. It is not line numbers. That is <a href="leftover-box-nl">number lines</a>.</p>
+<h2>Fingerprint one practice file in home</h2>
+<p>SSH in. Make sure home is where you sit:</p>
+<p><code>pwd</code></p><p>You want a path that ends in your login name. Prefer the practice page from curl:</p>
+<p><code>ls -lh ~/example.html</code></p><p>If that file is missing, make a tiny practice file instead:</p>
+<p><code>printf &apos;hello\n&apos; &gt; ~/check-me.txt</code></p><p>Now ask for the fingerprint:</p>
+<p><code>sha256sum ~/example.html</code></p><p>Or, if you made the tiny file:</p>
+<p><code>sha256sum ~/check-me.txt</code></p><p>You want one long hex string, a space or two, then the filename. That string is the fingerprint. Copy it somewhere safe if a download page later shows an expected fingerprint. Tonight you only need to see that it can print one.</p>
+<p>Run the same command again without changing the file. You want the same fingerprint. Same bytes, same string.</p>
+<h2>Useful extras, still looking only</h2>
+<p>Want to watch the fingerprint change after you rewrite the file?</p>
+<p><code>printf &apos;hello\nchanged\n&apos; &gt; ~/check-me.txt</code></p>
+<p><code>sha256sum ~/check-me.txt</code></p><p>You want a different long hex string. One byte change is enough. That is the whole point of a fingerprint.</p>
+<p>Optional: save an expected fingerprint and check it. First write a line in the format <span><code>sha256sum</code></span> printed (hash, two spaces, path), then:</p>
+<p><code>sha256sum ~/check-me.txt &gt; ~/check-me.sha256</code></p>
+<p><code>sha256sum -c ~/check-me.sha256</code></p><p>You want a line that ends in <span><code>OK</code></span>. <span><code>-c</code></span> means check the fingerprints listed in this file. Keep that file in home tonight.</p>
+<p>Skip <span><code>md5sum</code></span> as tonight&apos;s primary tool. MD5 is an older, weaker fingerprint style. Tonight&apos;s tool is <span><code>sha256sum</code></span>.</p>
+<p>Skip <span><code>openssl dgst</code></span> as tonight&apos;s lesson. Some computers have OpenSSL. Tonight you only need the plain coreutils command.</p>
+<p>If it says command not found for <span><code>sha256sum</code></span>, install coreutils, then try again:</p>
+<p><code>sudo apt install coreutils</code></p><p>Debian and Ubuntu Server usually already have it. That install is not a reason to buy checksum software.</p>
+<p>When you are done looking, throw away the practice files:</p>
+<p><code>rm ~/check-me.txt ~/check-me.sha256</code></p><p>Keep <span><code>~/example.html</code></span> if you still want it from curl, or delete that one the same way. Careful delete only. That is <a href="leftover-box-rm">delete a file carefully</a>.</p>
+<h2>What this is not</h2>
+<p>This is not a download. That is <a href="leftover-box-curl">download a file onto the computer</a>. It is not a copy from your laptop. That is <a href="leftover-box-scp">copy a file to the computer from your laptop</a>. It is not comparing two files line by line. That is <a href="leftover-box-diff">see whether two files are the same</a>. It is not a word search. That is <a href="leftover-box-grep">find a word in a file</a>. It is not a short dump of a file. That is <a href="leftover-box-cat">read a file without opening the editor</a>. It is not wrapping long lines. That is <a href="leftover-box-fold">wrap long lines</a>. It is not line numbers. That is <a href="leftover-box-nl">number lines</a>. It is not file size, date, and permissions. That is <a href="leftover-box-stat">see file size, date, and permissions</a>. It is not a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>. It is not opening SSH to the internet so you can check downloads from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>.</p>
+<h2>What next</h2>
+<p>Need the practice file first? <a href="leftover-box-curl">Download a file onto the computer</a>. Need a file from your laptop instead? <a href="leftover-box-scp">Copy a file to the computer from your laptop</a>. Need to compare two files side by side? <a href="leftover-box-diff">See whether two files are the same</a>. Need a short dump of the file? <a href="leftover-box-cat">Read a file without opening the editor</a>. Need file size, date, and permissions without opening the file? <a href="leftover-box-stat">See file size, date, and permissions</a>. Need the throwaway gone for real? <a href="leftover-box-rm">Delete a file carefully</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip fingerprinting files under <span><code>/etc</code></span>, SSH folders, or paths you don't own. Practice only in home.</li>
+<li>Skip piping fingerprints into <span><code>rm</code></span> or other deletes. Tonight you only print or check a fingerprint.</li>
+<li>Skip <span><code>openssl</code></span> as tonight&apos;s lesson, and skip treating <span><code>md5sum</code></span> as the primary check. Prefer <span><code>sha256sum</code></span>.</li>
+<li>Skip huge OS images tonight. Practice one small home file first.</li>
+<li>Skip buying checksum software. Debian and Ubuntu already ship <span><code>sha256sum</code></span> with coreutils.</li>
+<li>Skip opening SSH to the internet so you can verify downloads from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/coreutils/sha256sum.1.en.html">Debian: sha256sum</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/sha256sum.1.html">Ubuntu: sha256sum</a>. <a href="https://www.gnu.org/software/coreutils/manual/html_node/sha2-utilities.html">GNU coreutils: sha2 utilities</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For a download first, see <a href="leftover-box-curl">download a file onto the computer</a>. For a file from your laptop, see <a href="leftover-box-scp">copy a file to the computer from your laptop</a>. For comparing two files, see <a href="leftover-box-diff">see whether two files are the same</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-curl"><span class="t">Download a file onto the computer</span><span class="d">After SSH works, pull one file from a web address with curl. You don&apos;t need a browser on the computer for this.</span></a>
+<a class="note-row" href="leftover-box-stat"><span class="t">See file size, date, and permissions</span><span class="d">After SSH works, see file size, date, and permissions with stat. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-scp"><span class="t">Copy a file to the computer from your laptop</span><span class="d">After SSH works, use scp to move one file without a USB stick. You don&apos;t need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-diff"><span class="t">See whether two files are the same</span><span class="d">After SSH works, compare two files with diff so you can tell if the spare still matches. You don&apos;t need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-cat"><span class="t">Read a file without opening the editor</span><span class="d">After SSH works, print a file with cat so you can read it without opening nano. Short files only. You don&apos;t need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-internet"><span class="t">Check that the computer can reach the internet</span><span class="d">Before you blame the computer or buy a mesh kit, ping a number past the house router.</span></a>
+<a class="note-row" href="leftover-box-rm"><span class="t">Delete a file carefully</span><span class="d">After SSH works, delete one file with rm -i. Ask first. Skip rm -rf. You don&apos;t need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-curl"><span class="kicker">Previous</span><span class="t">Download a file onto the computer</span></a>
+<a rel="next" href="leftover-box-stat"><span class="kicker">Next</span><span class="t">See file size, date, and permissions</span></a>
+</nav>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

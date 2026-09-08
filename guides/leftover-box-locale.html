@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See language and region — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After printenv, print language and region with locale so character encoding makes sense. You don't need extra software for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See language and region — Labthrift">
+<meta property="og:description" content="After printenv, print language and region with locale so character encoding makes sense. You don't need extra software for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-locale">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-locale">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See language and region","description":"After printenv, print language and region with locale so character encoding makes sense. You don't need extra software for this.","url":"https://labthrift.com/guides/leftover-box-locale","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-31"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"Faster network","item":"https://labthrift.com/guides/#switches"},{"@type":"ListItem","position":3,"name":"See language and region"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">See language and region</span></nav>
+<p class="note">Written 31 Aug 2026. This is a how-to, not a product card.</p>
+<h1>See language and region</h1>
+<p class="deck">After printenv, print language and region with locale so character encoding makes sense. You don&apos;t need extra software for this.</p>
+<p><a href="leftover-box-printenv">See HOME and PATH</a> printed login environment. Tonight you check language and region: <span><code>locale</code></span>. Locale prints LANG and related settings. You are still only practicing in home on the computer. It does not need extra system software, htop, Grafana, or a NAS for this one job.</p>
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If HOME and PATH are what you want, that is <a href="leftover-box-printenv">see HOME and PATH</a>. If the clock zone is what you want to set, that is <a href="leftover-box-timezone">set the clock to your house</a>. If the clock read is what you want, that is <a href="leftover-box-date">see what time the computer thinks it is</a>.</p>
+<h2>What this is</h2>
+<p><span><code>locale</code></span> prints language and region. You type <span><code>locale</code></span>. LANG is the language and region string. Charmap is how characters are encoded. It is not timezone. Timezone sets the clock zone. It is not date. Date reads the clock. It is not printenv. Printenv prints HOME and PATH.</p>
+<h2>Practice locale in home</h2>
+<p>Debian and Ubuntu usually already have <span><code>locale</code></span>. Don't make apt the job.</p>
+<h2>Useful extras, still home only</h2>
+<p>Optional: LANG only:</p>
+<p><code>locale LANG</code></p><p>Optional: character map:</p>
+<p><code>locale charmap</code></p><p>Optional: LANG from the environment:</p>
+<p><code>printenv LANG</code></p><p>That is printenv, not locale. Printenv is <a href="leftover-box-printenv">see HOME and PATH</a>. Skip changing locale tonight. Tonight you take a look.</p>
+<h2>What this is not</h2>
+<p>This is not printenv. That is <a href="leftover-box-printenv">see HOME and PATH</a>. It is not timezone. That is <a href="leftover-box-timezone">set the clock to your house</a>. It is not date. That is <a href="leftover-box-date">see what time the computer thinks it is</a>. It is not cal. That is <a href="leftover-box-cal">see the month on a calendar</a>. It is not OS name. That is <a href="leftover-box-os-release">see which OS the computer is already running</a>. It is not opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>What next</h2>
+<p>Need HOME and PATH? <a href="leftover-box-printenv">See HOME and PATH</a>. Need the terminal name? <a href="leftover-box-tty">See the terminal name</a>. Need the clock? <a href="leftover-box-date">See what time the computer thinks it is</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip changing locale tonight. Tonight you take a look.</li>
+<li>Skip timezone, date, cal, and printenv as tonight&apos;s job. Those pages already exist.</li>
+<li>Skip files under <span><code>/etc</code></span>, SSH folders, or paths you don't own. Practice only in home.</li>
+<li>Skip <span><code>rm -rf</code></span>. Careful delete only: <a href="leftover-box-rm">delete a file carefully</a>.</li>
+<li>Skip opening SSH to the internet so you can do this from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/manpages/locale.1.en.html">Debian: locale(1)</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/locale.1.html">Ubuntu: locale(1)</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For HOME and PATH, see <a href="leftover-box-printenv">see HOME and PATH</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-printenv"><span class="t">See HOME and PATH</span><span class="d">After uname, print HOME and PATH with printenv so login environment makes sense. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-tty"><span class="t">See the terminal name</span><span class="d">After SSH works, print the terminal name with tty so you know which session you are in. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-uname"><span class="t">See kernel name and architecture</span><span class="d">After id, print kernel name and architecture with uname so you know what kernel is running. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-id"><span class="t">See user number and groups</span><span class="d">After whoami, print user number and groups with id so sudo and file ownership make sense. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-whoami"><span class="t">See the login name</span><span class="d">After SSH works, print the login name with whoami so home and sudo make sense. You don&apos;t need extra login software for this.</span></a>
+<a class="note-row" href="leftover-box-date"><span class="t">See what time the computer thinks it is</span><span class="d">After SSH works, print the clock with date. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-timezone"><span class="t">Set the clock to your house</span><span class="d">After SSH works, set the clock to your house. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-cal"><span class="t">See the month on a calendar</span><span class="d">After date, print this month as a grid with cal. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-os-release"><span class="t">See which OS the computer is already running</span><span class="d">After SSH works, see which OS the computer is already running. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-rm"><span class="t">Delete a file carefully</span><span class="d">After SSH works, delete one file with rm -i. Ask first. Skip rm -rf. You don&apos;t need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-printenv"><span class="kicker">Previous</span><span class="t">See HOME and PATH</span></a>
+<a rel="next" href="leftover-box-tty"><span class="kicker">Next</span><span class="t">See the terminal name</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

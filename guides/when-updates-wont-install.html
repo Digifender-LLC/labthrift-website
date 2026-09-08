@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When weekly updates won't install — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="apt says could not get lock, waiting for cache, or dpkg was interrupted. Wait out the other updater, free disk room, then finish the weekly fixes. You don't need a new mini PC.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When weekly updates won't install — Labthrift">
+<meta property="og:description" content="apt says could not get lock, waiting for cache, or dpkg was interrupted. Wait out the other updater, free disk room, then finish the weekly fixes. You don't need a new mini PC.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-updates-wont-install">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-updates-wont-install">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When weekly updates won't install","description":"apt says could not get lock, waiting for cache, or dpkg was interrupted. Wait out the other updater, free disk room, then finish the weekly fixes. You don't need a new mini PC.","url":"https://labthrift.com/guides/when-updates-wont-install","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-05"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When weekly updates won't install</span></nav>
+<p class="note">Written 5 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When weekly updates won't install</h1>
+<p class="deck">apt says could not get lock, waiting for cache, or dpkg was interrupted. Wait out the other updater, free disk room, then finish the weekly fixes. You don't need a new mini PC.</p>
+<p>Haven't done the calm weekly habit yet? That is <a href="leftover-box-updates">keep the computer updated</a>. This note is the failure case: you typed the two commands and apt refused, hung on a lock, or quit mid-install. Pi-hole's own updater is a different page: <a href="update-pihole">keep Pi-hole updated</a>.</p>
+
+<h2>Skip until SSH works</h2>
+<p>You need a login on the computer from the couch: <a href="first-ssh">SSH from the couch</a>. Connect fails? <a href="when-ssh-wont-connect">when SSH won't connect</a>. Don't yank the power cord because an updater is slow. Don't buy a monitoring box for a lock file.</p>
+
+<h2>What this is</h2>
+<p>Ubuntu and Debian let only one package tool touch the system at a time. A weekly <code>apt upgrade</code>, the Software Updater GUI (rare on a server), or <a href="leftover-box-unattended">unattended-upgrades</a> can hold the lock. A full disk can stop the install. A killed upgrade can leave dpkg half-finished. The walk below is wait and look first. Delete lock files only when you know nothing else is running.</p>
+
+<h2>Step 1: copy the exact error</h2>
+<p>Run the weekly pair again so the message is fresh:</p>
+<p><code>sudo apt update</code></p>
+<p><code>sudo apt upgrade</code></p>
+<p>Match what you see:</p>
+<div class="table-wrap">
+<table>
+<tr><th>What you see</th><th>Likely cause</th></tr>
+<tr><td data-label="What you see">Could not get lock / Waiting for cache lock / Unable to acquire the dpkg frontend lock</td><td data-label="Likely cause">Another apt or unattended-upgrades is running. Step 2.</td></tr>
+<tr><td data-label="What you see">dpkg was interrupted / you must manually run dpkg --configure -a</td><td data-label="Likely cause">A previous upgrade stopped mid-way. Step 4.</td></tr>
+<tr><td data-label="What you see">No space left on device / Write error / Unpack failed for lack of space</td><td data-label="Likely cause">System disk is packed. Step 3.</td></tr>
+<tr><td data-label="What you see">Temporary failure resolving / Failed to fetch / 404 Not Found on a mirror</td><td data-label="Likely cause">Name lookup or mirror trouble. Step 5.</td></tr>
+<tr><td data-label="What you see">Held packages / packages have been kept back</td><td data-label="Likely cause">Often fine for a week. Note it. Don't force a dist-upgrade on day one.</td></tr>
+</table>
+</div>
+
+<h2>Step 2: see who holds the lock</h2>
+<p>List apt-related processes:</p>
+<p><code>ps aux | grep -E 'apt|dpkg|unattended' | grep -v grep</code></p>
+<p>If you see <code>apt-get</code>, <code>apt</code>, <code>dpkg</code>, or <code>unattended-upgrade</code>, wait. Five to twenty minutes is normal on an old disk. Watch progress:</p>
+<p><code>sudo tail -f /var/log/unattended-upgrades/unattended-upgrades.log</code></p>
+<p>Press Ctrl-C when the log goes quiet or the process list is empty. Then retry <code>sudo apt update</code> and <code>sudo apt upgrade</code>.</p>
+<p>Still locked with an empty process list after a few minutes? See the lock files without deleting them yet:</p>
+<p><code>ls -l /var/lib/dpkg/lock* /var/lib/apt/lists/lock /var/cache/apt/archives/lock 2>/dev/null</code></p>
+<p>Reboot is the gentle reset when you are sure nothing is installing:</p>
+<p><code>sudo reboot</code></p>
+<p>After it comes back, <a href="find-the-leftover-box">find it on the house network</a>, SSH in, and run the two update commands again. Only if a lock file still blocks with no apt process, ask a friend who knows dpkg before you remove lock files by hand. Deleting the wrong lock while dpkg is mid-write can break the package database.</p>
+
+<h2>Step 3: rule out a full disk</h2>
+<p>Print human sizes:</p>
+<p><code>df -h /</code></p>
+<p>If <code>Use%</code> on <code>/</code> is 95–100%, free room before you fight apt: <a href="when-house-disk-full">when the computer's disk is full</a>. Old package downloads are a cheap first cut: <a href="leftover-box-apt-clean">clear old package downloads when the disk is tight</a>.</p>
+
+<h2>Step 4: finish an interrupted upgrade</h2>
+<p>When apt tells you to configure packages by hand:</p>
+<p><code>sudo dpkg --configure -a</code></p>
+<p>Then:</p>
+<p><code>sudo apt -f install</code></p>
+<p><code>sudo apt update</code></p>
+<p><code>sudo apt upgrade</code></p>
+<p>Say yes to prompts the same way you do on a quiet week. If it asks about restarting services, yes is fine on a house computer that is not a store.</p>
+
+<h2>Step 5: when names or mirrors fail</h2>
+<p>If <code>apt update</code> cannot resolve hosts, check that the computer still reaches the internet:</p>
+<p><code>ping -c 3 1.1.1.1</code></p>
+<p>Then try a name:</p>
+<p><code>ping -c 3 archive.ubuntu.com</code></p>
+<p>Numbers work but names fail? DNS on the computer is wrong. See <a href="leftover-box-dns-check">see which name server the computer is using</a>. Ads may also be back house-wide: <a href="when-ads-come-back">when ads come back</a>. A 404 on one package often clears after another <code>sudo apt update</code>. Skip editing <code>sources.list</code> on day one unless you know the mirror died for good.</p>
+
+<h2>Step 6: finish the week the normal way</h2>
+<p>When the lock is gone and the disk has room:</p>
+<p><code>sudo apt update</code></p>
+<p><code>sudo apt upgrade</code></p>
+<p>Then check whether a reboot is needed: <a href="leftover-box-reboot-needed">see if a reboot is needed</a>. After a reboot, confirm SSH, ads, and the share: <a href="leftover-box-after-reboot">after a reboot, check the computer still does its jobs</a>. Apt still does not refresh Pi-hole itself: <a href="update-pihole">keep Pi-hole updated</a>.</p>
+
+<h2>What this is not</h2>
+<p>This is not a reason to reinstall Ubuntu. It is not <code>rm</code> on every lock file the first time you see the word lock. It is not turning on automatic reboot. It is not a new mini PC because one weekly upgrade waited on unattended-upgrades. It is not Pi-hole's <code>pihole -up</code> failure. That stays on <a href="update-pihole">keep Pi-hole updated</a>.</p>
+
+<h2>What next</h2>
+<p>When the two commands are boring again, the calm habit is <a href="leftover-box-updates">keep the computer updated</a>. When that habit is dull, optional background fixes: <a href="leftover-box-unattended">let the computer apply weekly fixes without you</a> (leave auto-reboot off). Disk still tight after a clean: <a href="when-house-disk-full">when the computer's disk is full</a>. Wrong clock can make mirrors look odd: <a href="when-the-clock-is-wrong">when the computer's clock is wrong</a>. Calm zone set when the year is already right: <a href="leftover-box-timezone">set the computer clock to your house</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip deleting lock files while <code>ps</code> still shows apt or dpkg.</li>
+<li>Skip yanking the power cord to "unstick" an upgrade.</li>
+<li>Skip <code>apt dist-upgrade</code> or changing release pockets on day one.</li>
+<li>Skip a new mini PC or a NAS for a lock message.</li>
+<li>Skip opening the package manager past the house network.</li>
+<li>Skip this if you have never run the weekly two commands. Start with the calm habit first.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/apt/apt.8.en.html">Debian: apt</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man8/apt.8.html">Ubuntu: apt</a>. <a href="https://manpages.debian.org/bookworm/dpkg/dpkg.1.en.html">Debian: dpkg</a>. Official pages only. For the calm weekly habit, see <a href="leftover-box-updates">keep the computer updated</a>. For the login, see <a href="first-ssh">SSH from the couch</a>. For a packed disk, see <a href="when-house-disk-full">when the computer's disk is full</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="leftover-box-updates"><span class="t">Keep the computer updated</span><span class="d">Once a week, give the computer its fixes so SSH and Pi-hole are not sitting on last year's bugs. Skip this until next week if you just finished first weekend.</span></a>
+<a class="note-row" href="leftover-box-reboot-needed"><span class="t">See if a reboot is needed</span><span class="d">After weekly updates, check whether a reboot is needed before you buy a monitoring box.</span></a>
+<a class="note-row" href="leftover-box-after-reboot"><span class="t">After a reboot, check the computer still does its jobs</span><span class="d">The computer came back up. Confirm SSH, house ad block, and the file share still work before you buy anything.</span></a>
+<a class="note-row" href="leftover-box-unattended"><span class="t">Let the computer apply weekly fixes without you</span><span class="d">After the weekly two-command habit is boring, you can let the computer apply those same fixes by itself. Skip this until that habit is boring. Don't let it reboot on its own.</span></a>
+<a class="note-row" href="leftover-box-apt-clean"><span class="t">Clear old package downloads when the disk is tight</span><span class="d">After weekly updates, leftover downloads can sit on the disk. Clear them safely before you buy a bigger drive or a NAS.</span></a>
+<a class="note-row" href="when-house-disk-full"><span class="t">When the computer's disk is full</span><span class="d">Photos won't copy, the share says no space, or df shows the system disk packed. Confirm it is the computer (not the backup stick), free room or move the house folder. You don't need a NAS.</span></a>
+<a class="note-row" href="update-pihole"><span class="t">Keep Pi-hole updated</span><span class="d">Weekly apt does not refresh Pi-hole. Update the software and the block lists on the old PC so ads stay gone. You don't need a new Raspberry Pi.</span></a>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the old PC from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="when-ssh-wont-connect"><span class="t">When SSH won't connect</span><span class="d">SSH hangs, says connection refused, or Permission denied. Check the computer is on, confirm the address, then the user and password. You don't need a new router or a KVM.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-updates"><span class="kicker">Previous</span><span class="t">Keep the computer updated</span></a>
+<a rel="next" href="leftover-box-reboot-needed"><span class="kicker">Next</span><span class="t">See if a reboot is needed</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

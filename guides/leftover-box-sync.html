@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Finish disk writes — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After printf, sync finishes pending disk writes so practice files and USB copies are really on disk before you unplug or power off.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Finish disk writes — Labthrift">
+<meta property="og:description" content="After printf, sync finishes pending disk writes so practice files and USB copies are really on disk before you unplug or power off.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-sync">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-sync">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Finish disk writes","description":"After printf, sync finishes pending disk writes so practice files and USB copies are really on disk before you unplug or power off.","url":"https://labthrift.com/guides/leftover-box-sync","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-01"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"Faster network","item":"https://labthrift.com/guides/#switches"},{"@type":"ListItem","position":3,"name":"Finish disk writes"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Finish disk writes</span></nav>
+<p class="note">Written 1 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>Finish disk writes</h1>
+<p class="deck">After <span><code>printf</code></span>, <span><code>sync</code></span> finishes pending disk writes so practice files and USB copies are really on disk before you unplug or power off. You don't need extra software for this.</p>
+<p><a href="leftover-box-printf">Print words exactly</a> put exact words into a practice file. Tonight you do the last step before you unplug a USB stick or power the computer off. Flush what is still buffered. <span><code>sync</code></span> means flush those pending disk writes. Silence means the kernel finished what it had pending.</p>
+<p>That is not seeing whether a USB disk showed up. That is <a href="leftover-box-usb-disk">see if the USB backup disk showed up</a>. That is not a full shutdown. That is <a href="leftover-box-shutdown">shut down without yanking the plug</a>. You are still only practicing. It does not need htop, Grafana, or a NAS for this one job.</p>
+
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If you only need to write practice words, that is <a href="leftover-box-printf">print words exactly</a> or <a href="leftover-box-echo">put a short line into a file</a>. If you only need to see whether a USB stick appeared, that is <a href="leftover-box-usb-disk">see if the USB backup disk showed up</a>. Skip this whole note if you only want free disk space. That is <a href="leftover-box-disk-space">see if the computer still has room</a>.</p>
+
+<h2>What this is</h2>
+<p><span><code>sync</code></span> asks the computer to finish writing buffered data to disk. Linux often parks writes in memory for a moment so the disk is not hit on every keystroke. That buffer is normal. <span><code>sync</code></span> flushes it. Tonight: one quiet <span><code>sync</code></span> after a practice write.</p>
+<p>Silence and the prompt back means the flush finished. It does not print a progress bar. It does not invent a USB mount. It does not power the computer off.</p>
+
+<h2>Practice sync</h2>
+<p>SSH in.</p>
+<p>Make sure home is where you sit:</p>
+<p><code>pwd</code></p>
+<p>You want a path that ends in your login name.</p>
+<p>If the path is wrong, run this:</p>
+<p><code>cd ~</code></p>
+<p>Optional: park one short practice line so you have something to flush:</p>
+<p><code>printf &apos;hello\n&apos; &gt; ~/sync-a.txt</code></p>
+<p>Then finish disk writes (tonight's job):</p>
+<p><code>sync</code></p>
+<p>You want silence, then the prompt back. That silence means the computer finished flushing what the kernel had pending. That is enough for tonight.</p>
+<p>Optional peek without opening the editor:</p>
+<p><code>cat ~/sync-a.txt</code></p>
+<p>You should see that same short line. Don't make <span><code>cat</code></span> the lesson. When you are done practicing:</p>
+<p><code>rm -i ~/sync-a.txt</code></p>
+<p>Ask first. Say yes only if the name matches. That careful delete is <a href="leftover-box-rm">delete a file carefully</a>. Skip <span><code>rm -rf</code></span>.</p>
+<p>Debian and Ubuntu usually already have <span><code>sync</code></span>. Don't make apt the lesson.</p>
+
+<h2>Useful extras, still home-safe</h2>
+<p>Optional: run <span><code>sync</code></span> again. A second <span><code>sync</code></span> is harmless. Some people type it twice out of habit before they unplug a stick. You don't need twice. One quiet flush after the write is enough for tonight.</p>
+<p>Skip using <span><code>sync</code></span> as a reason to yank a USB stick without checking the mount. Seeing whether the stick showed up is <a href="leftover-box-usb-disk">see if the USB backup disk showed up</a>. Confirming a backup copy is <a href="leftover-box-backup-check">check that the backup actually copied</a>.</p>
+<p>Skip <span><code>dd</code></span> and <span><code>shred</code></span> as tonight&apos;s job. Tonight: a quiet flush after a tiny practice write, not a disk image or a wipe. Skip dropping caches. Skip piping <span><code>sync</code></span> into <span><code>rm</code></span>. Skip huge dumps of <span><code>/etc</code></span>, disks, or logs.</p>
+<p>Skip <span><code>screen</code></span>, <span><code>tmux</code></span>, apt as the lesson, htop, Grafana, and a NAS. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+
+<h2>What this is not</h2>
+<p>This is not <span><code>printf</code></span>. That is <a href="leftover-box-printf">print words exactly</a>. It is not <span><code>echo</code></span>. That is <a href="leftover-box-echo">put a short line into a file</a>. It is not seeing whether a USB disk showed up. That is <a href="leftover-box-usb-disk">see if the USB backup disk showed up</a>. It is not a full power-off. That is <a href="leftover-box-shutdown">shut down without yanking the plug</a>.</p>
+
+<h2>What next</h2>
+<p>Need a peek at file bytes? <a href="leftover-box-od">Peek at file bytes</a>. Need to empty or shrink without deleting the name? <a href="leftover-box-truncate">Empty or shrink a practice file</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip <span><code>printf</code></span> or <span><code>echo</code></span> as tonight&apos;s job if you only came to flush. Those write notes already exist.</li>
+<li>Skip using <span><code>sync</code></span> as permission to yank a USB stick without checking the mount. That check is <a href="leftover-box-usb-disk">see if the USB backup disk showed up</a>.</li>
+<li>Skip shutdown as tonight&apos;s job if you only need a flush. That is <a href="leftover-box-shutdown">shut down without yanking the plug</a>.</li>
+<li>Skip <span><code>dd</code></span>, <span><code>shred</code></span>, dropping caches, and <span><code>sync</code></span> into <span><code>rm</code></span> as tonight&apos;s job.</li>
+<li>Skip huge dumps, files under <span><code>/etc</code></span>, htop, Grafana, and a NAS.</li>
+<li>Skip <span><code>rm -rf</code></span>. Careful delete only: <a href="leftover-box-rm">delete a file carefully</a>.</li>
+<li>Skip opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/coreutils/sync.1.en.html">Debian: sync(1)</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/sync.1.html">Ubuntu: sync(1)</a>. Official pages only. For exact words, see <a href="leftover-box-printf">print words exactly</a>. For a short line, see <a href="leftover-box-echo">put a short line into a file</a>. For the USB look, see <a href="leftover-box-usb-disk">see if the USB backup disk showed up</a>. For a careful delete, see <a href="leftover-box-rm">delete a file carefully</a>. For the login, see <a href="first-ssh">SSH from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-printf"><span class="t">Print words exactly</span><span class="d">After mktemp, print words exactly with printf so practice files (and mktemp drills) get text without extra line echo always adds. You don't need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-od"><span class="t">Peek at file bytes</span><span class="d">After sync (or after writing a practice file), peek with od so you see the characters and bytes that are actually on disk. You don't need extra software beyond coreutils.</span></a>
+<a class="note-row" href="leftover-box-truncate"><span class="t">Empty or shrink a practice file</span><span class="d">After od (or after writing a practice file), use truncate so you empty or shrink the file without deleting its name. You don't need extra software beyond coreutils.</span></a>
+<a class="note-row" href="leftover-box-strings"><span class="t">See printable text with strings</span><span class="d">After od (or after writing a practice file), use strings so you see readable text without dumping every byte. You don't need extra software beyond binutils.</span></a>
+<a class="note-row" href="leftover-box-echo"><span class="t">Put a short line into a file</span><span class="d">After SSH works, put one short line into a file with echo so you don't need to open nano. You don't need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-usb-disk"><span class="t">See if the USB backup disk showed up</span><span class="d">Before you trust the weekly copy, confirm the computer can see the USB disk.</span></a>
+<a class="note-row" href="leftover-box-backup-check"><span class="t">Check that the backup actually copied</span><span class="d">After the copy finishes, look on the USB disk and confirm the files are there before you trust it. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="leftover-box-shutdown"><span class="t">Shut down without yanking the plug</span><span class="d">When you're done for the night, shut it down and let it finish writing files before it powers off. Don't yank the cord. Skip this if you only need a reboot after updates.</span></a>
+<a class="note-row" href="leftover-box-rm"><span class="t">Delete a file carefully</span><span class="d">After SSH works, delete one file with rm -i. Ask first. Skip rm -rf. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-printf"><span class="kicker">Previous</span><span class="t">Print words exactly</span></a>
+<a rel="next" href="leftover-box-od"><span class="kicker">Next</span><span class="t">Peek at file bytes</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

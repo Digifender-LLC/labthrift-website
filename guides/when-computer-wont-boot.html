@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When the old PC won't boot — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="No fans, black screen, or stuck on the logo. Check power, the monitor, a hard power cycle, then try the installer USB before you buy a new board.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When the old PC won't boot — Labthrift">
+<meta property="og:description" content="No fans, black screen, or stuck on the logo. Check power, the monitor, a hard power cycle, then try the installer USB before you buy a new board.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-computer-wont-boot">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-computer-wont-boot">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When the old PC won't boot","description":"No fans, black screen, or stuck on the logo. Check power, the monitor, a hard power cycle, then try the installer USB before you buy a new board.","url":"https://labthrift.com/guides/when-computer-wont-boot","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-06"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When the old PC won't boot</span></nav>
+<p class="note">Written 6 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When the old PC won't boot</h1>
+<p class="deck">No fans, black screen, or stuck on the logo. Check power, the monitor, a hard power cycle, then try the installer USB before you buy a new board.</p>
+<p>Soft-off or a quiet ping check only? That is <a href="leftover-box-still-on">is the computer still on?</a>. House blinked and the working box needs recovery? That is <a href="after-power-outage">after the power comes back</a>. Haven't flashed a stick yet? Start with <a href="make-boot-usb">make a boot USB for the install</a>. Need the one-time boot keys? See <a href="boot-from-usb">boot the old PC from the USB stick</a>. Marketplace disk still full of old Windows? <a href="wipe-marketplace-pc">Wipe it before you install</a>. Ready for the weekend install? <a href="first-weekend">Your first weekend</a>.</p>
+
+<h2>Skip until you have wall power nearby</h2>
+<p>If you are away from the outlet and a known-good cable, wait. Don't order a motherboard from one black screen on the couch. Don't dig through Secure Boot menus before a stick has a chance to boot.</p>
+
+<h2>What this is</h2>
+<p>A Marketplace or retired office PC can look dead: no fans, a black screen, or a logo that never leaves. Often the wall cable is loose, the monitor is on the wrong input, or a soft hang needs a hard cycle. An installer USB that reaches a menu means the board is not dead — the disk or OS is the problem. This note is the calm check before you spend money.</p>
+
+<h2>Step 1: wall power</h2>
+<p>Confirm the outlet works (a lamp is enough). On a desktop, find the rear PSU rocker and set it to on. Seat the power cable at the wall and at the computer. On a laptop, check the charger light and try a known-good brick if you have one.</p>
+
+<h2>Step 2: the monitor</h2>
+<p>Seat the video cable at both ends. Pick the correct input on the screen (HDMI or DisplayPort). If fans spin but the picture stays blank, try another cable or another screen before you blame the board.</p>
+
+<h2>Step 3: power button once</h2>
+<p>Press the power button once. Listen for fans or beeps. Watch for any logo. One press. Then wait a few seconds.</p>
+
+<h2>Step 4: hard cycle</h2>
+<p>Hold the power button about 10 seconds until everything goes dark. Unplug wall power. If the laptop battery comes out, remove it. Wait 30 seconds. Plug power back in (and the battery if you removed it). Press power once.</p>
+
+<h2>Step 5: try the installer USB</h2>
+<p>If you already have a stick from <a href="make-boot-usb">make a boot USB</a>, plug it in and open the one-time boot menu: <a href="boot-from-usb">boot the old PC from the USB stick</a>. Prefer the UEFI USB entry when you see both. If the installer menu appears, the board is not dead — treat it as a disk or OS problem. Marketplace wipe during that install: <a href="wipe-marketplace-pc">wipe a Marketplace PC before you install</a>.</p>
+
+<h2>Step 6 (optional): reseat one RAM stick</h2>
+<p>Only if you are comfortable opening a desktop and it is not under a sealed warranty you care about. Power off. Unplug wall power. Open the case. Pull one module, then push it back until both clips click. Leave sealed laptops alone tonight.</p>
+
+<h2>Step 7: stop for tonight</h2>
+<p>Do not buy a motherboard or a PSU tonight after one black screen. Write down any beep pattern if you heard one — it is a later clue, not a shopping list. Sleep on it. Come back with a known-good stick and a second screen if you still need them.</p>
+
+<h2>What this is not</h2>
+<p>This is not a soft-sleep awake check (<a href="leftover-box-still-on">is the computer still on?</a>). It is not Wake-on-LAN troubleshooting (<a href="when-wol-wont-wake">when Wake-on-LAN won't wake the computer</a>). It is not house-wide blink recovery for a working box (<a href="after-power-outage">after the power comes back</a>). It is not a reason to buy a new mini PC tonight.</p>
+
+<h2>What next</h2>
+<p>Need to write the stick? <a href="make-boot-usb">Make a boot USB for the install</a>. Stick ready, need the boot keys? <a href="boot-from-usb">Boot the old PC from the USB stick</a>. Installer up and you want the weekend path? <a href="first-weekend">Your first weekend</a>. Still choosing Debian vs Ubuntu Server? <a href="what-os-to-pick">What OS to put on it</a>. Soft-off only? <a href="leftover-box-still-on">Is the computer still on?</a>. Stick shows in the menu but the installer never loads? <a href="when-usb-wont-boot">When the boot USB won't start</a>.</p>
+
+<p class="note">Optional: note that the old PC failed to boot (and whether the USB installer came up) in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip buying a new PSU or motherboard tonight after one black screen.</li>
+<li>Skip opening the case if it is under warranty and you are not ready.</li>
+<li>Skip Secure Boot rabbit holes before the stick boots.</li>
+<li>Skip opening SSH to the internet.</li>
+<li>Skip this if fans and SSH are fine and you only need an awake check. Use <a href="leftover-box-still-on">is the computer still on?</a>.</li>
+<li>Skip this if the house blinked and the working box needs recovery. Use <a href="after-power-outage">after the power comes back</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.dell.com/support/kbdoc/en-us/000125184/how-to-use-the-one-time-boot-menu-on-a-dell-pc">Dell: one-time boot menu</a>. <a href="https://ubuntu.com/tutorials/install-ubuntu-server">Ubuntu: install Ubuntu Server</a>. <a href="https://www.debian.org/releases/stable/amd64/ch03s06.en.html">Debian: booting the installer on amd64</a>. Official pages only. For the flash step, see <a href="make-boot-usb">make a boot USB for the install</a>. For the boot keys, see <a href="boot-from-usb">boot the old PC from the USB stick</a>. For a Marketplace wipe, see <a href="wipe-marketplace-pc">wipe a Marketplace PC before you install</a>. For the weekend install, see <a href="first-weekend">your first weekend</a>. For soft-off, see <a href="leftover-box-still-on">is the computer still on?</a>. For a house blink, see <a href="after-power-outage">after the power comes back</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="when-fan-is-loud"><span class="t">When the old PC's fan is loud</span><span class="d">A Marketplace OptiPlex or EliteDesk screams in the living room. Blow the dust, give it air, move it to a closet. Skip a water cooler this weekend.</span></a>
+<a class="note-row" href="leftover-box-still-on"><span class="t">Is the computer still on?</span><span class="d">You left the computer on. This morning ads are back, or SSH hangs. Check if it is awake before you buy anything.</span></a>
+<a class="note-row" href="make-boot-usb"><span class="t">Make a boot USB for the install</span><span class="d">Write Ubuntu Server or Debian onto a USB stick so the old PC can boot the installer. Use Etcher or Rufus. Don't drag the ISO into a folder.</span></a>
+<a class="note-row" href="boot-from-usb"><span class="t">Boot the old PC from the USB stick</span><span class="d">Plug in the installer stick, open the one-time boot menu, and pick the USB. Dell F12, HP Esc then F9, Lenovo F12. Don't dig through every BIOS screen tonight.</span></a>
+<a class="note-row" href="when-usb-wont-boot"><span class="t">When the boot USB won't start</span><span class="d">You flashed the stick and opened the boot menu, but the installer never appears. Try another port, the UEFI line, a reflash, then Secure Boot last. Skip a new mini PC tonight.</span></a>
+<a class="note-row" href="wipe-marketplace-pc"><span class="t">Wipe a Marketplace PC before you install</span><span class="d">A used OptiPlex may still have the last owner's Windows and logins. Wipe the disk with the installer before you plug it into the house network.</span></a>
+<a class="note-row" href="first-weekend"><span class="t">Your first weekend</span><span class="d">Install the OS, name it, and reach it from the couch. Don't buy anything this weekend.</span></a>
+<a class="note-row" href="what-os-to-pick"><span class="t">What OS to put on it</span><span class="d">Debian or Ubuntu Server if you can dedicate the old PC. Leave Windows if you still use the laptop as a laptop.</span></a>
+<a class="note-row" href="start-with-what-you-have"><span class="t">Start with what you already have</span><span class="d">Don't buy anything yet. Old laptop first, or a retired OptiPlex from Marketplace.</span></a>
+<a class="note-row" href="after-power-outage"><span class="t">After the power comes back</span><span class="d">Lights blinked. Ads may be back, SSH may miss the old address, and the share may be gone. Check the computer, find its number, point DNS again if needed, then the share. You don't need a new UPS tonight.</span></a>
+<a class="note-row" href="when-wol-wont-wake"><span class="t">When Wake-on-LAN won't wake the computer</span><span class="d">You sent the magic packet. Fans stay quiet. Check power, cable, MAC, BIOS, and Wake-on: g before you buy a smart plug.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="make-boot-usb"><span class="kicker">Previous</span><span class="t">Make a boot USB for the install</span></a>
+<a rel="next" href="boot-from-usb"><span class="kicker">Next</span><span class="t">Boot the old PC from the USB stick</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

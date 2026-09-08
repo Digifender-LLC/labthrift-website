@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See if the USB backup disk showed up — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Before you trust the weekly copy, confirm the computer can see the USB disk.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See if the USB backup disk showed up — Labthrift">
+<meta property="og:description" content="Before you trust the weekly copy, confirm the computer can see the USB disk.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-usb-disk">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-usb-disk">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See if the USB backup disk showed up","description":"Before you trust the weekly copy, confirm the computer can see the USB disk.","url":"https://labthrift.com/guides/leftover-box-usb-disk","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-27"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#first-nas">File storage</a> / <span aria-current="page">See if the USB backup disk showed up</span></nav>
+<p class="note">Written 27 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>See if the USB backup disk showed up</h1>
+<p class="deck">Before you trust the weekly copy, confirm the computer can see the USB disk.</p>
+<p>Before you trust a USB backup, confirm the computer can see the stick. <span><code>lsblk</code></span> lists the computer's disks. The USB one usually appears as a new <span><code>sd…</code></span> (or <span><code>nvme…</code></span> if that is what you plugged in) with a size that matches the stick. Mount means the computer made the disk's folder visible so a copy can write there.</p>
+
+<h2>Skip until SSH works and one backup is in reach</h2>
+<p>If you have never logged in from the couch, that is <a href="first-ssh">SSH from the couch</a>. If you have never copied the house folder (and are not about to), start with <a href="first-backup">a backup of the house folder</a>. This note assumes you can log in, and you already did one manual backup once, or you are about to.</p>
+
+<h2>What this is</h2>
+<p>A look, not a shopping trip. Plug the USB disk you already have into the computer. Ask whether the computer sees it before you blame rsync or buy a NAS. You are not buying a file box, a new enclosure, or a bigger stick tonight.</p>
+
+<h2>Ask if the computer sees the stick</h2>
+<p>Plug the USB in. Wait a few seconds. SSH in from the couch, then run:</p>
+<p><code>lsblk</code></p>
+<p>Point at a new disk line whose SIZE matches the stick, not the tiny system disk. The computer's own disk is usually the small one you installed Debian or Ubuntu on. That disk size is <a href="leftover-box-disk">see how big the computer disk already is</a>. The USB line is the one that showed up after you plugged in. If nothing new appears, try another port or cable, wait a few seconds, and run the same command again. Don't buy a NAS for a missing USB.</p>
+
+<h2>Optional clearer print</h2>
+<p>If you want filesystem labels too (ext4, exfat, and the like):</p>
+<p><code>lsblk -f</code></p>
+<p>That extra column is a name check, not a wipe. Keep this light. Need a clean Linux filesystem on a spare stick on purpose? That wipe is <a href="format-usb-for-backup">format a USB stick for the house backup</a>.</p>
+
+<h2>If you see it but the backup path failed</h2>
+<p>The computer can see the disk. Confirm the folder you copy into is the mounted USB path from <a href="first-backup">a backup of the house folder</a> (often <span><code>/mnt/backup</code></span>). Then confirm files landed: <a href="leftover-box-backup-check">check that the backup actually copied</a>. If the disk is full, that is <a href="leftover-box-disk-space">see if the computer still has room</a>.</p>
+
+<h2>What next</h2>
+<p>Manual copy: <a href="first-backup">a backup of the house folder</a>. Confirm files landed: <a href="leftover-box-backup-check">check that the backup actually copied</a>. Weekly timer later: <a href="leftover-box-backup-timer">back up the house folder every week without remembering</a>. Skip a NAS for a missing USB.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH fails. That is <a href="first-ssh">SSH from the couch</a>.</li>
+<li>Skip a NAS for a missing USB.</li>
+<li>Skip wiping unless you mean to. That is <a href="format-usb-for-backup">format a USB stick for the house backup</a>.</li>
+<li>Skip buying an enclosure for this look.</li>
+<li>Skip Proxmox tonight. That is <a href="what-is-a-vm">what a VM is, and when you don't need one</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/util-linux/lsblk.8.en.html">Debian: lsblk</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man8/lsblk.8.html">Ubuntu: lsblk</a>. Official pages only. For the copy, see <a href="first-backup">a backup of the house folder</a>. For confirming files landed, see <a href="leftover-box-backup-check">check that the backup actually copied</a>. For copying one file back, see <a href="leftover-box-restore-one">restore one file from the USB backup</a>. For disk size, see <a href="leftover-box-disk">see how big the computer disk already is</a>. For disk room, see <a href="leftover-box-disk-space">see if the computer still has room</a>. For the login, see <a href="first-ssh">SSH from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="format-usb-for-backup"><span class="t">Format a USB stick for the house backup</span><span class="d">Wipe and format a spare USB stick so the old PC can mount it for the house-folder backup. Ext4 for Linux. This erases the stick. You don't need a NAS.</span></a>
+<a class="note-row" href="first-backup"><span class="t">A backup of the house folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another computer. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-backup-check"><span class="t">See if last week's backup actually ran</span><span class="d">After the copy finishes, look on the USB disk and confirm the files are there before you trust it. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="leftover-box-restore-one"><span class="t">Restore one file from the USB backup</span><span class="d">A backup you never copied back is a hope. Pull one file off the USB onto the computer so you know you can get it. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="house-folder-on-usb"><span class="t">Put the house folder on a USB disk</span><span class="d">Move the house share onto a USB disk that stays plugged into the old PC so photos don't fill the system drive. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-backup-timer"><span class="t">Back up the house folder every week without remembering</span><span class="d">After one manual USB (or second-box) copy works, let the computer run the same rsync on a weekly timer. A phone reminder is still fine if you prefer.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="first-backup"><span class="kicker">Previous</span><span class="t">A backup of the house folder</span></a>
+<a rel="next" href="leftover-box-backup-check"><span class="kicker">Next</span><span class="t">See if last week's backup actually ran</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

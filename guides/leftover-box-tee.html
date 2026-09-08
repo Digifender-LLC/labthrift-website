@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Watch and save output at once — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After SSH works, watch command output and save it at the same time with tee. You don't need a file manager for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Watch and save output at once — Labthrift">
+<meta property="og:description" content="After SSH works, watch command output and save it at the same time with tee. You don't need a file manager for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-tee">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-tee">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Watch and save output at once","description":"After SSH works, watch command output and save it at the same time with tee. You don't need a file manager for this.","url":"https://labthrift.com/guides/leftover-box-tee","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-30"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"Faster network","item":"https://labthrift.com/guides/#switches"},{"@type":"ListItem","position":3,"name":"Watch and save output at once"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Watch and save output at once</span></nav>
+<p class="note">Written 30 Aug 2026. This is a how-to, not a product card.</p>
+<h1>Watch and save output at once</h1>
+<p class="deck">After SSH works, watch command output and save it at the same time with <span><code>tee</code></span>. You don&apos;t need a file manager for this.</p>
+<p><a href="leftover-box-pipe">Send output into another command</a> handed print to a second tool. <a href="leftover-box-redirect">Save output to a file</a> parked that print in a file, but the window went quiet. Tonight you see the print <em>and</em> keep a copy. <span><code>tee</code></span> does both. You are still only looking on the computer. It does not need a desktop, a file manager, or a new mini PC for this one job.</p>
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If you only need to hand print to another tool, that is <a href="leftover-box-pipe">send output into another command</a>. If you only need a quiet file and don't care about the window, that is <a href="leftover-box-redirect">save output to a file</a>. If you only need words you typed, that is <a href="leftover-box-echo">put a short line into a file</a>. Skip this whole note if you only need a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</p>
+<h2>What this is</h2>
+<p><span><code>tee</code></span> means show me the print, and also write a copy. You type a tool, a vertical bar, then <span><code>tee</code></span> and a file name. It prints the same lines in your window and parks them in that file. It is the bar from <a href="leftover-box-pipe">send output into another command</a> plus the save from <a href="leftover-box-redirect">save output to a file</a>, in one step. It is not installing anything. It is not a second computer watching the first.</p>
+<h2>Watch a practice dump and keep a copy</h2>
+<p>SSH in. Start with a tool you already used. <span><code>ls</code></span> is a safe first try:</p>
+<p><code>ls &gt; ~/names.txt</code></p><p>That quiet save is <a href="leftover-box-redirect">save output to a file</a>. The window stayed blank. Now try the same list with a copy you can watch:</p>
+<p><code>ls | tee ~/names-tee.txt</code></p><p>You want the folder names on screen, same as a plain <span><code>ls</code></span>. Then peek at the copy:</p>
+<p><code>cat ~/names-tee.txt</code></p><p>You want the same names again. That is the whole first-night trick: print in the window, copy on disk.</p>
+<p>Try a short numbered flood next:</p>
+<p><code>seq 1 20 | tee ~/numbers.txt</code></p><p>You want lines 1 through 20 on screen. Then:</p>
+<p><code>wc -l ~/numbers.txt</code></p><p>You want <span><code>20</code></span>. The file kept every line you just watched.</p>
+<h2>Useful extras, still looking only</h2>
+<p>Need to add to a file you already started, without wiping it?</p>
+<p><code>seq 21 30 | tee -a ~/numbers.txt</code></p><p>You want lines 21 through 30 on screen. <span><code>-a</code></span> means append, same idea as <span><code>&gt;&gt;</code></span> in <a href="leftover-box-redirect">save output to a file</a>. Then:</p>
+<p><code>tail ~/numbers.txt</code></p><p>You want the new lines at the end. That is <a href="leftover-box-tail">see the end of a file</a>.</p>
+<p>Need the cheat sheet on screen and in a file?</p>
+<p><code>ls --help | tee ~/ls-help.txt | less</code></p><p>You want the cheat sheet one screen at a time. Space turns the page. <span><code>q</code></span> leaves. The file still has the full cheat sheet when you leave. That is <span><code>tee</code></span> into <span><code>less</code></span>. Paging alone is <a href="leftover-box-less">read a file one screen at a time</a>.</p>
+<p>If it says command not found for <span><code>tee</code></span> or <span><code>seq</code></span>, install the usual tools, then try again:</p>
+<p><code>sudo apt install coreutils</code></p><p>Debian and Ubuntu Server usually already have them. That install is not a reason to buy a file manager.</p>
+<p>When you are done looking, throw away the practice files:</p>
+<p><code>rm ~/names-tee.txt ~/numbers.txt ~/ls-help.txt</code></p><p>Careful delete only. That is <a href="leftover-box-rm">delete a file carefully</a>.</p>
+<h2>What this is not</h2>
+<p>This is not a quiet save with a blank window. That is <a href="leftover-box-redirect">save output to a file</a>. It is not handing print to another tool without a file. That is <a href="leftover-box-pipe">send output into another command</a>. It is not words you typed. That is <a href="leftover-box-echo">put a short line into a file</a>. It is not the editor. That is <a href="leftover-box-nano">edit a file from the couch</a>. It is not a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</p>
+<h2>What next</h2>
+<p>Need a quiet save with no print in the window? <a href="leftover-box-redirect">Save output to a file</a>. Need to hand print to another tool without a file? <a href="leftover-box-pipe">Send output into another command</a>. Need words you typed? <a href="leftover-box-echo">Put a short line into a file</a>. Need a short dump of the file you just saved? <a href="leftover-box-cat">Read a file without opening the editor</a>. Need to page a file that got long? <a href="leftover-box-less">Read a file one screen at a time</a>. Need the throwaway gone for real? <a href="leftover-box-rm">Delete a file carefully</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip pointing <span><code>tee</code></span> at anything under <span><code>/etc</code></span>, SSH settings, or a file you care about. Practice only in home tonight. <span><code>tee</code></span> without <span><code>-a</code></span> replaces the whole file.</li>
+<li>Skip error pipes, <span><code>2&gt;&amp;1</code></span>, and <span><code>xargs</code></span> tonight. One bar into <span><code>tee</code></span> is enough.</li>
+<li>Skip <span><code>tee</code></span> into <span><code>rm</code></span>, device names, or paths you did not just make. Practice only tools that print, then peek with <span><code>cat</code></span>.</li>
+<li>Skip SSH settings, <span><code>/etc/shadow</code></span>, and anything under <span><code>/etc/ssh</code></span>. Looking at trusted laptop keys is <a href="leftover-box-authorized-keys">see which laptop keys the computer already trusts</a>.</li>
+<li>Skip opening SSH to the internet so you can watch output from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.gnu.org/software/coreutils/manual/html_node/tee-invocation.html">GNU coreutils: tee invocation</a>. <a href="https://manpages.debian.org/bookworm/coreutils/tee.1.en.html">Debian: tee</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/tee.1.html">Ubuntu: tee</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For handing print to another command, see <a href="leftover-box-pipe">send output into another command</a>. For a quiet save, see <a href="leftover-box-redirect">save output to a file</a>. For words you typed, see <a href="leftover-box-echo">put a short line into a file</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-pipe"><span class="t">Send output into another command</span><span class="d">After SSH works, send output into another command with | so a long dump does not flood the window. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-redirect"><span class="t">Save output to a file</span><span class="d">After SSH works, save command output to a file with &gt; so you can read it later. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-echo"><span class="t">Put a short line into a file</span><span class="d">After SSH works, put one short line into a file with echo so you don't need to open nano. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-cat"><span class="t">Read a file without opening the editor</span><span class="d">After SSH works, print a file with cat so you can read it without opening nano. Short files only. You don&apos;t need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-less"><span class="t">Read a file one screen at a time</span><span class="d">After SSH works, open a file with less so a long file does not flood the window. Space turns the page. q leaves. You don&apos;t need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-wc"><span class="t">See how long a file is</span><span class="d">After SSH works, count lines with wc so you know if a dump will flood the window. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-redirect"><span class="kicker">Previous</span><span class="t">Save output to a file</span></a>
+<a rel="next" href="leftover-box-sort"><span class="kicker">Next</span><span class="t">Put lines in order</span></a>
+</nav>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

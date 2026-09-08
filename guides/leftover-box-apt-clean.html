@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Clear old package downloads when the disk is tight - Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After weekly updates, leftover downloads can sit on the disk. Clear them safely before you buy a bigger drive or a NAS.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Clear old package downloads when the disk is tight - Labthrift">
+<meta property="og:description" content="After weekly updates, leftover downloads can sit on the disk. Clear them safely before you buy a bigger drive or a NAS.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-apt-clean">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-apt-clean">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Clear old package downloads when the disk is tight","description":"After weekly updates, leftover downloads can sit on the disk. Clear them safely before you buy a bigger drive or a NAS.","url":"https://labthrift.com/guides/leftover-box-apt-clean","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-26"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#first-nas">File storage</a> / <span aria-current="page">Clear old package downloads when the disk is tight</span></nav>
+<p class="note">Written 26 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Clear old package downloads when the disk is tight</h1>
+<p class="deck">After weekly updates, leftover downloads can sit on the disk. Clear them safely before you buy a bigger drive or a NAS.</p>
+<p>This is a cleanup, not a shopping trip. The computer already has room checks and weekly fixes. You are clearing installer files that pile up after those updates, before you spend money on a bigger drive.</p>
+
+<h2>Skip until you looked at disk room</h2>
+<p>If you have not checked room yet, stop. That look is <a href="leftover-box-disk-space">see if the computer still has room</a>. If you want to see which folders are taking the room, that is <a href="leftover-box-largest-folders">see which folders are eating the disk</a>. From the couch, ask:</p>
+<p><code>df -h</code></p>
+<p>Point at the line that ends in <span><code>/</code></span>. If <span><code>Use%</code></span> is fine, skip this note. If phones and laptops cannot open the house folder, fix that first: <a href="leftover-box-share-check">when the house share disappeared, check the computer</a>.</p>
+
+<h2>What this is</h2>
+<p><span><code>apt</code></span> is the Debian and Ubuntu tool that installs updates. Weekly <a href="leftover-box-updates">updates</a> download installer files into a cache folder. Those files stay after the install finishes. Clearing them frees room. It does not uninstall Pi-hole, Samba, or your house folder.</p>
+
+<h2>See how big the cache is</h2>
+<p>Optional, but nice before you clear:</p>
+<p><code>sudo du -sh /var/cache/apt/archives</code></p>
+<p>That number is the size of the leftover downloads, not your programs.</p>
+
+<h2>Clear it</h2>
+<p>Clear the downloaded package files:</p>
+<p><code>sudo apt clean</code></p>
+<p>That empties the cache. Your installed programs stay. A second, careful step is:</p>
+<p><code>sudo apt autoremove</code></p>
+<p>That removes packages marked unused after upgrades. Skip <span><code>autoremove</code></span> on day one if you are nervous. <span><code>apt clean</code></span> alone is enough for this note.</p>
+
+<h2>Check again</h2>
+<p>Ask about room once more:</p>
+<p><code>df -h</code></p>
+<p>Look at <span><code>/</code></span> again. The longer look is still <a href="leftover-box-disk-space">see if the computer still has room</a>. If it is still full, delete real junk (Downloads and Trash) from that note. Don't buy a NAS for cache files.</p>
+
+<h2>What next</h2>
+<p>If there is no second copy yet, that is <a href="first-backup">a backup of the folder</a>. After one manual copy works, confirm it with <a href="leftover-box-backup-check">check that the backup actually copied</a>. Skip a NAS. Skip a new internal drive this weekend. Skip filling the old laptop with a movie library.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip this note if disk room is fine.</li>
+<li>Skip this note if you never ran updates.</li>
+<li>Skip a NAS for this.</li>
+<li>Skip deleting <span><code>/srv/share</code></span> to "make room."</li>
+<li>Skip random <span><code>rm -rf</code></span> on system folders.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/apt/apt.8.en.html">Debian: apt</a> (clean). <a href="https://manpages.ubuntu.com/manpages/noble/en/man8/apt.8.html">Ubuntu: apt</a> (clean). Official pages only. For disk room, see <a href="leftover-box-disk-space">see if the computer still has room</a>. For weekly fixes, see <a href="leftover-box-updates">keep the computer updated</a>. For the share, see <a href="first-file-share">a file share on the computer</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="when-updates-wont-install"><span class="t">When weekly updates won't install</span><span class="d">apt says could not get lock, waiting for cache, or dpkg was interrupted. Wait out the other updater, free disk room, then finish the weekly fixes. You don't need a new mini PC.</span></a>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="leftover-box-largest-folders"><span class="t">See which folders are eating the disk</span><span class="d">Before you buy a bigger drive or a NAS, ask which folders are taking the room.</span></a>
+<a class="note-row" href="leftover-box-updates"><span class="t">Keep the computer updated</span><span class="d">Once a week, give the computer its fixes so SSH and Pi-hole are not sitting on last year's bugs. Skip this until next week if you just finished first weekend.</span></a>
+<a class="note-row" href="first-backup"><span class="t">A backup of the folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another old PC. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-share-check"><span class="t">When the house share disappeared, check the computer</span><span class="d">The computer is awake, but Finder or File Explorer cannot see the folder. Check that Samba is still running before you buy a NAS.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-largest-folders"><span class="kicker">Previous</span><span class="t">See which folders are eating the disk</span></a>
+<a rel="next" href="leftover-box-old-logs"><span class="kicker">Next</span><span class="t">Clear old logs when the disk is tight</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

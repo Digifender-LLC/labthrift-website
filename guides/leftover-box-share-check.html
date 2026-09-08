@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When the house share disappeared, check the computer — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="The computer is awake, but Finder or File Explorer cannot see the folder. Check that Samba is still running before you buy a NAS.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When the house share disappeared, check the computer — Labthrift">
+<meta property="og:description" content="The computer is awake, but Finder or File Explorer cannot see the folder. Check that Samba is still running before you buy a NAS.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-share-check">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-share-check">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When the house share disappeared, check the computer","description":"The computer is awake, but Finder or File Explorer cannot see the folder. Check that Samba is still running before you buy a NAS.","url":"https://labthrift.com/guides/leftover-box-share-check","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-26"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#first-nas">File storage</a> / <span aria-current="page">When the house share disappeared, check the computer</span></nav>
+<p class="note">Written 26 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>When the house share disappeared, check the computer</h1>
+<p class="deck">The computer is awake, but Finder or File Explorer cannot see the folder. Check that Samba is still running before you buy a NAS.</p>
+<p>The share is a folder the house opens over the network. Samba is the program that serves it. If Finder or File Explorer cannot see that folder, Samba usually stopped, or the firewall hid it. You don't need a NAS for this. Check the computer that already served it once.</p>
+
+<h2>Skip until the computer is awake</h2>
+<p>If ping and SSH fail, fix that first in <a href="leftover-box-still-on">is the computer still on?</a> This note assumes the computer answers SSH from the couch.</p>
+
+<h2>Skip until a share worked once</h2>
+<p>If you never made the house folder, start with <a href="first-file-share">a file share on the computer</a>. This note is for the morning when Finder or File Explorer cannot see a folder that used to work.</p>
+
+<h2>Is Samba still running?</h2>
+<p>SSH from the couch, then:</p>
+<p><code>systemctl is-active smbd</code></p>
+<p>You want active. Some computers also run <span><code>nmbd</code></span>, a helper that helps Windows find the share by name. If that service is there:</p>
+<p><code>systemctl is-active nmbd</code></p>
+<p>You want active. If you see the unit was not found, skip <span><code>nmbd</code></span>.</p>
+<p>If <span><code>smbd</code></span> is not active, restart it:</p>
+<p><code>sudo systemctl restart smbd</code></p>
+<p>If <span><code>nmbd</code></span> exists, restart that too:</p>
+<p><code>sudo systemctl restart nmbd</code></p>
+<p>Then try the share again from the laptop, the way <a href="first-file-share">a file share on the computer</a> taught, or from a phone in <a href="open-share-from-phone">open the house share from a phone</a>.</p>
+
+<h2>Firewall can hide the share</h2>
+<p>If ufw is on, it can hide the share. Check:</p>
+<p><code>sudo ufw status</code></p>
+<p>If Status is active, allow Samba:</p>
+<p><code>sudo ufw allow Samba</code></p>
+<p>That is the same rule as <a href="leftover-box-ufw">turn on a simple firewall without locking yourself out</a>. House network only. Don't forward SMB ports on the router.</p>
+
+<h2>Disk full can look like a dead share</h2>
+<p>Photos stop copying when the disk is full. That can look like the share died. The quick look is <a href="leftover-box-disk-space">see if the computer still has room</a>.</p>
+
+<h2>Wrong password is not a vanished share</h2>
+<p>If Finder or File Explorer asks for a password and the login does not work, the share is still there. Samba keeps its own copy. That is <a href="leftover-box-samba-password">set or change the house-share password</a>. This note is for when the folder itself disappeared.</p>
+
+<h2>Still invisible?</h2>
+<p>Re-check the computer address and the share name from <a href="first-file-share">a file share on the computer</a>. On Windows that is <span><code>\\leftover-address\photos</code></span> in File Explorer. On a Mac that is <span><code>smb://leftover-address/photos</code></span> in Finder. If ping leftover fails but the number still works, <a href="leftover-box-hostname">give the computer a name that sticks</a>. Don't buy a NAS for this.</p>
+
+<h2>What next</h2>
+<p>Leave it. Skip a NAS. Skip RAID. Skip exposing SMB to the internet. If a restart did not help, that is <a href="leftover-box-read-logs">when something broke, look at the log</a>. Check live connections with <a href="see-who-uses-share">see who is using the house share</a>. When you want a second copy, that is <a href="first-backup">a backup of the house folder</a>. Soft restart without a full reboot: <a href="restart-house-services">restart Pi-hole or the house share</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if the computer is off.</li>
+<li>Skip if the share was never set up.</li>
+<li>Skip a NAS.</li>
+<li>Skip RAID.</li>
+<li>Skip opening SMB to the internet.</li>
+<li>Skip a second box for this check.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://wiki.samba.org/index.php/Setting_up_Samba_as_a_Standalone_Server">Samba wiki: standalone server</a>. <a href="https://ubuntu.com/server/docs/how-to/samba/file-server/">Ubuntu Server: Samba as a file server</a>. <a href="https://ubuntu.com/tutorials/install-and-configure-samba">Ubuntu: install and configure Samba</a>. Official pages only. For the awake check, see <a href="leftover-box-still-on">is the computer still on?</a>. For the share this looks at, see <a href="first-file-share">a file share on the computer</a>. For the firewall ports, see <a href="leftover-box-ufw">turn on a simple firewall without locking yourself out</a>. For disk room, see <a href="leftover-box-disk-space">see if the computer still has room</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-file-share"><span class="t">A file share on the computer</span><span class="d">A folder on the computer that the house can open from a laptop or a phone. You don't need a NAS for this.</span></a>
+<a class="note-row" href="restart-house-services"><span class="t">Restart Pi-hole or the house share</span><span class="d">Ads vanished or Finder lost the folder, but the computer is still on. Restart the one service that died. You don't need a full reboot or a new mini PC.</span></a>
+<a class="note-row" href="see-who-uses-share"><span class="t">See who is using the house share</span><span class="d">Check which logins and devices are connected to the Samba folder on the old PC. smbstatus. You don't need a NAS.</span></a>
+<a class="note-row" href="open-share-from-phone"><span class="t">Open the house share from a phone</span><span class="d">The house folder is on the old PC. Open it from an iPhone or Android on house Wi-Fi. You don't need a NAS app for this.</span></a>
+<a class="note-row" href="leftover-box-samba-password"><span class="t">Set or change the house-share password</span><span class="d">Finder and File Explorer ask for a share password that is not always the login. Samba keeps its own copy. Set it once. Change it when you forget.</span></a>
+<a class="note-row" href="leftover-box-ufw"><span class="t">Turn on a simple firewall without locking yourself out</span><span class="d">After SSH from the couch works, allow OpenSSH, then turn on ufw. The computer stays reachable. Surprise inbound ports don't.</span></a>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="leftover-box-still-on"><span class="t">Is the computer still on?</span><span class="d">You left the computer on. This morning ads are back, or SSH hangs. Check if it is awake before you buy anything.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-samba-password"><span class="kicker">Previous</span><span class="t">Set or change the house-share password</span></a>
+<a rel="next" href="leftover-box-disk-space"><span class="kicker">Next</span><span class="t">See if the computer still has room</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

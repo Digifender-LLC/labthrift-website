@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See if any house jobs failed to start — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After a reboot, check failed units before you blame the network or buy a new box.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See if any house jobs failed to start — Labthrift">
+<meta property="og:description" content="After a reboot, check failed units before you blame the network or buy a new box.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-failed-units">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-failed-units">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See if any house jobs failed to start","description":"After a reboot, check failed units before you blame the network or buy a new box.","url":"https://labthrift.com/guides/leftover-box-failed-units","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-27"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">See if any house jobs failed to start</span></nav>
+<p class="note">Written 27 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>See if any house jobs failed to start</h1>
+<p class="deck">After a reboot, check failed units before you blame the network or buy a new box.</p>
+<p>After a reboot, or when the share, ad block, or backup feels dead, ask which house jobs failed before you rip cables or buy gear. A unit is one house program systemd tries to keep running (Pi-hole, Samba, a backup timer). <span><code>systemctl --failed</code></span> lists the ones that tried and lost.</p>
+
+<h2>Skip until SSH works</h2>
+<p>If ping fails and SSH hangs, start with <a href="leftover-box-still-on">is the computer still on?</a> If you have never logged in from the couch, that is <a href="first-ssh">SSH from the couch</a>. If the computer just came back up and you have not checked the house jobs yet, start with <a href="leftover-box-after-reboot">after a reboot, check the computer still does its jobs</a>. This note assumes you can log in from the couch.</p>
+
+<h2>What this is</h2>
+<p>A look, not a shopping trip. After a reboot, or when the share, ad block, or backup feels dead, ask which jobs failed before you rip cables or buy gear. You are not buying a switch for this look.</p>
+
+<h2>Ask which jobs failed</h2>
+<p>SSH in from the couch, then run:</p>
+<p><code>systemctl --failed</code></p>
+<p>Empty, or a line that says <span><code>0 loaded units listed</code></span>, means nothing failed this way. If names appear (smbd, pihole-FTL, a timer), that is the clue. Don't buy a switch for this look.</p>
+
+<h2>Optional one-liner for one failed name</h2>
+<p>If a name showed up and you want a short reason:</p>
+<p><code>systemctl status NAME</code></p>
+<p>Replace NAME with the short name you saw. Enough to see <span><code>Active: failed</code></span> and a short reason. For a deeper diary, that is <a href="leftover-box-read-logs">when something broke, look at the log</a>. Don't edit unit files tonight.</p>
+
+<h2>If something failed</h2>
+<p>Restart that one job only if you already know it:</p>
+<p><code>sudo systemctl restart NAME</code></p>
+<p>One careful restart, then re-check:</p>
+<p><code>systemctl --failed</code></p>
+<p>If it fails again, read the log. Don't stack random installs. The morning checklist is <a href="leftover-box-after-reboot">after a reboot, check the computer still does its jobs</a>.</p>
+
+<h2>What next</h2>
+<p>Leave it. The morning checklist stays <a href="leftover-box-after-reboot">after a reboot, check the computer still does its jobs</a>. Boot start stays <a href="leftover-box-enable-boot">make sure house jobs start after every reboot</a>. Logs stay <a href="leftover-box-read-logs">when something broke, look at the log</a>. If the computer feels slow, memory is <a href="leftover-box-free-memory">see if the computer still has free memory</a> and disk is <a href="leftover-box-disk-space">see if the computer still has room</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH fails. That is <a href="leftover-box-still-on">is the computer still on?</a> or <a href="first-ssh">SSH from the couch</a>.</li>
+<li>Skip buying a new mini PC for one failed unit.</li>
+<li>Skip editing unit files tonight.</li>
+<li>Skip a NAS for this look.</li>
+<li>Skip Proxmox tonight. That is <a href="what-is-a-vm">what a VM is, and when you don't need one</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/systemd/systemctl.1.en.html">Debian: systemctl</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/systemctl.1.html">Ubuntu: systemctl</a>. Official pages only. For the reboot check, see <a href="leftover-box-after-reboot">after a reboot, check the computer still does its jobs</a>. For the log look, see <a href="leftover-box-read-logs">when something broke, look at the log</a>. For the awake check, see <a href="leftover-box-still-on">is the computer still on?</a>. For the login, see <a href="first-ssh">SSH from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="leftover-box-enable-boot"><span class="t">Make sure house jobs start after every reboot</span><span class="d">Before you buy a monitoring box, check that Pi-hole and the house share are set to start when the computer boots.</span></a>
+<a class="note-row" href="leftover-box-after-reboot"><span class="t">After a reboot, check the computer still does its jobs</span><span class="d">The computer came back up. Confirm SSH, house ad block, and the file share still work before you buy anything.</span></a>
+<a class="note-row" href="leftover-box-read-logs"><span class="t">When something broke, look at the log</span><span class="d">SSH works, but a house job doesn't. Read the program's recent log before you buy a monitoring box.</span></a>
+<a class="note-row" href="leftover-box-free-memory"><span class="t">See if the computer still has free memory</span><span class="d">The computer feels slow. Check free memory before you buy a new mini PC.</span></a>
+<a class="note-row" href="leftover-box-whats-busy"><span class="t">See what is keeping the computer busy</span><span class="d">The computer feels slow. Check which program is using the CPU before you buy a new mini PC.</span></a>
+<a class="note-row" href="leftover-box-still-on"><span class="t">Is the computer still on?</span><span class="d">You left the computer on. This morning ads are back, or SSH hangs. Check if it is awake before you buy anything.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-whats-busy"><span class="kicker">Previous</span><span class="t">See what is keeping the computer busy</span></a>
+<a rel="next" href="2-5g-switch"><span class="kicker">Next</span><span class="t">A faster switch for a first home lab</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

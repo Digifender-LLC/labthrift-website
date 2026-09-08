@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Quiet overnight backups with Synology DSM: DS224+ — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Quiet overnight backups with Synology DSM when the Plus extras matter. Dual gigabit and a 6 GB RAM lid are the ceiling. Skip Plus if sleep backups alone are the job.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Quiet overnight backups with Synology DSM: DS224+ — Labthrift">
+<meta property="og:description" content="Quiet overnight backups with Synology DSM when the Plus extras matter. Dual gigabit and a 6 GB RAM lid are the ceiling. Skip Plus if sleep backups alone are the job.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/synology-ds224-plus-review">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/synology-ds224-plus-review">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BlogPosting",
+ "headline": "Quiet overnight backups with Synology DSM: DS224+",
+ "description": "Quiet overnight backups with Synology DSM when the Plus extras matter. Dual gigabit and a 6 GB RAM lid are the ceiling. Skip Plus if sleep backups alone are the job.",
+ "url": "https://labthrift.com/guides/synology-ds224-plus-review",
+ "image": "https://labthrift.com/assets/og-1200.png",
+ "datePublished": "2026-08-22"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+ {
+ "@type": "ListItem",
+ "position": 1,
+ "name": "Home",
+ "item": "https://labthrift.com/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 2,
+ "name": "Notes",
+ "item": "https://labthrift.com/guides/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 3,
+ "name": "First NAS",
+ "item": "https://labthrift.com/guides/#first-nas"
+ },
+ {
+ "@type": "ListItem",
+ "position": 4,
+ "name": "Quiet overnight backups with Synology DSM: DS224+",
+ "item": "https://labthrift.com/guides/synology-ds224-plus-review"
+ }
+ ]
+}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#first-nas">File storage</a> / <span aria-current="page">Quiet overnight backups with Synology DSM: DS224+</span></nav>
+<p class="note">Written 22 Aug 2026. Specs from the maker pages linked below. Prices from those stores. I haven't used these. Confirm the diskless SKU before you click. Amazon is full of drive bundles.</p>
+<h1>Quiet overnight backups with Synology DSM: DS224+</h1>
+<p class="deck">Quiet overnight backups with Synology DSM when the Plus extras matter. Dual gigabit and a 6 GB RAM lid are the ceiling. Skip Plus if sleep backups alone are the job.</p>
+<p>Quiet overnight backups with Synology DSM when the Plus extras matter. This is not the <a href="first-nas">first-NAS three-way</a>. That page already parks DS224+ as the “want sleep” pick against a 10G UGREEN. This is the single-SKU note: what the chassis actually is, what DSM still wins, and the day you should stop buying Plus 2-bay hardware.</p>
+<p>Official hardware: Intel Celeron J4125 (4C/4T, 2.0 / 2.7 GHz), 2 GB DDR4 non-ECC plus one slot, official max 6 GB (2+4). Two hot-swap bays for 3.5" SATA HDD or 2.5" SATA SSD. Dual 1GbE (MTU 1500). Two USB 3.2 Gen 1. One 92 mm fan. No M.2. No PCIe. 165 × 108 × 232.2 mm, 1.30 kg. 60 W brick. RAID: SHR, Basic, JBOD, 0, 1. Two-year hardware warranty, extendable to four with Extended Warranty Plus in NA/EU. Spec PDF last updated 17 Jun 2026.</p>
+<p>Synology’s own lab numbers: 14.69 W access, 4.41 W HDD hibernation, 22 dB(A) idle with Synology HDDs at 1 m. Scheduled power on/off is in the spec. That is why this box still belongs in a bedroom more than a 10G 4-bay does. Maker figures, not a Labthrift wall-watt log.</p>
+<p>DSM is still the restore story people have actually used. Hyper Backup, Photos, snapshots, and a package list that does not require you to live in a forum. Virtual Machine Manager is “recommended 2 VMs.” SAN Manager is a hard lid: 2 iSCSI targets, 4 LUNs. That is a product limit, not a drive limit. Dual 1GbE means a single client tops out around 110 MB/s. There is no NIC upgrade path.</p>
+<p>Drives are the real bill. Buy <a href="nas-hdd-picks-2026-cmr">CMR NAS HDDs</a> (WD Red Plus, IronWolf, Toshiba N300). Skip WD Red <code>EFAX</code> (DM-SMR), WD Blue 3.5" <code>EZAZ</code>, and BarraCuda 3.5" 4 / 8 TB (SMR). IronWolf 1–6 TB SKUs are 5400 RPM; the 8 TB <code>ST8000VN004</code> is 7200. 5400 / 5640 RPM NAS drives are fine for Hyper Backup and Time Machine. They are the wrong only datastore for Proxmox over iSCSI.</p>
+
+<h2>Street, 22 Aug 2026</h2>
+<div class="table-wrap">
+<table>
+<tr><th>Path</th><th>Listing</th><th>Note</th></tr>
+<tr class="pick"><td data-label="Path">Diskless chassis</td><td data-label="Listing">Synology-class US MSRP cited at $299.99 (FrontDeskReview, verified against synology.com 27 Jun 2026).</td><td data-label="Note">Amazon diskless ASIN <a href="https://www.amazon.com/Synology-2-Bay-DiskStation-DS224-Diskless/dp/B0C6927XPX">B0C6927XPX</a>. A 16 Aug 2026 price-history snapshot showed $499.99 on that ASIN. Third-party / bundle noise. Confirm the diskless card. B&amp;H: <a href="https://www.bhphotovideo.com/c/product/1781611-REG/synology_2_bay_diskstation_ds224_compact.html">1781611-REG</a>.</td></tr>
+<tr><td data-label="Path">Skip bundles</td><td data-label="Listing">B0CTQMPJ9M / B0FZXFXRHJ class drive kits</td><td data-label="Note">Don't buy a 16 TB reseller bundle to “save a click.”</td></tr>
+</table>
+</div>
+<p>Need four bays and still want DSM? <a href="synology-ds423-plus-review">DS423+</a>. Same J4125, same 1GbE, same 6 GB lid, plus M.2. Head-to-head: <a href="ds224-plus-vs-ds423-plus">DS224+ vs DS423+</a>. RAID question: <a href="synology-shr-vs-raid-1">SHR vs RAID 1</a>. Want 2.5G without paying for 10G? <a href="ugreen-dxp2800-review">UGREEN DXP2800</a>.</p>
+<h2>Skip</h2>
+<p>Skip this box the day you want 2.5G, a VM datastore, or more than two bays. Skip using it as the only iSCSI LUN for Proxmox. Skip a used DS918+. No current Synology Certified Refurbished listing, and third-party “refurb” is out. Skip filling the bays with old laptop HDDs; see <a href="nas-2-5-vs-3-5-drives">2.5 vs 3.5</a>.</p>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.synology.com/en-us/products/DS224+">Synology DS224+ product page</a> (hardware + DSM tables, fetched 22 Aug 2026). <a href="https://global.download.synology.com/download/Document/Hardware/ProductSpec/DiskStation/24-year/DS224+/enu/Product_Spec_DS224+_enu.pdf">Product spec PDF</a> (updated 17 Jun 2026). Amazon B0C6927XPX. B&amp;H 1781611-REG. FrontDeskReview / synology.com $299.99 MSRP cite, 27 Jun 2026.</p>
+</section>
+
+
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="synology-ds423-plus-review"><span class="t">Four-bay overnight backups on DSM when two bays are not enough: DS423+</span><span class="d">Four-bay overnight backups on Synology DSM when two bays are not enough. Still gigabit.</span></a>
+<a class="note-row" href="ugreen-dxp2800-review"><span class="t">Quiet overnight photos on a 2-bay with a faster port: UGREEN DXP2800</span><span class="d">Quiet overnight photos on a 2-bay with a faster port, without paying for 10G.</span></a>
+<a class="note-row" href="terramaster-f2-425-review"><span class="t">Cheap quiet 2-bay when you want Intel and don't need Synology DSM: TerraMaster F2-425</span><span class="d">Cheap quiet 2-bay with one faster port when you want Intel and don't need Synology DSM.</span></a>
+</section>
+
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="synology-ds223-review"><span class="kicker">Previous</span><span class="t">Quiet overnight backups on DSM without the Plus tax: DS223</span></a>
+<a rel="next" href="synology-ds423-plus-review"><span class="kicker">Next</span><span class="t">Four-bay overnight backups on DSM when two bays are not enough: DS423+</span></a>
+</nav>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+</p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

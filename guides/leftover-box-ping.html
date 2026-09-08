@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Check that the computer can reach the house router — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Before you blame the switch or buy a new cable, ping the router from the computer.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Check that the computer can reach the house router — Labthrift">
+<meta property="og:description" content="Before you blame the switch or buy a new cable, ping the router from the computer.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-ping">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-ping">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Check that the computer can reach the house router","description":"Before you blame the switch or buy a new cable, ping the router from the computer.","url":"https://labthrift.com/guides/leftover-box-ping","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-27"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Check that the computer can reach the house router</span></nav>
+<p class="note">Written 27 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Check that the computer can reach the house router</h1>
+<p class="deck">Before you blame the switch or buy a new cable, ping the router from the computer.</p>
+<p>Ping is a tiny "are you there?" check. The gateway (default route) is the house router's address on your network, the first hop out of the computer. You already know the computer's own number from <a href="leftover-box-ip-addr">see the computer's address on the house network</a>. This note checks the path to the router.</p>
+
+<h2>Skip until SSH works</h2>
+<p>If you have never logged in from the couch, that is <a href="first-ssh">SSH from the couch</a>. You can also type this at the keyboard. Prefer this look after a cable is plugged in and you know the address: <a href="leftover-box-ethernet">a cable beats Wi-Fi for the computer</a>, then <a href="leftover-box-ip-addr">see the computer's address on the house network</a>. This note assumes you can log in from the couch, or sit at the keyboard.</p>
+
+<h2>What this is</h2>
+<p>A look, not a shopping trip. If ping to the router fails, fix the cable, Wi-Fi, or awake check before you buy a 2.5G switch. Start with <a href="leftover-box-still-on">is the computer still on?</a> and <a href="leftover-box-ethernet">a cable beats Wi-Fi for the computer</a>. Don't buy a switch for a failed ping.</p>
+
+<h2>Find the router number</h2>
+<p>SSH in from the couch, or sit at the keyboard, then ask:</p>
+<p><code>ip route</code></p>
+<p>Point at the <span><code>default via …</code></span> line. That via address is the gateway (the house router). It often looks like <span><code>192.168.1.1</code></span> or <span><code>10.0.0.1</code></span>.</p>
+
+<h2>Ask</h2>
+<p>Ping that gateway three times. Replace GATEWAY with the via number you just saw:</p>
+<p><code>ping -c 3 GATEWAY</code></p>
+<p>Three replies with times mean the computer can reach the router. 100% loss means the path is broken: cable, sleep, or wrong network. That is <a href="leftover-box-still-on">is the computer still on?</a>, <a href="leftover-box-ethernet">a cable beats Wi-Fi for the computer</a>, or <a href="leftover-box-house-network">keep the computer on the house network</a>.</p>
+
+<h2>Ping past the router</h2>
+<p>Only after the router replies. That look is its own note: <a href="leftover-box-internet">check that the computer can reach the internet</a>.</p>
+
+<h2>What next</h2>
+<p>Past the router: <a href="leftover-box-internet">check that the computer can reach the internet</a>. Cable speed: <a href="leftover-box-link-speed">see the cable speed</a>. Write down the hardware address: <a href="leftover-box-mac-addr">see the computer's hardware address</a>. Keep the number stable: <a href="leftover-box-dhcp-reservation">keep the computer on the same number</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH and the keyboard both fail. That is <a href="leftover-box-still-on">is the computer still on?</a> or <a href="first-ssh">SSH from the couch</a>.</li>
+<li>Skip a new switch for a failed ping.</li>
+<li>Skip forwarding port 22.</li>
+<li>Skip buying a NAS for this look.</li>
+<li>Skip Proxmox tonight. That is <a href="what-is-a-vm">what a VM is, and when you don't need one</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/iproute2/ip.8.en.html">Debian: ip</a>. <a href="https://manpages.debian.org/bookworm/iputils-ping/ping.8.en.html">Debian: ping</a>. Official pages only. For the address, see <a href="leftover-box-ip-addr">see the computer's address on the house network</a>. For the cable, see <a href="leftover-box-ethernet">a cable beats Wi-Fi for the computer</a>. For ping past the router, see <a href="leftover-box-internet">check that the computer can reach the internet</a>. For the cable speed, see <a href="leftover-box-link-speed">see the cable speed</a>. For the hardware address, see <a href="leftover-box-mac-addr">see the computer's hardware address</a>. For keeping the number, see <a href="leftover-box-dhcp-reservation">keep the computer on the same number</a>. For the awake check, see <a href="leftover-box-still-on">is the computer still on?</a>. For DNS after the router works, see <a href="leftover-box-dns-check">see which name server the computer is using</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="leftover-box-ip-addr"><span class="t">See the computer's address on the house network</span><span class="d">You need the computer's number before you reserve DHCP or SSH from another room.</span></a>
+<a class="note-row" href="leftover-box-ethernet"><span class="t">Prefer a cable on the computer</span><span class="d">Once the computer is doing real work, plug it into the router with a cable. House Wi-Fi can wait. Skip this if it is already on a cable.</span></a>
+<a class="note-row" href="leftover-box-internet"><span class="t">Check that the computer can reach the internet</span><span class="d">Before you blame the computer or buy a mesh kit, ping a number past the house router.</span></a>
+<a class="note-row" href="leftover-box-link-speed"><span class="t">See the cable speed</span><span class="d">Before you buy a faster switch, check whether the computer is already at gigabit, or stuck at 100.</span></a>
+<a class="note-row" href="leftover-box-mac-addr"><span class="t">See the computer's hardware address</span><span class="d">Before you reserve the computer's number, write down the sticker-like address the router uses to recognize it.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-ip-addr"><span class="kicker">Previous</span><span class="t">See the computer's address on the house network</span></a>
+<a rel="next" href="leftover-box-internet"><span class="kicker">Next</span><span class="t">Check that the computer can reach the internet</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

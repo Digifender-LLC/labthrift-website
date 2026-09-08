@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Put the house folder on a USB disk — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Move the house share onto a USB disk that stays plugged into the old PC so photos don't fill the system drive. You don't need a NAS for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Put the house folder on a USB disk — Labthrift">
+<meta property="og:description" content="Move the house share onto a USB disk that stays plugged into the old PC so photos don't fill the system drive. You don't need a NAS for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/house-folder-on-usb">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/house-folder-on-usb">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Put the house folder on a USB disk","description":"Move the house share onto a USB disk that stays plugged into the old PC so photos don't fill the system drive. You don't need a NAS for this.","url":"https://labthrift.com/guides/house-folder-on-usb","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-04"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">Put the house folder on a USB disk</span></nav>
+<p class="note">Written 4 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>Put the house folder on a USB disk</h1>
+<p class="deck">Move the house share onto a USB disk that stays plugged into the old PC so photos don't fill the system drive. You don't need a NAS for this.</p>
+<p>Haven't made a share yet? Start with <a href="first-file-share">a file share</a>. Need to see whether the system disk is already tight? <a href="leftover-box-disk-space">See if the computer still has room</a>. Copies already failing with no space? <a href="when-house-disk-full">When the computer's disk is full</a>. This note is the move: format one dedicated USB disk, mount it, point Samba at it, leave the stick plugged in.</p>
+
+<h2>Skip until the share works and you have a spare disk</h2>
+<p>If Finder or File Explorer cannot open the house folder yet, stop. That is <a href="first-file-share">a file share</a>. Skip this if the system disk still has plenty of room and you are happy there. You need a USB disk you can wipe — not the tiny installer stick, not the only backup copy of the house folder. A second copy of the house folder is still <a href="first-backup">a backup of the house folder</a>. This disk is for live photos, not that backup.</p>
+
+<h2>What this is</h2>
+<p>The share from <a href="first-file-share">a file share</a> usually lives on the same disk as the OS, often under <span><code>/srv/share</code></span>. Small OptiPlex SSDs fill up. This note parks that folder on a USB disk that stays in the computer. Samba keeps the same share name. Phones and laptops keep the same path. The system disk only holds the OS, Pi-hole, and a bit of room to breathe.</p>
+
+<h2>What you need</h2>
+<ul>
+<li>SSH from the couch: <a href="first-ssh">SSH from the couch</a></li>
+<li>A working house share (or you are about to make one)</li>
+<li>A USB disk you accept wiping — 500 GB or bigger is fine for photos; a spinning USB drive is fine</li>
+<li>About twenty minutes, then leave the disk plugged in</li>
+</ul>
+
+<h2>1. See the USB disk</h2>
+<p>Plug the USB disk into the computer. Wait a few seconds. SSH in, then list disks:</p>
+<p><code>lsblk</code></p>
+<p>Find the new disk by size. Note the device name, often <span><code>sdb</code></span> or <span><code>sdc</code></span>. The first partition is often <span><code>sdb1</code></span>. If nothing new appears, that look is <a href="leftover-box-usb-disk">see if the USB backup disk showed up</a>. Don't guess. Wrong device names wipe the wrong disk.</p>
+
+<h2>2. Wipe and format (only the USB you chose)</h2>
+<p>This erases that USB disk. Stop if you are not sure which name is the stick.</p>
+<p>Example for <span><code>sdb</code></span> — swap the letter if yours is different:</p>
+<p><code>sudo wipefs -a /dev/sdb</code></p>
+<p><code>sudo parted -s /dev/sdb mklabel gpt</code></p>
+<p><code>sudo parted -s /dev/sdb mkpart primary ext4 1MiB 100%</code></p>
+<p><code>sudo mkfs.ext4 -L house /dev/sdb1</code></p>
+<p>The label <span><code>house</code></span> is only a name so you can spot it later. Use another label if you want. Wait for <span><code>mkfs.ext4</code></span> to finish.</p>
+
+<h2>3. Mount it at /srv/share</h2>
+<p>If you already have files in <span><code>/srv/share</code></span> on the system disk, move them aside first:</p>
+<p><code>sudo systemctl stop smbd</code></p>
+<p><code>sudo mv /srv/share /srv/share-old</code></p>
+<p>Make the mount point and attach the USB partition:</p>
+<p><code>sudo mkdir -p /srv/share</code></p>
+<p><code>sudo mount /dev/sdb1 /srv/share</code></p>
+<p>Copy old files onto the USB if you moved them aside:</p>
+<p><code>sudo rsync -aHAX --info=progress2 /srv/share-old/ /srv/share/</code></p>
+<p>Check free space on the mounted disk:</p>
+<p><code>df -h /srv/share</code></p>
+<p>You should see the USB size, not the tiny system SSD size.</p>
+
+<h2>4. Make it mount after every reboot</h2>
+<p>Read the UUID so the path does not depend on <span><code>sdb</code></span> becoming <span><code>sdc</code></span> next week:</p>
+<p><code>sudo blkid /dev/sdb1</code></p>
+<p>Copy the <span><code>UUID="…"</code></span> value. Open fstab:</p>
+<p><code>sudo nano /etc/fstab</code></p>
+<p>Add one line at the bottom. Swap the UUID for yours:</p>
+<p><code>UUID=PASTE-UUID-HERE /srv/share ext4 defaults,nofail 0 2</code></p>
+<p><span><code>nofail</code></span> lets the computer boot even if the USB is unplugged. Test without rebooting:</p>
+<p><code>sudo findmnt --verify --verbose</code></p>
+<p><code>sudo umount /srv/share</code></p>
+<p><code>sudo mount -a</code></p>
+<p><code>df -h /srv/share</code></p>
+<p>If the size looks like the USB again, the fstab line is good. Longer looks at UUIDs and mounts: <a href="leftover-box-blkid">read disk labels and UUIDs</a>, <a href="leftover-box-by-uuid">stable names by UUID</a>, <a href="leftover-box-findmnt">see which folders are already attached</a>.</p>
+
+<h2>5. Ownership and Samba</h2>
+<p>Give the share user the folder:</p>
+<p><code>sudo chown -R youruser:youruser /srv/share</code></p>
+<p>Swap <span><code>youruser</code></span> for the Linux login Samba already uses. If Samba still points at <span><code>/srv/share</code></span>, you do not need to edit <span><code>smb.conf</code></span>. Restart it:</p>
+<p><code>sudo systemctl start smbd</code></p>
+<p><code>sudo systemctl restart smbd</code></p>
+<p>If you never set the share password, that is <a href="leftover-box-samba-password">set or change the house-share password</a>.</p>
+
+<h2>6. Check from a laptop or phone</h2>
+<p>Open the same share as before. Drop a tiny text file in. Delete it. Laptop walk: <a href="open-share-from-laptop">open the house share from a laptop</a>. Phone walk: <a href="open-share-from-phone">open the house share from a phone</a>.</p>
+<p>When you are sure the files live on the USB, you can remove the old copy on the system disk:</p>
+<p><code>sudo rm -rf /srv/share-old</code></p>
+<p>Only after a successful open and a successful <span><code>df -h /srv/share</code></span> that shows the USB size.</p>
+
+<h2>If the share vanishes after a reboot</h2>
+<p>Check that the USB is still plugged in. Run <span><code>lsblk</code></span> and <span><code>df -h /srv/share</code></span>. If <span><code>/srv/share</code></span> is empty or shows the system disk size, the mount failed — fix fstab and <span><code>sudo mount -a</code></span>. If Samba itself stopped, that check is <a href="leftover-box-share-check">when the house share disappeared, check the computer</a>.</p>
+
+<h2>What this is not</h2>
+<p>This is not a backup. Unplug the USB and the live share goes with it. Keep a second copy with <a href="first-backup">a backup of the house folder</a> or <a href="backup-to-another-pc">copy to another old computer</a>. This is not a reason to buy a NAS on day one. It is not RAID. It is not a tiny installer stick left in the front port. Leave the disk plugged in.</p>
+
+<h2>What next</h2>
+<p>Use the folder. Watch room with <a href="leftover-box-disk-space">see if the computer still has room</a> (now it should report the USB). Prefer a cable for the computer while big copies run: <a href="leftover-box-ethernet">a cable beats Wi-Fi for the old PC</a>. When you want a second copy of the house folder, that is still <a href="first-backup">a backup of the house folder</a>. A dedicated file box is later: <a href="first-nas">a first file box (NAS)</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip formatting a disk you are not sure about.</li>
+<li>Skip using the installer USB as the house folder.</li>
+<li>Skip unplugging the disk while files are copying.</li>
+<li>Skip treating this USB as your only copy.</li>
+<li>Skip buying a NAS just because the system SSD was small.</li>
+<li>Skip exposing SMB to the internet.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/util-linux/lsblk.8.en.html">Debian: lsblk</a>. <a href="https://manpages.debian.org/bookworm/util-linux/blkid.8.en.html">Debian: blkid</a>. <a href="https://manpages.debian.org/bookworm/mount/fstab.5.en.html">Debian: fstab</a>. <a href="https://wiki.samba.org/index.php/Setting_up_Samba_as_a_Standalone_Server">Samba wiki: standalone server</a>. Official pages only. For the share this moves, see <a href="first-file-share">a file share</a>. For disk room, see <a href="leftover-box-disk-space">see if the computer still has room</a>. For a second copy, see <a href="first-backup">a backup of the house folder</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-file-share"><span class="t">A file share</span><span class="d">A folder on the old PC that the house can open from a laptop or a phone. You don't need a NAS for this.</span></a>
+<a class="note-row" href="when-house-disk-full"><span class="t">When the computer's disk is full</span><span class="d">Photos won't copy, the share says no space, or df shows the system disk packed. Confirm it is the computer (not the backup stick), free room or move the house folder. You don't need a NAS.</span></a>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="leftover-box-usb-disk"><span class="t">See if the USB backup disk showed up</span><span class="d">Before you trust the weekly copy, confirm the computer can see the USB disk.</span></a>
+<a class="note-row" href="open-share-from-laptop"><span class="t">Open the house share from a laptop</span><span class="d">The house folder is on the old PC. Open it from Windows File Explorer or Mac Finder on the house network. You don't need a NAS for this.</span></a>
+<a class="note-row" href="open-share-from-phone"><span class="t">Open the house share from a phone</span><span class="d">The house folder is on the old PC. Open it from an iPhone or Android on house Wi-Fi. You don't need a NAS app for this.</span></a>
+<a class="note-row" href="phone-photos-to-share"><span class="t">Save phone photos to the house share</span><span class="d">Copy camera-roll photos from an iPhone or Android onto the house folder on the old PC. House Wi-Fi only. You don't need a NAS app or iCloud for this.</span></a>
+<a class="note-row" href="first-backup"><span class="t">A backup of the house folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another old computer. You don't need a NAS for this.</span></a>
+<a class="note-row" href="file-history-to-share"><span class="t">Back up a Windows PC to the house share with File History</span><span class="d">Point Windows File History at a Samba folder on the old PC. Separate share from photos. You don't need a NAS for this.</span></a>
+<a class="note-row" href="first-nas"><span class="t">A first file box (NAS) for one person</span><span class="d">A quiet box for photos and backups. Two drives if you want sleep.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-disk-space"><span class="kicker">Previous</span><span class="t">See if the computer still has room</span></a>
+<a rel="next" href="first-backup"><span class="kicker">Next</span><span class="t">A backup of the house folder</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

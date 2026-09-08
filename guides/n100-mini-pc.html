@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>A tiny computer you can leave on — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="These are quiet little PCs, about the size of a book. Buy 16 GB of memory. The cheap chips named N100 and N150 are close enough that you should pick whichever is on sale, as long as it has a real ethernet port.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="A tiny computer you can leave on — Labthrift">
+<meta property="og:description" content="These are quiet little PCs, about the size of a book. Buy 16 GB of memory. The cheap chips named N100 and N150 are close enough that you should pick whichever is on sale, as long as it has a real ethernet port.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/n100-mini-pc">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/n100-mini-pc">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BlogPosting",
+ "headline": "A tiny computer you can leave on",
+ "description": "These are quiet little PCs, about the size of a book. Buy 16 GB of memory. The cheap chips named N100 and N150 are close enough that you should pick whichever is on sale, as long as it has a real ethernet port.",
+ "url": "https://labthrift.com/guides/n100-mini-pc",
+ "image": "https://labthrift.com/assets/og-1200.png",
+ "datePublished": "2026-08-21"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+ {
+ "@type": "ListItem",
+ "position": 1,
+ "name": "Home",
+ "item": "https://labthrift.com/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 2,
+ "name": "Notes",
+ "item": "https://labthrift.com/guides/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 3,
+ "name": "Mini PCs",
+ "item": "https://labthrift.com/guides/#mini-pcs"
+ },
+ {
+ "@type": "ListItem",
+ "position": 4,
+ "name": "A tiny computer you can leave on",
+ "item": "https://labthrift.com/guides/n100-mini-pc"
+ }
+ ]
+}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#mini-pcs">Small computers</a> / <span aria-current="page">A tiny computer you can leave on</span></nav>
+<p class="note">Written 21 Aug 2026. Specs from the maker pages linked below. Prices from those stores. I haven't used these.</p>
+
+<h1>A tiny computer you can leave on</h1>
+<p class="deck">Don't buy one of these first. Use the old laptop, or a retired OptiPlex from Marketplace. These quiet little PCs are the later buy, when you know you will leave a box on and you want it small and silent.</p>
+<p>The first step is <a href="start-with-what-you-have">start with what you already have</a>. Check <a href="leftover-box-cpu">how many cores it already has</a>, <a href="leftover-box-ram">how much memory</a>, <a href="leftover-box-virt">whether it can run a VM</a>, <a href="leftover-box-model">what model it is</a>, and <a href="leftover-box-disk">how big the disk is</a>. This note is for after that old PC is actually in the way.</p>
+<p>People use these to run a home server, file sharing, a smart-home brain, a couple of small virtual machines. 8 GB fills up fast. 16 GB is the floor. The N150 is a mild refresh of the N100; price and the network ports matter more than the chip name. A faster N350 is the step up if you already know you will stack a lot of virtual machines.</p>
+<h2>What to buy</h2>
+<div class="table-wrap">
+<table>
+<tr><th>Box</th><th>Why it shows up</th><th>Watch-outs</th></tr>
+<tr class="pick"><td data-label="Box">Beelink Mini S12 Pro (N100)</td><td data-label="Why it shows up">Most documented Proxmox / HA install path. Street often $130–170 for 16 GB / 500 GB class configs.</td><td data-label="Watch-outs">Many units are 1G, not 2.5G. Confirm the SKU.</td></tr>
+<tr><td data-label="Box">Beelink Mini S13 (N150)</td><td data-label="Why it shows up">Same shape, newer chip. Buy if it is the same money as the S12 Pro.</td><td data-label="Watch-outs">Same 16 GB floor.</td></tr>
+<tr><td data-label="Box">GMKtec G3 Plus (N150)</td><td data-label="Why it shows up">Often ships with 2.5GbE and room for 32 GB. Good when the NAS is already 2.5G.</td><td data-label="Watch-outs">Firmware and fan curves vary. Read the exact listing.</td></tr>
+<tr><td data-label="Box">CWWK / Topton 4× 2.5GbE fanless</td><td data-label="Why it shows up">The box you want for OPNsense or a tiny router-on-a-stick plus Proxmox.</td><td data-label="Watch-outs">BIOS quality is the gamble. Confirm i226 NICs and VT-d.</td></tr>
+</table>
+</div>
+<h2>What matters</h2>
+<p>16 GB is the floor. Proxmox plus two VMs plus a handful of LXCs will eat 8 GB before the weekend is over. Enable VT-x and VT-d before you install. N100 iGPU passthrough is a headache. Quick Sync inside an LXC is the sane transcode path.</p>
+<p>Wall power on these is usually high-single to mid-teens watts. That is the whole pitch versus a used 1U.</p>
+
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.bee-link.com/blogs/all/beelink-2026-amazon-prime-day-worldwide-mega-sale-96-hours-of-up-to-20-off">Beelink 2026 Prime Day post</a> (Mini S12 / S12 Pro still named). <a href="https://www.gmktec.com/products/nucbox-g3-plus-enhanced-performance-mini-pc-with-intel-n150-processor">GMKtec NucBox G3 Plus official</a> (N150; sold out on fetch). <a href="https://cwwk.net/">CWWK</a> (fanless 4-NIC class). Confirm the SKU and the NIC before you click. Street moves.</p>
+</section>
+
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="leftover-box-cpu"><span class="t">See how many workers the computer already has</span><span class="d">Before you buy a tiny computer, check how many workers the computer already has.</span></a>
+<a class="note-row" href="leftover-box-ram"><span class="t">See how much memory the computer already has</span><span class="d">Before you buy a tiny computer, check how much memory the computer already has.</span></a>
+<a class="note-row" href="leftover-box-virt"><span class="t">See if the computer can run a pretend computer</span><span class="d">Before you buy a tiny computer for Proxmox, check whether the computer already has the CPU feature for VMs.</span></a>
+<a class="note-row" href="leftover-box-model"><span class="t">See what computer you already have</span><span class="d">Before you buy a tiny computer, check what computer you already have.</span></a>
+<a class="note-row" href="leftover-box-disk"><span class="t">See how big the computer's disk already is</span><span class="d">Before you buy a tiny computer or a NAS, check how big the computer's disk already is.</span></a>
+<a class="note-row" href="leftover-box-swap"><span class="t">See if the computer already has extra memory on disk</span><span class="d">Before you buy a tiny computer, check whether the computer already has overflow memory on the disk.</span></a>
+<a class="note-row" href="beelink-eq13-n200-dual-1g"><span class="t">Dual gigabit living-room mini, not the 2.5G listing: Beelink EQ13</span><span class="d">A dual gigabit living-room mini. Don't confuse it with EQ14 2.5G listings. Buy EQ12 if you wanted two faster ports.</span></a>
+<a class="note-row" href="protectli-vp2430e-n150-4x-2-5g-proxmox"><span class="t">Fanless four-port closet firewall you can warrant: Protectli VP2430e</span><span class="d">A fanless four-port closet firewall or router box with US support and coreboot. Not a living-room HDMI toy.</span></a>
+<a class="note-row" href="protectli-vp2440e-n150-10g-sfp"><span class="t">Quiet N150 with a 10G cage when MS-01 is gone: Protectli VP2440e</span><span class="d">A small quiet box with a 10G fiber-style cage you can actually buy, when the Minisforum MS-01 is gone. Skip if you don't have a 10G job yet.</span></a>
+</section>
+
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-swap"><span class="kicker">Previous</span><span class="t">See if the computer already has extra memory on disk</span></a>
+<a rel="next" href="beelink-eq13-n200-dual-1g"><span class="kicker">Next</span><span class="t">Dual gigabit living-room mini, not the 2.5G listing: Beelink EQ13</span></a>
+</nav>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+</p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

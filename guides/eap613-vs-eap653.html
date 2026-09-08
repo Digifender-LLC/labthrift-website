@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Two about-$80 APs. Radio and power class differ. The cheap injector can be the trap: EAP613 vs EAP653 — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Same street price band. Different radio and PoE class. Match af vs at before you buy power.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Two about-$80 APs. Radio and power class differ. The cheap injector can be the trap: EAP613 vs EAP653 — Labthrift">
+<meta property="og:description" content="Same street price band. Different radio and PoE class. Match af vs at before you buy power.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/eap613-vs-eap653">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/eap613-vs-eap653">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BlogPosting",
+ "headline": "Two about-$80 APs. Radio and power class differ. The cheap injector can be the trap: EAP613 vs EAP653",
+ "description": "Same street price band. Different radio and PoE class. Match af vs at before you buy power.",
+ "url": "https://labthrift.com/guides/eap613-vs-eap653",
+ "image": "https://labthrift.com/assets/og-1200.png",
+ "datePublished": "2026-08-22"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+ {
+ "@type": "ListItem",
+ "position": 1,
+ "name": "Home",
+ "item": "https://labthrift.com/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 2,
+ "name": "Notes",
+ "item": "https://labthrift.com/guides/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 3,
+ "name": "Cheap PoE + APs",
+ "item": "https://labthrift.com/guides/#cheap-poe"
+ },
+ {
+ "@type": "ListItem",
+ "position": 4,
+ "name": "Two about-$80 APs. Radio and power class differ. The cheap injector can be the trap: EAP613 vs EAP653",
+ "item": "https://labthrift.com/guides/eap613-vs-eap653"
+ }
+ ]
+}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#cheap-poe">Better Wi-Fi</a> / <span aria-current="page">Two about-$80 APs. Radio and power class differ. The cheap injector can be the trap: EAP613 vs EAP653</span></nav>
+<p class="note">Written 22 Aug 2026. Specs from the maker pages linked below. Prices from those stores. I haven't used these.</p>
+
+<h1>Two about-$80 APs. Radio and power class differ. The cheap injector can be the trap: EAP613 vs EAP653</h1>
+<p class="deck">Same street price band. Different radio and PoE class. Match af vs at before you buy power.</p>
+<p>On B&amp;H both pucks were $79.99 this pass. That is not a reason to flip a coin. EAP653 is AX3000 (2402 + 574) with HE160. EAP613 is AX1800 (1201 + 574). For a closet house the radio upgrade is real. The power-class upgrade is the one that breaks a 15.4 W injector.</p>
+<p>EAP613 sips 802.3af at 10.9 W. EAP653 wants 802.3at and lists 15.5 W. A <a href="https://www.amazon.com/TP-LINK-TL-PoE150S-Injector-Adapter-Compliant/dp/B001PS9E5I">TL-POE150S</a> is af only. One EAP653 does not fit it. Use a <a href="https://www.amazon.com/TL-PoE160S-Injector-Supplies-Wall-Mount-Certified/dp/B08LZZRX5N">TL-POE160S</a> or a 4-port 64 W fanless switch. Both APs also take 48 V passive. That is 48 V, not 24 V. Read <a href="passive-24v-poe-traps">the 24 V traps</a>.</p>
+
+<h2>What to buy</h2>
+<div class="table-wrap">
+<table>
+<tr><th>Box</th><th>Radios / uplink</th><th>PoE</th><th>Street, 22 Aug 2026</th></tr>
+<tr><td data-label="Box">EAP613 V2</td><td data-label="Radios / uplink">AX1800, 2×2, 1G</td><td data-label="PoE">802.3af / 48 V passive / 12 V DC (adapter not included). 10.9 W PoE.</td><td data-label="Street, 22 Aug 2026">Amazon $79.99. B&amp;H $79.99–$84.99. <a href="eap613-small-house-af">EAP613 review</a>.</td></tr>
+<tr class="pick"><td data-label="Box">EAP653 V1/V3</td><td data-label="Radios / uplink">AX3000, 2×2 + 2×2, HE160, 1G</td><td data-label="PoE">802.3at / 48 V passive / 12 V 1.5 A (adapter not included). 15.5 W.</td><td data-label="Street, 22 Aug 2026">B&amp;H $79.99. Amazon <a href="https://www.amazon.com/TP-Link-EAP653-Wireless-Business-Multi-Controller/dp/B0B5JRXDG4">B0B5JRXDG4</a>.</td></tr>
+</table>
+</div>
+<p>Power is still a 5-port brick or a pair of injectors. <a href="cheap-poe">cheap PoE for two APs</a> if you have not bought the switch yet. If you already have an at-class port, take the 653. If you are hanging two pucks off a thin af injector pair, take the 613. Neither is a Wi-Fi 7 tax. Compare either of them to a U7 Lite only after you decide whether you want a UniFi app. That fork is <a href="omada-eap653-vs-unifi-u7-lite">EAP653 vs U7 Lite</a>.</p>
+<h2>Skip</h2>
+<p>Skip EAP653 UR (B0DCWNFNRW). Listing copy mixed Wi-Fi 7 marketing onto an AX3000 SKU. Skip jumping to EAP773 / U7 Pro at ~$190 until the WAN is faster than the AP. That is the <a href="wifi-7-tax-closet-lab">Wi-Fi 7 tax</a>.</p>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.omadanetworks.com/us/business-networking/omada-wifi-ceiling-mount/eap613/">EAP613 maker</a>. <a href="https://www.omadanetworks.com/us/business-networking/omada-wifi-ceiling-mount/eap653/">EAP653 maker</a>. <a href="https://static.tp-link.com/upload/product-overview/2026/202606/20260603/Datasheet_EAP653%203.0%20-%20EG.pdf">EAP653 3.0 datasheet</a>. <a href="https://www.bhphotovideo.com/c/compare/TP-Link_EAP613_vs_TP-Link_EAP653_vs_TP-Link_EAP670/BHitems/1754761-REG_1733667-REG_1810160-REG">B&amp;H compare 613 / 653 / 670</a>. Street figures move.</p>
+</section>
+
+
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="omada-eap653-vs-unifi-u7-lite"><span class="t">Pick the house Wi-Fi software you will actually live with: Omada EAP653 vs UniFi U7 Lite</span><span class="d">Pick the house Wi-Fi software you will actually live with.</span></a>
+<a class="note-row" href="unifi-u7-lite-review"><span class="t">Simple ceiling Wi-Fi 7 for a UniFi house: UniFi U7 Lite</span><span class="d">Simple ceiling Wi-Fi 7 for a UniFi house. Honest dual-band, no 6 GHz.</span></a>
+<a class="note-row" href="wifi-7-tax-closet-lab"><span class="t">Skip the $190 Wi-Fi 7 puck until the WAN is faster than the AP</span><span class="d">Skip the extra-money 6 GHz puck until the house internet is faster than gigabit.</span></a>
+</section>
+
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="eap613-small-house-af"><span class="kicker">Previous</span><span class="t">Two floors, one gigabit house, cheap af power: EAP613</span></a>
+<a rel="next" href="omada-eap653-vs-unifi-u7-lite"><span class="kicker">Next</span><span class="t">Pick the house Wi-Fi software you will actually live with: Omada EAP653 vs UniFi U7 Lite</span></a>
+</nav>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+</p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

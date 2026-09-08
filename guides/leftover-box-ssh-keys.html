@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Log in with a key, not the password every time — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After password SSH works for a while, put a key on your laptop so the computer trusts that laptop. Keep the password as a backup at first.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Log in with a key, not the password every time — Labthrift">
+<meta property="og:description" content="After password SSH works for a while, put a key on your laptop so the computer trusts that laptop. Keep the password as a backup at first.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-ssh-keys">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-ssh-keys">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Log in with a key, not the password every time","description":"After password SSH works for a while, put a key on your laptop so the computer trusts that laptop. Keep the password as a backup at first.","url":"https://labthrift.com/guides/leftover-box-ssh-keys","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-25"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Log in with a key, not the password every time</span></nav>
+<p class="note">Written 25 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Log in with a key, not the password every time</h1>
+<p class="deck">After password SSH works for a while, put a key on your laptop so the computer trusts that laptop. Keep the password as a backup at first.</p>
+<p>Password login from <a href="first-ssh">SSH from the couch</a> should already be boring. The password should already be one you chose. That is <a href="leftover-box-change-password">change the login password</a>. A key is a small file on your laptop that proves it is you. You type a passphrase once, or not, instead of the password every time.</p>
+
+<h2>Skip until password SSH is boring</h2>
+<p>If <a href="first-ssh">SSH from the couch</a> still prints Permission denied, or the password is still wrong some days, stop. Fix that first. A key will not help a login that does not work yet. If SSH refuses because the computer looks different after a reinstall, that is <a href="leftover-box-ssh-host-key">when SSH says the computer looks different</a>.</p>
+
+<h2>What a key is</h2>
+<p>You make two files. The public key goes on the computer. The private key stays on your laptop. The computer checks the public file and lets that laptop in. Never email the private key. Never copy it onto a stick you will lose. This is not a new router. The house number stays the same. The password can still work as a backup.</p>
+
+<h2>Make a key on your laptop</h2>
+<p>On Windows, use Windows Terminal or PowerShell. On a Mac or Linux, use Terminal. Same command:</p>
+<p><code>ssh-keygen -t ed25519 -C "laptop"</code></p>
+<p>Accept the default path when it asks. A passphrase on the key is optional. A short one is still better than none, so a stolen laptop file is not a free login. If you skip the passphrase, press Enter at that prompt. It writes two files under <span><code>.ssh</code></span> in your home folder. One ends in <span><code>.pub</code></span>. That is the public key.</p>
+
+<h2>Copy the public key to the computer</h2>
+<p>Use the username and the number from <a href="find-the-leftover-box">find the computer on the house network</a>. A reservation so that number stays put is <a href="leftover-box-dhcp-reservation">keep the computer on the same number</a>. Prefer this command, which asks for the password one last time:</p>
+<p><code>ssh-copy-id you@that-address</code></p>
+<p>Swap <span><code>you</code></span> and <span><code>that-address</code></span> the way <a href="first-ssh">SSH from the couch</a> taught you.</p>
+<p>If <span><code>ssh-copy-id</code></span> is missing, which happens on some Windows setups, SSH in with the password. On the computer, append the public line, the whole contents of the laptop file that ends in <span><code>.pub</code></span>, to <span><code>~/.ssh/authorized_keys</code></span>. Don't paste the private file. Then:</p>
+<p><code>chmod 700 ~/.ssh</code></p>
+<p><code>chmod 600 ~/.ssh/authorized_keys</code></p>
+
+<h2>Try it</h2>
+<p>From the same laptop:</p>
+<p><code>ssh you@that-address</code></p>
+<p>It should not ask for the password. It may ask for the key passphrase, if you set one. You should see the prompt, the same as <a href="first-ssh">SSH from the couch</a>.</p>
+<p>If it still asks for the password, the public line is not on that user, or you pasted the wrong file. Check you used the username, the same number, and the <span><code>.pub</code></span> file, not the private one. Run <span><code>ssh-copy-id</code></span> again. Don't start editing server config yet.</p>
+
+<h2>Keep password login for now</h2>
+<p>Leave password login on. Don't turn off PasswordAuthentication. That is a later harden note. If the laptop dies, the password is how you get back in from another computer. Keep it as a backup. When typing the long address gets old, <a href="leftover-box-ssh-config">give the computer a short name on your laptop</a>. When the key login is boring, <a href="leftover-box-authorized-keys">see which laptop keys the computer already trusts</a>, then <a href="leftover-box-second-key">put a key on a second computer first</a>, then <a href="leftover-box-ssh-no-password">turn off password login once the key works</a>.</p>
+
+<h2>What next</h2>
+<p>The password should already be one you chose. That is <a href="leftover-box-change-password">change the login password</a>. Once a week, <a href="leftover-box-updates">keep the computer updated</a>. When SSH is reliable, <a href="leftover-box-ufw">turn on a simple firewall without locking yourself out</a>. If Pi-hole is not up yet, that is <a href="first-useful-service">the first useful thing on the computer</a>. Don't forward port 22. SSH stays on the house network. That is <a href="leftover-box-house-network">keep the computer on the house network</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip this note if password SSH is still flaky.</li>
+<li>Skip buying a YubiKey for the computer.</li>
+<li>Skip fail2ban. Later is <a href="leftover-box-fail2ban">slow down password guesses on SSH</a>.</li>
+<li>Skip a new firewall appliance.</li>
+<li>Skip opening the computer to the internet.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://man.openbsd.org/ssh-keygen">OpenSSH: ssh-keygen</a>. <a href="https://manpages.debian.org/bookworm/openssh-client/ssh-keygen.1.en.html">Debian: ssh-keygen</a>. <a href="https://manpages.debian.org/bookworm/openssh-client/ssh-copy-id.1.en.html">Debian: ssh-copy-id</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For the address, see <a href="find-the-leftover-box">find the computer on the house network</a>. For a number that stays put, see <a href="leftover-box-dhcp-reservation">keep the computer on the same number</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="leftover-box-ssh-config"><span class="t">Give the computer a short name on your laptop</span><span class="d">After SSH works, put a short name in your laptop SSH config so you type ssh lab instead of the long address. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-ssh-host-key"><span class="t">When SSH says the computer looks different</span><span class="d">After you reinstall, SSH can refuse because your laptop still remembers the old ID. Clear that memory. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-authorized-keys"><span class="t">See which laptop keys the computer already trusts</span><span class="d">Before you turn off password login, look at which laptop keys can already get in. Remove leftovers from an old Marketplace computer. You don't need a YubiKey for this.</span></a>
+<a class="note-row" href="leftover-box-second-key"><span class="t">Put a key on a second computer first</span><span class="d">Before you turn off password login, give a second laptop its own key so you are not locked out if the first one dies. You don't need a YubiKey.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="ssh-from-phone"><span class="t">SSH from a phone</span><span class="d">Type commands on the old PC from an iPhone or Android on house Wi-Fi. Password login first. Don't open SSH to the internet.</span></a>
+<a class="note-row" href="leftover-box-dhcp-reservation"><span class="t">Keep the computer on the same number</span><span class="d">SSH and Pi-hole keep working after a reboot when the router always gives the computer the same address.</span></a>
+<a class="note-row" href="find-the-leftover-box"><span class="t">Find the computer on the house network</span><span class="d">The computer has a number on your house network. You need that number to SSH from the couch. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-ssh-host-key"><span class="kicker">Previous</span><span class="t">When SSH says the computer looks different</span></a>
+<a rel="next" href="leftover-box-authorized-keys"><span class="kicker">Next</span><span class="t">See which laptop keys the computer already trusts</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

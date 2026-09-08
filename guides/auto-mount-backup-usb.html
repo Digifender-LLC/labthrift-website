@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Mount the backup USB automatically — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Leave the backup stick plugged in and mount it at boot by UUID, so weekly rsync finds /mnt/backup without a hand mount. You don't need a NAS.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Mount the backup USB automatically — Labthrift">
+<meta property="og:description" content="Leave the backup stick plugged in and mount it at boot by UUID, so weekly rsync finds /mnt/backup without a hand mount. You don't need a NAS.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/auto-mount-backup-usb">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/auto-mount-backup-usb">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Mount the backup USB automatically","description":"Leave the backup stick plugged in and mount it at boot by UUID, so weekly rsync finds /mnt/backup without a hand mount. You don't need a NAS.","url":"https://labthrift.com/guides/auto-mount-backup-usb","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-05"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">Mount the backup USB automatically</span></nav>
+<p class="note">Written 5 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>Mount the backup USB automatically</h1>
+<p class="deck">Leave the backup stick plugged in and mount it at boot by UUID, so weekly rsync finds <code>/mnt/backup</code> without a hand mount. You don't need a NAS.</p>
+<p>Haven't formatted the stick yet? Start with <a href="format-usb-for-backup">format a USB stick for the house backup</a>. One manual copy still missing? That is <a href="first-backup">a backup of the house folder</a>. This note is only for after a hand <code>mount</code> already worked, and you want the same stick to show up at <code>/mnt/backup</code> after a reboot (or before the weekly timer).</p>
+
+<h2>Skip until a hand mount already worked</h2>
+<p>If you have never mounted this stick and run rsync once, stop. Fix that first. Don't edit <code>/etc/fstab</code> to "make backup work" when the stick is still blank or the path is wrong. Prefer another old PC instead of a stick that stays plugged in? That path is <a href="backup-to-another-pc">copy the house folder to another old computer</a>.</p>
+
+<h2>What this is</h2>
+<p>One line in <code>/etc/fstab</code> that mounts the backup partition by its UUID at <code>/mnt/backup</code> when the computer boots. Device letters like <code>sdb1</code> can move when you plug another disk. The UUID stays. <code>nofail</code> means a missing stick will not hang the boot. You still unplug the stick into a drawer most weeks if that is your habit — <a href="unplug-backup-usb">unplug the backup USB safely</a> covers sync and <code>umount</code> before you yank. Automatic mount is for the weeks the stick stays in the computer so a timer can find it.</p>
+
+<h2>Step 1: awake, then SSH</h2>
+<p>Power light. Fan. If it looks asleep, start with <a href="leftover-box-still-on">is the computer still on?</a>. You need SSH from the couch: <a href="first-ssh">SSH from the couch</a>. Connect fails? <a href="when-ssh-wont-connect">when SSH won't connect</a>.</p>
+
+<h2>Step 2: plug the stick in and read its UUID</h2>
+<p>Plug in the same spare stick you already formatted (often labeled <code>HOUSEBAK</code>). Wait a few seconds. Print labels and UUIDs:</p>
+<p><code>lsblk -f</code></p>
+<p>Or:</p>
+<p><code>sudo blkid</code></p>
+<p>Find the USB partition (match SIZE and the <code>HOUSEBAK</code> label if you set one). Copy the <code>UUID=…</code> value for that partition. Use the UUID from <em>your</em> printout, not a sample from a blog. Fuller look at stable names: <a href="leftover-box-by-uuid">see stable disk names by UUID</a>. Stick not listed? <a href="leftover-box-usb-disk">see if the USB backup disk showed up</a>.</p>
+
+<h2>Step 3: make the mount folder</h2>
+<p>Same path the backup notes use:</p>
+<p><code>sudo mkdir -p /mnt/backup</code></p>
+<p>If it is already mounted from a hand test, unmount once so the fstab check is clean:</p>
+<p><code>sudo umount /mnt/backup</code></p>
+<p>Harmless if it was not mounted.</p>
+
+<h2>Step 4: add one fstab line (with nofail)</h2>
+<p>Open the file:</p>
+<p><code>sudo nano /etc/fstab</code></p>
+<p>Add a single new line at the bottom. Swap in your real UUID:</p>
+<p><code>UUID=YOUR-UUID-HERE /mnt/backup ext4 defaults,nofail 0 2</code></p>
+<p>Save and exit nano (Ctrl+O, Enter, Ctrl+X). Do not delete the lines that were already there. Those mount the system disk. Wrong UUID or a typo on the system line can make the next boot painful. <code>nofail</code> is the safety valve for a USB that is sometimes unplugged.</p>
+
+<h2>Step 5: test the mount before you reboot</h2>
+<p>Ask the computer to mount everything in fstab that is not already up:</p>
+<p><code>sudo mount -a</code></p>
+<p>Confirm the stick is at the path:</p>
+<p><code>findmnt /mnt/backup</code></p>
+<p>You should see a line with <code>/mnt/backup</code> and your UUID (or the device it points at). Check the landing folder still exists for rsync:</p>
+<p><code>ls /mnt/backup/share</code></p>
+<p>If that folder is missing, recreate it and hand ownership back:</p>
+<p><code>sudo mkdir -p /mnt/backup/share &amp;&amp; sudo chown "$USER:$USER" /mnt/backup/share</code></p>
+<p>If <code>mount -a</code> errors, fix the fstab line before any reboot. Common mistakes: wrong UUID, missing <code>nofail</code>, or a space where the UUID should be one block.</p>
+
+<h2>Step 6: optional reboot check, then the weekly timer</h2>
+<p>Reboot when you can afford a minute:</p>
+<p><code>sudo reboot</code></p>
+<p>SSH back in and run <code>findmnt /mnt/backup</code> again. It should remount alone. After that, a weekly timer can find the path without you typing mount: <a href="leftover-box-backup-timer">back up the folder every week without remembering</a>. Mount fails after a reboot, or rsync still cannot see the stick? <a href="when-backup-wont-run">When the house backup won't run</a>.</p>
+
+<h2>What this is not</h2>
+<p>This is not a reason to leave the only backup stick plugged in forever so one bad day can wipe both copies. It is not RAID. It is not a NAS. It is not automount for random thumb drives you borrow. It is not editing the system-disk lines in fstab. It is not a substitute for one successful hand rsync.</p>
+
+<h2>What next</h2>
+<p>Run or re-check the copy: <a href="first-backup">a backup of the house folder</a>. Confirm files landed: <a href="leftover-box-backup-check">check that the backup actually copied</a>. Drawer habit instead of leaving it in: <a href="unplug-backup-usb">unplug the backup USB safely</a>. Let the computer do it weekly: <a href="leftover-box-backup-timer">back up the folder every week without remembering</a>. Stick still blank or Windows-formatted? <a href="format-usb-for-backup">Format a USB stick for the house backup</a>. Prefer a second old PC: <a href="backup-to-another-pc">copy the house folder to another old computer</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip until a hand mount and one rsync already worked.</li>
+<li>Skip editing the existing system-disk lines in <code>/etc/fstab</code>.</li>
+<li>Skip a bare <code>/dev/sdb1</code> line. Use the UUID.</li>
+<li>Skip leaving out <code>nofail</code> if you sometimes unplug the stick.</li>
+<li>Skip buying a NAS so a stick can remount.</li>
+<li>Skip cloud backup until a plain second copy exists on a stick or another old PC.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/mount/fstab.5.en.html">Debian: fstab</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man5/fstab.5.html">Ubuntu: fstab</a>. <a href="https://manpages.debian.org/bookworm/util-linux/blkid.8.en.html">Debian: blkid</a>. <a href="https://manpages.debian.org/bookworm/util-linux/findmnt.8.en.html">Debian: findmnt</a>. <a href="https://manpages.debian.org/bookworm/util-linux/lsblk.8.en.html">Debian: lsblk</a>. Official pages only. For the format that usually comes first, see <a href="format-usb-for-backup">format a USB stick for the house backup</a>. For the copy, see <a href="first-backup">a backup of the house folder</a>. For the weekly job, see <a href="leftover-box-backup-timer">back up the folder every week without remembering</a>. For mount failures, see <a href="when-backup-wont-run">when the house backup won't run</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="format-usb-for-backup"><span class="t">Format a USB stick for the house backup</span><span class="d">Wipe and format a spare USB stick so the old PC can mount it for the house-folder backup. Ext4 for Linux. This erases the stick. You don't need a NAS.</span></a>
+<a class="note-row" href="first-backup"><span class="t">A backup of the house folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another old computer. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-backup-timer"><span class="t">Back up the folder every week without remembering</span><span class="d">After one manual USB (or second-box) copy works, let the computer run the same rsync on a weekly timer. A phone reminder is still fine if you prefer.</span></a>
+<a class="note-row" href="when-backup-wont-run"><span class="t">When the house backup won't run</span><span class="d">rsync failed, the USB is missing, or the second copy never landed. Check the stick, the mount, the source path, then match the error (no space, permission, connection). You don't need a NAS.</span></a>
+<a class="note-row" href="unplug-backup-usb"><span class="t">Unplug the backup USB safely</span><span class="d">Finish disk writes, unmount /mnt/backup, then yank the stick into a drawer. Fixes target is busy. You don't need a NAS.</span></a>
+<a class="note-row" href="leftover-box-by-uuid"><span class="t">See stable disk names by UUID</span><span class="d">After blkid shows labels and UUIDs, use ls on /dev/disk/by-uuid (and optional by-label) so you see the fixed paths Linux already made — names that don't move when sdb becomes sdc.</span></a>
+<a class="note-row" href="leftover-box-usb-disk"><span class="t">See if the USB backup disk showed up</span><span class="d">Before you trust the weekly copy, confirm the computer can see the USB disk.</span></a>
+<a class="note-row" href="backup-to-another-pc"><span class="t">Copy the house folder to another old computer</span><span class="d">A second copy over the house network to another old PC. Not only a USB stick. You don't need a NAS for this.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="format-usb-for-backup"><span class="kicker">Previous</span><span class="t">Format a USB stick for the house backup</span></a>
+<a rel="next" href="leftover-box-backup-timer"><span class="kicker">Next</span><span class="t">Back up the folder every week without remembering</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

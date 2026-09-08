@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Peek at partitions via /proc/partitions — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After a parted layout printout, /proc/partitions is a look-only kernel list of names and sizes with no wipe or mount.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Peek at partitions via /proc/partitions — Labthrift">
+<meta property="og:description" content="After a parted layout printout, /proc/partitions is a look-only kernel list of names and sizes with no wipe or mount.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-proc-partitions">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-proc-partitions">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Peek at partitions via /proc/partitions","description":"After a parted layout printout, /proc/partitions is a look-only kernel list of names and sizes with no wipe or mount.","url":"https://labthrift.com/guides/leftover-box-proc-partitions","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-02"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"File storage","item":"https://labthrift.com/guides/#first-nas"},{"@type":"ListItem","position":3,"name":"Peek at partitions via /proc/partitions"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#first-nas">File storage</a> / <span aria-current="page">Peek at partitions via /proc/partitions</span></nav>
+<p class="note">Written 2 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>Peek at partitions via /proc/partitions</h1>
+<p class="deck">After a <a href="leftover-box-parted-list">parted -l</a> layout printout, <span><code>/proc/partitions</code></span> is a look-only kernel list of names and sizes. Nothing is created, wiped, or mounted.</p>
+<p><span><code>/proc/partitions</code></span> is a text file the Linux kernel keeps in memory. It lists whole disks and slices the kernel already knows about. Tonight you only read that list on the computer. You don't format, wipe, or attach a folder.</p>
+
+<h2>Skip until SSH works</h2>
+<p>If you cannot log in from the couch yet, stop. That is <a href="first-ssh">SSH from the couch</a>. A kernel partition list does not help a login that fails.</p>
+<p>If you only need the friendly disk tree, that is <a href="leftover-box-lsblk">see disks and USB sticks</a> (<span><code>lsblk</code></span>). If you only need which folders are already attached, that is <a href="leftover-box-findmnt">see which folders are already attached</a> (<span><code>findmnt</code></span>).</p>
+
+<h2>What this is</h2>
+<p><strong>/proc</strong> is a special folder of live kernel facts. Files there are not ordinary documents on the disk. They are snapshots the kernel builds when you open them.</p>
+<p><span><code>parted -l</code></span> and <span><code>fdisk -l</code></span> print layout tools&apos; views, often with table type and filesystem hints. <span><code>/proc/partitions</code></span> is the kernel&apos;s shorter list. It shows major and minor numbers, size in 1K blocks, and a short name like <span><code>sda</code></span> or <span><code>sda1</code></span>. Same computer, third look-only angle. Still no write, format, or wipe.</p>
+
+<h2>Practice: read the kernel list (look only)</h2>
+<p>SSH in from the couch.</p>
+<p>Then print the file:</p>
+<p><code>cat /proc/partitions</code></p>
+<p>The computer should show a short header, then lines with columns. Columns are often major, minor, blocks, and name. Whole disks and slices both appear. The kernel is telling you which block devices it already knows. It is not inviting you to rebuild them.</p>
+<p>Optional: page through a long list:</p>
+<p><code>less /proc/partitions</code></p>
+<p>Press <span><code>q</code></span> to leave <span><code>less</code></span>.</p>
+<p>Home-safe look only on the computer. Don't pipe this into a wipe tool. Don't run <span><code>wipefs</code></span>, <span><code>dd</code></span>, format, <span><code>mount</code></span>, or <span><code>umount</code></span> as tonight&apos;s job.</p>
+<p>Optional: compare names with the friendly tree you already practiced:</p>
+<p><code>lsblk</code></p>
+<p>Names should line up with what you saw in <span><code>/proc/partitions</code></span>. If a USB stick is missing from both, reseat the stick. Then check <a href="leftover-box-usb-disk">see if the USB backup disk showed up</a>. Still no format tonight.</p>
+
+<h2>Optional: after you plug in a USB for backup</h2>
+<p>Plug the stick into the computer.</p>
+<p>Run <span><code>lsblk</code></span>.</p>
+<p>Then run <span><code>cat /proc/partitions</code></span> again.</p>
+<p>You should see a new short name for the stick. It is often <span><code>sdb</code></span> or <span><code>sdb1</code></span>, or similar. Compare with <a href="leftover-box-parted-list">parted -l</a> if you want a layout-style map. The backup job, once a path is live, is <a href="first-backup">a backup of the house folder</a>.</p>
+
+<h2>Useful extras, still a look</h2>
+<p>Skip editing anything under <span><code>/proc</code></span>. These files are read-only views. They are not a place to save a new partition map.</p>
+<p>Skip <span><code>wipefs</code></span>, <span><code>smartctl</code></span>, interactive <span><code>parted</code></span>, <span><code>fdisk</code></span> without <span><code>-l</code></span>, <span><code>mount</code></span>, <span><code>umount</code></span>, <span><code>dd</code></span>, <span><code>shred</code></span>, format, and rewriting fstab. Those are not this note.</p>
+<p>Skip buying a NAS because a computer number looks unfamiliar. Free room is <a href="leftover-box-disk-space">see if the computer still has room</a>.</p>
+<p>Skip <span><code>screen</code></span>, <span><code>tmux</code></span>, and port 22 forwarding. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>.</p>
+
+<h2>What this is not</h2>
+<p>This is not a <span><code>parted -l</code></span> layout printout. That is <a href="leftover-box-parted-list">peek at partition layout with parted</a>. It is not the classic <span><code>fdisk -l</code></span> table. That is <a href="leftover-box-fdisk-list">peek at partition tables with fdisk</a>. It is not the friendly disk tree. That is <a href="leftover-box-lsblk">see disks and USB sticks</a>.</p>
+
+<h2>What next</h2>
+<p>Need parted&apos;s layout first? <a href="leftover-box-parted-list">Peek at partition layout with parted</a>. Need room left on a path? <a href="leftover-box-disk-space">See if the computer still has room</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip <span><code>parted -l</code></span>, <span><code>fdisk -l</code></span>, <span><code>lsblk</code></span>, or <span><code>findmnt</code></span> as tonight&apos;s job if you only came for this look-only peek. Those notes already exist.</li>
+<li>Skip writing under <span><code>/proc</code></span>. Read only.</li>
+<li>Skip <span><code>wipefs</code></span>, <span><code>smartctl</code></span>, <span><code>mount</code></span>, <span><code>umount</code></span>, <span><code>dd</code></span>, <span><code>shred</code></span>, format, and rewriting fstab.</li>
+<li>Skip buying a NAS because a blocks column looks unfamiliar.</li>
+<li>Skip opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/manpages/proc.5.en.html">Debian: proc(5)</a> (see partitions). <a href="https://www.kernel.org/doc/html/latest/filesystems/proc.html">Linux kernel docs: The /proc Filesystem</a>. Official pages only. For parted’s layout printout, see <a href="leftover-box-parted-list">peek at partition layout with parted</a>. For the classic fdisk table, see <a href="leftover-box-fdisk-list">peek at partition tables with fdisk</a>. For udev properties, see <a href="leftover-box-udevadm">peek at disk details with udevadm</a>. For printed labels and UUIDs, see <a href="leftover-box-blkid">read disk labels and UUIDs</a>. For the disk-name list, see <a href="leftover-box-lsblk">see disks and USB sticks</a>. For the mount map, see <a href="leftover-box-findmnt">see which folders are already attached</a>. For free room, see <a href="leftover-box-disk-space">see if the computer still has room</a>. For a second copy once a USB path is live, see <a href="first-backup">a backup of the house folder</a>. For the login, see <a href="first-ssh">SSH from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-parted-list"><span class="t">Peek at partition layout with parted</span><span class="d">After fdisk -l shows the partition table, a look-only parted -l printout shows sizes and filesystem hints. Nothing is created, resized, or rewritten.</span></a>
+<a class="note-row" href="leftover-box-fdisk-list"><span class="t">Peek at partition tables with fdisk</span><span class="d">After udevadm shows disk properties, use fdisk -l (look-only) so you see the partition table layout, sizes and slice names, without creating, deleting, or rewriting anything.</span></a>
+<a class="note-row" href="leftover-box-lsblk"><span class="t">See disks and USB sticks</span><span class="d">After SSH works (and before you blame a missing USB backup), list disks and USB sticks with lsblk so you see names like sda and sdb without opening a disk app.</span></a>
+<a class="note-row" href="leftover-box-findmnt"><span class="t">See which folders are already attached</span><span class="d">After you can list disks with lsblk (and before you blame a missing USB backup), use findmnt to see which folders are already attached (mounted) so you know what is live as / or a USB path.</span></a>
+<a class="note-row" href="leftover-box-blkid"><span class="t">Read disk labels and UUIDs</span><span class="d">After you can list disks with lsblk and see which folders are attached with findmnt, use blkid to read labels, UUIDs, and filesystem types on disk slices so you can tell which stick or slice is which.</span></a>
+<a class="note-row" href="leftover-box-udevadm"><span class="t">Peek at disk details with udevadm</span><span class="d">After by-id shows hardware-style fixed names, use udevadm info (look-only) on a disk path so you see the properties udev already knows, without mounting or rewriting anything.</span></a>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="leftover-box-disk"><span class="t">See how big the computer disk already is</span><span class="d">Before you buy a tiny computer or a NAS, check how big the computer disk already is.</span></a>
+<a class="note-row" href="leftover-box-usb-disk"><span class="t">See if the USB backup disk showed up</span><span class="d">Before you trust the weekly copy, confirm the computer can see the USB disk.</span></a>
+<a class="note-row" href="first-backup"><span class="t">A backup of the house folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another computer. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-parted-list"><span class="kicker">Previous</span><span class="t">Peek at partition layout with parted</span></a>
+<a rel="next" href="leftover-box-disk-space"><span class="kicker">Next</span><span class="t">See if the computer still has room</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

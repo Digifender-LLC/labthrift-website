@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When one phone still shows ads — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Everyone else's ads dropped. One phone still shows banners. Check Private DNS, Private Relay, a VPN, then the Wi-Fi lease. You don't need a new router.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When one phone still shows ads — Labthrift">
+<meta property="og:description" content="Everyone else's ads dropped. One phone still shows banners. Check Private DNS, Private Relay, a VPN, then the Wi-Fi lease. You don't need a new router.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-one-phone-shows-ads">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-one-phone-shows-ads">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When one phone still shows ads","description":"Everyone else's ads dropped. One phone still shows banners. Check Private DNS, Private Relay, a VPN, then the Wi-Fi lease. You don't need a new router.","url":"https://labthrift.com/guides/when-one-phone-shows-ads","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-03"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When one phone still shows ads</span></nav>
+<p class="note">Written 3 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When one phone still shows ads</h1>
+<p class="deck">Everyone else's ads dropped. One phone still shows banners. Check Private DNS, Private Relay, a VPN, then the Wi-Fi lease. You don't need a new router.</p>
+<p>Haven't installed Pi-hole yet? Start with <a href="first-useful-service">the first useful thing</a>. Ads back on every device? Start with <a href="when-ads-come-back">when ads come back</a>. Stubborn laptop or browser, not a phone? That is <a href="when-one-laptop-shows-ads">when one laptop still shows ads</a>. This note is only the stubborn phone (or tablet) that refuses the house ad block.</p>
+
+<h2>Skip until the house already works</h2>
+<p>If a laptop on house Wi-Fi still shows the same ads, fix the house first. The computer may be asleep, Pi-hole may have stopped, or the router may have forgotten DNS: <a href="when-ads-come-back">when ads come back</a>. This note assumes the rest of the house is clean and one phone is the odd one out.</p>
+
+<h2>What is going on</h2>
+<p>The router tells phones to ask the computer for names. That phone may ignore the router. Android Private DNS, iCloud Private Relay, a VPN app, or Chrome Secure DNS can send lookups somewhere else. Ads then load on that phone only. The computer looks fine. The router looks fine. The phone is the bypass.</p>
+
+<h2>1. Android Private DNS</h2>
+<p>On many Androids, open Settings, search for <span><code>Private DNS</code></span>, and open it. On a Pixel it often sits under Network &amp; internet. On a Samsung, Connections → More connection settings → Private DNS.</p>
+<p>Set Private DNS to Off, or to Automatic if Off is not offered and Automatic still uses the router. Do not leave a hostname like <span><code>dns.google</code></span> or <span><code>one.one.one.one</code></span> filled in for house Wi-Fi. That path skips Pi-hole on purpose. Browse a site that used to show ads. Skip building a DNS-over-TLS proxy on day one.</p>
+
+<h2>2. iPhone Private Relay</h2>
+<p>On an iPhone or iPad with iCloud+, open Settings → [your name] → iCloud → Private Relay. Turn Private Relay off, or use the Wi-Fi detail for the house network and turn Limit IP Address Tracking off for that network only if you want Relay elsewhere.</p>
+<p>Private Relay can hide the phone's traffic path, including name lookups, from the house router. That is useful on a coffee-shop network. At home it means the phone may never ask the computer. Browse again on house Wi-Fi after you change it.</p>
+
+<h2>3. A VPN or “secure DNS” app</h2>
+<p>Any VPN, “ad block” VPN, or browser Secure DNS setting can bypass the house. Disconnect the VPN. In Chrome on the phone, open Settings → Privacy and security → Use secure DNS (wording moves), and turn it off while you test. Same idea in Firefox if Secure DNS is on. Test without the VPN first. Add it back later only if you still want it off-house.</p>
+
+<h2>4. Sticky Wi-Fi lease</h2>
+<p>If Private DNS and Relay are already off, the phone may still hold an old lease from before you pointed the router at the computer. Forget the house Wi-Fi, join again, or toggle airplane mode for ten seconds. Fuller flush walk (phones and laptops): <a href="flush-dns-on-devices">flush old DNS on phones and laptops</a>. Then open a site that used to show ads. Same short check as in <a href="when-ads-come-back">when ads come back</a>.</p>
+
+<h2>Check from the couch</h2>
+<p>On another device that already blocks ads, open the Pi-hole query log. Use that stubborn phone for a minute. You should see that phone's lookups. If the log stays quiet while the phone loads pages, the phone is still asking someone else. Go back to Private DNS, Private Relay, or the VPN.</p>
+
+<h2>What this is not</h2>
+<p>This is not a reason to buy a mesh kit, a new router, or a Raspberry Pi. It is not a reason to open Pi-hole to the internet. It is not homework to run DNS-over-TLS on the computer tonight. Fix the phone so it uses the house book first.</p>
+
+<h2>What next</h2>
+<p>Stubborn laptop instead? <a href="when-one-laptop-shows-ads">When one laptop still shows ads</a>. Router will not take custom DNS at all? Set this phone only: <a href="manual-dns-on-devices">point a phone or laptop at Pi-hole when the router won't</a>. Still dirty with Private DNS and VPNs off, and IPv4 DNS looks right? Try <a href="when-ipv6-bypasses-ads">when ads sneak past on IPv6</a>.</p>
+<p>If the phone was on the guest SSID the whole time, that is <a href="guest-wifi-dns">when guest Wi-Fi still shows ads</a>. If ads are gone on this phone but one site still dies, that is <a href="when-a-site-wont-load">when a site won't load after Pi-hole</a>. If every device broke, walk <a href="when-ads-come-back">when ads come back</a>. Confirm the router still points at the computer: <a href="leftover-box-router-dns">point the house at the ad block</a>. Leave the ad block alone for a week when that phone is clean.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip buying a new router for one phone.</li>
+<li>Skip a mesh kit for ad block.</li>
+<li>Skip exposing Pi-hole to the internet.</li>
+<li>Skip DNS-over-TLS homework on day one.</li>
+<li>Skip this if every device still shows ads. Fix the house first.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://docs.pi-hole.net/">Pi-hole docs</a>. <a href="https://discourse.pi-hole.net/">Pi-hole userspace</a> threads on Android Private DNS and browser Secure DNS. <a href="https://support.apple.com/HT212614">Apple: About iCloud Private Relay</a>. Official pages only. For install, see <a href="first-useful-service">the first useful thing</a>. For the whole-house walk, see <a href="when-ads-come-back">when ads come back</a>. For router DNS, see <a href="leftover-box-router-dns">point the house at the ad block</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="flush-dns-on-devices"><span class="t">Flush old DNS on phones and laptops</span><span class="d">After you point the router at Pi-hole, phones and laptops may still use the old DNS. Renew the Wi-Fi lease or flush the cache so ads drop. You don't need a new router.</span></a>
+<a class="note-row" href="manual-dns-on-devices"><span class="t">Point a phone or laptop at Pi-hole when the router won't</span><span class="d">When Nest, Google Wifi, or an ISP gateway will not take custom DNS, set DNS on one phone or laptop so it asks Pi-hole. You don't need a new router for this device.</span></a>
+<a class="note-row" href="when-a-site-wont-load"><span class="t">When a site won't load after Pi-hole</span><span class="d">A bank, streamer, or login page breaks after Pi-hole. Pause blocking for five minutes, then allow the domain you need. You don't need a new router.</span></a>
+<a class="note-row" href="common-router-dns"><span class="t">Point common home routers at Pi-hole</span><span class="d">Where to set DNS on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so the house asks Pi-hole. Prefer LAN DHCP DNS. You don't need a new router.</span></a>
+<a class="note-row" href="when-ads-come-back"><span class="t">When ads come back</span><span class="d">Ads are back, sites won't load, or a phone still shows banners. Check the computer, Pi-hole, router DNS, then the phone.</span></a>
+<a class="note-row" href="when-ipv6-bypasses-ads"><span class="t">When ads sneak past on IPv6</span><span class="d">Pi-hole looks fine on IPv4, but phones still show banners. Check IPv6 DNS on the router, or turn that path off for now. You don't need a new router.</span></a>
+<a class="note-row" href="when-one-laptop-shows-ads"><span class="t">When one laptop still shows ads</span><span class="d">Everyone else's ads dropped. One laptop (or one browser) still shows banners. Check Chrome, Edge, or Firefox Secure DNS, Windows encrypted DNS, Mac Private Relay, then a VPN. You don't need a new router.</span></a>
+<a class="note-row" href="guest-wifi-dns"><span class="t">When guest Wi-Fi still shows ads</span><span class="d">Guest Wi-Fi is a separate network on purpose. Leave guests on ISP DNS, put a visitor on the main house Wi-Fi, or point guest DNS at Pi-hole only if they can reach the computer. You don't need a new router.</span></a>
+<a class="note-row" href="first-useful-service"><span class="t">The first useful thing</span><span class="d">Put a house-wide ad block on the old PC. The rest of the house keeps using the internet as usual. You don't need a Raspberry Pi.</span></a>
+<a class="note-row" href="leftover-box-router-dns"><span class="t">Point the house at the ad block</span><span class="d">After Pi-hole is installed, point the house router at the computer for DNS. Phones and laptops need no app. Sites still load. A lot of ads don't.</span></a>
+<a class="note-row" href="leftover-box-ad-block-check"><span class="t">When ads come back, check the ad block</span><span class="d">The computer is awake, but banners are back. Check that Pi-hole is still answering before you buy a mesh kit or blame the router.</span></a>
+<a class="note-row" href="leftover-box-still-on"><span class="t">Is the computer still on?</span><span class="d">You left the computer on. This morning ads are back, or SSH hangs. Check if it is awake before you buy anything.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="when-ads-come-back"><span class="kicker">Previous</span><span class="t">When ads come back</span></a>
+<a rel="next" href="leftover-box-router-dns"><span class="kicker">Next</span><span class="t">Point the house at the ad block</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See which laptop keys the computer already trusts - Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Before you turn off password login, look at which laptop keys can already get into the computer. Remove leftovers from an old Marketplace computer. You don't need a YubiKey for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See which laptop keys the computer already trusts - Labthrift">
+<meta property="og:description" content="Before you turn off password login, look at which laptop keys can already get into the computer. Remove leftovers from an old Marketplace computer. You don't need a YubiKey for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-authorized-keys">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-authorized-keys">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See which laptop keys the computer already trusts","description":"Before you turn off password login, look at which laptop keys can already get into the computer. Remove leftovers from an old Marketplace computer. You don't need a YubiKey for this.","url":"https://labthrift.com/guides/leftover-box-authorized-keys","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-28"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">See which laptop keys the computer already trusts</span></nav>
+<p class="note">Written 28 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>See which laptop keys the computer already trusts</h1>
+<p class="deck">Before you turn off password login, look at which laptop keys can already get into the computer. Remove leftovers from an old Marketplace computer. You don't need a YubiKey for this.</p>
+<p><a href="leftover-box-ssh-keys">Log in with a key</a> puts your laptop's public line on the computer. This note is the look after that: open the list and see who else is already trusted. A Marketplace computer can still hold an old owner's key. That is not a reason to buy a camera or a YubiKey. It is a reason to look once.</p>
+
+<h2>Skip until a key login works</h2>
+<p>If password SSH is still the only way in, stop. Put a key on first: <a href="leftover-box-ssh-keys">log in with a key, not the password every time</a>. If you cannot log in from the couch, that is <a href="first-ssh">SSH from the couch</a>. Prefer this look after you know who else can still log in with a password: <a href="leftover-box-other-accounts">see if the computer still has old login accounts</a>. This note assumes you can open a shell as your everyday user.</p>
+
+<h2>What this file is</h2>
+<p>Each line in <span><code>~/.ssh/authorized_keys</code></span> is one laptop (or phone, or other computer) the computer will let in without the password. Your line from <a href="leftover-box-ssh-keys">log in with a key</a> should be there. Extra lines you don't recognize are the problem. This is not the laptop's private key. It is the public half the computer remembers.</p>
+
+<h2>See if the file exists</h2>
+<p>From the computer (SSH or the keyboard):</p>
+<p><code>ls -la ~/.ssh/</code></p>
+<p>You want a file named <span><code>authorized_keys</code></span>. If the folder is missing, or that file is missing, you have not finished the key note yet. Go back to <a href="leftover-box-ssh-keys">log in with a key</a>. Optional count of lines:</p>
+<p><code>test -f ~/.ssh/authorized_keys &amp;&amp; wc -l &lt; ~/.ssh/authorized_keys || echo no keys file yet</code></p>
+<p>One line is normal after one laptop. Zero means the file is empty. More than one means more than one key is trusted. That can be fine (your laptop plus a second computer). It can also be an old Marketplace key.</p>
+
+<h2>Read the list</h2>
+<p><code>cat ~/.ssh/authorized_keys</code></p>
+<p>Each line starts with <span><code>ssh-ed25519</code></span> or <span><code>ssh-rsa</code></span>, then a long blob, then often a short comment (an email or a laptop name). That comment is a hint, not a password. Match the comment to a laptop you own. A comment you don't recognize, or a second long blob you never pasted, is a leftover to remove before you harden login.</p>
+
+<h2>Remove a line you don't trust</h2>
+<p>Keep one SSH window open so you don't lock yourself out. Open the file in a simple editor:</p>
+<p><code>nano ~/.ssh/authorized_keys</code></p>
+<p>Delete only the full line you don't trust. Save and quit (in nano: Ctrl+O, Enter, then Ctrl+X). The editor walkthrough is <a href="leftover-box-nano">edit a file from the couch</a>. Don't delete your own laptop's line. Then prove your key still works from a second terminal:</p>
+<p><code>ssh you@that-address</code></p>
+<p>Swap <span><code>you</code></span> and <span><code>that-address</code></span> the way <a href="first-ssh">SSH from the couch</a> taught you. If that works, you are done with the cleanup. Skip buying login software for this look.</p>
+
+<h2>Optional: check root too</h2>
+<p>Most Debian and Ubuntu installs don't let root SSH in. If you ever enabled that, peek:</p>
+<p><code>sudo test -f /root/.ssh/authorized_keys &amp;&amp; sudo wc -l &lt; /root/.ssh/authorized_keys || echo no root keys file</code></p>
+<p>If that prints a number, read it the same way with <span><code>sudo cat /root/.ssh/authorized_keys</code></span>. Empty or missing is the usual win. Skip this optional look if you never logged in as root over SSH.</p>
+
+<h2>What next</h2>
+<p>Once the list is only keys you trust, <a href="leftover-box-ssh-config">give the computer a short name on your laptop</a>, then <a href="leftover-box-second-key">put a key on a second computer first</a>. When both computers get in, <a href="leftover-box-ssh-no-password">turn off password login once the key works</a>. Keep a keyboard on the computer as the backup. Then see which doors are open: <a href="leftover-box-listening">see which doors the computer left open</a>. Skip a YubiKey. Skip forwarding port 22.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if key login is not working yet. Finish <a href="leftover-box-ssh-keys">log in with a key</a> first.</li>
+<li>Skip a YubiKey for the computer.</li>
+<li>Skip buying a camera or extra login software for this look.</li>
+<li>Skip turning off password login until this list is only keys you trust. That harden step is <a href="leftover-box-ssh-no-password">turn off password login once the key works</a>.</li>
+<li>Skip opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://man.openbsd.org/sshd.8">OpenSSH: sshd</a> (AUTHORIZED_KEYS FILE FORMAT). <a href="https://manpages.debian.org/bookworm/openssh-server/sshd.8.en.html">Debian: sshd</a>. <a href="https://manpages.debian.org/bookworm/openssh-client/ssh-keygen.1.en.html">Debian: ssh-keygen</a>. <a href="https://documentation.ubuntu.com/server/how-to/security/openssh-server/">Ubuntu: OpenSSH server</a>. Official pages only. For putting your key on, see <a href="leftover-box-ssh-keys">log in with a key</a>. For old password accounts, see <a href="leftover-box-other-accounts">see if the computer still has old login accounts</a>. For a second computer, see <a href="leftover-box-second-key">put a key on a second computer first</a>. For turning off password SSH after this look, see <a href="leftover-box-ssh-no-password">turn off password login once the key works</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="leftover-box-ssh-keys"><span class="t">Log in with a key, not the password every time</span><span class="d">After password SSH works for a while, put a key on your laptop so the computer trusts that laptop. Keep the password as a backup at first.</span></a>
+<a class="note-row" href="leftover-box-second-key"><span class="t">Put a key on a second computer first</span><span class="d">Before you turn off password login, give a second laptop its own key so you are not locked out if the first one dies. You don't need a YubiKey.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+<a class="note-row" href="leftover-box-other-accounts"><span class="t">See if the computer still has old login accounts</span><span class="d">Before you leave a Marketplace box on the house network, look at who else can still log in. You don't need extra login software for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-host-key"><span class="t">When SSH says the computer looks different</span><span class="d">After you reinstall, SSH can refuse because your laptop still remembers the old ID. Clear that memory. You don't need a new router.</span></a>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-ssh-keys"><span class="kicker">Previous</span><span class="t">Log in with a key, not the password every time</span></a>
+<a rel="next" href="leftover-box-ssh-config"><span class="kicker">Next</span><span class="t">Give the computer a short name on your laptop</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

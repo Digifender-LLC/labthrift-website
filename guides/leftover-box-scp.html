@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Copy a file to the computer from your laptop — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After SSH works, use scp to move one file without a USB stick. A short name like lab makes the typing shorter. You don't need a NAS for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Copy a file to the computer from your laptop — Labthrift">
+<meta property="og:description" content="After SSH works, use scp to move one file without a USB stick. A short name like lab makes the typing shorter. You don't need a NAS for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-scp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-scp">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Copy a file to the computer from your laptop","description":"After SSH works, use scp to move one file without a USB stick. A short name like lab makes the typing shorter. You don't need a NAS for this.","url":"https://labthrift.com/guides/leftover-box-scp","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-28"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Copy a file to the computer from your laptop</span></nav>
+<p class="note">Written 28 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Copy a file to the computer from your laptop</h1>
+<p class="deck">After SSH works, use <span><code>scp</code></span> to move one file without a USB stick. A short name like lab makes the typing shorter. You don't need a NAS for this.</p>
+<p><a href="first-ssh">SSH from the couch</a> lets you type commands on the computer. Sometimes you just want one file over there: a config, a photo, a small script. <span><code>scp</code></span> is secure copy. It rides the same SSH login you already have. The computer does not need Samba, a shared folder, or a USB stick for this one job.</p>
+
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. A short name is nicer: <a href="leftover-box-ssh-config">give the computer a short name on your laptop</a>. Key login is nicer than typing the password every time: <a href="leftover-box-ssh-keys">log in with a key</a>. If the key has a passphrase and you are tired of typing it, <a href="leftover-box-ssh-agent">unlock your key once per laptop session</a>. Skip this whole note if you only need a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</p>
+
+<h2>What this is</h2>
+<p><span><code>scp</code></span> copies a file over SSH. Same user, same address, same key or password as a normal login. You run it on the laptop. The computer receives the file in a folder you name. Pulling a file back the other way is the same idea with the paths swapped. This is not the weekly USB backup. That is <a href="first-backup">a backup of the folder</a>.</p>
+
+<h2>Copy one file to the computer</h2>
+<p>On the laptop, in the folder that already has the file (Windows Terminal, PowerShell, Mac Terminal, or Linux):</p>
+<p><code>scp ./photo.jpg lab:~/</code></p>
+<p>That puts <span><code>photo.jpg</code></span> in your home folder on the computer. Swap the filename for yours. If you have no short name yet, use the long form from <a href="first-ssh">SSH from the couch</a>:</p>
+<p><code>scp ./photo.jpg you@that-address:~/</code></p>
+<p>It may ask for the password, or the key passphrase, the same way SSH does. When it finishes without an error, the file is there.</p>
+
+<h2>Check it landed</h2>
+<p>Still on the laptop:</p>
+<p><code>ssh lab ls ~</code></p>
+<p>Or the long form:</p>
+<p><code>ssh you@that-address ls ~</code></p>
+<p>You want your filename in the list. Optional look at size and date:</p>
+<p><code>ssh lab ls -lh ~/photo.jpg</code></p>
+
+<h2>Copy one file back to the laptop</h2>
+<p>Paths swap. The side comes first:</p>
+<p><code>scp lab:~/notes.txt ./</code></p>
+<p>Or:</p>
+<p><code>scp you@that-address:~/notes.txt ./</code></p>
+<p>That drops <span><code>notes.txt</code></span> in the folder you are sitting in on the laptop. Useful when you edited something on the computer and want a local copy.</p>
+
+<h2>Optional: a whole folder</h2>
+<p>Need a folder first? <a href="leftover-box-mkdir">Make a folder</a>, then point the side at it:</p>
+<p><code>scp ./photo.jpg lab:~/notes/</code></p>
+<p>Add <span><code>-r</code></span> for a folder and everything inside it:</p>
+<p><code>scp -r ./scripts lab:~/</code></p>
+<p>Keep folders small. A movie library or a photo dump belongs on a house share or a backup disk, not a one-shot <span><code>scp</code></span> of gigabytes. For a house folder other computers open, see <a href="first-file-share">a folder the house can open</a>. For a checked USB copy, see <a href="first-backup">a backup of the folder</a>.</p>
+
+<h2>What next</h2>
+<p>If the key passphrase keeps asking on every copy, <a href="leftover-box-ssh-agent">unlock your key once per laptop session</a>. Need browse folders then copy one file? <a href="leftover-box-sftp">Browse folders then copy one file</a>. Need a spare of a file that is already there? <a href="leftover-box-cp">Copy a file without leaving the computer</a>. Need to change a file in place instead of copying it? <a href="leftover-box-nano">Edit a file from the couch</a>. When key login is boring on every computer you use, <a href="leftover-box-ssh-no-password">turn off password login once the key works</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip buying a NAS to move one config file.</li>
+<li>Skip a USB stick for a single small file when SSH already works.</li>
+<li>Skip opening SSH to the internet so a friend can <span><code>scp</code></span> in. That is <a href="leftover-box-house-network">keep the computer on the house network</a>.</li>
+<li>Skip turning this into your whole backup plan. Use <a href="first-backup">a backup of the folder</a> for that.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://man.openbsd.org/scp">OpenSSH: scp</a>. <a href="https://manpages.debian.org/bookworm/openssh-client/scp.1.en.html">Debian: scp</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/scp.1.html">Ubuntu: scp</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For the short name, see <a href="leftover-box-ssh-config">give the computer a short name on your laptop</a>. For the key, see <a href="leftover-box-ssh-keys">log in with a key</a>. For the agent, see <a href="leftover-box-ssh-agent">unlock your key once per laptop session</a>. For a house share, see <a href="first-file-share">a folder the house can open</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-ssh-config"><span class="t">Give the computer a short name on your laptop</span><span class="d">After SSH works, put a short name in your laptop SSH config so you type ssh lab instead of the long address. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-ssh-keys"><span class="t">Log in with a key, not the password every time</span><span class="d">After password SSH works for a while, put a key on your laptop so the computer trusts that laptop. Keep the password as a backup at first.</span></a>
+<a class="note-row" href="leftover-box-ssh-agent"><span class="t">Unlock your key once per laptop session</span><span class="d">After the key has a passphrase, load it once with ssh-add so you are not typing that passphrase on every ssh lab. You don't need a YubiKey.</span></a>
+<a class="note-row" href="leftover-box-nano"><span class="t">Edit a file from the couch</span><span class="d">After SSH works, open a file with nano, change a line, and save. The keys at the bottom of the screen are the whole trick. You don't need a new editor.</span></a>
+<a class="note-row" href="leftover-box-history"><span class="t">Reuse a command you already typed</span><span class="d">After SSH works, flip back through commands with the Up arrow or history. You don't need a notebook for the same long line twice.</span></a>
+<a class="note-row" href="leftover-box-ls"><span class="t">See what's in a folder</span><span class="d">After SSH works, list the folder you are sitting in with ls. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-cd"><span class="t">Move into a folder</span><span class="d">After SSH works, change folders with cd. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-mkdir"><span class="t">Make a folder</span><span class="d">After SSH works, make a folder with mkdir so copies and edits have a place to land. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-cp"><span class="t">Copy a file without leaving the computer</span><span class="d">After SSH works, copy a file with cp so you can edit a spare without wrecking the original. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-sftp"><span class="t">Browse folders then copy one file</span><span class="d">After SSH works, browse folders with sftp so you can pick a file and copy it. You don't need FileZilla or a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+<a class="note-row" href="first-file-share"><span class="t">A folder the house can open</span><span class="d">Share one folder from the computer so phones and laptops can open it. Samba is the usual name for that job on Debian and Ubuntu.</span></a>
+<a class="note-row" href="first-backup"><span class="t">A backup of the folder</span><span class="d">Copy the house folder to a USB disk or a second the computer. One checked copy beats a fancy NAS you never plugged in.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-ssh-agent"><span class="kicker">Previous</span><span class="t">Unlock your key once per laptop session</span></a>
+<a rel="next" href="leftover-box-nano"><span class="kicker">Next</span><span class="t">Edit a file from the couch</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

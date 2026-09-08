@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Make a boot USB for the install , Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Write Ubuntu Server or Debian onto a USB stick so the old PC can boot the installer. Use Etcher or Rufus. Don't drag the ISO into a folder.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Make a boot USB for the install , Labthrift">
+<meta property="og:description" content="Write Ubuntu Server or Debian onto a USB stick so the old PC can boot the installer. Use Etcher or Rufus. Don't drag the ISO into a folder.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/make-boot-usb">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/make-boot-usb">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Make a boot USB for the install","description":"Write Ubuntu Server or Debian onto a USB stick so the old PC can boot the installer. Use Etcher or Rufus. Don't drag the ISO into a folder.","url":"https://labthrift.com/guides/make-boot-usb","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-03"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">Make a boot USB for the install</span></nav>
+<p class="note">Written 3 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>Make a boot USB for the install</h1>
+<p class="deck">Write Ubuntu Server or Debian onto a USB stick so the old PC can boot the installer. Use Etcher or Rufus. Don't drag the ISO into a folder.</p>
+<p>Haven't chosen an OS yet? See <a href="what-os-to-pick">what OS to put on it</a>. Got the computer from Marketplace? <a href="wipe-marketplace-pc">Wipe it before you install</a>. The full weekend install is <a href="first-weekend">your first weekend</a>. This note is only the stick.</p>
+
+<h2>Skip until you have a stick and an ISO</h2>
+<p>You need an empty-enough USB stick (8 GB or more) and a computer that can download and flash it, usually your daily laptop. Skip this if the old PC already boots a working installer USB. Don't buy a fancy branded "bootable" stick. A plain USB drive is fine.</p>
+
+<h2>What this is</h2>
+<p>A boot USB is a stick the old PC can start from instead of its hard disk. The installer lives on that stick. Copying the ISO file into a folder on the stick does not work. You have to flash (write) the image so the stick looks like a boot disk.</p>
+
+<h2>1. Download the ISO</h2>
+<p>Pick one official image only:</p>
+<ul>
+<li><a href="https://ubuntu.com/download/server">Ubuntu Server</a>. LTS is the usual pick.</li>
+<li><a href="https://www.debian.org/download">Debian</a>. Use netinst or the live/server image from the download page.</li>
+</ul>
+<p>Save the <code>.iso</code> file. Don't unpack it. Don't open it as a folder.</p>
+
+<h2>2. Pick a flash tool</h2>
+<div class="table-wrap">
+<table>
+<tr><th>Tool</th><th>When to pick it</th></tr>
+<tr class="pick"><td data-label="Tool"><a href="https://etcher.balena.io/">balenaEtcher</a></td><td data-label="When to pick it">Default. Works on Windows, Mac, and Linux. Few buttons.</td></tr>
+<tr><td data-label="Tool">Rufus</td><td data-label="When to pick it">Windows only, and you already have it. Use DD mode if Rufus asks.</td></tr>
+<tr><td data-label="Tool">Ventoy</td><td data-label="When to pick it">You keep several ISOs on one stick. Fine later. Skip tonight if Etcher is enough.</td></tr>
+</table>
+</div>
+
+<h2>3. Flash with Etcher</h2>
+<p>Plug the USB stick into your daily computer. Open Etcher.</p>
+<ol>
+<li>Flash from file: pick the <code>.iso</code> you downloaded.</li>
+<li>Select target: pick the USB stick. Check the size so you don't wipe an external hard drive.</li>
+<li>Flash. Wait until it finishes and says it validated (or completed).</li>
+</ol>
+<p>Windows may warn that the stick needs formatting after. Don't format it. Eject it from the system tray, then unplug.</p>
+
+<h2>4. Boot the old PC from the stick</h2>
+<p>Plug the stick into the old PC. Power on. Tap the boot menu key early (Dell often F12; others F10, Esc, or F2 then a boot menu). Pick the USB entry. Often the stick brand name, or "UEFI: …".</p>
+<p>If it boots straight into old Windows, open the firmware setup, put USB first, or disable Secure Boot only if the menu won't show the stick. Then try again.</p>
+
+<h2>5. You're done with this note</h2>
+<p>When the Ubuntu or Debian installer screen appears, the stick worked. Continue with <a href="first-weekend">your first weekend</a>. On a Marketplace box, wipe the whole disk in the installer: <a href="wipe-marketplace-pc">wipe a Marketplace PC before you install</a>.</p>
+
+<h2>If the stick won't boot</h2>
+<ul>
+<li>Try another USB port (rear motherboard ports on a desktop beat front-panel hubs).</li>
+<li>Reflash with Etcher. A half-written stick fails quietly.</li>
+<li>Confirm you downloaded Server (or Debian), not a random remix ISO.</li>
+<li>Try Rufus in DD image mode on Windows if Etcher keeps failing on that PC.</li>
+</ul>
+
+<h2>What this is not</h2>
+<p>This is not a reason to buy a new mini PC. It is not Ventoy as homework. It is not a Windows-to-go stick. It is not "copy the ISO with File Explorer."</p>
+
+<h2>What next</h2>
+<p>Next, get the old PC to start from that stick: <a href="boot-from-usb">boot the old PC from the USB stick</a>. Install weekend: <a href="first-weekend">your first weekend</a>. Still picking Debian vs Ubuntu Server? <a href="what-os-to-pick">What OS to put on it</a>. Still need files off the old disk first? <a href="save-files-before-wipe">Copy your files off before you wipe</a>. Marketplace box still has old Windows? <a href="wipe-marketplace-pc">Wipe it before you install</a>. Stick won't start on the old PC? <a href="when-usb-wont-boot">When the boot USB won't start</a>.</p>
+
+<p class="note">Optional: jot which ISO and stick you used in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip dragging the ISO onto the stick in Explorer or Finder.</li>
+<li>Skip formatting the stick after Etcher finishes.</li>
+<li>Skip buying a special "bootable USB" product.</li>
+<li>Skip Ventoy until one plain Etcher stick has worked once.</li>
+<li>Skip this if the old PC already boots a working installer.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://ubuntu.com/download/server">Ubuntu Server download</a>. <a href="https://www.debian.org/download">Debian download</a>. <a href="https://etcher.balena.io/">balenaEtcher</a>. <a href="https://rufus.ie/">Rufus</a>. Official pages only. For the OS choice, see <a href="what-os-to-pick">what OS to put on it</a>. For the install weekend, see <a href="first-weekend">your first weekend</a>. For a Marketplace wipe, see <a href="wipe-marketplace-pc">wipe a Marketplace PC before you install</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="when-computer-wont-boot"><span class="t">When the old PC won't boot</span><span class="d">No fans, black screen, or stuck on the logo. Check power, the monitor, a hard power cycle, then try the installer USB before you buy a new board.</span></a>
+<a class="note-row" href="what-os-to-pick"><span class="t">What OS to put on it</span><span class="d">Debian or Ubuntu Server if you can dedicate the old PC. Leave Windows if you still use the laptop as a laptop.</span></a>
+<a class="note-row" href="save-files-before-wipe"><span class="t">Copy your files off before you wipe</span><span class="d">Pull photos, papers, and downloads onto a USB stick before the installer erases the disk. Skip if the computer is empty. Then wipe.</span></a>
+<a class="note-row" href="wipe-marketplace-pc"><span class="t">Wipe a Marketplace PC before you install</span><span class="d">A used OptiPlex may still have the last owner's Windows and logins. Wipe the disk with the installer before you plug it into the house network.</span></a>
+<a class="note-row" href="boot-from-usb"><span class="t">Boot the old PC from the USB stick</span><span class="d">Plug in the installer stick, open the one-time boot menu, and pick the USB. Dell F12, HP Esc then F9, Lenovo F12. Don't dig through every BIOS screen tonight.</span></a>
+<a class="note-row" href="when-usb-wont-boot"><span class="t">When the boot USB won't start</span><span class="d">You flashed the stick and opened the boot menu, but the installer never appears. Try another port, the UEFI line, a reflash, then Secure Boot last. Skip a new mini PC tonight.</span></a>
+<a class="note-row" href="first-weekend"><span class="t">Your first weekend</span><span class="d">Install the OS, name it, and reach it from the couch.</span></a>
+<a class="note-row" href="start-with-what-you-have"><span class="t">Start with what you already have</span><span class="d">Don't buy anything yet. Old laptop first, or a retired OptiPlex from Marketplace.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="what-os-to-pick"><span class="kicker">Previous</span><span class="t">What OS to put on it</span></a>
+<a rel="next" href="boot-from-usb"><span class="kicker">Next</span><span class="t">Boot the old PC from the USB stick</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

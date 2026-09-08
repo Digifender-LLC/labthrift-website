@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Pause Pi-hole for a few minutes — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Turn blocking off for five minutes to test a broken site or a dinner guest. It turns itself back on. You don't wipe the lists or change the router.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Pause Pi-hole for a few minutes — Labthrift">
+<meta property="og:description" content="Turn blocking off for five minutes to test a broken site or a dinner guest. It turns itself back on. You don't wipe the lists or change the router.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/pause-pihole">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/pause-pihole">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Pause Pi-hole for a few minutes","description":"Turn blocking off for five minutes to test a broken site or a dinner guest. It turns itself back on. You don't wipe the lists or change the router.","url":"https://labthrift.com/guides/pause-pihole","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-07"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">Pause Pi-hole for a few minutes</span></nav>
+<p class="note">Written 7 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>Pause Pi-hole for a few minutes</h1>
+<p class="deck">Turn blocking off for five minutes to test a broken site or a dinner guest. It turns itself back on. You don't wipe the lists or change the router.</p>
+<p>Haven't installed the house ad block yet? Start with <a href="first-useful-service">the first useful thing</a>. One site is broken and you still need to hunt the domain? That fuller walk is <a href="when-a-site-wont-load">when a site won't load after Pi-hole</a>. You already know the domain and want it allowed for good? That is <a href="allow-a-site">allow a site in Pi-hole on purpose</a>. This note is only the timed pause: blocking stops, then starts again without you touching the router.</p>
+
+<h2>Skip until Pi-hole is actually the suspect</h2>
+<p>If ads never dropped house-wide, fix DNS first: <a href="common-router-dns">point common home routers at Pi-hole</a>. Nothing loads on any device? Put router DNS back on automatic so dinner works, then fix the computer: <a href="when-house-wont-browse">when the house won't browse after Pi-hole</a>. Admin page blank? <a href="when-pihole-wont-open">when the Pi-hole admin page won't open</a>. A pause does not help a phone on cellular, Private DNS, Private Relay, or a VPN that skips house DNS.</p>
+
+<h2>What this is</h2>
+<p>Pi-hole can stop blocking for a short timer. Names resolve the way the upstream DNS would. After the timer, blocking comes back on its own. Useful when a bank page fails, a cast picker is empty, a printer vanished, or a guest needs one unblocked minute. You are not deleting lists. You are not changing the router's DNS. You need house Wi-Fi (or a cable) on the device you are testing.</p>
+
+<h2>Step 1: pause from SSH</h2>
+<p><a href="first-ssh">SSH into the computer</a>, then:</p>
+<p><code>pihole disable 5m</code></p>
+<p>That is five minutes. Other short timers work the same way: <code>pihole disable 30s</code>, <code>pihole disable 10m</code>. Prefer a short timer over leaving it off. To turn blocking back on early:</p>
+<p><code>pihole enable</code></p>
+<p>A bare <code>pihole disable</code> with no timer stays off until you enable it again. Use that only when you mean to leave ads on for a while, then remember to turn it back.</p>
+
+<h2>Step 2: or pause in the admin page</h2>
+<p>Same job without SSH. Open <a href="http://pi.hole/admin">http://pi.hole/admin</a> (or the computer's address plus <code>/admin</code>). Find Disable blocking (sometimes under Tools, depending on your Pi-hole version). Pick five minutes, or thirty seconds if you only need a quick check. Enable when you are done early. Forgot the admin password? <a href="leftover-box-pihole-password">Change the Pi-hole admin password</a>.</p>
+
+<h2>Step 3: prove it on the device that failed</h2>
+<p>On the same phone or laptop that was broken, reload the page (or reopen the cast / print picker). If it works while blocking is paused, Pi-hole was in the path. If it still fails during the pause, the problem is not a block list: wrong Wi-Fi, a dead printer, a TV on guest Wi-Fi, or an app that needs something else. Don't keep pausing forever to paper over that.</p>
+
+<h2>Step 4: when the timer ends</h2>
+<p>Blocking comes back. Ads should drop again on devices that use house DNS. If the site you care about breaks again after the pause, allow the exact domain: <a href="allow-a-site">allow a site in Pi-hole on purpose</a>. Watch the query log while you reload so you copy the right name: <a href="see-what-pihole-blocked">see what Pi-hole blocked</a>.</p>
+
+<h2>What this is not</h2>
+<p>This is not a permanent allow. It is not wiping subscribed lists. It is not putting the router back on automatic DNS (that is the emergency when the whole house cannot browse). It is not opening the admin page past the house network. It is not fixing one phone that bypasses house DNS: <a href="when-one-phone-shows-ads">when one phone still shows ads</a>.</p>
+
+<h2>What next</h2>
+<p>Broken site with a name to allow: <a href="when-a-site-wont-load">when a site won't load after Pi-hole</a>, then <a href="allow-a-site">allow a site in Pi-hole on purpose</a>. Cast picker empty? <a href="when-cast-wont-find">When casting won't find the TV</a>. Printer vanished? <a href="when-printer-wont-print">When the printer won't print</a>. Ads back everywhere after you left blocking off? <a href="when-ads-come-back">When ads come back</a>. Once a week, <a href="update-pihole">keep Pi-hole updated</a>. Before a scary reinstall, <a href="backup-pihole">save a Pi-hole backup</a>. Soft restart without a full reboot: <a href="restart-house-services">restart Pi-hole or the house share</a>.</p>
+
+<p class="note">Optional: jot that you paused blocking in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip a bare <code>pihole disable</code> with no timer unless you will turn it back on yourself.</li>
+<li>Skip leaving blocking off overnight "just in case."</li>
+<li>Skip wiping every subscribed list because one site broke.</li>
+<li>Skip changing router DNS for a five-minute test.</li>
+<li>Skip opening the Pi-hole admin page to the internet.</li>
+<li>Skip a new router or a mesh kit for a pause.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://docs.pi-hole.net/">Pi-hole docs</a>. <a href="https://docs.pi-hole.net/main/pihole-command/">Pi-hole command</a> (disable, enable). Official pages only. For install, see <a href="first-useful-service">the first useful thing</a>. For a broken site you are still diagnosing, see <a href="when-a-site-wont-load">when a site won't load after Pi-hole</a>. For a calm permanent allow, see <a href="allow-a-site">allow a site in Pi-hole on purpose</a>. For the query log, see <a href="see-what-pihole-blocked">see what Pi-hole blocked</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-useful-service"><span class="t">The first useful thing</span><span class="d">Put a house-wide ad block on the old PC. The rest of the house keeps using the internet as usual. You don't need a Raspberry Pi.</span></a>
+<a class="note-row" href="when-a-site-wont-load"><span class="t">When a site won't load after Pi-hole</span><span class="d">A bank, streamer, or login page breaks after Pi-hole. Pause blocking for five minutes, then allow the domain you need. You don't need a new router.</span></a>
+<a class="note-row" href="allow-a-site"><span class="t">Allow a site in Pi-hole on purpose</span><span class="d">One domain the house needs that a block list keeps catching. Add it to the allow list. You don't wipe every list or buy a new router.</span></a>
+<a class="note-row" href="block-a-site"><span class="t">Block a site in Pi-hole on purpose</span><span class="d">One domain you don't want in the house. Add it to the deny list. You don't wipe every block list or buy a new router.</span></a>
+<a class="note-row" href="see-what-pihole-blocked"><span class="t">See what Pi-hole blocked</span><span class="d">Open the query log (or watch it over SSH) so you can tell ads are dying, which device asked, and which name to allow later. You don't need a new router.</span></a>
+<a class="note-row" href="when-cast-wont-find"><span class="t">When casting won't find the TV</span><span class="d">Phone or laptop can't see Chromecast, AirPlay, or the smart TV after Pi-hole. Same Wi-Fi first, pause blocking to prove it, then allow the blocked name. You don't need a new TV.</span></a>
+<a class="note-row" href="when-printer-wont-print"><span class="t">When the printer won't print</span><span class="d">Phone or laptop can't find the house printer after Pi-hole, or a cloud print app stalls. Same Wi-Fi first, pause blocking to prove it, then allow the blocked name. You don't need a new printer.</span></a>
+<a class="note-row" href="when-ads-come-back"><span class="t">When ads come back</span><span class="d">Ads are back, sites won't load, or a phone still shows banners. Check the computer, Pi-hole, router DNS, then the phone.</span></a>
+<a class="note-row" href="restart-house-services"><span class="t">Restart Pi-hole or the house share</span><span class="d">Ads vanished or Finder lost the folder, but the computer is still on. Restart the one service that died. You don't need a full reboot or a new mini PC.</span></a>
+<a class="note-row" href="when-house-wont-browse"><span class="t">When the house won't browse after Pi-hole</span><span class="d">Phones say no internet, or every site times out, after you pointed the house at Pi-hole. Put router DNS back on automatic so dinner works, then fix the computer. You don't need a new router.</span></a>
+<a class="note-row" href="when-pihole-wont-open"><span class="t">When the Pi-hole admin page won't open</span><span class="d">http://pi.hole/admin or the computer's address plus /admin won't load. Check house Wi-Fi, the address, then Pi-hole and the web service. You don't need a new router.</span></a>
+<a class="note-row" href="update-pihole"><span class="t">Keep Pi-hole updated</span><span class="d">Weekly apt does not refresh Pi-hole. Update the software and the block lists on the old PC so ads stay gone. You don't need a new Raspberry Pi.</span></a>
+<a class="note-row" href="leftover-box-pihole-password"><span class="t">Change the Pi-hole admin password</span><span class="d">After the house ad block is up, change the admin password the installer printed. That password is not the login.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="when-a-site-wont-load"><span class="kicker">Previous</span><span class="t">When a site won't load after Pi-hole</span></a>
+<a rel="next" href="allow-a-site"><span class="kicker">Next</span><span class="t">Allow a site in Pi-hole on purpose</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See if the computer can run a pretend computer — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Before you buy a tiny computer for Proxmox, check whether the computer already has the CPU feature for VMs.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See if the computer can run a pretend computer — Labthrift">
+<meta property="og:description" content="Before you buy a tiny computer for Proxmox, check whether the computer already has the CPU feature for VMs.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-virt">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-virt">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See if the computer can run a pretend computer","description":"Before you buy a tiny computer for Proxmox, check whether the computer already has the CPU feature for VMs.","url":"https://labthrift.com/guides/leftover-box-virt","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-27"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#mini-pcs">Small computers</a> / <span aria-current="page">See if the computer can run a pretend computer</span></nav>
+<p class="note">Written 27 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>See if the computer can run a pretend computer</h1>
+<p class="deck">Before you buy a tiny computer for Proxmox, check whether the computer already has the CPU feature for VMs.</p>
+<p>A pretend computer inside the computer is a VM. You don't need one this weekend. That idea is <a href="what-is-a-vm">what a VM is, and when you don't need one</a>. Before you shop for a quiet mini just to run Proxmox, ask whether the computer you already have can even do that job. Worker count is a different look: <a href="leftover-box-cpu">see how many workers the computer already has</a>. Total memory size is <a href="leftover-box-ram">see how much memory the computer already has</a>. Memory room is <a href="leftover-box-free-memory">see if the computer still has free memory</a>.</p>
+
+<h2>Skip until SSH works</h2>
+<p>If ping fails and SSH hangs, start with <a href="leftover-box-still-on">is the computer still on?</a> If you have never logged in from the couch, that is <a href="first-ssh">SSH from the couch</a>. Prefer this look after the computer is doing real work, before you shop: <a href="start-with-what-you-have">start with what you already have</a>. This note assumes you can log in from the couch.</p>
+
+<h2>What this is</h2>
+<p>A look, not a shopping trip. You are asking whether the computer chip already has the feature that lets it run a pretend computer. Intel calls that feature VT-x (the flag is <span><code>vmx</code></span>). AMD calls it AMD-V (the flag is <span><code>svm</code></span>). You are not installing Proxmox tonight. You are not buying an N100 for this look.</p>
+
+<h2>Ask for the virtualization flag</h2>
+<p>SSH in from the couch, then run:</p>
+<p><code>grep -E 'vmx|svm' /proc/cpuinfo | head -1</code></p>
+<p>Any line means the computer chip can do VMs. <span><code>vmx</code></span> is Intel. <span><code>svm</code></span> is AMD. No line means the feature is off, missing, or the computer is too old for this job. Don't buy a mini PC tonight just because the line is blank. First check the computer BIOS for a virtualization switch, then decide later.</p>
+
+<h2>Optional count</h2>
+<p>If you want a number instead of one sample line:</p>
+<p><code>grep -cE 'vmx|svm' /proc/cpuinfo</code></p>
+<p>That prints how many times the flag appears (often once per worker). Zero means no. A positive number means yes. Keep this light. Don't install extra tools for this look.</p>
+
+<h2>If the answer is yes</h2>
+<p>You still don't need a VM this weekend. House ad block and a file share stay on the real the computer. When you actually want a pretend computer later, start with <a href="what-is-a-vm">what a VM is, and when you don't need one</a>. Spare memory matters more than the flag alone: <a href="leftover-box-free-memory">see if the computer still has free memory</a>. Skip wiping Pi-hole to "do it right."</p>
+
+<h2>If the answer is no</h2>
+<p>A later mini that can run Proxmox is <a href="n100-mini-pc">a tiny computer you can leave on</a>, when the computer is actually in the way. Don't buy one this morning because <span><code>grep</code></span> printed nothing. Confirm BIOS first. Worker count still helps you decide whether the computer is enough without VMs: <a href="leftover-box-cpu">see how many workers the computer already has</a>.</p>
+
+<h2>What next</h2>
+<p>Leave it. The VM idea stays <a href="what-is-a-vm">what a VM is, and when you don't need one</a>. Worker count stays <a href="leftover-box-cpu">see how many workers the computer already has</a>. Total memory size stays <a href="leftover-box-ram">see how much memory the computer already has</a>. The computer name is <a href="leftover-box-model">see what computer you already have</a>. The first rule stays <a href="start-with-what-you-have">start with what you already have</a>. The later buy is <a href="n100-mini-pc">a tiny computer you can leave on</a>, when you actually need it.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH fails. That is <a href="leftover-box-still-on">is the computer still on?</a> or <a href="first-ssh">SSH from the couch</a>.</li>
+<li>Skip installing Proxmox tonight because the flag printed.</li>
+<li>Skip buying an N100 because <span><code>grep</code></span> printed nothing, until you checked BIOS.</li>
+<li>Skip nested virtualization, GPU passthrough, and Kubernetes.</li>
+<li>Skip a NAS for this look.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.kernel.org/doc/html/latest/virt/index.html">Linux kernel: virtualization</a>. <a href="https://wiki.debian.org/SystemVirtualization">Debian wiki: system virtualization</a>. <a href="https://manpages.debian.org/bookworm/grep/grep.1.en.html">Debian: grep</a>. Official pages only. For the VM idea, see <a href="what-is-a-vm">what a VM is, and when you don't need one</a>. For worker count, see <a href="leftover-box-cpu">see how many workers the computer already has</a>. For memory room, see <a href="leftover-box-free-memory">see if the computer still has free memory</a>. For the first rule, see <a href="start-with-what-you-have">start with what you already have</a>. A later mini: <a href="n100-mini-pc">a tiny computer you can leave on</a>. For the login, see <a href="first-ssh">SSH from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="what-is-a-vm"><span class="t">What a VM is, and when you don't need one</span><span class="d">A pretend computer inside the computer. Useful later, when you want to try something without breaking Pi-hole. You don't need one this weekend.</span></a>
+<a class="note-row" href="leftover-box-cpu"><span class="t">See how many workers the computer already has</span><span class="d">Before you buy a tiny computer, check how many workers the computer already has.</span></a>
+<a class="note-row" href="leftover-box-free-memory"><span class="t">See if the computer still has free memory</span><span class="d">The computer feels slow. Check free memory before you buy a new mini PC.</span></a>
+<a class="note-row" href="leftover-box-model"><span class="t">See what computer you already have</span><span class="d">Before you buy a tiny computer, check what computer you already have.</span></a>
+<a class="note-row" href="leftover-box-disk"><span class="t">See how big the disk already is</span><span class="d">Before you buy a tiny computer or a NAS, check how big the disk already is.</span></a>
+<a class="note-row" href="start-with-what-you-have"><span class="t">Start with what you already have</span><span class="d">Don't buy anything yet. Old laptop first, or a retired OptiPlex from Marketplace.</span></a>
+<a class="note-row" href="n100-mini-pc"><span class="t">A tiny computer you can leave on</span><span class="d">Don't buy one of these first. Use the old laptop, or a retired OptiPlex from Marketplace. These quiet little PCs are the later buy, when you know you will leave a box on and you want it small and silent.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-ram"><span class="kicker">Previous</span><span class="t">See how much memory the computer already has</span></a>
+<a rel="next" href="leftover-box-model"><span class="kicker">Next</span><span class="t">See what computer you already have</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

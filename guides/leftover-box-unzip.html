@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Unpack a zip you already have — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After SSH works, unzip unpacks a zip so files come out of a zip you already have. You don't need a zip desktop app for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Unpack a zip you already have — Labthrift">
+<meta property="og:description" content="After SSH works, unzip unpacks a zip so files come out of a zip you already have. You don't need a zip desktop app for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-unzip">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-unzip">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Unpack a zip you already have","description":"After SSH works, unzip unpacks a zip so files come out of a zip you already have. You don't need a zip desktop app for this.","url":"https://labthrift.com/guides/leftover-box-unzip","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-30"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"Faster network","item":"https://labthrift.com/guides/#switches"},{"@type":"ListItem","position":3,"name":"Unpack a zip you already have"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Unpack a zip you already have</span></nav>
+<p class="note">Written 30 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Unpack a zip you already have</h1>
+<p class="deck">After SSH works, unpack a zip with <span><code>unzip</code></span> so files come out of a zip you already have. You don't need a zip desktop app for this.</p>
+<p><a href="leftover-box-tar">Pack files into one archive</a> packs a folder. <a href="leftover-box-gzip">Shrink one file</a> shrinks one file to <span><code>.gz</code></span>. Tonight you unpack a zip you already have. Always use <span><code>-d</code></span> so zip contents don't scatter in home. You don't need a zip desktop app, FileZilla, WinZip, 7-Zip, or a NAS for this.</p>
+
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If you need a folder packed first, that is <a href="leftover-box-tar">pack files into one archive</a>. If you need to shrink one file, that is <a href="leftover-box-gzip">shrink one file</a>. Skip this whole note if you only need a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</p>
+
+<h2>What this is</h2>
+<p><span><code>unzip</code></span> unpacks a zip. <span><code>unzip -l</code></span> lists zip names. <span><code>unzip -d</code></span> unpacks files into a folder you name. Always use <span><code>-d</code></span> so contents don't scatter in home. Without <span><code>-d</code></span>, unzip dumps files into the folder you sit in.</p>
+<p>It is not packing a folder. That is <a href="leftover-box-tar">pack files into one archive</a>. It is not shrinking one file. That is <a href="leftover-box-gzip">shrink one file</a>. It is not a download from a web address. That is <a href="leftover-box-curl">download a file onto the computer</a>.</p>
+
+<h2>Unpack a practice zip in home</h2>
+<p>SSH in.</p>
+<p>Make sure home is where you sit:</p>
+<p><code>pwd</code></p>
+<p>You want a path that ends in your login name.</p>
+<p>If the path is wrong, run this:</p>
+<p><code>cd ~</code></p>
+<p>Make a tiny practice zip in home only. Tonight's zip is only this practice zip, not zip of whole home:</p>
+<p><code>echo hello &gt; ~/unzip-me.txt</code></p>
+<p><code>zip -j ~/unzip-me.zip ~/unzip-me.txt</code></p>
+<p><span><code>-j</code></span> means junk paths. The zip stores <span><code>unzip-me.txt</code></span> without the full path. Zip here is only a practice zip maker so unzip has something trusted to unpack. Skip zip of whole home. Skip zip as the job. That job is <a href="leftover-box-zip">pack files into a zip a laptop can open</a>.</p>
+<p>List zip names. Don't unpack yet:</p>
+<p><code>unzip -l ~/unzip-me.zip</code></p>
+<p>You want <span><code>unzip-me.txt</code></span> in that list. Make a throwaway folder so zip contents don't scatter in home:</p>
+<p><code>mkdir -p ~/unpack-zip</code></p>
+<p><code>unzip -d ~/unpack-zip ~/unzip-me.zip</code></p>
+<p><code>ls ~/unpack-zip</code></p>
+<p>You want <span><code>unzip-me.txt</code></span> inside <span><code>unpack-zip</code></span>.</p>
+<p>If <span><code>zip</code></span> or <span><code>unzip</code></span> says command not found, install both, then try again:</p>
+<p><code>sudo apt install zip unzip</code></p>
+<p>That install is not a reason to use a zip desktop app.</p>
+<p>Skip <span><code>unzip</code></span> without <span><code>-d</code></span> for this practice. That command scatters files in home.</p>
+<p>Skip <span><code>unzip -o</code></span> overwrite for this practice.</p>
+<p>Skip unzip of files under <span><code>/etc</code></span>, SSH folders, whole home, huge ISOs, and random internet zips you don't trust.</p>
+<p>When you are done practicing, throw away the practice files. Careful delete only. That is <a href="leftover-box-rm">delete a file carefully</a>:</p>
+<p><code>rm -i ~/unzip-me.txt ~/unzip-me.zip</code></p>
+<p><code>rm -i ~/unpack-zip/unzip-me.txt</code></p>
+<p>Delete practice folders the same careful way after they are empty. Skip <span><code>rm -rf</code></span>.</p>
+
+<h2>Useful extras, still home only</h2>
+<p>Skip files under <span><code>/etc</code></span>, SSH folders, or paths you don't own. Practice only in home.</p>
+<p>Want a zip test before unpack?</p>
+<p><code>unzip -t ~/unzip-me.zip</code></p>
+<p>You want no errors. Test stays in home. It does not unpack files.</p>
+<p>Skip creating zip of whole home. Tonight's zip is only <span><code>~/unzip-me.zip</code></span>.</p>
+<p>Skip 7z, rar, unrar, bzip2, xz, and zstd for this practice. Skip FileZilla, WinZip, and 7-Zip GUI for this practice. <span><code>unzip -d</code></span> is enough for this unpack. Skip NAS. This unpack does not need a NAS.</p>
+<p>Skip unzip of untrusted internet zips for this practice. Curl a zip you chose is <a href="leftover-box-curl">download a file onto the computer</a>, then this note only if you already trust that zip.</p>
+<p>Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+
+<h2>What this is not</h2>
+<p>This is not packing a folder. That is <a href="leftover-box-tar">pack files into one archive</a>. It is not shrinking one file. That is <a href="leftover-box-gzip">shrink one file</a>. It is not nested folders as a tree. That is <a href="leftover-box-tree">see folders as a tree</a>.</p>
+
+<h2>What next</h2>
+<p>Just unpacked and want nested folders as a tree? <a href="leftover-box-tree">See folders as a tree</a>. Need a folder packed first? <a href="leftover-box-tar">Pack files into one archive</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip files under <span><code>/etc</code></span>, SSH folders, or paths you don't own. Practice only in home.</li>
+<li>Skip <span><code>unzip</code></span> without <span><code>-d</code></span> for this practice. That command scatters files in home.</li>
+<li>Skip <span><code>unzip -o</code></span> overwrite for this practice.</li>
+<li>Skip creating zip of whole home. Tonight's zip is only practice <span><code>~/unzip-me.zip</code></span>.</li>
+<li>Skip zip as the job. That job is <a href="leftover-box-zip">pack files into a zip a laptop can open</a>.</li>
+<li>Skip 7z, rar, FileZilla, WinZip, huge ISOs, NAS, zip desktop apps, and untrusted internet zips for this practice.</li>
+<li>Skip <span><code>rm -rf</code></span>. Careful delete only: <a href="leftover-box-rm">delete a file carefully</a>.</li>
+<li>Skip opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+<li>Skip if you only need a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/unzip/unzip.1.en.html">Debian: unzip</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/unzip.1.html">Ubuntu: unzip</a>. Practice zip maker only: <a href="https://manpages.debian.org/bookworm/zip/zip.1.en.html">Debian: zip</a>, <a href="https://manpages.ubuntu.com/manpages/noble/man1/zip.1.html">Ubuntu: zip</a>. Official man pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For pack, see <a href="leftover-box-tar">pack files into one archive</a>. For shrink, see <a href="leftover-box-gzip">shrink one file</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-tar"><span class="t">Pack files into one archive</span><span class="d">After SSH works, tar packs files into one archive so you can copy one file instead of a folder. You don't need a zip app for this.</span></a>
+<a class="note-row" href="leftover-box-gzip"><span class="t">Shrink one file</span><span class="d">After SSH works, gzip shrinks one file so a copy is smaller. You don't need a zip app for this.</span></a>
+<a class="note-row" href="leftover-box-curl"><span class="t">Download a file onto the computer</span><span class="d">After SSH works, curl pulls one file from a web address so the computer has the file without a USB stick. You don't need a browser on the computer for this.</span></a>
+<a class="note-row" href="leftover-box-sftp"><span class="t">Browse folders then copy one file</span><span class="d">After SSH works, sftp browses folders so you can pick a file and copy it. You don't need FileZilla or a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-scp"><span class="t">Copy a file to the computer from your laptop</span><span class="d">After SSH works, scp moves one file without a USB stick. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-rsync"><span class="t">Sync files so only changes copy</span><span class="d">After SSH works, rsync syncs files so a copy only moves what changed. You don't need a NAS sync app for this.</span></a>
+<a class="note-row" href="leftover-box-split"><span class="t">Split a file into smaller pieces</span><span class="d">After SSH works, split cuts one file into smaller pieces so a paste or copy fits size limits. You don't need a zip app for this.</span></a>
+<a class="note-row" href="leftover-box-tree"><span class="t">See folders as a tree</span><span class="d">After SSH works, tree shows nested folders so you can see what is inside without clicking around. You don't need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-rm"><span class="t">Delete a file carefully</span><span class="d">After SSH works, delete one file with rm -i. Ask first. Skip rm -rf. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-sftp"><span class="kicker">Previous</span><span class="t">Browse folders then copy one file</span></a>
+<a rel="next" href="leftover-box-tree"><span class="kicker">Next</span><span class="t">See folders as a tree</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

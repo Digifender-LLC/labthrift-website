@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Replace the CMOS battery on the old PC — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Every unplug resets the clock, or Restore AC won't stick. Swap the coin CMOS battery on the board. Skip a new PSU tonight.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Replace the CMOS battery on the old PC — Labthrift">
+<meta property="og:description" content="Every unplug resets the clock, or Restore AC won't stick. Swap the coin CMOS battery on the board. Skip a new PSU tonight.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/replace-cmos-battery">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/replace-cmos-battery">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Replace the CMOS battery on the old PC","description":"Every unplug resets the clock, or Restore AC won't stick. Swap the coin CMOS battery on the board. Skip a new PSU tonight.","url":"https://labthrift.com/guides/replace-cmos-battery","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-06"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">Replace the CMOS battery on the old PC</span></nav>
+<p class="note">Written 6 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>Replace the CMOS battery on the old PC</h1>
+<p class="deck">Every unplug resets the clock, or Restore AC won't stick. Swap the coin CMOS battery on the board. Skip a new PSU tonight.</p>
+<p>Clock wrong while the cord stays plugged in? Start with software first: <a href="when-the-clock-is-wrong">when the computer's clock is wrong</a>. Lights came back and the house is messy? That checklist is <a href="after-power-outage">after the power comes back</a>. This note is only the coin battery on the motherboard that keeps Setup and the clock when wall power is gone.</p>
+
+<h2>Skip until settings die without wall power</h2>
+<p>If the clock only drifts a few minutes while the PC stays on, use network time — not a new battery. If Restore AC still holds after you unplug overnight, leave the case closed. Buy a CR2032 when the year snaps back to 2019 after every cord pull, or when Power On After Power Loss keeps reverting to Stay Off.</p>
+
+<h2>What this is</h2>
+<p>A flat coin cell (almost always a <strong>CR2032</strong>) sits in a small holder on the board. It powers a tiny bit of memory that holds the clock and Setup lines while the PSU is off. After five to ten years on a Marketplace OptiPlex or EliteDesk, that cell dies. Linux NTP can heal the clock each boot if the cord stays in. It cannot keep Restore AC, boot order, or the clock across a real unplug. One new cell usually fixes that. You don't need a new power supply for this symptom.</p>
+
+<h2>Step 1: confirm it is the battery</h2>
+<p>Two cheap checks before you open the case:</p>
+<ul>
+<li>Unplug the wall cord for ten minutes (or overnight). Plug back in. If the year is wrong again, or Setup lost a change you saved, the cell is a prime suspect.</li>
+<li>From SSH while it is running: <code>date</code> and <code>timedatectl</code>. If NTP is on and the clock is fine <em>until</em> the next unplug, that is classic dead CMOS, not a broken internet path.</li>
+</ul>
+<p>Still only wrong while powered? Stay on the software walk: <a href="when-the-clock-is-wrong">when the computer's clock is wrong</a>.</p>
+
+<h2>Step 2: shut down and unplug</h2>
+<p>From SSH or the keyboard:</p>
+<p><code>sudo shutdown -h now</code></p>
+<p>Wait until fans stop. Unplug the wall cord. Press the front power button once with the cord out to drain leftover charge. That polite stop is <a href="leftover-box-shutdown">shut down without yanking the plug</a>. Don't work inside with the cord still in.</p>
+
+<h2>Step 3: open the side panel</h2>
+<p>On most OptiPlex / EliteDesk / ThinkCentre towers, one or two thumbscrews free the side (or a latch). Lay the case on a clear table. Touch the metal chassis before you touch the board so you are not the spark. You only need enough room to see the coin cell. Skip taking the motherboard out.</p>
+
+<h2>Step 4: find the coin cell and note the polarity</h2>
+<p>Look for a silver disc about the size of a US nickel in a plastic or metal clip. Labels nearby may say <strong>BATTERY</strong>, <strong>CMOS</strong>, or <strong>BT1</strong>. Note which face is up: the side with writing (usually <strong>+</strong>) faces up on almost every board. Take a phone photo before you pop it. If the holder is empty already, someone removed it — buy a CR2032 and seat it the same way neighboring photos online show for your model.</p>
+
+<h2>Step 5: swap in a fresh CR2032</h2>
+<p>Press the metal retainer clip gently and slide the old cell out (or lift the hinged cover). Drop the new CR2032 in the same orientation. It should sit flat and feel clipped, not loose. One cell is enough. Don't stack two. Don't force a different size (CR2025 is thinner and often falls out).</p>
+<p>Street price is a few dollars for a name-brand CR2032 at a pharmacy or big-box store. Skip "CMOS battery kits" with tools you don't need.</p>
+
+<h2>Step 6: close up, power on, re-set Setup</h2>
+<p>Panel back on. Cord in. Power on. The first boot after a dead cell often acts like a CMOS clear: you may see a "settings lost" or "press F1 / F2" prompt. Open Setup and put back what you care about:</p>
+<ul>
+<li><strong>Restore AC / Power On After Power Loss</strong> → Power On (or Last State). Full walk: <a href="power-on-after-outage">turn the old PC back on after a power blip</a>.</li>
+<li>Boot order if you changed it for USB installs.</li>
+<li>Wake-on-LAN only if you already use it: <a href="wake-on-lan">wake the computer from the house network</a>.</li>
+</ul>
+<p>Save and exit. Let Ubuntu or Debian boot as usual.</p>
+
+<h2>Step 7: fix the clock in software, then prove the battery</h2>
+<p>SSH in. Turn network time on and set the house zone if needed:</p>
+<p><code>sudo timedatectl set-ntp true</code></p>
+<p><code>date</code></p>
+<p>Full clock recovery if the year is still wild: <a href="when-the-clock-is-wrong">when the computer's clock is wrong</a>. Zone only: <a href="leftover-box-timezone">set the computer clock to your house</a>.</p>
+<p>Then prove the hardware: shut down cleanly, unplug for ten minutes, plug back in, boot. Setup changes should still be there. <code>date</code> should be close (NTP will finish the minutes). If the year is 2019 again, re-check that the cell is seated and is a real CR2032 — a dead pack from a junk drawer fails the same way.</p>
+
+<h2>What this is not</h2>
+<p>This is not a new PSU, a new motherboard, or a UPS. It is not the software-only clock fix while the cord stays in. It is not a reason to buy a GPS NTP hat. It is not opening the PSU itself. Leave the power supply closed.</p>
+
+<h2>What next</h2>
+<p>Clock still wrong with power on? <a href="when-the-clock-is-wrong">When the computer's clock is wrong</a>. Want button-free boots after a blink? <a href="power-on-after-outage">Turn the old PC back on after a power blip</a>. House messy after lights flicker? <a href="after-power-outage">After the power comes back</a>. Still skipping a battery box for the wall outlet? <a href="leftover-box-no-ups">You don't need a UPS yet</a>.</p>
+
+<p class="note">Optional: jot that you swapped the CR2032 (and re-set Restore AC) in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip a new PSU or motherboard for a dead coin cell.</li>
+<li>Skip a GPS clock hat or NTP appliance.</li>
+<li>Skip working inside with the wall cord plugged in.</li>
+<li>Skip a different coin size when the holder says CR2032.</li>
+<li>Skip this if the clock only drifts while the PC stays powered — use the software clock note first.</li>
+<li>Skip vacuuming or blowing hard at the holder; a soft brush is enough if dust is in the way.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.dell.com/support/manuals">Dell support manuals</a> (search your OptiPlex for CMOS / coin-cell battery). <a href="https://support.hp.com">HP support</a> (EliteDesk / ProDesk CMOS battery). <a href="https://manpages.debian.org/bookworm/systemd/timedatectl.1.en.html">Debian: timedatectl</a>. Official pages only. Board layouts vary; match the holder on your chassis. For the software clock fix, see <a href="when-the-clock-is-wrong">when the computer's clock is wrong</a>. For Restore AC after a clear, see <a href="power-on-after-outage">turn the old PC back on after a power blip</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="when-the-clock-is-wrong"><span class="t">When the computer's clock is wrong</span><span class="d">HTTPS fails, apt says the Release file is not valid yet, or logs look like 2019. Check the clock, turn network time on, set the house zone. You don't need a GPS clock hat.</span></a>
+<a class="note-row" href="power-on-after-outage"><span class="t">Turn the old PC back on after a power blip</span><span class="d">Lights come back, but the OptiPlex stays off until you press the button. Flip Restore AC / Power On After Power Loss in Setup. Skip a UPS for this.</span></a>
+<a class="note-row" href="after-power-outage"><span class="t">After the power comes back</span><span class="d">Lights blinked. Ads may be back, SSH may miss the old address, and the share may be gone. Check the computer, find its number, point DNS again if needed, then the share. You don't need a new UPS tonight.</span></a>
+<a class="note-row" href="leftover-box-timezone"><span class="t">Set the computer clock to your house</span><span class="d">Logs, updates, and weekly backups only make sense if the computer uses your local time. timedatectl sets the city zone. It keeps the clock correct over the network.</span></a>
+<a class="note-row" href="leftover-box-shutdown"><span class="t">Shut down without yanking the plug</span><span class="d">When you're done for the night, shut it down and let it finish writing files before it powers off. Don't yank the cord.</span></a>
+<a class="note-row" href="leftover-box-no-ups"><span class="t">You don't need a UPS yet</span><span class="d">The computer can sit on a house outlet. A blink of the lights is a reboot. Skip a battery box this weekend.</span></a>
+<a class="note-row" href="when-fan-is-loud"><span class="t">When the old PC's fan is loud</span><span class="d">A Marketplace OptiPlex or EliteDesk screams in the living room. Blow the dust, give it air, move it to a closet. Skip a water cooler this weekend.</span></a>
+<a class="note-row" href="wipe-marketplace-pc"><span class="t">Wipe a Marketplace PC before you install</span><span class="d">A used OptiPlex may still have the last owner's Windows and logins. Wipe the disk with the installer before you plug it into the house network.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="when-the-clock-is-wrong"><span class="kicker">Previous</span><span class="t">When the computer's clock is wrong</span></a>
+<a rel="next" href="power-on-after-outage"><span class="kicker">Next</span><span class="t">Turn the old PC back on after a power blip</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

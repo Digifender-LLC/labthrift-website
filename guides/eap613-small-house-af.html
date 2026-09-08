@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Two floors, one gigabit house, cheap af power: EAP613 — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="AX1800 ceiling AP (a Wi-Fi radio) on cheap 802.3af power. No DC brick in the box.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Two floors, one gigabit house, cheap af power: EAP613 — Labthrift">
+<meta property="og:description" content="AX1800 ceiling AP (a Wi-Fi radio) on cheap 802.3af power. No DC brick in the box.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/eap613-small-house-af">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/eap613-small-house-af">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BlogPosting",
+ "headline": "Two floors, one gigabit house, cheap af power: EAP613",
+ "description": "AX1800 ceiling AP (a Wi-Fi radio) on cheap 802.3af power. No DC brick in the box.",
+ "url": "https://labthrift.com/guides/eap613-small-house-af",
+ "image": "https://labthrift.com/assets/og-1200.png",
+ "datePublished": "2026-08-22"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+ {
+ "@type": "ListItem",
+ "position": 1,
+ "name": "Home",
+ "item": "https://labthrift.com/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 2,
+ "name": "Notes",
+ "item": "https://labthrift.com/guides/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 3,
+ "name": "Cheap PoE + APs",
+ "item": "https://labthrift.com/guides/#cheap-poe"
+ },
+ {
+ "@type": "ListItem",
+ "position": 4,
+ "name": "Two floors, one gigabit house, cheap af power: EAP613",
+ "item": "https://labthrift.com/guides/eap613-small-house-af"
+ }
+ ]
+}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#cheap-poe">Better Wi-Fi</a> / <span aria-current="page">Two floors, one gigabit house, cheap af power: EAP613</span></nav>
+<p class="note">Written 22 Aug 2026. Specs from the maker pages linked below. Prices from those stores. I haven't used these.</p>
+
+<h1>Two floors, one gigabit house, cheap af power: EAP613</h1>
+<p class="deck">AX1800 ceiling AP (a Wi-Fi radio) on cheap 802.3af power. No DC brick in the box.</p>
+<p>Two floors, one gigabit house, cheap af power. An AP is a ceiling or wall Wi-Fi radio. The current Omada floor SKU is still a 2×2 Wi-Fi 6 ceiling puck with a gigabit port and a 10.9 W PoE draw. A cheap 802.3af injector (the small PoE power class) or a 4-port 64 W fanless switch is enough. No DC brick in the box.</p>
+<p>The trap is Amazon copy that says “PoE+ powered.” V2 is 802.3af, 48 V passive, or 12 V DC. The adapter is not in the box. 48 V passive is not 24 V. A leftover airMAX injector is the wrong brick. See <a href="passive-24v-poe-traps">the 24 V trap note</a>.</p>
+
+<h2>What to buy</h2>
+<div class="table-wrap">
+<table>
+<tr><th>Box</th><th>What it is</th><th>Street, 22 Aug 2026</th><th>Buy if</th></tr>
+<tr class="pick"><td data-label="Box">TP-Link Omada EAP613 (V2)</td><td data-label="What it is">AX1800 (1201 + 574), 2×2, 1G. 802.3af / 48 V passive / 12 V DC. Max 10.9 W PoE, 9.9 W DC.</td><td data-label="Street, 22 Aug 2026">Amazon $79.99 (<a href="https://www.amazon.com/TP-Link-EAP613-Wireless-Ultra-Slim-Controller/dp/B0BW52D9FZ">B0BW52D9FZ</a>). B&amp;H $79.99–$84.99. Newegg $87.99.</td><td data-label="Buy if">Small house, two APs, you already own an af injector or a <a href="cheap-poe">cheap PoE brick</a>.</td></tr>
+<tr><td data-label="Box">TP-Link Omada EAP653</td><td data-label="What it is">AX3000, HE160, 802.3at, 15.5 W. Same money on B&amp;H this pass.</td><td data-label="Street, 22 Aug 2026">B&amp;H $79.99. See <a href="eap613-vs-eap653">EAP613 vs EAP653</a>.</td><td data-label="Buy if">You have an at-class port and want the extra 5 GHz radio.</td></tr>
+</table>
+</div>
+<p>Add the AP draw before you celebrate a 52 W UniFi Lite 8. Two EAP613s are ~22 W. Two EAP613s plus two cheap cameras will still surprise a thin budget. For the injector-vs-switch math, use <a href="poe-injector-vs-switch-two-aps">one injector, two injectors, or a 4-port switch</a>.</p>
+<h2>Skip</h2>
+<p>Skip the 5-pack listing (B0C29X1397) unless you actually need five. Skip EAP653 UR. Listing copy mixed Wi-Fi 7 marketing onto an AX3000 SKU. Skip a $190 Wi-Fi 7 puck until the WAN is faster than the AP; that is the <a href="wifi-7-tax-closet-lab">Wi-Fi 7 tax</a>.</p>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.omadanetworks.com/us/business-networking/omada-wifi-ceiling-mount/eap613/">Omada EAP613 maker page</a>. <a href="https://www.amazon.com/TP-Link-EAP613-Wireless-Ultra-Slim-Controller/dp/B0BW52D9FZ">Amazon B0BW52D9FZ</a>. <a href="https://www.bhphotovideo.com/c/product/1754761-REG/tp_link_eap613_ax1800_ceiling_mount_wifi.html">B&amp;H 1754761-REG</a>. <a href="https://www.newegg.com/omada-eap613/p/N82E16833704689">Newegg N82E16833704689</a>. Street figures move. Check the live price before you click.</p>
+</section>
+
+
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="eap613-vs-eap653"><span class="t">Two about-$80 APs. Radio and power class differ. The cheap injector can be the trap: EAP613 vs EAP653</span><span class="d">Two about-$80 APs. Different radio and power class. Cheap injector can be the trap.</span></a>
+<a class="note-row" href="omada-eap653-vs-unifi-u7-lite"><span class="t">Pick the house Wi-Fi software you will actually live with: Omada EAP653 vs UniFi U7 Lite</span><span class="d">Pick the house Wi-Fi software you will actually live with.</span></a>
+<a class="note-row" href="unifi-u7-lite-review"><span class="t">Simple ceiling Wi-Fi 7 for a UniFi house: UniFi U7 Lite</span><span class="d">Simple ceiling Wi-Fi 7 for a UniFi house. Honest dual-band, no 6 GHz.</span></a>
+</section>
+
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="tp-link-tl-sg108pe"><span class="kicker">Previous</span><span class="t">More ports for a fuller closet, still only four PoE: TP-Link TL-SG108PE</span></a>
+<a rel="next" href="eap613-vs-eap653"><span class="kicker">Next</span><span class="t">Two about-$80 APs. Radio and power class differ. The cheap injector can be the trap: EAP613 vs EAP653</span></a>
+</nav>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+</p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

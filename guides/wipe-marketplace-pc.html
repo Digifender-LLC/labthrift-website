@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Wipe a Marketplace PC before you install — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="A used OptiPlex may still have the last owner's Windows and logins. Wipe the disk with the installer before you plug it into the house network.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Wipe a Marketplace PC before you install — Labthrift">
+<meta property="og:description" content="A used OptiPlex may still have the last owner's Windows and logins. Wipe the disk with the installer before you plug it into the house network.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/wipe-marketplace-pc">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/wipe-marketplace-pc">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Wipe a Marketplace PC before you install","description":"A used OptiPlex may still have the last owner's Windows and logins. Wipe the disk with the installer before you plug it into the house network.","url":"https://labthrift.com/guides/wipe-marketplace-pc","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-03"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">Wipe a Marketplace PC before you install</span></nav>
+<p class="note">Written 3 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>Wipe a Marketplace PC before you install</h1>
+<p class="deck">A used OptiPlex may still have the last owner's Windows and logins. Wipe the disk with the installer before you plug it into the house network.</p>
+<p>Haven't found a computer yet? Start with <a href="start-with-what-you-have">what you already have</a>. Haven't chosen an OS? See <a href="what-os-to-pick">what OS to put on it</a>. The install weekend itself is <a href="first-weekend">your first weekend</a>. This note is the wipe before that weekend.</p>
+
+<h2>Skip until you have a used PC to dedicate</h2>
+<p>If you don't have a used computer you plan to leave on — Marketplace, buy-nothing, or a closet OptiPlex — stop. That is <a href="start-with-what-you-have">start with what you already have</a>. Skip this note if the machine is still your daily Windows laptop. Leaving Windows on a daily driver is <a href="what-os-to-pick">what OS to put on it</a>, not a wipe.</p>
+
+<h2>What this is</h2>
+<p>Wiping means the Ubuntu Server or Debian installer overwrites the whole internal disk. Old Windows, old accounts, and old files go away. You don't need DBAN or a shredder for a home-lab box you keep. The installer is enough.</p>
+
+<h2>Don't plug the house cable first</h2>
+<p>Leave ethernet unplugged. Skip joining house Wi-Fi. Do this until the fresh OS is on. An old Windows with someone else's accounts does not belong on the house network, even for "just a look."</p>
+
+<h2>Copy off anything you still want</h2>
+<p>Rare on a Marketplace box, but if there are photos or papers you care about, copy them to a USB stick first and open a few on another computer before you erase anything. Full walk: <a href="save-files-before-wipe">copy your files off before you wipe</a>. If the computer is empty, skip this step.</p>
+
+<h2>Make the USB installer</h2>
+<p>Download <a href="https://ubuntu.com/download/server">Ubuntu Server</a> or <a href="https://www.debian.org/download">Debian</a> from the official site only. An 8 GB stick is enough.</p>
+<p>Write the ISO with <a href="https://etcher.balena.io/">balenaEtcher</a> or Ventoy. On Windows, Rufus is fine if you already have it. Flash the stick. Don't drag the ISO onto it in Explorer. That does not make a bootable installer. Full stick walkthrough: <a href="make-boot-usb">make a boot USB for the install</a>.</p>
+
+<h2>Boot from the USB</h2>
+<p>Power on and tap F12, F10, or Esc (Dell often uses F12). Pick the USB stick from the boot menu. Enter the installer.</p>
+
+<h2>Wipe during install</h2>
+<p>Pick the whole internal disk. Use guided install / use entire disk (or erase disk). One disk is fine. Don't dual-boot with leftover Windows on a Marketplace box. Create your own user. Enable the OpenSSH server checkbox if Ubuntu offers it.</p>
+
+<h2>After install</h2>
+<p>Remove the USB stick. Reboot into the new OS. Then plug ethernet. Continue with <a href="first-weekend">your first weekend</a> — find the address, SSH from the couch, update, leave it on. If you already finished that shape, next is <a href="find-the-leftover-box">find it on the house network</a> and <a href="first-ssh">SSH from the couch</a>.</p>
+
+<h2>If you already installed Linux but left old accounts</h2>
+<p>That look is <a href="leftover-box-other-accounts">see if the computer still has old login accounts</a> — locking leftovers. Prefer a wipe for a Marketplace box when you can.</p>
+
+<h2>What this is not</h2>
+<p>This is not a reason to buy a new N100. It is not a secure-erase lecture for selling the disk. It is not BitLocker recovery theater. If the disk is BitLocker-locked and you have no key, the installer still overwrites when you wipe the whole disk.</p>
+
+<h2>What next</h2>
+<p>Still need to pull photos or papers off first? <a href="save-files-before-wipe">Copy your files off before you wipe</a>. Need the boot menu keys to start the installer? <a href="boot-from-usb">Boot the old PC from the USB stick</a>. After the wipe, do the install weekend: <a href="first-weekend">your first weekend</a>. If you still need to pick Debian or Ubuntu Server, see <a href="what-os-to-pick">what OS to put on it</a>. Once it is on the house network, <a href="find-the-leftover-box">find it</a>, then <a href="first-ssh">SSH from the couch</a>.</p>
+
+<p class="note">Optional: note which Marketplace box you wiped in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip plugging into the house network before the wipe.</li>
+<li>Skip keeping dual-boot Windows on a Marketplace box.</li>
+<li>Skip DBAN or a shredder for a computer you keep.</li>
+<li>Skip buying a new mini PC because the wipe felt scary.</li>
+<li>Skip this if it is still your daily laptop.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://ubuntu.com/download/server">Ubuntu Server download</a>. <a href="https://www.debian.org/download">Debian download</a>. <a href="https://etcher.balena.io/">balenaEtcher</a>. Official pages only. For the computer, see <a href="start-with-what-you-have">start with what you already have</a>. For the OS choice, see <a href="what-os-to-pick">what OS to put on it</a>. For the install weekend, see <a href="first-weekend">your first weekend</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="when-fan-is-loud"><span class="t">When the old PC's fan is loud</span><span class="d">A Marketplace OptiPlex or EliteDesk screams in the living room. Blow the dust, give it air, move it to a closet. Skip a water cooler this weekend.</span></a>
+<a class="note-row" href="when-computer-wont-boot"><span class="t">When the old PC won't boot</span><span class="d">No fans, black screen, or stuck on the logo. Check power, the monitor, a hard power cycle, then try the installer USB before you buy a new board.</span></a>
+<a class="note-row" href="start-with-what-you-have"><span class="t">Start with what you already have</span><span class="d">Don't buy anything yet. Old laptop first, or a retired OptiPlex from Marketplace.</span></a>
+<a class="note-row" href="what-os-to-pick"><span class="t">What OS to put on it</span><span class="d">Debian or Ubuntu Server if you can dedicate the old PC. Leave Windows if you still use the laptop as a laptop.</span></a>
+<a class="note-row" href="first-weekend"><span class="t">Your first weekend</span><span class="d">Install the OS, name it, and reach it from the couch.</span></a>
+<a class="note-row" href="save-files-before-wipe"><span class="t">Copy your files off before you wipe</span><span class="d">Pull photos, papers, and downloads onto a USB stick before the installer erases the disk. Skip if the computer is empty. Then wipe.</span></a>
+<a class="note-row" href="make-boot-usb"><span class="t">Make a boot USB for the install</span><span class="d">Write Ubuntu Server or Debian onto a USB stick so the old PC can boot the installer. Use Etcher or Rufus. Don't drag the ISO into a folder.</span></a>
+<a class="note-row" href="boot-from-usb"><span class="t">Boot the old PC from the USB stick</span><span class="d">Plug in the installer stick, open the one-time boot menu, and pick the USB. Dell F12, HP Esc then F9, Lenovo F12. Don't dig through every BIOS screen tonight.</span></a>
+<a class="note-row" href="leftover-box-other-accounts"><span class="t">See if the computer still has old login accounts</span><span class="d">Before you leave a Marketplace box on the house network, look at who else can still log in. You don't need extra login software for this.</span></a>
+<a class="note-row" href="used-vs-new"><span class="t">When used office gear is a gift</span><span class="d">A cheap used switch can be perfect if it is quiet. A trap if it was built for a data-center aisle.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="start-with-what-you-have"><span class="kicker">Previous</span><span class="t">Start with what you already have</span></a>
+<a rel="next" href="first-weekend"><span class="kicker">Next</span><span class="t">Your first weekend</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

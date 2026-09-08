@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Put the house folder back from the backup — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After a wipe, a reinstall, or an empty share, copy the house folder from the USB (or second old PC) back onto the computer. You don't need a NAS.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Put the house folder back from the backup — Labthrift">
+<meta property="og:description" content="After a wipe, a reinstall, or an empty share, copy the house folder from the USB (or second old PC) back onto the computer. You don't need a NAS.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/restore-house-folder">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/restore-house-folder">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Put the house folder back from the backup","description":"After a wipe, a reinstall, or an empty share, copy the house folder from the USB (or second old PC) back onto the computer. You don't need a NAS.","url":"https://labthrift.com/guides/restore-house-folder","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-04"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">Put the house folder back from the backup</span></nav>
+<p class="note">Written 4 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>Put the house folder back from the backup</h1>
+<p class="deck">After a wipe, a reinstall, or an empty share, copy the house folder from the USB (or second old PC) back onto the computer. You don't need a NAS.</p>
+<p>Haven't made a second copy yet? Start with <a href="first-backup">a backup of the house folder</a>. Want a safe one-file drill first? Use <a href="leftover-box-restore-one">restore one file from the USB backup</a>. This note is the bigger job: put the whole house folder back where the share expects it.</p>
+
+<h2>Skip until the backup looks real</h2>
+<p>If the USB (or second box) never got a copy, stop. That is <a href="first-backup">a backup of the house folder</a>, not a restore. If you never looked on the stick, look first: <a href="leftover-box-backup-check">check that the backup actually copied</a>. Don't overwrite a live share that still has newer photos. Don't buy a NAS for a folder you can copy back with rsync.</p>
+
+<h2>What this is</h2>
+<p>Same <code>rsync</code> you used to make the second copy, pointed the other way. Source is the backup. Destination is the live house folder (often <code>/srv/share</code>). Trailing slashes matter. You are not imaging the whole disk. You are not restoring Pi-hole settings; export is <a href="backup-pihole">save a Pi-hole backup before you change things</a>, and import is <a href="restore-pihole-backup">put a Pi-hole backup back with Teleporter</a>.</p>
+
+<h2>Step 1: awake, then SSH</h2>
+<p>Power light. Fan. If it looks asleep, start with <a href="leftover-box-still-on">is the computer still on?</a>. Soft-off on purpose? <a href="wake-on-lan">wake the computer from the house network</a>. You need SSH from the couch: <a href="first-ssh">SSH from the couch</a>. Connect fails? <a href="when-ssh-wont-connect">when SSH won't connect</a>.</p>
+
+<h2>Step 2: reach the backup</h2>
+<p>USB path. Plug the stick in. See it:</p>
+<p><code>lsblk</code></p>
+<p>Mount the same way the first-backup note taught (swap the device name if yours differs):</p>
+<p><code>sudo mkdir -p /mnt/backup &amp;&amp; sudo mount /dev/sdb1 /mnt/backup</code></p>
+<p>Confirm the mount:</p>
+<p><code>findmnt /mnt/backup</code></p>
+<p>Stick not showing up? <a href="leftover-box-usb-disk">see if the USB backup disk showed up</a>.</p>
+<p>Second-computer path. Skip the USB mount. You will pull over SSH from the other old PC instead. That box needs to be awake and reachable: <a href="backup-to-another-pc">copy the house folder to another old computer</a>.</p>
+
+<h2>Step 3: confirm the backup has files</h2>
+<p>USB:</p>
+<p><code>ls /mnt/backup/share</code></p>
+<p>You should see folders and files you recognize. Empty listing means you are looking at the wrong path, or the copy never landed. Fix that before you write anything onto the live folder.</p>
+<p>Second PC (from this computer):</p>
+<p><code>ssh otheruser@other-address 'ls share'</code></p>
+<p>Swap the user and address you used when that second copy was made.</p>
+
+<h2>Step 4: make room for the live folder</h2>
+<p>Check free space on the computer:</p>
+<p><code>df -h /</code></p>
+<p>The live disk needs more free space than the size of the backup. Tight disk: <a href="leftover-box-disk-space">see if the computer still has room</a>. Photos that should live on a stick that stays plugged in: <a href="house-folder-on-usb">put the house folder on a USB disk</a>.</p>
+<p>Create the live folder if it is missing (fresh install):</p>
+<p><code>sudo mkdir -p /srv/share &amp;&amp; sudo chown "$USER:$USER" /srv/share</code></p>
+<p>If Samba is gone after a wipe, put the share back after this copy: <a href="first-file-share">a file share</a>. Restore the files first so the share has something to show.</p>
+
+<h2>Step 5: copy backup → live folder</h2>
+<p>Read the arrows twice. Source left. Destination right. USB example:</p>
+<p><code>rsync -a /mnt/backup/share/ /srv/share/</code></p>
+<p>Second-PC example (pull onto this computer):</p>
+<p><code>rsync -a otheruser@other-address:share/ /srv/share/</code></p>
+<p>Leave <code>--delete</code> off on the first full restore. You want files to arrive. You do not want rsync removing something on the live side because the backup is older. After a wipe, the live folder is empty anyway, so a plain <code>-a</code> is enough.</p>
+<p>Wrong direction (live folder as the source) can empty or dilute the backup. If the terminal looks wrong, stop and remount. Mount or copy failures that look like a backup job: <a href="when-backup-wont-run">when the house backup won't run</a>.</p>
+
+<h2>Step 6: check, then unmount</h2>
+<p>Look on the live folder:</p>
+<p><code>ls /srv/share</code></p>
+<p>Pick one file you know and confirm size is not zero:</p>
+<p><code>ls -l /srv/share/some-photo.jpg</code></p>
+<p>Optional: open the share from a laptop once Samba is up again: <a href="open-share-from-laptop">open the house share from a laptop</a>. Phone: <a href="open-share-from-phone">open the house share from a phone</a>.</p>
+<p>USB still mounted? Unmount before you yank the cable:</p>
+<p><code>sudo umount /mnt/backup</code></p>
+
+<h2>What this is not</h2>
+<p>This is not a reason to buy a NAS tonight. It is not RAID. It is not restic or Borg for a first restore. It is not a full disk clone. It is not Pi-hole Teleporter. It is not leaving the USB plugged in forever so one bad day can wipe both copies. It is not overwriting a live share that still has newer files you care about.</p>
+
+<h2>What next</h2>
+<p>Share missing after a wipe? Rebuild it with <a href="first-file-share">a file share</a>. Prove one file first next time you practice: <a href="leftover-box-restore-one">restore one file from the USB backup</a>. Keep a weekly second copy: <a href="leftover-box-backup-timer">back up the folder every week without remembering</a>. Pi-hole settings zip after a reinstall: <a href="backup-pihole">save a Pi-hole backup before you change things</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip buying a NAS for a first restore.</li>
+<li>Skip RAID. RAID is not a backup.</li>
+<li>Skip <code>--delete</code> on the first full restore unless you mean to make the live folder match an older backup exactly.</li>
+<li>Skip restoring over a live share that still has newer photos.</li>
+<li>Skip leaving the USB plugged in forever.</li>
+<li>Skip reversing source and destination.</li>
+<li>Skip this until the backup listing shows real files.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/rsync/rsync.1.en.html">Debian: rsync man page</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/rsync.1.html">Ubuntu: rsync man page</a>. <a href="https://manpages.debian.org/bookworm/util-linux/lsblk.8.en.html">Debian: lsblk</a>. <a href="https://manpages.debian.org/bookworm/coreutils/df.1.en.html">Debian: df</a>. Official pages only. For the copy this restores from, see <a href="first-backup">a backup of the house folder</a>. For a one-file drill, see <a href="leftover-box-restore-one">restore one file from the USB backup</a>. For a landed-copy look, see <a href="leftover-box-backup-check">check that the backup actually copied</a>. For the second-box path, see <a href="backup-to-another-pc">copy the house folder to another old computer</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="restore-pihole-backup"><span class="t">Put a Pi-hole backup back with Teleporter</span><span class="d">After a reinstall or a bad list, import the Teleporter zip so allow lists, deny entries, and local DNS names return. Fresh Pi-hole first. You don't need a new Raspberry Pi.</span></a>
+<a class="note-row" href="first-backup"><span class="t">A backup of the house folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another old computer. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-restore-one"><span class="t">Restore one file from the USB backup</span><span class="d">A backup you never copied back is a hope. Pull one file off the USB onto the computer so you know you can get it. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-backup-check"><span class="t">Check that the backup actually copied</span><span class="d">After the copy finishes, look on the USB disk and confirm the files are there before you trust it. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="when-backup-wont-run"><span class="t">When the house backup won't run</span><span class="d">rsync failed, the USB is missing, or the second copy never landed. Check the stick, the mount, the source path, then match the error (no space, permission, connection). You don't need a NAS.</span></a>
+<a class="note-row" href="backup-to-another-pc"><span class="t">Copy the house folder to another old computer</span><span class="d">A second copy of the house folder, over the house network to another old PC. Not only a USB stick. You don't need a NAS for this.</span></a>
+<a class="note-row" href="first-file-share"><span class="t">A file share</span><span class="d">A folder on the old PC that the house can open from a laptop or a phone. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="house-folder-on-usb"><span class="t">Put the house folder on a USB disk</span><span class="d">Move the house share onto a USB disk that stays plugged into the old PC so photos don't fill the system drive. You don't need a NAS for this.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-restore-one"><span class="kicker">Previous</span><span class="t">Restore one file from the USB backup</span></a>
+<a rel="next" href="first-file-share"><span class="kicker">Next</span><span class="t">A file share</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

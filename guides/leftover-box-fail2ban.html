@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Slow down password guesses on SSH — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After the firewall is on and key login is boring, you can let the computer briefly refuse an address that keeps guessing the password. Skip this on day one. Don't forward port 22.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Slow down password guesses on SSH — Labthrift">
+<meta property="og:description" content="After the firewall is on and key login is boring, you can let the computer briefly refuse an address that keeps guessing the password. Skip this on day one. Don't forward port 22.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-fail2ban">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-fail2ban">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Slow down password guesses on SSH","description":"After the firewall is on and key login is boring, you can let the computer briefly refuse an address that keeps guessing the password. Skip this on day one. Don't forward port 22.","url":"https://labthrift.com/guides/leftover-box-fail2ban","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-26"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Slow down password guesses on SSH</span></nav>
+<p class="note">Written 26 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Slow down password guesses on SSH</h1>
+<p class="deck">After the firewall is on and key login is boring, you can let the computer briefly refuse an address that keeps guessing the password. Skip this on day one. Don't forward port 22.</p>
+<p>SSH belongs on the house network. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22. On a house-only computer, this is optional polish, not a substitute for keeping SSH inside the house. It still helps if someone later opens the router by mistake, or if a phone on the house Wi-Fi keeps hammering a wrong password.</p>
+
+<h2>Skip until ufw works</h2>
+<p>If <a href="leftover-box-ufw">the simple firewall</a> is not on yet, stop. Allow OpenSSH, then turn on ufw first. Prefer <a href="leftover-box-ssh-keys">logging in with a key</a>, then <a href="leftover-box-ssh-no-password">turning off password login once the key works</a>, before this polish. If password SSH is still the only login and it is flaky, stop.</p>
+
+<h2>What this changes</h2>
+<p>fail2ban is software that watches the login log and briefly refuses an address that keeps guessing wrong. It reads the login log. After enough wrong guesses from one address, that address cannot try SSH for a short while. Your laptop key login still works. This is not a new firewall appliance. This is not a reason to open port 22 on the router.</p>
+
+<h2>Install</h2>
+<p>From your normal computer, <a href="first-ssh">SSH from the couch</a>. Then update the package list:</p>
+<p><code>sudo apt update</code></p>
+<p>Install fail2ban:</p>
+<p><code>sudo apt install fail2ban</code></p>
+<p>On a Debian or Ubuntu computer from <a href="what-os-to-pick">what OS to put on the computer</a>, the stock sshd jail is enough for this note.</p>
+
+<h2>Turn it on and check</h2>
+<p>Turn it on so it starts now and after a reboot:</p>
+<p><code>sudo systemctl enable --now fail2ban</code></p>
+<p>Check the SSH jail:</p>
+<p><code>sudo fail2ban-client status sshd</code></p>
+<p>You should see the sshd jail active. If sshd is not listed yet, ask for the whole status:</p>
+<p><code>sudo fail2ban-client status</code></p>
+<p>Wait a minute and check again. Don't paste a long jail.local essay. Stock defaults are fine for this computer.</p>
+
+<h2>If you ban yourself</h2>
+<p>Use another device on the house network, or a screen and keyboard on the computer. Unban that address:</p>
+<p><code>sudo fail2ban-client set sshd unbanip THAT-ADDRESS</code></p>
+<p>Swap <span><code>THAT-ADDRESS</code></span> for the number of the laptop or phone that got locked out. SSH stays inside the house, as explained in <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't solve this by forwarding port 22.</p>
+
+<h2>What next</h2>
+<p>If weekly apt is boring, <a href="leftover-box-unattended">let the computer apply weekly fixes without you</a>. The honest weekly look is still <a href="leftover-box-updates">keep the computer updated</a>. The boundary is still <a href="leftover-box-house-network">keep the computer on the house network</a>. Skip a Protectli. Skip opening SSH to the internet.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip this note on day one.</li>
+<li>Skip this note if ufw is not on.</li>
+<li>Skip this note if you still need password SSH from many devices and keep locking yourself out.</li>
+<li>Skip forwarding port 22 on the router.</li>
+<li>Skip a rack firewall.</li>
+<li>Skip fail2ban as an excuse to expose SSH.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.fail2ban.org/wiki/index.php/Main_Page">fail2ban: documentation</a>. <a href="https://manpages.debian.org/bookworm/fail2ban/fail2ban-client.1.en.html">Debian: fail2ban-client</a>. <a href="https://manpages.debian.org/bookworm/fail2ban/jail.conf.5.en.html">Debian: fail2ban jail.conf</a>. Official pages only. For the firewall, see <a href="leftover-box-ufw">turn on a simple firewall without locking yourself out</a>. For turning off password login, see <a href="leftover-box-ssh-no-password">turn off password login once the key works</a>. For the house-network boundary, see <a href="leftover-box-house-network">keep the computer on the house network</a>. For the login, see <a href="first-ssh">SSH from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="leftover-box-ufw"><span class="t">Turn on a simple firewall without locking yourself out</span><span class="d">After SSH from the couch works, allow OpenSSH, then turn on ufw. The computer stays reachable. Surprise inbound ports don't.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+<a class="note-row" href="leftover-box-failed-guesses"><span class="t">See if anyone guessed the password</span><span class="d">Before you buy a camera or extra login software, peek at failed logins with lastb.</span></a>
+<a class="note-row" href="leftover-box-unattended"><span class="t">Let the computer apply weekly fixes without you</span><span class="d">After the weekly two-command habit is boring, you can let the computer apply those same fixes by itself. Skip this until that habit is boring. Don't let it reboot on its own.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-ufw"><span class="kicker">Previous</span><span class="t">Turn on a simple firewall without locking yourself out</span></a>
+<a rel="next" href="leftover-box-last-login"><span class="kicker">Next</span><span class="t">See who logged into the computer recently</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

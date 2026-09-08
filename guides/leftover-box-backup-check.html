@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Check that the backup actually copied - Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After the copy finishes, look on the USB disk and confirm the files are there before you trust it. You don't need a NAS for this look.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Check that the backup actually copied - Labthrift">
+<meta property="og:description" content="After the copy finishes, look on the USB disk and confirm the files are there before you trust it. You don't need a NAS for this look.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-backup-check">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-backup-check">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Check that the backup actually copied","description":"After the copy finishes, look on the USB disk and confirm the files are there before you trust it. You don't need a NAS for this look.","url":"https://labthrift.com/guides/leftover-box-backup-check","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-26"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#first-nas">File storage</a> / <span aria-current="page">Check that the backup actually copied</span></nav>
+<p class="note">Written 26 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Check that the backup actually copied</h1>
+<p class="deck">After the copy finishes, look on the USB disk and confirm the files are there before you trust it. You don't need a NAS for this look.</p>
+<p>A backup is a second copy. <span><code>rsync</code></span> is the copy command from <a href="first-backup">a backup of the folder</a>. A green terminal without a look is how people learn the USB was empty. This note is the look. If the computer cannot even see the USB disk, see it first: <a href="leftover-box-usb-disk">see if the USB backup disk showed up</a>.</p>
+
+<h2>Skip until one backup ran</h2>
+<p>If you never copied the house folder, do that first: <a href="first-backup">a backup of the folder</a>. This note assumes that rsync already finished once. If rsync never finished, start with <a href="when-backup-wont-run">when the house backup won't run</a>.</p>
+
+<h2>What this is</h2>
+<p>You are not buying a NAS. You are asking whether the second copy has files, the same way <a href="leftover-box-disk-space">see if the computer still has room</a> asks whether the disk has room. Look on the USB (or the second the computer) before you trust the copy.</p>
+
+<h2>Keep the USB mounted for this look</h2>
+<p>If you already unmounted after first-backup, plug the disk back in and mount the same way that note taught:</p>
+<p><code>sudo mkdir -p /mnt/backup &amp;&amp; sudo mount /dev/sdb1 /mnt/backup</code></p>
+<p>Swap <span><code>/dev/sdb1</code></span> for the partition first-backup used if yours differed. Leave it mounted until you finish this look. If your second copy was another old PC over SSH, skip the USB mount and look on that other box instead.</p>
+
+<h2>Look at the copy</h2>
+<p>List what landed:</p>
+<p><code>ls /mnt/backup</code></p>
+<p>You should see a <span><code>share</code></span> folder (or the same names you copied). Then compare sizes:</p>
+<p><code>sudo du -sh /mnt/backup</code></p>
+<p><code>sudo du -sh /srv/share</code></p>
+<p>Those two numbers should be in the same ballpark. Empty or tiny on the USB means the copy did not land. If you copied to another the computer, list and size that <span><code>share</code></span> folder there the same way.</p>
+
+<h2>Spot-check one file</h2>
+<p>Open a photo or a document from the USB on the computer, or plug the USB into your laptop and open one file there. Don't trust the terminal alone. One real file you recognize beats a green prompt.</p>
+
+<h2>Then unmount</h2>
+<p>When the look is done:</p>
+<p><code>sudo umount /mnt/backup</code></p>
+<p>Unmount before you yank the cable. Leave the disk unplugged most of the time, same advice as <a href="first-backup">a backup of the folder</a>.</p>
+
+<h2>If the copy is empty or tiny</h2>
+<p>Re-run the rsync from <a href="first-backup">a backup of the folder</a>. Check the USB is writable and not full:</p>
+<p><code>df -h /mnt/backup</code></p>
+<p>Disk room on the computer itself is <a href="leftover-box-disk-space">see if the computer still has room</a>. Don't buy a NAS for a failed first copy.</p>
+
+<h2>What next</h2>
+<p>After one real copy works, <a href="leftover-box-restore-one">restore one file from the USB backup</a> so you know you can get it back. Then <a href="leftover-box-backup-timer">back up the folder every week without remembering</a>. Wrong clock: <a href="leftover-box-timezone">set the computer clock to your house</a>. Skip RAID. Skip restic and Borg. Skip cloud until the USB copy exists.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if you never ran <a href="first-backup">a backup of the folder</a>.</li>
+<li>Skip a NAS for this look.</li>
+<li>Skip RAID.</li>
+<li>Skip leaving the USB plugged in forever.</li>
+<li>Skip the 3-2-1 lecture tonight.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/rsync/rsync.1.en.html">Debian: rsync</a>. <a href="https://manpages.debian.org/bookworm/coreutils/df.1.en.html">Debian: df</a>. <a href="https://manpages.debian.org/bookworm/coreutils/du.1.en.html">Debian: du</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/rsync.1.html">Ubuntu: rsync</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/df.1.html">Ubuntu: df</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/du.1.html">Ubuntu: du</a>. Official pages only. For the copy this checks, see <a href="first-backup">a backup of the folder</a>. For disk room, see <a href="leftover-box-disk-space">see if the computer still has room</a>. For restoring one file after the look, see <a href="leftover-box-restore-one">restore one file from the USB backup</a>. For the weekly timer after one checked copy, see <a href="leftover-box-backup-timer">back up the folder every week without remembering</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-backup"><span class="t">A backup of the folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another old PC. You don't need a NAS for this.</span></a>
+<a class="note-row" href="when-backup-wont-run"><span class="t">When the house backup won't run</span><span class="d">rsync failed, the USB is missing, or the second copy never landed. Check the stick, the mount, the source path, then match the error (no space, permission, connection). You don't need a NAS.</span></a>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="leftover-box-restore-one"><span class="t">Restore one file from the USB backup</span><span class="d">A backup you never copied back is a hope. Pull one file off the USB onto the computer so you know you can get it. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-backup-timer"><span class="t">Back up the folder every week without remembering</span><span class="d">After one manual USB (or second-box) copy works, let the computer run the same rsync on a weekly timer. A phone reminder is still fine if you prefer.</span></a>
+<a class="note-row" href="leftover-box-share-check"><span class="t">When the house share disappeared, check the computer</span><span class="d">The computer is awake, but Finder or File Explorer cannot see the folder. Check that Samba is still running before you buy a NAS.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-usb-disk"><span class="kicker">Previous</span><span class="t">See if the USB backup disk showed up</span></a>
+<a rel="next" href="leftover-box-restore-one"><span class="kicker">Next</span><span class="t">Restore one file from the USB backup</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

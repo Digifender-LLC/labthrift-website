@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See if the computer already has extra memory on disk — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Before you buy a tiny computer, check whether the computer already has overflow memory on the disk.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See if the computer already has extra memory on disk — Labthrift">
+<meta property="og:description" content="Before you buy a tiny computer, check whether the computer already has overflow memory on the disk.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-swap">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-swap">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See if the computer already has extra memory on disk","description":"Before you buy a tiny computer, check whether the computer already has overflow memory on the disk.","url":"https://labthrift.com/guides/leftover-box-swap","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-27"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#mini-pcs">Small computers</a> / <span aria-current="page">See if the computer already has extra memory on disk</span></nav>
+<p class="note">Written 27 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>See if the computer already has extra memory on disk</h1>
+<p class="deck">Before you buy a tiny computer, check whether the computer already has overflow memory on the disk.</p>
+<p>Swap is extra memory room on the disk. When real memory is full, the computer can park unused work there. That is slower than real memory. This note is whether that overflow is already set up. Total memory size is a different look: <a href="leftover-box-ram">see how much memory the computer already has</a>. Free room when the computer feels slow is <a href="leftover-box-free-memory">see if the computer still has free memory</a>. You don't need a new mini this morning because the Swap line printed 0B.</p>
+
+<h2>Skip until SSH works</h2>
+<p>If ping fails and SSH hangs, start with <a href="leftover-box-still-on">is the computer still on?</a> If you have never logged in from the couch, that is <a href="first-ssh">SSH from the couch</a>. Prefer this look after the computer is doing real work, before you shop: <a href="start-with-what-you-have">start with what you already have</a>. This note assumes you can log in from the couch.</p>
+
+<h2>What this is</h2>
+<p>A look, not a shopping trip. You are reading whether the computer already has overflow memory on the disk, so you know what you already have. You are not creating a swap file tonight. You are not buying RAM sticks, an N100, an N150, a Protectli, or a NAS this morning.</p>
+
+<h2>Ask if overflow memory is already there</h2>
+<p>SSH in from the couch, then run:</p>
+<p><code>free -h</code></p>
+<p>Point at the <span><code>Swap</code></span> line, <span><code>total</code></span> column. That is how much overflow memory the computer already has. <span><code>0B</code></span> means none. Common old laptops print that. 1G to 4G is an old office box. Fine. Don't buy a mini PC because total said 0B.</p>
+
+<h2>Optional where it lives</h2>
+<p>If you want the disk file or partition behind that number:</p>
+<p><code>swapon --show</code></p>
+<p>An empty print means no overflow is on. A table with <span><code>NAME</code></span> and <span><code>SIZE</code></span> is the overflow already in use. Keep this light. Don't turn swap off. Don't create a new file tonight. Don't install extra tools for this look.</p>
+
+<h2>If the Swap line is zero, or used is high</h2>
+<p>0B still runs the first lab if you keep the stack thin. House ad block and a thin file share fit. If the computer feels slow, check <a href="leftover-box-free-memory">see if the computer still has free memory</a> and <a href="leftover-box-whats-busy">see what is keeping the computer busy</a> before you shop. Don't add a swap file this weekend because the line printed 0B. If <span><code>used</code></span> is close to <span><code>total</code></span> and available memory is tiny, the computer is parking a lot on disk. Close extras. A later mini is <a href="n100-mini-pc">a tiny computer you can leave on</a>, with the RAM shopping rule in <a href="n100-n150-ram-ceiling-soldered-traps">buy RAM you can add later; skip soldered 12 GB cubes</a>, when the computer is actually in the way. Skip buying one this morning because Swap said 0B.</p>
+
+<h2>What next</h2>
+<p>Total memory size stays <a href="leftover-box-ram">see how much memory the computer already has</a>. Free room when it feels slow stays <a href="leftover-box-free-memory">see if the computer still has free memory</a>. The disk size stays <a href="leftover-box-disk">see how big the disk already is</a>. Worker count stays <a href="leftover-box-cpu">see how many workers the computer already has</a>. The first rule stays <a href="start-with-what-you-have">start with what you already have</a>. The later buy is <a href="n100-mini-pc">a tiny computer you can leave on</a>, when you actually need it.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH fails. That is <a href="leftover-box-still-on">is the computer still on?</a> or <a href="first-ssh">SSH from the couch</a>.</li>
+<li>Skip buying an N100 because <span><code>free -h</code></span> Swap printed 0B.</li>
+<li>Skip creating a swap file this weekend unless available memory is already tiny and the computer is actually squeezed.</li>
+<li>Skip buying RAM sticks for a soldered old laptop. That trap is <a href="n100-n150-ram-ceiling-soldered-traps">buy RAM you can add later; skip soldered 12 GB cubes</a>.</li>
+<li>Skip a NAS for this look.</li>
+<li>Skip Proxmox tonight. That is <a href="what-is-a-vm">what a VM is, and when you don't need one</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/procps/free.1.en.html">Debian: free</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/free.1.html">Ubuntu: free</a>. <a href="https://manpages.debian.org/bookworm/mount/swapon.8.en.html">Debian: swapon</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man8/swapon.8.html">Ubuntu: swapon</a>. Official pages only. For total memory size, see <a href="leftover-box-ram">see how much memory the computer already has</a>. For free room when it feels slow, see <a href="leftover-box-free-memory">see if the computer still has free memory</a>. For disk size, see <a href="leftover-box-disk">see how big the disk already is</a>. For the first rule, see <a href="start-with-what-you-have">start with what you already have</a>. A later mini: <a href="n100-mini-pc">a tiny computer you can leave on</a>. For the login, see <a href="first-ssh">SSH from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="leftover-box-ram"><span class="t">See how much memory the computer already has</span><span class="d">Before you buy a tiny computer, check how much memory the computer already has.</span></a>
+<a class="note-row" href="leftover-box-free-memory"><span class="t">See if the computer still has free memory</span><span class="d">The computer feels slow. Check free memory before you buy a new mini PC.</span></a>
+<a class="note-row" href="leftover-box-disk"><span class="t">See how big the disk already is</span><span class="d">Before you buy a tiny computer or a NAS, check how big the disk already is.</span></a>
+<a class="note-row" href="leftover-box-whats-busy"><span class="t">See what is keeping the computer busy</span><span class="d">The computer feels slow. Check which program is using the CPU before you buy a new mini PC.</span></a>
+<a class="note-row" href="start-with-what-you-have"><span class="t">Start with what you already have</span><span class="d">Don't buy anything yet. Old laptop first, or a retired OptiPlex from Marketplace.</span></a>
+<a class="note-row" href="n100-mini-pc"><span class="t">A tiny computer you can leave on</span><span class="d">Don't buy one of these first. Use the old laptop, or a retired OptiPlex from Marketplace. These quiet little PCs are the later buy, when you know you will leave a box on and you want it small and silent.</span></a>
+<a class="note-row" href="when-memory-ran-out"><span class="t">When the computer ran out of memory</span><span class="d">Pi-hole vanished, the share died, or dmesg says Out of memory. Confirm the OOM killer, free RAM, restart house jobs. Skip a new mini PC tonight.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-disk"><span class="kicker">Previous</span><span class="t">See how big the disk already is</span></a>
+<a rel="next" href="n100-mini-pc"><span class="kicker">Next</span><span class="t">A tiny computer you can leave on</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

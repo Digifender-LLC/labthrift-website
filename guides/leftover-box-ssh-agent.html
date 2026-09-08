@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Unlock your key once per laptop session — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After the key has a passphrase, load it once with ssh-add so you are not typing that passphrase on every ssh lab. You don't need a YubiKey.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Unlock your key once per laptop session — Labthrift">
+<meta property="og:description" content="After the key has a passphrase, load it once with ssh-add so you are not typing that passphrase on every ssh lab. You don't need a YubiKey.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-ssh-agent">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-ssh-agent">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Unlock your key once per laptop session","description":"After the key has a passphrase, load it once with ssh-add so you are not typing that passphrase on every ssh lab. You don't need a YubiKey.","url":"https://labthrift.com/guides/leftover-box-ssh-agent","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-28"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Unlock your key once per laptop session</span></nav>
+<p class="note">Written 28 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Unlock your key once per laptop session</h1>
+<p class="deck">After the key has a passphrase, load it once with <span><code>ssh-add</code></span> so you are not typing that passphrase on every <span><code>ssh lab</code></span>. You don't need a YubiKey.</p>
+<p><a href="leftover-box-ssh-keys">Log in with a key</a> put a passphrase on the private key so a stolen laptop file is not a free login. That is good. It also means every new SSH asks for that passphrase again. The agent is a small program on the laptop that remembers the unlocked key for this login session. The computer does not change. This is laptop-side only.</p>
+
+<h2>Skip until the key login already works</h2>
+<p><a href="leftover-box-ssh-keys">Log in with a key</a> should already get you in. If you never set a passphrase on the key, you can skip this whole note. A short name is nicer when you try it: <a href="leftover-box-ssh-config">give the computer a short name on your laptop</a>. Prefer a second computer before you harden password SSH: <a href="leftover-box-second-key">put a key on a second computer first</a>.</p>
+
+<h2>What this is</h2>
+<p>OpenSSH on your laptop can talk to an agent. You unlock the private key once. Later SSH and <span><code>scp</code></span> reuse that unlock until you log out of the laptop, reboot, or clear the agent. The computer still sees a normal key login. It never sees your passphrase.</p>
+
+<h2>See if an agent is already running</h2>
+<p>On the laptop (Windows Terminal, PowerShell, Mac Terminal, or Linux):</p>
+<p><code>echo "$SSH_AUTH_SOCK"</code></p>
+<p>If that prints a path, an agent is already available in this terminal. On many Mac and Linux desktops it starts with your login. If the line is empty, start one for this terminal:</p>
+<p><code>eval "$(ssh-agent -s)"</code></p>
+<p>You should see a line about Agent pid. That only lasts for this terminal until you open a new one, unless your desktop already keeps an agent for every window.</p>
+
+<h2>Load the key once</h2>
+<p>Default path from <a href="leftover-box-ssh-keys">log in with a key</a>:</p>
+<p><code>ssh-add ~/.ssh/id_ed25519</code></p>
+<p>Type the key passphrase when it asks. Optional check that it loaded:</p>
+<p><code>ssh-add -l</code></p>
+<p>You want one line that mentions <span><code>ED25519</code></span> and your comment, like <span><code>laptop</code></span> or <span><code>second-laptop</code></span>. If it says The agent has no identities, run <span><code>ssh-add</code></span> again with the private file path, not the <span><code>.pub</code></span> file.</p>
+
+<h2>Try it</h2>
+<p>From the same laptop:</p>
+<p><code>ssh lab</code></p>
+<p>Or the long form if you have no short name yet:</p>
+<p><code>ssh you@that-address</code></p>
+<p>It should not ask for the key passphrase again in this session. It may still ask if the agent never loaded, or if this terminal is not using the same agent. Open a second terminal and try once more. If the second window asks again, that window has no agent yet. Run the <span><code>eval</code></span> and <span><code>ssh-add</code></span> steps there, or use a desktop that shares one agent across windows.</p>
+
+<h2>Optional: remember the key in your SSH config</h2>
+<p>If you already have a short name from <a href="leftover-box-ssh-config">give the computer a short name on your laptop</a>, you can add one line under that Host block so a future login offers the key to the agent:</p>
+<pre>Host lab
+  AddKeysToAgent yes</pre>
+<p>The first SSH after a reboot may still ask for the passphrase once. Later ones in that session should stay quiet. This does not turn off the password. That harden step is later.</p>
+
+<h2>What next</h2>
+<p>Need one file over without a USB stick? <a href="leftover-box-scp">Copy a file to the computer from your laptop</a>. When both computers get in without the password, <a href="leftover-box-ssh-no-password">turn off password login once the key works</a>. Keep a keyboard on the computer as the last backup. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if the key has no passphrase. There is nothing to unlock.</li>
+<li>Skip if key login is still flaky. Finish <a href="leftover-box-ssh-keys">log in with a key</a> first.</li>
+<li>Skip a YubiKey for a computer.</li>
+<li>Skip copying the private key to a USB stick so you never type a passphrase.</li>
+<li>Skip opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://man.openbsd.org/ssh-agent">OpenSSH: ssh-agent</a>. <a href="https://man.openbsd.org/ssh-add">OpenSSH: ssh-add</a>. <a href="https://manpages.debian.org/bookworm/openssh-client/ssh-add.1.en.html">Debian: ssh-add</a>. Official pages only. For the key, see <a href="leftover-box-ssh-keys">log in with a key</a>. For the short name, see <a href="leftover-box-ssh-config">give the computer a short name on your laptop</a>. For a second computer, see <a href="leftover-box-second-key">put a key on a second computer first</a>. For turning off password SSH, see <a href="leftover-box-ssh-no-password">turn off password login once the key works</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="leftover-box-ssh-keys"><span class="t">Log in with a key, not the password every time</span><span class="d">After password SSH works for a while, put a key on your laptop so the computer trusts that laptop. Keep the password as a backup at first.</span></a>
+<a class="note-row" href="leftover-box-ssh-config"><span class="t">Give the computer a short name on your laptop</span><span class="d">After SSH works, put a short name in your laptop SSH config so you type ssh lab instead of the long address. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-second-key"><span class="t">Put a key on a second computer first</span><span class="d">Before you turn off password login, give a second laptop its own key so you are not locked out if the first one dies. You don't need a YubiKey.</span></a>
+<a class="note-row" href="leftover-box-authorized-keys"><span class="t">See which laptop keys the computer already trusts</span><span class="d">Before you turn off password login, look at which laptop keys can already get in. Remove leftovers from an old Marketplace box. You don't need a YubiKey for this.</span></a>
+<a class="note-row" href="leftover-box-scp"><span class="t">Copy a file to the computer from your laptop</span><span class="d">After SSH works, use scp to move one file without a USB stick. A short name like lab makes the typing shorter. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-second-key"><span class="kicker">Previous</span><span class="t">Put a key on a second computer first</span></a>
+<a rel="next" href="leftover-box-scp"><span class="kicker">Next</span><span class="t">Copy a file to the computer from your laptop</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

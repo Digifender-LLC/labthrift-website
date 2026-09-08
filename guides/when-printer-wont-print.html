@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When the printer won't print — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Phone or laptop can't find the house printer after Pi-hole, or a cloud print app stalls. Same Wi-Fi first, pause blocking to prove it, then allow the blocked name. You don't need a new printer.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When the printer won't print — Labthrift">
+<meta property="og:description" content="Phone or laptop can't find the house printer after Pi-hole, or a cloud print app stalls. Same Wi-Fi first, pause blocking to prove it, then allow the blocked name. You don't need a new printer.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-printer-wont-print">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-printer-wont-print">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When the printer won't print","description":"Phone or laptop can't find the house printer after Pi-hole, or a cloud print app stalls. Same Wi-Fi first, pause blocking to prove it, then allow the blocked name. You don't need a new printer.","url":"https://labthrift.com/guides/when-printer-wont-print","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-06"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When the printer won't print</span></nav>
+<p class="note">Written 6 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When the printer won't print</h1>
+<p class="deck">Phone or laptop can't find the house printer after Pi-hole, or a cloud print app stalls. Same Wi-Fi first, pause blocking to prove it, then allow the blocked name. You don't need a new printer.</p>
+<p>Haven't installed the house ad block yet? Start with <a href="first-useful-service">the first useful thing</a>. A normal website broke instead of the print dialog? That walk is <a href="when-a-site-wont-load">when a site won't load after Pi-hole</a>. Cast or AirPlay picker empty? That is <a href="when-cast-wont-find">when casting won't find the TV</a>. You already know the domain and just want it allowed? That is <a href="allow-a-site">allow a site in Pi-hole on purpose</a>. This note is the printer that vanished from the phone, stalled mid-job, or never showed up after you pointed the house at Pi-hole.</p>
+
+<h2>Skip until phone and printer share one network</h2>
+<p>Network printing needs the phone (or laptop) and the printer on the same house Wi-Fi. Guest Wi-Fi, a travel hotspot, cellular data, and “AP isolation” / client isolation on the router all hide the printer even when Pi-hole is perfect. Put the phone on the main house SSID. Put the printer on that same SSID (not guest). Turn off the phone VPN for a minute. USB-only printers plugged straight into a laptop are not a Pi-hole problem — use the cable and the maker driver, and skip the rest of this note.</p>
+
+<h2>What this is</h2>
+<p>Two different failures get blamed on Pi-hole. One is DNS: a block list catches a HP, Epson, Brother, Canon, Google, or Apple name the printer app needs, so setup, ink status, or cloud print never finishes. The other is discovery on the house network (mDNS / Bonjour / AirPrint / IPP). Pi-hole does not route that traffic. Same Wi-Fi and no client isolation fix discovery. The pause test below tells you which failure you have.</p>
+
+<h2>Step 1: prove whether Pi-hole is involved</h2>
+<p>On the phone or laptop, open the print dialog once so it fails the usual way. Then pause blocking for five minutes from the computer over SSH:</p>
+<p><code>pihole disable 5m</code></p>
+<p>Try printing again while blocking is off. Blocking turns itself back on after five minutes. Turn it on sooner when you are done:</p>
+<p><code>pihole enable</code></p>
+<p>Same idea in the admin page: open <a href="http://pi.hole/admin">http://pi.hole/admin</a> (or the computer's address plus <code>/admin</code>), find Disable blocking, pick five minutes. Admin page blank? <a href="when-pihole-wont-open">When the Pi-hole admin page won't open</a>. Forgot the admin password? <a href="leftover-box-pihole-password">Change the Pi-hole admin password</a>.</p>
+<p>If printing works only while blocking is off, Pi-hole is involved. Keep going. If the printer still hides with blocking off, leave the block list alone. Fix same Wi-Fi, client isolation, or the printer's own Wi-Fi settings first. Ads back house-wide is still <a href="when-ads-come-back">when ads come back</a>.</p>
+
+<h2>Step 2: catch the blocked name</h2>
+<p>With blocking on again, open Query Log in the admin page. On the phone, open the print dialog or the maker app once more so fresh rows appear. Look for blocked names around that moment. From SSH you can watch live:</p>
+<p><code>pihole tail</code></p>
+<p>Press Ctrl-C when you have a name. Copy the exact host (like a <code>*.hp.com</code>, <code>*.epson.com</code>, or maker CDN name), not a full URL. Guessing a long allow list is how you open trackers for the whole house. Prefer one name from the log. Calmer look anytime: <a href="see-what-pihole-blocked">see what Pi-hole blocked</a>.</p>
+
+<h2>Step 3: allow that one domain</h2>
+<p><a href="first-ssh">SSH into the computer</a>, then:</p>
+<p><code>pihole allow example.com</code></p>
+<p>Swap in the real name from the log. Or open Domains in the admin page and add it on the allow / whitelist side. From Query Log you can often open a row and choose Allow. Either path is fine. Full calm allow walk: <a href="allow-a-site">allow a site in Pi-hole on purpose</a>.</p>
+
+<h2>Step 4: prove the print again</h2>
+<p>On the phone, close the print dialog, wait a few seconds, open it again. Toggle Wi-Fi off and on once if the printer still hides (sticky DNS cache on the phone). In Query Log the name should show as allowed / OK when the phone asks. If printing still fails, watch the log again and allow the next exact blocked name for that try. Stop when a test page lands. Don't allow every maker CDN “just in case.”</p>
+
+<h2>If discovery still fails with blocking off</h2>
+<p>That is not a Pi-hole allow list. Confirm the printer's status page shows the same house SSID as the phone. On many routers, guest Wi-Fi or “AP isolation” / “client isolation” blocks phone-to-printer talk on purpose. Turn isolation off for the main SSID, or move both devices off guest. AirPrint and many Android print services need mDNS on the same LAN. A new mesh kit will not fix a guest SSID by itself.</p>
+
+<h2>If you allowed the wrong thing</h2>
+<p>Open Domains in the admin page and remove that name from the allow list. Prefer removing one bad allow over leaving blocking off. A five-minute pause is for diagnosis. A permanent disable is how ads come back for everyone.</p>
+
+<h2>What this is not</h2>
+<p>This is not a reason to buy a new printer, a new ink subscription, or a mesh kit. It is not opening the Pi-hole admin page past the house network. It is not fixing a USB printer plugged into one laptop. It is not guest Wi-Fi by design. Discovery across two SSIDs is a router setting problem, not a Pi-hole allow list. A phone that bypasses house DNS with Private DNS, Private Relay, or a VPN is a different walk: <a href="when-one-phone-shows-ads">when one phone still shows ads</a>.</p>
+
+<h2>What next</h2>
+<p>Leave the allow list alone when a test page prints. For a bank or login that breaks the same way, see <a href="when-a-site-wont-load">when a site won't load after Pi-hole</a>. Cast picker empty? <a href="when-cast-wont-find">When casting won't find the TV</a>. For a calmer allow when you already know the domain, see <a href="allow-a-site">allow a site in Pi-hole on purpose</a>. Once a week, <a href="update-pihole">keep Pi-hole updated</a>. Before a scary reinstall, <a href="backup-pihole">save a Pi-hole backup</a> so your allow entries survive. A file share on this same computer can wait: <a href="first-file-share">a file share</a>.</p>
+
+<p class="note">Optional: jot that printing works again in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip buying a new printer for this.</li>
+<li>Skip leaving blocking disabled overnight.</li>
+<li>Skip allowing every name in the log “just in case.”</li>
+<li>Skip wildcards and regex on day one.</li>
+<li>Skip opening the Pi-hole admin page to the internet.</li>
+<li>Skip printing from guest Wi-Fi or cellular and blaming Pi-hole.</li>
+<li>Skip a mesh kit or a new router for one allow entry.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://docs.pi-hole.net/">Pi-hole docs</a>. <a href="https://docs.pi-hole.net/main/pihole-command/">Pi-hole command</a> (allow, disable, enable, query, tail). Official pages only. For install, see <a href="first-useful-service">the first useful thing</a>. For a broken website, see <a href="when-a-site-wont-load">when a site won't load after Pi-hole</a>. For casting, see <a href="when-cast-wont-find">when casting won't find the TV</a>. For a calm allow, see <a href="allow-a-site">allow a site in Pi-hole on purpose</a>. For the query log, see <a href="see-what-pihole-blocked">see what Pi-hole blocked</a>. For guest Wi-Fi, see <a href="guest-wifi-dns">when guest Wi-Fi still shows ads</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-useful-service"><span class="t">The first useful thing</span><span class="d">Put a house-wide ad block on the old PC. The rest of the house keeps using the internet as usual. You don't need a Raspberry Pi.</span></a>
+<a class="note-row" href="pause-pihole"><span class="t">Pause Pi-hole for a few minutes</span><span class="d">Turn blocking off for five minutes to test a broken site or a dinner guest. It turns itself back on. You don't wipe the lists or change the router.</span></a>
+<a class="note-row" href="when-a-site-wont-load"><span class="t">When a site won't load after Pi-hole</span><span class="d">A bank, streamer, or login page breaks after Pi-hole. Pause blocking for five minutes, then allow the domain you need. You don't need a new router.</span></a>
+<a class="note-row" href="when-cast-wont-find"><span class="t">When casting won't find the TV</span><span class="d">Phone or laptop can't see Chromecast, AirPlay, or the smart TV after Pi-hole. Same Wi-Fi first, pause blocking to prove it, then allow the blocked name. You don't need a new TV.</span></a>
+<a class="note-row" href="allow-a-site"><span class="t">Allow a site in Pi-hole on purpose</span><span class="d">One domain the house needs that a block list keeps catching. Add it to the allow list. You don't wipe every list or buy a new router.</span></a>
+<a class="note-row" href="see-what-pihole-blocked"><span class="t">See what Pi-hole blocked</span><span class="d">Open the query log (or watch it over SSH) so you can tell ads are dying, which device asked, and which name to allow later. You don't need a new router.</span></a>
+<a class="note-row" href="when-ads-come-back"><span class="t">When ads come back</span><span class="d">Ads are back, sites won't load, or a phone still shows banners. Check the computer, Pi-hole, router DNS, then the phone.</span></a>
+<a class="note-row" href="when-one-phone-shows-ads"><span class="t">When one phone still shows ads</span><span class="d">Everyone else's ads dropped. One phone still shows banners. Check Private DNS, Private Relay, a VPN, then the Wi-Fi lease. You don't need a new router.</span></a>
+<a class="note-row" href="guest-wifi-dns"><span class="t">When guest Wi-Fi still shows ads</span><span class="d">Guest Wi-Fi is a separate network on purpose. Leave guests on ISP DNS, put a visitor on the main house Wi-Fi, or point guest DNS at Pi-hole only if they can reach the computer. You don't need a new router.</span></a>
+<a class="note-row" href="block-a-site"><span class="t">Block a site in Pi-hole on purpose</span><span class="d">One domain you don't want in the house. Add it to the deny list. You don't wipe every block list or buy a new router.</span></a>
+<a class="note-row" href="when-pihole-wont-open"><span class="t">When the Pi-hole admin page won't open</span><span class="d">http://pi.hole/admin or the computer's address plus /admin won't load. Check house Wi-Fi, the address, then Pi-hole and the web service. You don't need a new router.</span></a>
+<a class="note-row" href="common-router-dns"><span class="t">Point common home routers at Pi-hole</span><span class="d">Where to set DNS on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so the house asks Pi-hole. Prefer LAN DHCP DNS. You don't need a new router.</span></a>
+<a class="note-row" href="update-pihole"><span class="t">Keep Pi-hole updated</span><span class="d">Weekly apt does not refresh Pi-hole. Update the software and the block lists on the old PC so ads stay gone. You don't need a new Raspberry Pi.</span></a>
+<a class="note-row" href="backup-pihole"><span class="t">Save a Pi-hole backup before you change things</span><span class="d">Export settings with Teleporter so a reinstall or a bad list does not wipe your allow list and local DNS. You don't need a new Raspberry Pi.</span></a>
+<a class="note-row" href="leftover-box-pihole-password"><span class="t">Change the Pi-hole admin password</span><span class="d">After the house ad block is up, change the admin password the installer printed. That password is not the login.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="when-cast-wont-find"><span class="kicker">Previous</span><span class="t">When casting won't find the TV</span></a>
+<a rel="next" href="allow-a-site"><span class="kicker">Next</span><span class="t">Allow a site in Pi-hole on purpose</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

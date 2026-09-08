@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Two identical disks mirror each other: SHR ≈ RAID 1 on two bays — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Two identical disks: SHR ≈ RAID 1. The third disk is where SHR starts to earn the acronym. RAID is not backup.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Two identical disks mirror each other: SHR ≈ RAID 1 on two bays — Labthrift">
+<meta property="og:description" content="Two identical disks: SHR ≈ RAID 1. The third disk is where SHR starts to earn the acronym. RAID is not backup.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/synology-shr-vs-raid-1">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/synology-shr-vs-raid-1">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BlogPosting",
+ "headline": "Two identical disks mirror each other: SHR ≈ RAID 1 on two bays",
+ "description": "Two identical disks: SHR ≈ RAID 1. The third disk is where SHR starts to earn the acronym. RAID is not backup.",
+ "url": "https://labthrift.com/guides/synology-shr-vs-raid-1",
+ "image": "https://labthrift.com/assets/og-1200.png",
+ "datePublished": "2026-08-22"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+ {
+ "@type": "ListItem",
+ "position": 1,
+ "name": "Home",
+ "item": "https://labthrift.com/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 2,
+ "name": "Notes",
+ "item": "https://labthrift.com/guides/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 3,
+ "name": "First NAS",
+ "item": "https://labthrift.com/guides/#first-nas"
+ },
+ {
+ "@type": "ListItem",
+ "position": 4,
+ "name": "Two identical disks mirror each other: SHR ≈ RAID 1 on two bays",
+ "item": "https://labthrift.com/guides/synology-shr-vs-raid-1"
+ }
+ ]
+}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#first-nas">File storage</a> / <span aria-current="page">Two identical disks mirror each other: SHR ≈ RAID 1 on two bays</span></nav>
+<p class="note">Written 22 Aug 2026. Specs from the maker pages linked below. Prices from those stores. I haven't used these. Confirm the diskless SKU before you click. Amazon is full of drive bundles.</p>
+<h1>Two identical disks mirror each other: SHR ≈ RAID 1 on two bays</h1>
+<p class="deck">Two identical disks: SHR ≈ RAID 1. The third disk is where SHR starts to earn the acronym. RAID is not backup.</p>
+<p>Two identical disks mirror each other. On a <a href="synology-ds224-plus-review">DS224+</a> you only have two bays, so SHR or RAID 1 is the decision, and with two matched disks they land in the same place: one disk of usable space, one disk of redundancy. On a <a href="synology-ds423-plus-review">DS423+</a> you can keep adding. That is the only reason this page exists.</p>
+<div class="table-wrap">
+<table>
+<tr><th>Setup</th><th>SHR</th><th>RAID 1</th></tr>
+<tr class="pick"><td data-label="Setup">Two identical disks</td><td data-label="SHR">Mirror. Usable ≈ one disk.</td><td data-label="RAID 1">Mirror. Usable ≈ one disk.</td></tr>
+<tr><td data-label="Setup">Third disk</td><td data-label="SHR">Becomes RAID 5-like and <em>grows</em>.</td><td data-label="RAID 1">Does not add a third member as capacity. You can add a mirror; you cannot just expand RAID 1 by sliding in disk three. Synology community: migrate, don't expect a three-disk RAID 1 volume.</td></tr>
+<tr><td data-label="Setup">Mixed sizes</td><td data-label="SHR">Uses leftover slices.</td><td data-label="RAID 1">RAID 5 / 6 waste down to the smallest disk. RAID 1 usable is the smallest mirror member.</td></tr>
+<tr><td data-label="Setup">SHR-2</td><td data-label="SHR">Needs four disks. Two-disk fault tolerance.</td><td data-label="RAID 1">n/a</td></tr>
+<tr><td data-label="Setup">DS224+ lid</td><td data-label="SHR">SHR or RAID 1 (also 0 / Basic / JBOD)</td><td data-label="RAID 1">Same two-bay set</td></tr>
+<tr><td data-label="Setup">DS423+ lid</td><td data-label="SHR">SHR, then 5 / 6 / 10 as you grow</td><td data-label="RAID 1">RAID 1 stays a mirror</td></tr>
+</table>
+</div>
+<p>Use two matched <a href="nas-hdd-picks-2026-cmr">CMR NAS drives</a>. Example pair: WD Red Plus 8 TB <code>WD80EFPX</code> (CMR, 5640 RPM, 180 TB/yr) or IronWolf 8 TB <code>ST8000VN004</code> (CMR, 7200 RPM, 180 TB/yr). IronWolf 1–6 TB is 5400 RPM: read the SKU. Skip WD Red <code>EFAX</code> (DM-SMR), WD Blue 3.5" <code>EZAZ</code>, BarraCuda 3.5" 4 / 8 TB SMR. SMR in SHR is how people still have a bad rebuild in 2026.</p>
+<p>5400 / 5640 RPM is fine for Hyper Backup and Time Machine. It is not a Proxmox LUN. DS224+ SAN Manager: 2 iSCSI targets, 4 LUNs. Put VMs on SSD if you must host them here at all.</p>
+<p>Chassis: <a href="https://www.amazon.com/Synology-2-Bay-DiskStation-DS224-Diskless/dp/B0C6927XPX">DS224+ Amazon B0C6927XPX</a>, <a href="https://www.bhphotovideo.com/c/product/1781611-REG/synology_2_bay_diskstation_ds224_compact.html">B&amp;H 1781611-REG</a>. DS423+: <a href="https://www.bhphotovideo.com/c/product/1757288-REG/synology_diskstation_ds423_4_bay_nas.html">B&amp;H 1757288-REG</a> ($499.99 diskless at research fetch), Amazon <a href="https://www.amazon.com/dp/B0BXMS9GFF">B0BXMS9GFF</a> was unavailable 22 Aug 2026. Drives: <a href="https://www.amazon.com/Seagate-IronWolf-Internal-Warranty-ST8000VN004/dp/B07XQ18JJW">ST8000VN004</a>, <a href="https://www.amazon.com/Western-Digital-Plus-Internal-Drive/dp/B0CMQ6SK7W">WD80EFPX</a>.</p>
+
+<h2>Skip</h2>
+<p>Skip RAID 0 on a first backup box. Skip “RAID is my backup.” Skip expanding RAID 1 by adding a third disk and expecting more terabytes. Skip SMR. Skip mixing a 4 TB leftover with an 8 TB and calling RAID 5 efficient: that is the SHR use case, and even then you should have planned matched disks.</p>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.wundertech.net/synology-raid-calculator-shr-vs-raid/">WunderTech SHR vs RAID calculator</a>. <a href="https://needtoknowit.com.au/blog/what-is-shr-synology-hybrid-raid-explained/">Need to Know IT, SHR explained</a>. <a href="https://www.storagealchemist.com/exploring-raid-types-in-synology-nas/">Storage Alchemist, Synology RAID types</a>. <a href="https://community.synology.com/enu/forum/1/post/123058">Synology community on RAID 1 expansion</a>. DS224+ / DS423+ spec PDFs. I haven't migrated a volume in this lab.</p>
+</section>
+
+
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="nas-hdd-picks-2026-cmr"><span class="t">Buy hard drives a first file box can rebuild: CMR, not the cheap packed style</span><span class="d">Buy the kind of hard drive a first file box can rebuild. CMR writes everywhere, not the cheap packed style.</span></a>
+<a class="note-row" href="nas-2-5-vs-3-5-drives"><span class="t">2.5-inch vs 3.5-inch in a first NAS: HDD bulk vs SATA SSD apps</span><span class="d">Put big quiet disks in a first file box, not an old laptop drive. Small laptop disks are the wrong size for bulk photos. A small fast SSD is only if apps need speed, not for a photo dump.</span></a>
+<a class="note-row" href="nas-2-5g-vs-10g"><span class="t">2.5G vs 10G on a first NAS: when the NIC is the waste</span><span class="d">Skip a 10G port on a first two-drive file box. Two spinning disks cannot fill even the faster 2.5G port.</span></a>
+</section>
+
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="ds224-plus-vs-ds423-plus"><span class="kicker">Previous</span><span class="t">DS224+ vs DS423+: 2-bay or 4-bay Synology Plus</span></a>
+<a rel="next" href="nas-hdd-picks-2026-cmr"><span class="kicker">Next</span><span class="t">Buy hard drives a first file box can rebuild: CMR, not the cheap packed style</span></a>
+</nav>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+</p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

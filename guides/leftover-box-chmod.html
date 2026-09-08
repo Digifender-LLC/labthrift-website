@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Make a file runnable — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After SSH works, change file permissions with chmod so a practice script can run. You don't need a permissions GUI for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Make a file runnable — Labthrift">
+<meta property="og:description" content="After SSH works, change file permissions with chmod so a practice script can run. You don't need a permissions GUI for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-chmod">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-chmod">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Make a file runnable","description":"After SSH works, change file permissions with chmod so a practice script can run. You don't need a permissions GUI for this.","url":"https://labthrift.com/guides/leftover-box-chmod","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-29"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Make a file runnable</span></nav>
+<p class="note">Written 29 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Make a file runnable</h1>
+<p class="deck">After SSH works, change file permissions with <span><code>chmod</code></span> so a practice script can run. You don't need a permissions GUI for this.</p>
+<p><a href="leftover-box-echo">Put a short line into a file</a> parks words on disk. <a href="leftover-box-ls">See what&apos;s in a folder</a> can show the permission letters. Tonight you only need those letters to mean “this file may run.” <span><code>chmod</code></span> changes who can read, write, or run a file. You are still only practicing in home. The computer does not need a desktop, a permissions GUI, or a NAS for this one job.</p>
+
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If you only need a short line on disk, that is <a href="leftover-box-echo">put a short line into a file</a>. If you only need the names and sizes, that is <a href="leftover-box-ls">see what&apos;s in a folder</a>. Skip this whole note if you only need a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</p>
+
+<h2>What this is</h2>
+<p><span><code>chmod</code></span> means change mode. It changes the permission bits on a file you own. You run it on the computer, after SSH. It does not write the file&apos;s words. That is <span><code>echo</code></span> or <span><code>nano</code></span>. It does not change who owns the file. That owner job is a different tool, and you don't need it tonight. It does not open a permissions window. One short command, same computer, the run bit flipped on or off.</p>
+<p>When <span><code>ls -l</code></span> prints a line, the first column looks like <span><code>-rw-rw-r--</code></span>. Those letters are read, write, and execute for you, for your group, and for everyone else. An <span><code>x</code></span> in that column means “may run.” A dash where the <span><code>x</code></span> would be means “may not.” That is the whole first-night story.</p>
+
+<h2>Make a practice script runnable</h2>
+<p>SSH in. Put one short practice script in home. A short name with no spaces is easier to type later:</p>
+<p><code>echo &apos;#!/bin/sh&apos; &gt; ~/hello.sh</code></p>
+<p><code>echo &apos;echo hello from the computer&apos; &gt;&gt; ~/hello.sh</code></p>
+<p>The first line tells the computer this file is a shell script. The second line is the one short job. Peek:</p>
+<p><code>cat ~/hello.sh</code></p>
+<p>See the permission letters before you change them:</p>
+<p><code>ls -l ~/hello.sh</code></p>
+<p>You will usually see something like <span><code>-rw-rw-r--</code></span> and no <span><code>x</code></span>. Trying to run it as a program fails until you flip that bit:</p>
+<p><code>chmod +x ~/hello.sh</code></p>
+<p><code>ls -l ~/hello.sh</code></p>
+<p>You want an <span><code>x</code></span> in the first group of letters now, often <span><code>-rwxrwxr-x</code></span> or similar. Then run it by path:</p>
+<p><code>~/hello.sh</code></p>
+<p>You should see <span><code>hello from the computer</code></span>. That is the whole first-night trick.</p>
+
+<h2>Useful extras, still practicing only</h2>
+<p>Need the run bit off again after you practice?</p>
+<p><code>chmod -x ~/hello.sh</code></p>
+<p><code>ls -l ~/hello.sh</code></p>
+<p>The <span><code>x</code></span> should be gone. The words inside the file are still there.</p>
+<p>Need a private note that only you can read? Practice on a throwaway file, not on SSH settings:</p>
+<p><code>echo &apos;practice secret&apos; &gt; ~/private.txt</code></p>
+<p><code>chmod 600 ~/private.txt</code></p>
+<p><code>ls -l ~/private.txt</code></p>
+<p>You want something like <span><code>-rw-------</code></span>. The number <span><code>600</code></span> is a short form: you may read and write, nobody else may. Skip deeper number puzzles tonight. <span><code>chmod +x</code></span> and <span><code>chmod 600</code></span> are enough for tonight.</p>
+<p>If you see command not found, install the usual tools, then try again:</p>
+<p><code>sudo apt install coreutils</code></p>
+<p>Debian and Ubuntu Server usually already have it. That install is not a reason to buy a permissions GUI.</p>
+<p>When you are done practicing:</p>
+<p><code>rm -i ~/hello.sh ~/private.txt</code></p>
+
+<h2>What this is not</h2>
+<p>This is not writing the words inside the file. That is <a href="leftover-box-echo">put a short line into a file</a> or <a href="leftover-box-nano">edit a file from the couch</a>. It is not listing names. That is <a href="leftover-box-ls">see what&apos;s in a folder</a>. It is not changing who owns the file. Skip owner changes tonight. It is not turning off password login. That is <a href="leftover-box-ssh-no-password">turn off password login once the key works</a>. It is not a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</p>
+
+<h2>What next</h2>
+<p>Need a short line before the script exists? <a href="leftover-box-echo">Put a short line into a file</a>. Need several lines in the editor? <a href="leftover-box-nano">Edit a file from the couch</a>. Need the names and letters again? <a href="leftover-box-ls">See what&apos;s in a folder</a>. Need a second name that still points at the same file? <a href="leftover-box-ln">Make a shortcut</a>. Need a folder for scripts to land in? <a href="leftover-box-mkdir">Make a folder</a>. Need a file from the laptop instead? <a href="leftover-box-scp">Copy a file to the computer from your laptop</a>. When a house job broke, look at the computer&apos;s own diary: <a href="leftover-box-read-logs">when something broke, look at the log</a>. When key login is boring on every computer you use, <a href="leftover-box-ssh-no-password">turn off password login once the key works</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip <span><code>chmod -R</code></span>, <span><code>chmod</code></span> on anything under <span><code>/etc</code></span>, SSH settings, or a file you care about. Practice only in home tonight.</li>
+<li>Skip changing file owners, setuid bits, and ACL tools tonight. The run bit and <span><code>600</code></span> are the job.</li>
+<li>Skip SSH settings, <span><code>/etc/shadow</code></span>, and anything under <span><code>/etc/ssh</code></span>. Looking at trusted laptop keys is <a href="leftover-box-authorized-keys">see which laptop keys the computer already trusts</a>.</li>
+<li>Skip buying a permissions GUI, Midnight Commander, or a NAS to flip one run bit.</li>
+<li>Skip opening SSH to the internet so you can change permissions from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/coreutils/chmod.1.en.html">Debian: chmod</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/chmod.1.html">Ubuntu: chmod</a>. <a href="https://www.gnu.org/software/coreutils/manual/html_node/chmod-invocation.html">GNU coreutils: chmod</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For a short line, see <a href="leftover-box-echo">put a short line into a file</a>. For listing letters, see <a href="leftover-box-ls">see what&apos;s in a folder</a>. For the editor, see <a href="leftover-box-nano">edit a file from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-echo"><span class="t">Put a short line into a file</span><span class="d">After SSH works, put one short line into a file with echo so you don't need to open nano. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-ls"><span class="t">See what&apos;s in a folder</span><span class="d">After SSH works, list the folder you are sitting in with ls. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-nano"><span class="t">Edit a file from the couch</span><span class="d">After SSH works, open a file with nano, change a line, and save. The keys at the bottom of the screen are the whole trick. You don't need a new editor.</span></a>
+<a class="note-row" href="leftover-box-mkdir"><span class="t">Make a folder</span><span class="d">After SSH works, make a folder with mkdir so copies and edits have a place to land. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-touch"><span class="t">Make an empty file</span><span class="d">After SSH works, make an empty file with touch so nano and copies have a file to land on. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-rm"><span class="t">Delete a file carefully</span><span class="d">After SSH works, delete one file with rm -i. Ask first. Skip rm -rf. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-echo"><span class="kicker">Previous</span><span class="t">Put a short line into a file</span></a>
+<a rel="next" href="leftover-box-ln"><span class="kicker">Next</span><span class="t">Make a shortcut</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

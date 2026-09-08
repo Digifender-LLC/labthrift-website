@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>A faster switch for a first home lab — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="If file copies still crawl, start with a small silent switch that has eight faster ports. You don't need extra settings or a 10G port on day one.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="A faster switch for a first home lab — Labthrift">
+<meta property="og:description" content="If file copies still crawl, start with a small silent switch that has eight faster ports. You don't need extra settings or a 10G port on day one.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/2-5g-switch">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/2-5g-switch">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BlogPosting",
+ "headline": "A faster switch for a first home lab",
+ "description": "If file copies still crawl, start with a small silent switch that has eight faster ports. You don't need extra settings or a 10G port on day one.",
+ "url": "https://labthrift.com/guides/2-5g-switch",
+ "image": "https://labthrift.com/assets/og-1200.png",
+ "datePublished": "2026-08-21"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+ {
+ "@type": "ListItem",
+ "position": 1,
+ "name": "Home",
+ "item": "https://labthrift.com/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 2,
+ "name": "Notes",
+ "item": "https://labthrift.com/guides/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 3,
+ "name": "2.5G switches",
+ "item": "https://labthrift.com/guides/#switches"
+ },
+ {
+ "@type": "ListItem",
+ "position": 4,
+ "name": "A faster switch for a first home lab",
+ "item": "https://labthrift.com/guides/2-5g-switch"
+ }
+ ]
+}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">A faster switch for a first home lab</span></nav>
+<p class="note">Written 21 Aug 2026. Specs from the maker pages linked below. Prices from those stores. I haven't used these.</p>
+
+<h1>A faster switch for a first home lab</h1>
+<p class="deck">You don't need a new switch to start a home lab. Plug the old laptop into the router you already have. Buy a faster switch later, if file copies actually crawl.</p>
+<p>When that day comes, those extra-fast ports are called 2.5G, a bit more than twice the speed of the old gigabit ports on most routers. They still use the ethernet cables you already have. Most first labs stall because one old switch is the bottleneck. Start here, then worry about 10G later.</p>
+
+<h2>What to buy</h2>
+<div class="table-wrap">
+<table>
+<tr><th>Box</th><th>What it is</th><th>Street, Aug 2026</th><th>Buy if</th></tr>
+<tr class="pick"><td data-label="Box">TP-Link TL-SG108S-M2</td><td data-label="What it is">8× 2.5G, fanless, unmanaged</td><td data-label="Street, Aug 2026">MSRP about $80. Tom's Hardware saw $50 on a June Prime sale.</td><td data-label="Buy if">You want the default. Silent. No config.</td></tr>
+<tr><td data-label="Box">TRENDnet TEG-S380</td><td data-label="What it is">8× 2.5G, fanless, NDAA/TAA, lifetime warranty</td><td data-label="Street, Aug 2026">Maker list $88. Street often $74–80.</td><td data-label="Buy if">You care about warranty paper more than the TP-Link default.</td></tr>
+<tr><td data-label="Box">TP-Link TL-SG108-M2</td><td data-label="What it is">Older 8× 2.5G sibling</td><td data-label="Street, Aug 2026">Often $130–150. Sometimes not worth it vs the S-M2.</td><td data-label="Buy if">Only if it is actually cheaper than the S-M2 today.</td></tr>
+<tr><td data-label="Box">TRENDnet TEG-3102WS</td><td data-label="What it is">8× 2.5G + 2× 10G SFP+, managed, fanless</td><td data-label="Street, Aug 2026">About $200</td><td data-label="Buy if">You need VLANs or a 10G DAC to the NAS.</td></tr>
+</table>
+</div>
+<h2>Skip</h2>
+<p>Skip random no-name 5-port toys that only have one fast port and four leftover slow ones. Skip a computer stuck at 100. Check the cable speed first: <a href="leftover-box-link-speed">see the cable speed</a>. Skip a $400 brand-name PoE monster until you have access points that need that budget. Skip a used old gigabit office switch for this job. The whole point is the faster ports.</p>
+<section class="sources">
+<h2>Sources</h2>
+<p>TRENDnet TEG-S380 V2 maker page (list $87.99). Tom's Hardware, 26 Jun 2026, TL-SG108S-M2 sale. B&amp;H compare listings for TL-SG108-M2 / TEG-S380. Street ranges move. Check the live price before you click.</p>
+</section>
+
+
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="trendnet-teg-s562"><span class="t">Quiet faster closet ports plus a real 10G cage: TRENDnet TEG-S562</span><span class="d">Quiet faster closet ports plus a real 10G cage, without VLANs or eight copper ports.</span></a>
+<a class="note-row" href="tp-link-tl-sg105s-m2"><span class="t">Five quiet faster ports for one NAS and one PC: TP-Link TL-SG105S-M2</span><span class="d">Five quiet faster ports for one NAS and one PC. Skip the eight-port box until you count more plugs.</span></a>
+<a class="note-row" href="8-port-vs-5-port-2-5g-switch"><span class="t">8-port vs 5-port 2.5G switch for a closet lab</span><span class="d">Count the real endpoints and add two.</span></a>
+</section>
+
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-failed-units"><span class="kicker">Previous</span><span class="t">See if any house jobs failed to start</span></a>
+<a rel="next" href="tp-link-tl-sg108s-m2"><span class="kicker">Next</span><span class="t">Eight quiet faster ports when file copies crawl: TP-Link TL-SG108S-M2</span></a>
+</nav>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+</p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

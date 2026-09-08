@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See kernel name and architecture — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After id, print kernel name and architecture with uname so you know what kernel is running. You don't need extra software for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See kernel name and architecture — Labthrift">
+<meta property="og:description" content="After id, print kernel name and architecture with uname so you know what kernel is running. You don't need extra software for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-uname">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-uname">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See kernel name and architecture","description":"After id, print kernel name and architecture with uname so you know what kernel is running. You don't need extra software for this.","url":"https://labthrift.com/guides/leftover-box-uname","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-31"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"Faster network","item":"https://labthrift.com/guides/#switches"},{"@type":"ListItem","position":3,"name":"See kernel name and architecture"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">See kernel name and architecture</span></nav>
+<p class="note">Written 31 Aug 2026. This is a how-to, not a product card.</p>
+<h1>See kernel name and architecture</h1>
+<p class="deck">After id, print kernel name and architecture with uname so you know what kernel is running. You don&apos;t need extra software for this.</p>
+<p><a href="leftover-box-id">See user number and groups</a> printed uid, gid, and groups. Tonight you check the kernel name and architecture: <span><code>uname</code></span>. Uname prints the kernel. You are still only practicing in home on the computer. It does not need extra system software, htop, Grafana, or a NAS for this one job.</p>
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If user number and groups are what you want, that is <a href="leftover-box-id">see user number and groups</a>. If OS name (Debian or Ubuntu) is what you want, that is <a href="leftover-box-os-release">see which OS the computer is already running</a>. If a hostname is what you want, that is <a href="leftover-box-hostname">give the computer a name that sticks</a>. If hardware is what you want, that is <a href="leftover-box-model">see what computer you already have</a>.</p>
+<h2>What this is</h2>
+<p><span><code>uname</code></span> prints kernel name. You type <span><code>uname</code></span>. Default print is the kernel name, often Linux. <span><code>-r</code></span> is kernel release. <span><code>-m</code></span> is architecture (x86_64, aarch64). <span><code>-a</code></span> is a longer dump. It is not OS name. OS name is <span><code>/etc/os-release</code></span>. It is not hostname. Hostname is the name on the house network.</p>
+<h2>Practice uname in home</h2>
+<p>SSH in. Make sure home is where you sit:</p>
+<p><code>pwd</code></p><p>You want a path that ends in your login name. If not:</p>
+<p><code>cd ~</code></p><p>Ask for kernel name:</p>
+<p><code>uname</code></p><p>You want a short name, often Linux, then the prompt back. That is enough for tonight. Practice only in home.</p>
+<p>Debian and Ubuntu usually already have <span><code>uname</code></span>. Don't make apt the job. If <span><code>uname</code></span> is missing:</p>
+<p><code>sudo apt install coreutils</code></p><p>Then stop. That install is not the lesson.</p>
+<h2>Useful extras, still home only</h2>
+<p>Kernel release:</p>
+<p><code>uname -r</code></p><p>Architecture:</p>
+<p><code>uname -m</code></p><p>Optional longer dump:</p>
+<p><code>uname -a</code></p><p>Don't make <span><code>-a</code></span> required. You can stop at <span><code>uname</code></span>.</p>
+<h2>What this is not</h2>
+<p>This is not OS name. That is <a href="leftover-box-os-release">see which OS the computer is already running</a>. It is not hostname. That is <a href="leftover-box-hostname">give the computer a name that sticks</a>. It is not hardware. That is <a href="leftover-box-model">see what computer you already have</a>. It is not worker count. That is <a href="leftover-box-cpu">see how many workers the computer already has</a>. It is not a VM feature. That is <a href="leftover-box-virt">see if the computer can run a pretend computer</a>. It is not printenv. That is <a href="leftover-box-printenv">see HOME and PATH</a>. It is not opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>What next</h2>
+<p>Need HOME and PATH? <a href="leftover-box-printenv">See HOME and PATH</a>. Need user number and groups? <a href="leftover-box-id">See user number and groups</a>. Need OS name? <a href="leftover-box-os-release">See which OS the computer is already running</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip OS name, hostname, hardware, CPU, and virt as tonight&apos;s job. Those pages already exist.</li>
+<li>Skip treating uname as the distro name. Distro name is os-release.</li>
+<li>Skip files under <span><code>/etc</code></span>, SSH folders, or paths you don't own. Practice only in home.</li>
+<li>Skip <span><code>rm -rf</code></span>. Careful delete only: <a href="leftover-box-rm">delete a file carefully</a>.</li>
+<li>Skip opening SSH to the internet so you can do this from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/coreutils/uname.1.en.html">Debian: uname(1)</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/uname.1.html">Ubuntu: uname(1)</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For OS name, see <a href="leftover-box-os-release">see which OS the computer is already running</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-id"><span class="t">See user number and groups</span><span class="d">After whoami, print user number and groups with id so sudo and file ownership make sense. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-whoami"><span class="t">See the login name</span><span class="d">After SSH works, print the login name with whoami so home and sudo make sense. You don&apos;t need extra login software for this.</span></a>
+<a class="note-row" href="leftover-box-os-release"><span class="t">See which OS the computer is already running</span><span class="d">After SSH works, see which OS the computer is already running. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-hostname"><span class="t">Give the computer a name that sticks</span><span class="d">Ping and SSH are easier if the computer has a short name. lab works. Set it so the name survives a reboot.</span></a>
+<a class="note-row" href="leftover-box-model"><span class="t">See what computer you already have</span><span class="d">After SSH works, see what computer you already have. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-cpu"><span class="t">See how many workers the computer already has</span><span class="d">After SSH works, see how many workers the computer already has. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-virt"><span class="t">See if the computer can run a pretend computer</span><span class="d">After SSH works, see if the computer can run a pretend computer. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-rm"><span class="t">Delete a file carefully</span><span class="d">After SSH works, delete one file with rm -i. Ask first. Skip rm -rf. You don&apos;t need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-printenv"><span class="t">See HOME and PATH</span><span class="d">After uname, print HOME and PATH with printenv so login environment makes sense. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-id"><span class="kicker">Previous</span><span class="t">See user number and groups</span></a>
+<a rel="next" href="leftover-box-printenv"><span class="kicker">Next</span><span class="t">See HOME and PATH</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

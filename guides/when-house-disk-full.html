@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When the computer's disk is full — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Photos won't copy, the share says no space, or df shows the system disk packed. Confirm it is the computer (not the backup stick), free room or move the house folder, then retry. You don't need a NAS.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When the computer's disk is full — Labthrift">
+<meta property="og:description" content="Photos won't copy, the share says no space, or df shows the system disk packed. Confirm it is the computer (not the backup stick), free room or move the house folder, then retry. You don't need a NAS.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-house-disk-full">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-house-disk-full">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When the computer's disk is full","description":"Photos won't copy, the share says no space, or df shows the system disk packed. Confirm it is the computer (not the backup stick), free room or move the house folder, then retry. You don't need a NAS.","url":"https://labthrift.com/guides/when-house-disk-full","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-05"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When the computer's disk is full</span></nav>
+<p class="note">Written 5 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When the computer's disk is full</h1>
+<p class="deck">Photos won't copy, the share says no space, or <code>df</code> shows the system disk packed. Confirm it is the computer (not the backup stick), free room or move the house folder, then retry. You don't need a NAS.</p>
+<p>Haven't made a share yet? Start with <a href="first-file-share">a file share</a>. Only checking room before anything fails? That quieter look is <a href="leftover-box-disk-space">see if the computer still has room</a>. Backup stick full instead of the computer? That is <a href="when-backup-usb-full">when the backup USB is full</a>. This note is for the live disk that holds the OS and (usually) the house folder.</p>
+
+<h2>Skip until copies fail or Use% is ugly</h2>
+<p>Copy the exact line. <code>No space left on device</code>, Finder saying the disk is full, or a phone copy that stops mid-batch belongs here. A share that won't open for login or path reasons is not "full." That wider walk is <a href="when-share-wont-open">when the house share won't open</a>. Don't buy a NAS because one small SSD filled up with photos.</p>
+
+<h2>What this is</h2>
+<p>The house folder grew on the same disk as the OS. An old OptiPlex or laptop SSD fills faster than people expect. Phones keep dumping camera-roll photos until writes fail. Sometimes free gigabytes look fine and copies still fail: that is file slots (inodes), not bytes. The checks below separate a packed system disk, a packed house folder on a USB that stays plugged in, a backup stick problem, and an inode trap before you delete anything useful.</p>
+
+<h2>Step 1: awake, then SSH</h2>
+<p>Power light. Fan. If it looks asleep, start with <a href="leftover-box-still-on">is the computer still on?</a>. You need SSH from the couch: <a href="first-ssh">SSH from the couch</a>. Connect fails? <a href="when-ssh-wont-connect">when SSH won't connect</a>.</p>
+
+<h2>Step 2: see which disk is full</h2>
+<p>Print human sizes:</p>
+<p><code>df -h</code></p>
+<p>Point at the line that ends in <code>/</code>. That is the system disk. Look at <code>Use%</code> and <code>Avail</code>. 95–100% (or tiny <code>Avail</code>) on <code>/</code> means the computer itself is the problem.</p>
+<p>If the house folder already lives on a USB that stays plugged in, also check that mount:</p>
+<p><code>df -h /srv/share</code></p>
+<p>A line with a USB device under <code>Filesystem</code> means the live share is on that stick, not on <code>/</code>. Full USB share path: still this page (free room or bigger stay-in stick). Full <code>/mnt/backup</code> stick you unplug for backups: <a href="when-backup-usb-full">when the backup USB is full</a>.</p>
+
+<h2>Step 3: rule out fake "full"</h2>
+<p>Copies fail but <code>df -h /</code> still shows plenty of free space? Check file slots:</p>
+<p><code>df -i /</code></p>
+<p>If <code>IUse%</code> is near 100%, you ran out of inodes (lots of tiny files), not gigabytes. That look is <a href="leftover-box-inodes">when copies fail but free space looks fine</a>. Fix that path before you buy a bigger drive.</p>
+
+<h2>Step 4: see what is eating the disk</h2>
+<p>House folder size:</p>
+<p><code>sudo du -sh /srv/share</code></p>
+<p>Top-level folders on the system disk (biggest at the bottom):</p>
+<p><code>sudo du -h --max-depth=1 / 2>/dev/null | sort -h</code></p>
+<p>Finer walk when you already know it is tight: <a href="leftover-box-largest-folders">see which folders are eating the disk</a>.</p>
+<p>Common junk that is safe to clear after you recognize it:</p>
+<ul>
+<li>Old package downloads: <a href="leftover-box-apt-clean">clear old package downloads when the disk is tight</a></li>
+<li>Old logs: <a href="leftover-box-old-logs">clear old logs when the disk is tight</a></li>
+<li>Downloads / Trash on a laptop that still has a desktop user: <code>du -sh ~/Downloads ~/.local/share/Trash 2>/dev/null</code></li>
+</ul>
+<p>Do not delete <code>/srv/share</code> to "make room" unless you already have a second copy you trust: <a href="first-backup">a backup of the house folder</a>.</p>
+
+<h2>Step 5: pick one fix</h2>
+<div class="table-wrap">
+<table>
+<tr><th>Situation</th><th>What to do</th></tr>
+<tr><td data-label="Situation">Junk and logs are the bulk</td><td data-label="What to do">Clear apt leftovers and old logs (links above). Empty Trash / Downloads you don't need. Re-check <code>df -h /</code>.</td></tr>
+<tr><td data-label="Situation">House folder is huge; system SSD is small</td><td data-label="What to do">Park the live share on a USB disk that stays plugged in: <a href="house-folder-on-usb">put the house folder on a USB disk</a>. Same share name for phones and laptops.</td></tr>
+<tr><td data-label="Situation">Live share already on a stay-in USB that filled</td><td data-label="What to do">Delete obvious junk inside the share you recognize, or move to a bigger stay-in disk with the same <a href="house-folder-on-usb">house-folder-on-USB</a> walk. Keep a second copy elsewhere first.</td></tr>
+<tr><td data-label="Situation">Only the backup stick is full</td><td data-label="What to do">Wrong page. Go to <a href="when-backup-usb-full">when the backup USB is full</a>.</td></tr>
+<tr><td data-label="Situation">Inodes full, bytes free</td><td data-label="What to do"><a href="leftover-box-inodes">When copies fail but free space looks fine</a>.</td></tr>
+</table>
+</div>
+<p>Deleting inside the share (only after you know what it is):</p>
+<p><code>rm -ri /srv/share/some-old-folder</code></p>
+<p>Ask first. Skip <code>rm -rf /</code>. Skip wiping the only good backup to free the live disk.</p>
+
+<h2>Step 6: confirm room, then retry the copy</h2>
+<p>Check again:</p>
+<p><code>df -h / /srv/share</code></p>
+<p>Leave headroom so next week's photos don't fail on day one. Retry the phone dump: <a href="phone-photos-to-share">save phone photos to the house share</a>. Or open from a laptop: <a href="open-share-from-laptop">open the house share from a laptop</a>. If the share still won't write after room returns, match the error on <a href="when-share-wont-open">when the house share won't open</a>.</p>
+<p>Still no second copy of the house folder? Make one before the disk gets interesting again: <a href="first-backup">a backup of the house folder</a>.</p>
+
+<h2>What this is not</h2>
+<p>This is not a reason to buy a NAS tonight. It is not RAID. It is not a cloud plan until a plain second copy exists on a stick or another old PC. It is not deleting the only backup to free the live disk. It is not the backup-stick-full page (that is <a href="when-backup-usb-full">when the backup USB is full</a>).</p>
+
+<h2>What next</h2>
+<p>Health of the drive itself: <a href="see-disk-health">see if the old disk is dying</a>. Already FAILED or clicking: <a href="when-disk-is-dying">when the old disk is dying</a>. Quieter check before anything fails: <a href="leftover-box-disk-space">see if the computer still has room</a>. Where the bytes went: <a href="leftover-box-largest-folders">see which folders are eating the disk</a>. Move the live share off a tiny SSD: <a href="house-folder-on-usb">put the house folder on a USB disk</a>. Second copy: <a href="first-backup">a backup of the house folder</a>. Backup stick packed: <a href="when-backup-usb-full">when the backup USB is full</a>. Share open errors that are not disk: <a href="when-share-wont-open">when the house share won't open</a>. A dedicated file box is later: <a href="first-nas">a first file box (NAS)</a>.</p>
+
+<p class="note">Optional: track which disk is full and what you moved in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip buying a NAS because one small SSD filled up.</li>
+<li>Skip RAID. RAID is not a backup.</li>
+<li>Skip deleting the only backup to free the live disk.</li>
+<li>Skip <code>rm -rf</code> on paths you have not listed with <code>du</code> first.</li>
+<li>Skip treating a full backup stick as a full system disk.</li>
+<li>Skip filling an old laptop with a movie library "just for now."</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/coreutils/df.1.en.html">Debian: df</a>. <a href="https://manpages.debian.org/bookworm/coreutils/du.1.en.html">Debian: du</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/df.1.html">Ubuntu: df</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/du.1.html">Ubuntu: du</a>. Official pages only. For the share this unblocks, see <a href="first-file-share">a file share</a>. For the quiet room check, see <a href="leftover-box-disk-space">see if the computer still has room</a>. For moving the live folder, see <a href="house-folder-on-usb">put the house folder on a USB disk</a>. For a packed backup stick, see <a href="when-backup-usb-full">when the backup USB is full</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="when-the-computer-is-slow"><span class="t">When the old PC feels slow</span><span class="d">SSH lags, apt crawls, or the house share feels sticky. Check load, memory, disk room, then one busy job. Skip a new mini PC tonight.</span></a>
+<a class="note-row" href="when-disk-is-dying"><span class="t">When the old disk is dying</span><span class="d">SMART says FAILED, the disk clicks, or dmesg shows I/O errors. Copy the house folder off first, then plan a drive swap. You don't need a NAS tonight.</span></a>
+<a class="note-row" href="when-disk-is-read-only"><span class="t">When the disk went read-only</span><span class="d">apt fails, the share won't take photos, or mount shows ro after a power blip. Confirm read-only, copy off what you can, then remount or fsck. You don't need a NAS tonight.</span></a>
+<a class="note-row" href="see-disk-health"><span class="t">See if the old disk is dying</span><span class="d">SMART reports whether the drive still looks healthy. Install smartmontools, list the disk, run a quick health check before you trust photos on a Marketplace PC. You don't need a NAS.</span></a>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="leftover-box-largest-folders"><span class="t">See which folders are eating the disk</span><span class="d">Before you buy a bigger drive or a NAS, ask which folders are taking the room.</span></a>
+<a class="note-row" href="house-folder-on-usb"><span class="t">Put the house folder on a USB disk</span><span class="d">Move the house share onto a USB disk that stays plugged into the old PC so photos don't fill the system drive. You don't need a NAS for this.</span></a>
+<a class="note-row" href="when-backup-usb-full"><span class="t">When the backup USB is full</span><span class="d">rsync says no space, or df shows the stick is packed. Confirm the mount, free room or use a bigger stick, or copy to another old PC. You don't need a NAS.</span></a>
+<a class="note-row" href="when-share-wont-open"><span class="t">When the house share won't open</span><span class="d">Finder, File Explorer, or the phone can't open the house folder. Check the computer is on, confirm the address, then match the error (path not found, login failed, can't write, disk full). You don't need a NAS.</span></a>
+<a class="note-row" href="when-share-wont-write"><span class="t">When you can open the house share but can't write</span><span class="d">The house folder opens, but copy, save, or phone upload fails. Check disk room, Samba read only, then folder ownership. You don't need a NAS.</span></a>
+<a class="note-row" href="phone-photos-to-share"><span class="t">Save phone photos to the house share</span><span class="d">Copy camera-roll photos from an iPhone or Android onto the house folder on the old PC. House Wi-Fi only. You don't need a NAS app or iCloud for this.</span></a>
+<a class="note-row" href="first-backup"><span class="t">A backup of the house folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another old computer. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-inodes"><span class="t">When copies fail but free space looks fine</span><span class="d">Before you buy a bigger drive or a NAS, check file slots when copies fail but gigabytes still look free.</span></a>
+<a class="note-row" href="leftover-box-apt-clean"><span class="t">Clear old package downloads when the disk is tight</span><span class="d">After weekly updates, old downloads can sit on the disk. Clear them safely before you buy a bigger drive or a NAS.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-disk-space"><span class="kicker">Previous</span><span class="t">See if the computer still has room</span></a>
+<a rel="next" href="house-folder-on-usb"><span class="kicker">Next</span><span class="t">Put the house folder on a USB disk</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

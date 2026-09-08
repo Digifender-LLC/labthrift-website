@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Number lines — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After SSH works, nl numbers lines so a long file is easier to point at. You don't need a file manager for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Number lines — Labthrift">
+<meta property="og:description" content="After SSH works, nl numbers lines so a long file is easier to point at. You don't need a file manager for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-nl">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-nl">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Number lines","description":"After SSH works, nl numbers lines so a long file is easier to point at. You don't need a file manager for this.","url":"https://labthrift.com/guides/leftover-box-nl","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-30"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"Faster network","item":"https://labthrift.com/guides/#switches"},{"@type":"ListItem","position":3,"name":"Number lines"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Number lines</span></nav>
+<p class="note">Written 30 Aug 2026. This is a how-to, not a product card.</p>
+<h1>Number lines</h1>
+<p class="deck">After SSH works, <span><code>nl</code></span> numbers lines so a long file is easier to point at. You don&apos;t need a file manager for this.</p>
+<p><a href="leftover-box-paste">Join columns side by side</a> kept two lists as one line each. Tonight you number lines so you can say look at line 3. <span><code>nl</code></span> does that. Long files get numbers in the window. You are still only looking on the computer. It does not need a desktop, a file manager, or a new mini PC for this one job.</p>
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If columns joined are what you want, that is <a href="leftover-box-paste">join columns side by side</a>. If a whole dump with no numbers is what you want, that is <a href="leftover-box-cat">read a file without opening the editor</a>. If a number list from scratch is what you want, that is <a href="leftover-box-seq">print a number list</a>. Skip this whole note if you only need a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</p>
+<h2>What this is</h2>
+<p><span><code>nl</code></span> numbers lines. You type <span><code>nl</code></span>, then a file. Default numbers are body lines: text lines get numbers, blank lines usually don't. <span><code>-ba</code></span> is optional all lines, blanks included. It prints numbered lines. It does not rewrite the file unless you ask it to.</p>
+<p>It is not <span><code>seq</code></span>. Seq makes numbers from scratch. Nl labels lines you already have. It is not <span><code>cat</code></span>. Cat dumps without numbers. It is not <span><code>cat -n</code></span> as this lesson. Tonight the tool is <span><code>nl</code></span>.</p>
+<h2>Number lines from a practice file</h2>
+<p>SSH in. Make a tiny file in home:</p>
+<p><code>printf &apos;apple\nbanana\npear\n&apos; &gt; ~/fruit.txt</code></p><p>That save is <a href="leftover-box-redirect">save output to a file</a>. Peek first:</p>
+<p><code>cat ~/fruit.txt</code></p><p>You want apple, then banana, then pear. Now number lines:</p>
+<p><code>nl ~/fruit.txt</code></p><p>You want 1 then apple, 2 then banana, 3 then pear. The file on disk is still three fruit lines with no numbers baked in. That is the whole first-night trick: numbers in a window, file left alone.</p>
+<p>Need blank lines numbered too? Make a file with a blank in the middle:</p>
+<p><code>printf &apos;apple\n\nbanana\n&apos; &gt; ~/fruit.txt</code></p><p>Default <span><code>nl</code></span> numbers apple and banana, and skips the blank line. Number every line including blanks:</p>
+<p><code>nl -ba ~/fruit.txt</code></p><p>You want 1 apple, 2 on the blank line, 3 banana. <span><code>-ba</code></span> is optional. Default body lines are enough for tonight.</p>
+<p>If it says command not found for <span><code>nl</code></span>, install the usual tools, then try again:</p>
+<p><code>sudo apt install coreutils</code></p><p>Debian and Ubuntu Server usually already have them. That install is not a reason to buy a file manager.</p>
+<p>When you are done looking, throw away the practice file:</p>
+<p><code>rm ~/fruit.txt</code></p><p>Careful delete only. That is <a href="leftover-box-rm">delete a file carefully</a>.</p>
+<h2>Useful extras, still looking only</h2>
+<p>Need narrower numbers and a clearer separator?</p>
+<p><code>nl -w2 -s&apos;. &apos; ~/fruit.txt</code></p><p><span><code>-w2</code></span> is width. <span><code>-s&apos;. &apos;</code></span> is separator after the number. Skip fancy section numbering tonight. Plain <span><code>nl</code></span> is enough for first look.</p>
+<p>Some pages mention <span><code>cat -n</code></span>. That also prints numbers. Tonight the tool is <span><code>nl</code></span>. Skip <span><code>cat -n</code></span> as this lesson.</p>
+<p>Skip files under <span><code>/etc</code></span>, SSH settings, <span><code>sed</code></span>, <span><code>awk</code></span>, <span><code>xargs</code></span>, and huge logs tonight. Practice only files you just made in home. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>What this is not</h2>
+<p>This is not columns joined. That is <a href="leftover-box-paste">join columns side by side</a>. It is not <span><code>seq</code></span>. Seq makes numbers from scratch. That is <a href="leftover-box-seq">print a number list</a>. It is not wrap of long lines. That is <a href="leftover-box-fold">wrap long lines</a>.</p>
+<h2>What next</h2>
+<p>Need long lines wrapped? <a href="leftover-box-fold">Wrap long lines</a>. Need columns joined first? <a href="leftover-box-paste">Join columns side by side</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip <span><code>nl</code></span> over files you care about, paths under <span><code>/etc</code></span>, and SSH settings. Practice only files you just made in home.</li>
+<li>Skip fancy section numbering, huge logs, <span><code>sed</code></span>, <span><code>awk</code></span>, and <span><code>xargs</code></span> tonight. <span><code>nl</code></span> by itself is enough for first line numbers.</li>
+<li>Skip <span><code>nl</code></span> piped into <span><code>rm</code></span>. Practice tools that print, then peek with <span><code>cat</code></span>.</li>
+<li>Skip SSH settings, <span><code>/etc/shadow</code></span>, and anything under <span><code>/etc/ssh</code></span>.</li>
+<li>Skip opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.gnu.org/software/coreutils/manual/html_node/nl-invocation.html">GNU coreutils: nl invocation</a>. <a href="https://manpages.debian.org/bookworm/coreutils/nl.1.en.html">Debian: nl</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/nl.1.html">Ubuntu: nl</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For columns joined, see <a href="leftover-box-paste">join columns side by side</a>. For wrap, see <a href="leftover-box-fold">wrap long lines</a>. For numbers from scratch, see <a href="leftover-box-seq">print a number list</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-paste"><span class="t">Join columns side by side</span><span class="d">After SSH works, join columns side by side with paste so two lists become one line each. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-cut"><span class="t">Pull one column</span><span class="d">After SSH works, pull one column with cut so a mixed line is easier to scan. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-tr"><span class="t">Change characters</span><span class="d">After SSH works, change characters with tr so a mixed line is easier to clean. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-cat"><span class="t">Read a file without opening the editor</span><span class="d">After SSH works, print a file with cat so you can read it without opening nano. Short files only. You don&apos;t need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-head"><span class="t">See the start of a file</span><span class="d">After SSH works, print the first lines of a file with head so a long file does not flood the window. You don&apos;t need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-tail"><span class="t">See the end of a file</span><span class="d">After SSH works, print the last lines of a file with tail so a long file does not flood the window. You don&apos;t need a log viewer for this.</span></a>
+<a class="note-row" href="leftover-box-wc"><span class="t">See how long a file is</span><span class="d">After SSH works, count lines with wc so you know if a dump will flood the window. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-fold"><span class="t">Wrap long lines</span><span class="d">After SSH works, wrap long lines with fold. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-paste"><span class="kicker">Previous</span><span class="t">Join columns side by side</span></a>
+<a rel="next" href="leftover-box-fold"><span class="kicker">Next</span><span class="t">Wrap long lines</span></a>
+</nav>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

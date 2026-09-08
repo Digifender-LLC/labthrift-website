@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When guest Wi-Fi still shows ads — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Guest Wi-Fi is a separate network on purpose. Either leave guests on the ISP DNS, put a visitor on the main house Wi-Fi, or point guest DNS at Pi-hole only if guests can reach the computer. You don't need a new router.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When guest Wi-Fi still shows ads — Labthrift">
+<meta property="og:description" content="Guest Wi-Fi is a separate network on purpose. Either leave guests on the ISP DNS, put a visitor on the main house Wi-Fi, or point guest DNS at Pi-hole only if guests can reach the computer. You don't need a new router.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/guest-wifi-dns">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/guest-wifi-dns">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When guest Wi-Fi still shows ads","description":"Guest Wi-Fi is a separate network on purpose. Either leave guests on the ISP DNS, put a visitor on the main house Wi-Fi, or point guest DNS at Pi-hole only if guests can reach the computer. You don't need a new router.","url":"https://labthrift.com/guides/guest-wifi-dns","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-04"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When guest Wi-Fi still shows ads</span></nav>
+<p class="note">Written 4 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When guest Wi-Fi still shows ads</h1>
+<p class="deck">Guest Wi-Fi is a separate network on purpose. Either leave guests on the ISP DNS, put a visitor on the main house Wi-Fi, or point guest DNS at Pi-hole only if guests can reach the computer. You don't need a new router.</p>
+<p>Haven't installed the house ad block yet? Start with <a href="first-useful-service">the first useful thing</a>. Ads back on every device on the <em>main</em> house Wi-Fi? Start with <a href="when-ads-come-back">when ads come back</a>. One phone on the main house Wi-Fi still shows banners? That is <a href="when-one-phone-shows-ads">when one phone still shows ads</a>. One laptop still dirty on the main Wi-Fi? That is <a href="when-one-laptop-shows-ads">when one laptop still shows ads</a>. This note is only the guest SSID: visitors join a second network and still see ads while your phones look clean.</p>
+
+<h2>Skip until the main house is clean</h2>
+<p>If your own laptop on the normal house Wi-Fi still shows the same ads, fix that first. Guest settings will not help a house that never pointed DNS at the computer. Brand menus for the main LAN: <a href="common-router-dns">point common home routers at Pi-hole</a>.</p>
+
+<h2>What this is</h2>
+<p>Most home routers offer a guest Wi-Fi name. Guests get internet. They usually cannot see printers, the share, or the computer on the main LAN. That isolation is the point. The guest DHCP often hands out the ISP's DNS, not the computer's address. So Pi-hole never sees those lookups, and ads load on guest phones. That is normal, not a broken install.</p>
+
+<h2>Confirm they are on Guest</h2>
+<p>On the visitor's phone, open the Wi-Fi detail and read the network name. If it matches your guest SSID (often something like <span><code>House-Guest</code></span>), you are in this note. If it matches the main house name, go back to <a href="when-one-phone-shows-ads">when one phone still shows ads</a>.</p>
+
+<h2>Option 1: leave guest alone</h2>
+<p>Honest default. Guests keep ads. Your house stays clean. Isolation stays. Skip hunting guest DNS menus if you only care that <em>your</em> phones block ads. You are not failing the lab.</p>
+
+<h2>Option 2: put the visitor on the main house Wi-Fi</h2>
+<p>For a friend you trust for the weekend, share the main Wi-Fi password. Change that password later if you want. Main-house DNS already points at the computer, so ads should drop the same way they do on your laptop. Skip this for a random delivery driver. Guest exists so strangers stay off your share and SSH.</p>
+
+<h2>Option 3: point guest DNS at Pi-hole (only if they can reach it)</h2>
+<p>Some routers let you set DNS for the guest network separately. Search the admin page for Guest, Guest Network, or Isolated Wi-Fi, then DNS or DHCP. Put the computer's address as primary DNS, the same number you use for the main LAN in <a href="common-router-dns">point common home routers at Pi-hole</a>. Save. Forget guest Wi-Fi on a test phone, join again, and browse a site that used to show ads.</p>
+<p>Catch: guest isolation often blocks the phone from talking to a LAN address like <span><code>192.168.1.50</code></span>. DNS then times out, sites fail, or the phone falls back to something else and ads return. If that happens, look for a guest setting named Access Local Network, Allow Intranet, Client Isolation (turn isolation off), or similar. Wording moves by brand. If there is no such toggle, Option 1 or Option 2 is the honest fix. Don't buy a second Pi-hole for the guest VLAN tonight.</p>
+<p>A phone on guest that still bypasses house DNS with Private DNS or a VPN is the same phone problem as the main network: <a href="when-one-phone-shows-ads">when one phone still shows ads</a>.</p>
+
+<h2>What this is not</h2>
+<p>This is not a reason to buy a mesh kit, a second router, or a Raspberry Pi “for guests.” It is not opening Pi-hole to the internet. It is not homework to build VLANs, Unbound, or a captive portal this weekend. Guest Wi-Fi that keeps strangers off your share is already doing a useful job even when ads stay.</p>
+
+<h2>What next</h2>
+<p>Main house still dirty? Walk <a href="when-ads-come-back">when ads come back</a>. Router will not take custom DNS on the main LAN either? Set one device by hand: <a href="manual-dns-on-devices">point a phone or laptop at Pi-hole when the router won't</a>. Keep Pi-hole itself current: <a href="update-pihole">keep Pi-hole updated</a>. Change the printed admin password if you have not: <a href="leftover-box-pihole-password">change the printed Pi-hole admin password</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip treating guest ads as a failed Pi-hole install when the main house is clean.</li>
+<li>Skip buying a new router so guests get the same block list.</li>
+<li>Skip opening the admin UI or SMB to the internet “for guests.”</li>
+<li>Skip a second Pi-hole on a VLAN until you actually want that project.</li>
+<li>Skip this if you never turned guest Wi-Fi on.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://docs.pi-hole.net/routers/generic-guidance/">Pi-hole: generic router guidance</a>. <a href="https://docs.pi-hole.net/main/post-install/">Pi-hole post-install</a>. Maker and ISP guest menus move; check your router's current help for Guest DNS and local-network access. Official pages only. For the first install, see <a href="first-useful-service">the first useful thing</a>. For main-LAN DNS, see <a href="common-router-dns">point common home routers at Pi-hole</a>. For one stubborn phone on the main Wi-Fi, see <a href="when-one-phone-shows-ads">when one phone still shows ads</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-useful-service"><span class="t">The first useful thing</span><span class="d">Put a house-wide ad block on the old PC. The rest of the house keeps using the internet as usual. You don't need a Raspberry Pi.</span></a>
+<a class="note-row" href="when-ads-come-back"><span class="t">When ads come back</span><span class="d">Ads are back, sites won't load, or a phone still shows banners. Check the computer, Pi-hole, router DNS, then the phone.</span></a>
+<a class="note-row" href="when-ipv6-bypasses-ads"><span class="t">When ads sneak past on IPv6</span><span class="d">Pi-hole looks fine on IPv4, but phones still show banners. Check IPv6 DNS on the router, or turn that path off for now. You don't need a new router.</span></a>
+<a class="note-row" href="when-one-phone-shows-ads"><span class="t">When one phone still shows ads</span><span class="d">Everyone else's ads dropped. One phone still shows banners. Check Private DNS, Private Relay, a VPN, then the Wi-Fi lease. You don't need a new router.</span></a>
+<a class="note-row" href="when-one-laptop-shows-ads"><span class="t">When one laptop still shows ads</span><span class="d">Everyone else's ads dropped. One laptop (or one browser) still shows banners. Check Chrome, Edge, or Firefox Secure DNS, Windows encrypted DNS, Mac Private Relay, then a VPN. You don't need a new router.</span></a>
+<a class="note-row" href="common-router-dns"><span class="t">Point common home routers at Pi-hole</span><span class="d">Where to set DNS on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so the house asks Pi-hole. Prefer LAN DHCP DNS. You don't need a new router.</span></a>
+<a class="note-row" href="manual-dns-on-devices"><span class="t">Point a phone or laptop at Pi-hole when the router won't</span><span class="d">When Nest, Google Wifi, or an ISP gateway will not take custom DNS, set DNS on one phone or laptop so it asks Pi-hole. You don't need a new router for this device.</span></a>
+<a class="note-row" href="update-pihole"><span class="t">Keep Pi-hole updated</span><span class="d">Weekly apt does not refresh Pi-hole. Update the software and the block lists on the old PC so ads stay gone. You don't need a new Raspberry Pi.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep it on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="when-one-phone-shows-ads"><span class="kicker">Previous</span><span class="t">When one phone still shows ads</span></a>
+<a rel="next" href="common-router-dns"><span class="kicker">Next</span><span class="t">Point common home routers at Pi-hole</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

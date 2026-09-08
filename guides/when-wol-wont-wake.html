@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When Wake-on-LAN won't wake the computer — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="You sent the magic packet. Fans stay quiet. Check power, cable, MAC, BIOS, and Wake-on: g before you buy a smart plug.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When Wake-on-LAN won't wake the computer — Labthrift">
+<meta property="og:description" content="You sent the magic packet. Fans stay quiet. Check power, cable, MAC, BIOS, and Wake-on: g before you buy a smart plug.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-wol-wont-wake">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-wol-wont-wake">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When Wake-on-LAN won't wake the computer","description":"You sent the magic packet. Fans stay quiet. Check power, cable, MAC, BIOS, and Wake-on: g before you buy a smart plug.","url":"https://labthrift.com/guides/when-wol-wont-wake","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-05"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When Wake-on-LAN won't wake the computer</span></nav>
+<p class="note">Written 5 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When Wake-on-LAN won't wake the computer</h1>
+<p class="deck">You sent the magic packet. Fans stay quiet. Check power, cable, MAC, BIOS, and Wake-on: g before you buy a smart plug.</p>
+<p>Haven't turned Wake-on-LAN on yet? That setup is <a href="wake-on-lan">wake the computer from the house network</a>. This note is the failure case: you already sent a packet from a laptop or phone, and the old PC stays dark. Don't open a port on the router for this. Don't buy a KVM for a first closet OptiPlex.</p>
+
+<h2>Skip until soft-off is the plan</h2>
+<p>If you are not sure it is soft-off versus asleep, dead, or unplugged, start with <a href="leftover-box-still-on">is the computer still on?</a>. If you yanked the power strip, Wake-on-LAN cannot help until wall power is back. If it already answers ping, you don't need this note tonight. SSH fails after wake? <a href="when-ssh-wont-connect">when SSH won't connect</a>.</p>
+
+<h2>What this is</h2>
+<p>Wake-on-LAN only works when four things line up: wall power still feeds the NIC, the NIC is listening in soft-off, you used the MAC for that wired port, and the magic packet reaches it on the house network (not Guest Wi-Fi). One miss and the fans stay quiet. The walk below is check power and cable first, then MAC, then BIOS and <code>Wake-on: g</code>.</p>
+
+<h2>Step 1: confirm soft-off, not dead power</h2>
+<p>Look at the case. Soft-off usually means a faint standby LED, or no LED but the PSU switch is still On and the strip is live. Hard-off means the strip is off, the PSU rocker is Off, or the cord is out. Press the front power button once. If it boots from the button, Wake-on-LAN can work in theory. If the button does nothing, fix power first. Leave the wall outlet connected after a clean shutdown:</p>
+<p><code>sudo shutdown -h now</code></p>
+<p>That polite stop is <a href="leftover-box-shutdown">shut down without yanking the plug</a>. Wait until the fans stop before you test a wake.</p>
+
+<h2>Step 2: stay on the house network</h2>
+<p>Send the packet from a laptop or phone on the main house Wi-Fi or a cable into the same router. Guest Wi-Fi often isolates devices and drops the packet. A VPN on the phone can hide you from the LAN too. Turn the VPN off for the test. Don't try this from a coffee shop. The magic packet is a house-network trick.</p>
+
+<h2>Step 3: match the wired MAC</h2>
+<p>Wake-on-LAN wants the ethernet MAC, not the Wi-Fi one. Wrong six pairs is the most common silent fail. Power the computer on with the front button, SSH in, and print interfaces:</p>
+<p><code>ip link show</code></p>
+<p>Find the wired name (<code>enp*</code>, <code>eth0</code>, sometimes <code>eno1</code>). The <code>link/ether</code> line is the MAC. Write those six pairs down again. A case sticker helps only when it matches that wired port. Need a slower walk? <a href="leftover-box-mac-addr">see its hardware address</a>. Then shut down cleanly and send with the new MAC:</p>
+<p><code>wakeonlan aa:bb:cc:dd:ee:ff</code></p>
+<p>Swap in your pairs. On a phone, type the same pairs into a simple Wake-on-LAN app on house Wi-Fi.</p>
+
+<h2>Step 4: cable and link lights</h2>
+<p>Prefer a cable from the computer to the router or switch. Wi-Fi wake is flaky on most old machines. After soft-off, many NICs still show a faint link light on the port. No light and no wake often means a bad cable, a dead switch port, or the NIC powered down too hard. Reseat the cable. Try another short patch. Prefer ethernet for the listener: <a href="leftover-box-ethernet">a cable beats Wi-Fi for the old PC</a>.</p>
+
+<h2>Step 5: BIOS Wake on LAN and deep sleep</h2>
+<p>Power on with the front button. Open setup (Dell often F2, HP Esc then F10, Lenovo F1). Confirm Wake on LAN / Wake on LAN from S5 is On. If you see Deep Sleep, ErP, or Extreme Power Saving, turn that Off so the NIC can keep listening. Save and exit. One BIOS pass is enough. Then shut down cleanly and send the packet again.</p>
+
+<h2>Step 6: check Wake-on: g in Linux</h2>
+<p>Power on with the button. SSH in. Install ethtool if needed, then check the wired NIC (swap <code>enp3s0</code> for yours):</p>
+<p><code>sudo apt update &amp;&amp; sudo apt install -y ethtool</code></p>
+<p><code>ethtool enp3s0 | grep -i wake</code></p>
+<p>You want <code>Wake-on: g</code>. If you see <code>d</code> or an empty wake line, set it:</p>
+<p><code>sudo ethtool -s enp3s0 wol g</code></p>
+<p>Check again. If ethtool refuses, the BIOS switch is still off, or that NIC cannot do Wake-on-LAN. Make the setting survive reboot with the oneshot service on <a href="wake-on-lan">wake the computer from the house network</a> (the <code>wol.service</code> block). Without that, a later reboot can put <code>Wake-on</code> back to <code>d</code>.</p>
+
+<h2>Step 7: send once, wait for boot</h2>
+<p>Shut down cleanly. Send one packet. Wait a full minute for POST and boot on an old disk. Then:</p>
+<p><code>ping -c 3 192.168.1.50</code></p>
+<p>Swap in the computer's number. When ping answers, <a href="first-ssh">SSH from the couch</a>. If the address moved after power cycles, reserve it or set a fixed one: <a href="common-router-reservation">keep the computer on the same address on common routers</a>, or <a href="fixed-address-on-pc">give the computer a fixed address when the router won't</a>. Find the number again if needed: <a href="find-the-leftover-box">find it on the house network</a>.</p>
+
+<h2>Step 8: when it still won't wake</h2>
+<p>Match what you see:</p>
+<div class="table-wrap">
+<table>
+<tr><th>What you see</th><th>Likely cause</th></tr>
+<tr><td data-label="What you see">Front button boots; packet never does</td><td data-label="Likely cause">Wrong MAC, Guest Wi-Fi, or Wake-on still <code>d</code>. Steps 2–6.</td></tr>
+<tr><td data-label="What you see">No standby LED; button does nothing</td><td data-label="Likely cause">Strip, PSU rocker, or cord. Not a Wake-on-LAN problem.</td></tr>
+<tr><td data-label="What you see">Works once, fails after a later reboot</td><td data-label="Likely cause"><code>wol.service</code> missing or wrong interface name. Re-check Step 6.</td></tr>
+<tr><td data-label="What you see">Laptop on Wi-Fi only; desktop has cable</td><td data-label="Likely cause">Sender can be on Wi-Fi. The sleeper wants a cable. Step 4.</td></tr>
+<tr><td data-label="What you see">Ping answers; SSH still fails</td><td data-label="Likely cause">It woke. Fix login separately: <a href="when-ssh-wont-connect">when SSH won't connect</a>.</td></tr>
+</table>
+</div>
+<p>Some Marketplace boards never expose a working Wake-on-LAN. That is a hardware limit, not a reason to buy a smart plug on day one. Leaving the computer on all week is a fine answer for a first house box. Soft-off is optional.</p>
+
+<h2>What this is not</h2>
+<p>This is not remote wake from the internet. It is not a smart-plug shopping list. It is not the fix for a laptop that only slept with the lid closed. That is still <a href="leftover-box-sleep">don't let the old laptop sleep</a>. It is not a new mini PC because one OptiPlex NIC will not listen in S5.</p>
+
+<h2>What next</h2>
+<p>When the packet works again, keep the setup page bookmarked: <a href="wake-on-lan">wake the computer from the house network</a>. After it boots, confirm the house jobs: <a href="leftover-box-after-reboot">after a reboot, check the computer still does its jobs</a>. Prefer a cable for the listener: <a href="leftover-box-ethernet">a cable beats Wi-Fi for the old PC</a>. If you rarely soft-off, leaving it on is fine. Don't open Wake-on-LAN through the router.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip a smart plug as the first wake tool.</li>
+<li>Skip opening Wake-on-LAN through the router to the internet.</li>
+<li>Skip Guest Wi-Fi for the sender.</li>
+<li>Skip Wi-Fi wake on the sleeper when a cable is available.</li>
+<li>Skip a KVM over IP for a first OptiPlex in the closet.</li>
+<li>Skip this if you have never set Wake-on-LAN up. Start with the setup note first.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/ethtool/ethtool.8.en.html">Debian: ethtool</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man8/ethtool.8.html">Ubuntu: ethtool</a>. <a href="https://manpages.debian.org/bookworm/wakeonlan/wakeonlan.1.en.html">Debian: wakeonlan</a>. Official pages only. For the calm setup, see <a href="wake-on-lan">wake the computer from the house network</a>. For soft-off vs dead, see <a href="leftover-box-still-on">is the computer still on?</a>. For the MAC, see <a href="leftover-box-mac-addr">see its hardware address</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="wake-on-lan"><span class="t">Wake the computer from the house network</span><span class="d">Soft-off is fine overnight. Wake the old PC from a laptop or phone on the house network so SSH and Pi-hole come back. You don't need a smart plug for this.</span></a>
+<a class="note-row" href="leftover-box-still-on"><span class="t">Is it still on?</span><span class="d">You left the computer on. This morning ads are back, or SSH hangs. Check if it is awake before you buy anything.</span></a>
+<a class="note-row" href="leftover-box-shutdown"><span class="t">Shut down without yanking the plug</span><span class="d">When you're done for the night, shut it down and let it finish writing files before it powers off. Don't yank the cord.</span></a>
+<a class="note-row" href="leftover-box-mac-addr"><span class="t">See its hardware address</span><span class="d">Before you reserve its number, write down the sticker-like address the router uses to recognize it.</span></a>
+<a class="note-row" href="leftover-box-ethernet"><span class="t">A cable beats Wi-Fi for the old PC</span><span class="d">Once it is doing real work, plug it into the router with a cable. Skip if it is already on a cable.</span></a>
+<a class="note-row" href="leftover-box-sleep"><span class="t">Don't let the laptop sleep</span><span class="d">Close the lid. It has to stay awake so SSH and Pi-hole keep working. A desktop can skip this.</span></a>
+<a class="note-row" href="when-ssh-wont-connect"><span class="t">When SSH won't connect</span><span class="d">SSH hangs, says connection refused, or Permission denied. Check the computer is on, confirm the address, then the user and password. You don't need a new router or a KVM.</span></a>
+<a class="note-row" href="leftover-box-after-reboot"><span class="t">After a reboot, check the computer still does its jobs</span><span class="d">The computer came back up. Confirm SSH, house ad block, and the file share still work before you buy anything.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="wake-on-lan"><span class="kicker">Previous</span><span class="t">Wake the computer from the house network</span></a>
+<a rel="next" href="leftover-box-still-on"><span class="kicker">Next</span><span class="t">Is the computer still on?</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

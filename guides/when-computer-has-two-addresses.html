@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When the old PC has two house addresses — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="SSH works on one number, Pi-hole or the reservation on another — Wi-Fi and the cable both live. Keep one link. You don't need a new router.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When the old PC has two house addresses — Labthrift">
+<meta property="og:description" content="SSH works on one number, Pi-hole or the reservation on another — Wi-Fi and the cable both live. Keep one link. You don't need a new router.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-computer-has-two-addresses">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-computer-has-two-addresses">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When the old PC has two house addresses","description":"SSH works on one number, Pi-hole or the reservation on another — Wi-Fi and the cable both live. Keep one link. You don't need a new router.","url":"https://labthrift.com/guides/when-computer-has-two-addresses","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-06"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When the old PC has two house addresses</span></nav>
+<p class="note">Written 6 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When the old PC has two house addresses</h1>
+<p class="deck">SSH works on one number, Pi-hole or the reservation on another — Wi-Fi and the cable both live. Keep one link. You don't need a new router.</p>
+<p>Can't reach it at all? Start with <a href="find-the-leftover-box">find it on the house network</a>, then <a href="when-ssh-wont-connect">when SSH won't connect</a>. Cable plugged in but dark? That is <a href="when-ethernet-has-no-link">when the cable is plugged in but there's no link</a>. This note is the quieter mess: the computer answers on two doors at once, so the address you saved for SSH or Pi-hole keeps hopping.</p>
+
+<h2>Skip until you can log in somehow</h2>
+<p>You need a way onto the computer: SSH that still works on one of the numbers, or a keyboard and screen once. No login yet? <a href="first-ssh">SSH from the couch</a>. Never joined house Wi-Fi and there is no cable? <a href="wifi-on-the-pc">Put the old PC on house Wi-Fi</a>. Desktop with no Wi-Fi radio? You usually only have one address — this page is not your night.</p>
+
+<h2>What this is</h2>
+<p>A house address is the number other devices use to reach the computer (often <span><code>192.168.…</code></span> or <span><code>10.…</code></span>). Wi-Fi and ethernet can each grab their own. After a reboot, or after you plug a cable without turning the radio off, both stay up. Your laptop still SSHs to last week's Wi-Fi number. The router reservation and Pi-hole sit on the cable number. Ads come back. SSH hangs. The computer is fine — it just has two doors.</p>
+
+<h2>Step 1: confirm you see two numbers</h2>
+<p>On the computer (SSH in with whichever address still answers, or use the keyboard), run:</p>
+<p><code>hostname -I</code></p>
+<p>Two (or more) house numbers on one line is the tell. One number and you are on the wrong page — go back to finding it or fixing SSH.</p>
+<p>Then see which plugs are up:</p>
+<p><code>ip -br link</code></p>
+<p>The cable line often starts with <span><code>en</code></span> or is named <span><code>eth0</code></span>. The radio line often starts with <span><code>wlan</code></span> or <span><code>wlp</code></span>. If both say UP, that matches two addresses.</p>
+<p>Optional detail on which number sits on which plug:</p>
+<p><code>ip -br addr</code></p>
+
+<h2>Step 2: pick the door you want to keep</h2>
+<p>Prefer the cable when it has a working link. Plug into a LAN port on the house router (or a switch), not the WAN / internet port. Click both ends. Confirm the cable line is UP with <span><code>ip -br link</code></span>. First time moving off Wi-Fi? The plug walk is <a href="leftover-box-ethernet">a cable beats Wi-Fi for the computer</a>.</p>
+<p>No cable that reaches, or no ethernet port? Keep Wi-Fi only. Unplug the cable if one is half-connected and confusing the picture. Stay on radio for now; a cable can wait until you can run one.</p>
+
+<h2>Step 3: turn the other door off for this session</h2>
+<p>If you are keeping the cable, take the radio down. Swap in the radio name from Step 1 if it is not <span><code>wlan0</code></span>:</p>
+<p><code>sudo ip link set wlan0 down</code></p>
+<p>If you are keeping Wi-Fi only and a cable interface is UP with its own address, take that cable interface down the same way (use the <span><code>en…</code></span> / <span><code>eth0</code></span> name), or unplug the cable.</p>
+<p>Check again:</p>
+<p><code>hostname -I</code></p>
+<p>You want one house number. SSH from the couch to that number. If SSH dies when you drop the radio, the cable never took — fix the link first (<a href="when-ethernet-has-no-link">when the cable is plugged in but there's no link</a>), then come back.</p>
+
+<h2>Step 4: make the choice survive a reboot</h2>
+<p>A one-shot <span><code>ip link set … down</code></span> often comes back after weekly updates reboot the box. If you kept the cable, make Wi-Fi stay off: <a href="leftover-box-wifi-off">keep Wi-Fi off after a reboot</a> (<span><code>nmcli radio wifi off</code></span>, or <span><code>sudo rfkill block wifi</code></span> when NetworkManager is missing).</p>
+<p>Then pin the one remaining number on the router so it does not drift: <a href="common-router-reservation">keep the computer on the same address on common routers</a>, or the short pass <a href="leftover-box-dhcp-reservation">keep the computer on the same number</a>. Nest or an ISP gateway that will not reserve? Set one stable number on the computer: <a href="fixed-address-on-pc">give the computer a fixed address when the router won't</a>.</p>
+
+<h2>Step 5: point house jobs at the one number</h2>
+<p>Update anything that still remembers the old door: SSH bookmarks, Pi-hole LAN / DHCP DNS on the router (<a href="common-router-dns">point common home routers at Pi-hole</a>), and any phone or laptop you set manually (<a href="manual-dns-on-devices">point a phone or laptop at Pi-hole when the router won't</a>). Renew leases (toggle Wi-Fi on phones) after you change router DNS.</p>
+<p>Ads still house-wide after that? <a href="when-ads-come-back">When ads come back</a>. Admin opens but the query log stays empty? <a href="when-pihole-has-no-queries">When Pi-hole shows no queries</a>.</p>
+
+<h2>What this is not</h2>
+<p>This is not a dead NIC, a new mesh kit, or opening SSH to the internet. It is not two Pi-holes. It is not blacklisting kernel modules on night one. Two addresses means two live links — pick one.</p>
+
+<h2>What next</h2>
+<p>Write down the surviving number: <a href="leftover-box-ip-addr">see the computer's address on the house network</a>. Tired of typing digits? <a href="add-local-dns-name">Add a local name in Pi-hole</a>. Cable speed check later: <a href="leftover-box-link-speed">see the cable speed</a>. After the next reboot, glance once: <a href="leftover-box-after-reboot">after a reboot, check the computer still does its jobs</a>.</p>
+
+<p class="note">Optional: jot the one address you kept in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip a mesh kit or a new router because SSH hops between two numbers.</li>
+<li>Skip buying a second NIC or a USB ethernet dongle for this look.</li>
+<li>Skip blacklisting Wi-Fi kernel modules tonight.</li>
+<li>Skip opening SSH (or DNS) to the public internet.</li>
+<li>Skip this if the computer has no Wi-Fi radio and only one cable — you are not on this page.</li>
+<li>Skip this if you still have zero working login — fix SSH or the keyboard first.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/iproute2/ip-link.8.en.html">Debian: ip-link</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man8/ip-link.8.html">Ubuntu: ip-link</a>. <a href="https://manpages.debian.org/bookworm/hostname/hostname.1.en.html">Debian: hostname</a>. <a href="https://manpages.debian.org/bookworm/network-manager/nmcli.1.en.html">Debian: nmcli</a>. <a href="https://manpages.debian.org/bookworm/rfkill/rfkill.8.en.html">Debian: rfkill</a>. Official pages only. For the cable, see <a href="leftover-box-ethernet">a cable beats Wi-Fi for the computer</a>. For Wi-Fi that stays off, see <a href="leftover-box-wifi-off">keep Wi-Fi off after a reboot</a>. For the address, see <a href="find-the-leftover-box">find it on the house network</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="leftover-box-ethernet"><span class="t">A cable beats Wi-Fi for the old PC</span><span class="d">Once it is doing real work, plug it into the router with a cable. Skip if it is already on a cable.</span></a>
+<a class="note-row" href="leftover-box-wifi-off"><span class="t">Keep Wi-Fi off after a reboot</span><span class="d">After the cable works, stop Wi-Fi from coming back so it keeps one address.</span></a>
+<a class="note-row" href="when-ethernet-has-no-link"><span class="t">When the cable is plugged in but there's no link</span><span class="d">Ethernet is seated, but SSH still hangs or the computer never gets a house address. Check both ends, LAN vs WAN, link lights, then ip link before you buy a NIC.</span></a>
+<a class="note-row" href="when-wifi-keeps-dropping"><span class="t">When house Wi-Fi on the old PC keeps dropping</span><span class="d">SSH dies or ads come back because the computer's Wi-Fi keeps falling off. Check power save, signal, then prefer a cable. You don't need a mesh kit tonight.</span></a>
+<a class="note-row" href="common-router-reservation"><span class="t">Keep the computer on the same address on common routers</span><span class="d">Where to reserve DHCP on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so SSH and Pi-hole keep the same number after a reboot. You don't need a new router.</span></a>
+<a class="note-row" href="fixed-address-on-pc"><span class="t">Give the computer a fixed address when the router won't</span><span class="d">Nest or an ISP gateway won't reserve DHCP. Set one stable number on Ubuntu Server so SSH and Pi-hole keep the same address after a reboot. You don't need a new router.</span></a>
+<a class="note-row" href="find-the-leftover-box"><span class="t">Find it on the house network</span><span class="d">The computer has a number on your house network. You need that number to SSH from the couch. You don't need a new router.</span></a>
+<a class="note-row" href="when-ssh-wont-connect"><span class="t">When SSH won't connect</span><span class="d">SSH hangs, says connection refused, or Permission denied. Check the computer is on, confirm the address, then the user and password. You don't need a new router or a KVM.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-ethernet"><span class="kicker">Previous</span><span class="t">A cable beats Wi-Fi for the old PC</span></a>
+<a rel="next" href="leftover-box-wifi-off"><span class="kicker">Next</span><span class="t">Keep Wi-Fi off after a reboot</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

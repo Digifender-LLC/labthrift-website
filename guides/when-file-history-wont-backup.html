@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When File History won't back up to the house share — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="File Explorer can open the share, or it used to, but File History fails, stalls, or says the drive disappeared. Check the computer, credentials, free space, then Windows. You don't need a NAS.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When File History won't back up to the house share — Labthrift">
+<meta property="og:description" content="File Explorer can open the share, or it used to, but File History fails, stalls, or says the drive disappeared. Check the computer, credentials, free space, then Windows. You don't need a NAS.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-file-history-wont-backup">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-file-history-wont-backup">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When File History won't back up to the house share","description":"File Explorer can open the share, or it used to, but File History fails, stalls, or says the drive disappeared. Check the computer, credentials, free space, then Windows. You don't need a NAS.","url":"https://labthrift.com/guides/when-file-history-wont-backup","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-05"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When File History won't back up to the house share</span></nav>
+<p class="note">Written 5 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When File History won't back up to the house share</h1>
+<p class="deck">File Explorer can open the share, or it used to, but File History fails, stalls, or says the drive disappeared. Check the computer, credentials, free space, then Windows. You don't need a NAS.</p>
+<p>Haven't set this up yet? Start with <a href="file-history-to-share">back up a Windows PC to the house share with File History</a>. Plain share won't open at all? Fix that first: <a href="when-share-wont-open">when the house share won't open</a>. This note is only for when File History is the thing that fails.</p>
+
+<h2>Skip until you have a Windows symptom</h2>
+<p>Write down what File History actually said. "We can't find a drive," "drive not found," a forever "Running," and a share that never appears under Select drive are different fixes. Don't buy a NAS because Samba stopped, or because the PC is on guest Wi-Fi.</p>
+
+<h2>What this is</h2>
+<p>File History over SMB needs the computer awake, you on the house network, a writable Samba share with free disk room, and Windows that still trusts the saved password. One of those usually drifted. Soft-off, a stale Credential Manager entry, a full disk, guest Wi-Fi, or a work VPN. Cheap checks first.</p>
+
+<h2>Step 1: computer awake, same house network</h2>
+<p>Power light. Fan. If it looks asleep or dead, start with <a href="leftover-box-still-on">is the computer still on?</a>. Soft-off on purpose? <a href="wake-on-lan">Wake the computer from the house network</a>.</p>
+<p>The Windows PC must be on the main house Wi-Fi or a cable into the same router. Not guest Wi-Fi. Not a work VPN. Not cellular. Guest Wi-Fi often cannot see the computer on purpose. Turn the VPN off for this test.</p>
+
+<h2>Step 2: open the File History share in File Explorer</h2>
+<p>Before you touch File History settings, open the share once by hand:</p>
+<p><code>\\192.168.1.50\filehistory</code></p>
+<p>Swap the number and share name for yours. Sign in with the Samba username and share password. Check Remember my credentials. Drop a tiny text file in, then delete it.</p>
+<p>If File Explorer cannot open it, stop here. That is a share problem, not a File History problem: <a href="when-share-wont-open">when the house share won't open</a>. Forgot the password? <a href="leftover-box-samba-password">Set or change the house-share password</a>. Need the address again? <a href="find-the-leftover-box">Find it on the house network</a>.</p>
+
+<h2>Step 3: confirm the share still exists on the computer</h2>
+<p>SSH into the computer: <a href="first-ssh">SSH from the couch</a>. Connection fails? <a href="when-ssh-wont-connect">When SSH won't connect</a>.</p>
+<p>Print the File History share block:</p>
+<p><code>testparm -s 2>/dev/null | sed -n '/\[filehistory\]/,/^\[/p'</code></p>
+<p>Swap <code>filehistory</code> if your share name differs. You want something like:</p>
+<p><code>path = /srv/filehistory</code></p>
+<p><code>read only = no</code></p>
+<p><code>valid users = youruser</code></p>
+<p>If the block is missing, add it the way <a href="file-history-to-share">the setup note</a> shows, then:</p>
+<p><code>testparm -s</code></p>
+<p><code>sudo systemctl restart smbd</code></p>
+<p>Check the folder is still there and writable by the Samba user:</p>
+<p><code>ls -la /srv/filehistory</code></p>
+<p>If every share vanished on an awake computer: <a href="leftover-box-share-check">when the house share disappeared, check the computer</a>.</p>
+
+<h2>Step 4: free space on the computer</h2>
+<p>File History needs real room. Check free space on the path:</p>
+<p><code>df -h /srv/filehistory</code></p>
+<p>Or check the disk the path lives on. Fuller walk: <a href="leftover-box-disk-space">see if the computer still has room</a>.</p>
+<p>If the disk is nearly full, File History stalls or fails. Free space, exclude folders you do not care about in Advanced settings, or park the folder on a bigger USB or second drive: <a href="leftover-box-usb-disk">see if the USB backup disk showed up</a>, <a href="house-folder-on-usb">put the house folder on a USB disk</a> (same idea for a File History path on a bigger disk).</p>
+<p>Don't put File History on the tiny photos share. Separate share, separate path.</p>
+
+<h2>Step 5: match the Windows symptom</h2>
+<p><strong>We can't find a drive / no suitable drive / Select drive is empty.</strong> File Explorer must open <code>\\…\filehistory</code> first (step 2). Use the IP address, not a hostname that sometimes fails to resolve. In File History, click Select drive → Add network location and type the UNC path again. Stay on house Wi-Fi. Then Turn on.</p>
+<p><strong>Drive not found / couldn't connect / disconnected mid-backup.</strong> Computer asleep, Wi-Fi drop, or Samba restarted. Power light first. Re-open the share in File Explorer. Soft-off overnight is fine if you wake it before Windows backs up: <a href="wake-on-lan">wake the computer from the house network</a>. Prefer a cable on the old PC while big backups run: <a href="leftover-box-ethernet">a cable beats Wi-Fi for the old PC</a>.</p>
+<p><strong>Password / access denied / keeps asking for credentials.</strong> Reset the Samba password: <a href="leftover-box-samba-password">set or change the house-share password</a>. Then clear the stale Windows copy: <a href="forget-saved-share-login">forget the saved house-share login</a> (Credential Manager → Windows Credentials → remove the rows for that address). Open the share again, type the new password, check Remember my credentials, then re-select the drive in File History.</p>
+<p><strong>Not enough space / disk is full.</strong> Free space on the computer (step 4). In File History → Advanced settings, keep versions for a shorter time, or exclude big folders you do not need. One Windows PC can eat tens to hundreds of gigabytes.</p>
+<p><strong>Running forever, or first backup never finishes.</strong> Leave the PC awake on house Wi-Fi or ethernet. Plug a cable if you can. Don't sleep the PC mid-first-pass. Check the computer side for a growing <code>FileHistory</code> folder:</p>
+<p><code>ls -la /srv/filehistory</code></p>
+<p>If nothing new appears there, go back to steps 2–3. If the folder exists and grows, wait. First backups are slow.</p>
+<p><strong>File History says it worked, but a folder you care about is missing.</strong> File History watches Libraries by default (Documents, Desktop, Pictures, Music, Videos). A random folder outside Libraries is not in this backup unless you add it to a Library in File Explorer. That is expected, not a broken share.</p>
+<p><strong>Mapped drive letter worked once, then File History forgot it.</strong> Prefer the UNC path (<code>\\192.168.1.50\filehistory</code>) over a letter like <code>Z:</code>. Letters disappear when Windows reconnects late. Re-add the network location with the UNC path: <a href="map-share-drive">map the house share as a drive</a> is fine for day-to-day use; File History is happier with UNC.</p>
+
+<h2>Step 6: one clean retry</h2>
+<p>In Control Panel → File History, Turn off if it is stuck. Clear a bad Credential Manager entry if you just changed the password. Open <code>\\…\filehistory</code> once more and confirm you can write a tiny file. Select drive again with the UNC path. Turn on. Watch <code>ls -la /srv/filehistory</code> on the computer for the <code>FileHistory</code> folder. When the first pass finishes, File History should show a recent successful time.</p>
+
+<h2>What this is not</h2>
+<p>This is not a reason to buy a Synology, a mesh kit, or cloud backup tonight. It is not an offsite backup. A second copy of the house folder on USB or another PC is still <a href="first-backup">a backup of the house folder</a> / <a href="backup-to-another-pc">copy to another old computer</a>. It is not a full system image (Backup and Restore / wbadmin). It is not macOS Time Machine (different walk): <a href="when-time-machine-wont-backup">when Time Machine won't back up to the house share</a>. It is not opening SMB to the internet.</p>
+
+<h2>What next</h2>
+<p>Once a backup finishes, leave the Windows PC on the house network overnight now and then. Watch disk room: <a href="leftover-box-disk-space">see if the computer still has room</a>. Day-to-day photos stay on the normal share: <a href="open-share-from-laptop">open the house share from a laptop</a>. Setup walk again if you wipe the share: <a href="file-history-to-share">back up a Windows PC to the house share with File History</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip buying a NAS for a Samba hiccup.</li>
+<li>Skip if you don't have a Windows PC.</li>
+<li>Skip stuffing File History into the photos share.</li>
+<li>Skip exposing SMB past the house network.</li>
+<li>Skip guessing last week's address instead of finding it again.</li>
+<li>Skip treating File History as the only copy of the house folder.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://support.microsoft.com/windows/backup-and-restore-in-windows-2cacb626-5684-bef6-0ba2-a198239ecec4">Microsoft: backup and restore in Windows</a> (File History still lives under Control Panel). <a href="https://support.microsoft.com/windows/accessing-credential-manager-1b5c916a-6a16-889f-8581-fc16e8165ac0">Microsoft: Credential Manager</a>. <a href="https://wiki.samba.org/index.php/Setting_up_Samba_as_a_Standalone_Server">Samba wiki: standalone server</a>. Official pages only. Menu labels move by Windows build. For the setup walk, see <a href="file-history-to-share">back up a Windows PC to the house share with File History</a>. For a plain share that won't open, see <a href="when-share-wont-open">when the house share won't open</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="file-history-to-share"><span class="t">Back up a Windows PC to the house share with File History</span><span class="d">Point Windows File History at a Samba folder on the old PC. Separate share from photos. You don't need a NAS for this.</span></a>
+<a class="note-row" href="when-share-wont-open"><span class="t">When the house share won't open</span><span class="d">Finder, File Explorer, or the phone can't open the house folder. Check the computer is on, confirm the address, then match the error (path not found, login failed, can't write, disk full). You don't need a NAS.</span></a>
+<a class="note-row" href="forget-saved-share-login"><span class="t">Forget the saved house-share login</span><span class="d">Windows, Mac, or a phone still uses the old Samba password after you changed it. Clear Credential Manager, Keychain, or the phone bookmark, then open again. You don't need a NAS.</span></a>
+<a class="note-row" href="leftover-box-samba-password"><span class="t">Set or change the house-share password</span><span class="d">Finder and File Explorer ask for a share password that is not always the login. Samba keeps its own copy. Set it once. Change it when you forget.</span></a>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="leftover-box-share-check"><span class="t">When the house share disappeared, check the computer</span><span class="d">The computer is awake, but Finder or File Explorer cannot see the folder. Check that Samba is still running before you buy a NAS.</span></a>
+<a class="note-row" href="when-time-machine-wont-backup"><span class="t">When Time Machine won't back up to the house share</span><span class="d">Finder can open the share, or it used to, but Time Machine fails, stalls, or says the disk disappeared. Check the computer, the fruit lines, free space, then the Mac. You don't need a Time Capsule.</span></a>
+<a class="note-row" href="first-backup"><span class="t">A backup of the house folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another old computer. You don't need a NAS for this.</span></a>
+<a class="note-row" href="open-share-from-laptop"><span class="t">Open the house share from a laptop</span><span class="d">The house folder is on the old PC. Open it from Windows File Explorer or Mac Finder on the house network. You don't need a NAS for this.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="file-history-to-share"><span class="kicker">Previous</span><span class="t">Back up a Windows PC to the house share with File History</span></a>
+<a rel="next" href="when-time-machine-wont-backup"><span class="kicker">Next</span><span class="t">When Time Machine won't back up to the house share</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

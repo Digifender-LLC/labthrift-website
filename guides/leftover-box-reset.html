@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Fix a garbled terminal — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After stty, reset restores terminal settings so the prompt and typing make sense again. You don't need extra software for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Fix a garbled terminal — Labthrift">
+<meta property="og:description" content="After stty, reset restores terminal settings so the prompt and typing make sense again. You don't need extra software for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-reset">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-reset">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Fix a garbled terminal","description":"After stty, reset restores terminal settings so the prompt and typing make sense again. You don't need extra software for this.","url":"https://labthrift.com/guides/leftover-box-reset","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-31"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"Faster network","item":"https://labthrift.com/guides/#switches"},{"@type":"ListItem","position":3,"name":"Fix a garbled terminal"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Fix a garbled terminal</span></nav>
+<p class="note">Written 31 Aug 2026. This is a how-to, not a product card.</p>
+<h1>Fix a garbled terminal</h1>
+<p class="deck">After <span><code>stty</code></span>, <span><code>reset</code></span> restores terminal settings so the prompt and typing make sense again.</p>
+<p><a href="leftover-box-stty">See window size</a> saw window size with <span><code>stty size</code></span>. Tonight you fix a garbled terminal: <span><code>reset</code></span>. Reset means terminal settings restored. The prompt is usable again. Typing echoes again.</p>
+<p>Garbled terminal means weird characters, no echo, or a prompt that looks broken after a bad program or paste. The command is <span><code>reset</code></span>. You are still only practicing in home on the computer. It does not need extra system software, htop, Grafana, or a NAS for this one job.</p>
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. SSH means type commands from your laptop, on the house network. If window size is what you want, that is <a href="leftover-box-stty">see window size</a>. Skip <span><code>stty size</code></span> as tonight&apos;s job. If window wipe is what you want, that is <a href="leftover-box-clear">clear the window</a>. Skip <span><code>clear</code></span> as tonight&apos;s job. Tonight: <span><code>reset</code></span>, not <span><code>stty</code></span> repair as the main job.</p>
+<h2>What this is</h2>
+<p><span><code>reset</code></span> means a garbled terminal fix. The command is <span><code>reset</code></span>. Reset restores terminal settings. The prompt is usable again. Typing echoes again.</p>
+<p>After <span><code>stty</code></span>, this is terminal repair so prompt and typing make sense again. You don&apos;t need extra system software for this.</p>
+<h2>Practice reset in home</h2>
+<p>SSH in. Make sure home is where you sit:</p>
+<p><code>pwd</code></p><p>You want a path that ends in your login name. If not:</p>
+<p><code>cd ~</code></p><p>Ask it to restore terminal settings:</p>
+<p><code>reset</code></p><p>You want the prompt usable again. Typing should echo. Weird characters should stop. Reset means terminal settings restored. That is enough for tonight. Practice only in home.</p>
+<p>Don't break the terminal on purpose. Don't type <span><code>stty raw</code></span> or <span><code>stty -echo</code></span> as practice. If the terminal is already garbled, <span><code>reset</code></span> is how you fix it.</p>
+<p>Debian and Ubuntu already have <span><code>reset</code></span> (ncurses-bin, usual install). Don't make apt the job.</p>
+<p>If <span><code>reset</code></span> is missing, optional aside:</p>
+<p><code>sudo apt install ncurses-bin</code></p><p>Then stop. That apt line is not the lesson.</p>
+<p>No files are required for this practice. If you made practice files anyway, throw them away with careful delete only. That is <a href="leftover-box-rm">delete a file carefully</a>. Skip <span><code>rm -rf</code></span>.</p>
+<h2>Useful extras, still home only</h2>
+<p>Optional extra: Type a short line after <span><code>reset</code></span>, or run <span><code>stty size</code></span>, to confirm things look normal:</p>
+<p><code>stty size</code></p><p>That peek is window size, not terminal repair. That is <a href="leftover-box-stty">see window size</a>. You can stop at <span><code>reset</code></span>.</p>
+<p>Optional extra: <span><code>tput reset</code></span> if present:</p>
+<p><code>tput reset</code></p><p>That line is another way to send terminal reset strings, if present. You can stop at <span><code>reset</code></span>. Need window width with <span><code>tput cols</code></span> instead? That is <a href="leftover-box-tput">see terminal columns and colors</a>.</p>
+<p>Optional extra: <span><code>stty sane</code></span> as lighter peek:</p>
+<p><code>stty sane</code></p><p>That line is lighter terminal settings, not a full reset. You can stop at <span><code>reset</code></span>.</p>
+<p>Skip <span><code>stty raw</code></span> and <span><code>stty -echo</code></span> as practice. Don't break the terminal on purpose. Skip <span><code>screen</code></span>, <span><code>tmux</code></span>, htop, Grafana, and a NAS. Skip files under <span><code>/etc</code></span> and <span><code>/dev</code></span> as a dump. Practice only in home. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>What this is not</h2>
+<p>This is not <span><code>stty size</code></span>. Stty prints window size, not garbled terminal fix. That is <a href="leftover-box-stty">see window size</a>. It is not <span><code>clear</code></span>. Clear wipes the window, not terminal settings. That is <a href="leftover-box-clear">clear the window</a>. It is not <span><code>tput cols</code></span>. That is <a href="leftover-box-tput">see terminal columns and colors</a>.</p>
+<h2>What next</h2>
+<p>Need terminal columns and colors? <a href="leftover-box-tput">See terminal columns and colors</a>. Need window size? <a href="leftover-box-stty">See window size</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip <span><code>stty size</code></span> as tonight&apos;s job. Stty prints window size: <a href="leftover-box-stty">see window size</a>.</li>
+<li>Skip <span><code>clear</code></span> as tonight&apos;s job. Clear wipes window: <a href="leftover-box-clear">clear the window</a>.</li>
+<li>Skip <span><code>tput reset</code></span> and <span><code>stty sane</code></span> as tonight&apos;s main job. Tonight: <span><code>reset</code></span>.</li>
+<li>Skip <span><code>stty raw</code></span> and <span><code>stty -echo</code></span> as practice. Don't break the terminal on purpose.</li>
+<li>Skip <span><code>screen</code></span>, <span><code>tmux</code></span>, htop, Grafana, and a NAS.</li>
+<li>Skip files under <span><code>/etc</code></span> and <span><code>/dev</code></span> as a dump. Practice only in home.</li>
+<li>Skip <span><code>rm -rf</code></span>. Careful delete only: <a href="leftover-box-rm">delete a file carefully</a>.</li>
+<li>Skip opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/ncurses-bin/reset.1.en.html">Debian: reset(1)</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/reset.1.html">Ubuntu: reset(1)</a>. <a href="https://manpages.debian.org/bookworm/ncurses-bin/tput.1.en.html">Debian: tput(1)</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/tput.1.html">Ubuntu: tput(1)</a>. Official pages only. For window size, see <a href="leftover-box-stty">see window size</a>. For a window wipe, see <a href="leftover-box-clear">clear the window</a>. For the terminal name, see <a href="leftover-box-tty">see the terminal name</a>. For the login, see <a href="first-ssh">SSH from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-stty"><span class="t">See window size</span><span class="d">After SSH works, print window size with stty size. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-tput"><span class="t">See terminal columns and colors</span><span class="d">After reset, tput cols prints window width in columns. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-clear"><span class="t">Clear the window</span><span class="d">After SSH works, clear the window so old output stops cluttering the session. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-tty"><span class="t">See the terminal name</span><span class="d">After SSH works, print the terminal name with tty so you know which session you are in. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-locale"><span class="t">See language and region</span><span class="d">After printenv, print language and region with locale so character encoding makes sense. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-history"><span class="t">Reuse a command you already typed</span><span class="d">After SSH works, reuse a command you already typed. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-less"><span class="t">Read a file one screen at a time</span><span class="d">After SSH works, open a file with less so a long file does not flood the window. Space turns the page. q leaves. You don&apos;t need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-fold"><span class="t">Wrap long lines</span><span class="d">After SSH works, wrap long lines with fold. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-printenv"><span class="t">See HOME and PATH</span><span class="d">After uname, print HOME and PATH with printenv so login environment makes sense. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-whoami"><span class="t">See the login name</span><span class="d">After SSH works, print the login name with whoami so home and sudo make sense. You don&apos;t need extra login software for this.</span></a>
+<a class="note-row" href="leftover-box-who"><span class="t">See who is on the computer right now</span><span class="d">After SSH works, see who is logged in right now. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-rm"><span class="t">Delete a file carefully</span><span class="d">After SSH works, delete one file with rm -i. Ask first. Skip rm -rf. You don&apos;t need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-stty"><span class="kicker">Previous</span><span class="t">See window size</span></a>
+<a rel="next" href="leftover-box-tput"><span class="kicker">Next</span><span class="t">See terminal columns and colors</span></a>
+</nav>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

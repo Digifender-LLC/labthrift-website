@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Restart Pi-hole or the house share — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Ads vanished or Finder lost the folder, but the computer is still on. Restart the one service that died. You don't need a full reboot or a new mini PC.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Restart Pi-hole or the house share — Labthrift">
+<meta property="og:description" content="Ads vanished or Finder lost the folder, but the computer is still on. Restart the one service that died. You don't need a full reboot or a new mini PC.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/restart-house-services">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/restart-house-services">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Restart Pi-hole or the house share","description":"Ads vanished or Finder lost the folder, but the computer is still on. Restart the one service that died. You don't need a full reboot or a new mini PC.","url":"https://labthrift.com/guides/restart-house-services","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-07"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">Restart Pi-hole or the house share</span></nav>
+<p class="note">Written 7 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>Restart Pi-hole or the house share</h1>
+<p class="deck">Ads vanished or Finder lost the folder, but the computer is still on. Restart the one service that died. You don't need a full reboot or a new mini PC.</p>
+<p>Haven't installed the house ad block yet? Start with <a href="first-useful-service">the first useful thing</a>. No share yet? Start with <a href="first-file-share">a file share</a>. Computer looks asleep or dead? Check that first: <a href="leftover-box-still-on">is the computer still on?</a>. This note is only the soft restart when SSH still works and one house job stopped.</p>
+
+<h2>Skip until SSH works</h2>
+<p>If you cannot log in from the couch, fix that before you restart anything: <a href="first-ssh">SSH from the couch</a>, or <a href="when-ssh-wont-connect">when SSH won't connect</a>. Soft-off after a quiet night? Try <a href="wake-on-lan">wake the computer from the house network</a>. Disk read-only or the machine thrashing? A service restart will not heal that: <a href="when-disk-is-read-only">when the disk went read-only</a>, <a href="when-memory-ran-out">when the computer ran out of memory</a>.</p>
+
+<h2>What this is</h2>
+<p>Debian and Ubuntu keep long-running programs as services. Pi-hole's engine is usually <code>pihole-FTL</code>. The house share is Samba (<code>smbd</code>). Either can stop after a bad update, a full disk, an OOM kill, or a power blip while the rest of the computer stays awake. You check status, restart the dead one, then prove ads or the folder work again. You are not wiping lists. You are not reformatting. You are not buying a NAS.</p>
+
+<h2>Step 1: awake, then SSH</h2>
+<p>Power light. Fan. Same house Wi-Fi or ethernet as the computer, not guest Wi-Fi. Then SSH in. Connect fails? Stop here and use the SSH notes above.</p>
+
+<h2>Step 2: pick which job died</h2>
+<div class="table-wrap">
+<table>
+<tr><th>What you see</th><th>Restart this</th></tr>
+<tr><td data-label="What you see">Ads are back house-wide, or <code>http://pi.hole/admin</code> is blank, while SSH works</td><td data-label="Restart this">Pi-hole (<code>pihole-FTL</code> / <code>pihole restartdns</code>)</td></tr>
+<tr><td data-label="What you see">Finder, File Explorer, or the phone cannot open the house folder; computer is awake</td><td data-label="Restart this">Samba (<code>smbd</code>)</td></tr>
+<tr><td data-label="What you see">Both feel dead after a blip</td><td data-label="Restart this">Check both statuses. Restart only what is failed or inactive. Reboot last.</td></tr>
+</table>
+</div>
+<p>One phone still shows ads while everyone else is clean? That is usually the phone, not a dead service: <a href="when-one-phone-shows-ads">when one phone still shows ads</a>. Whole house cannot browse after you changed DNS? Put the router back on automatic first: <a href="when-house-wont-browse">when the house won't browse after Pi-hole</a>.</p>
+
+<h2>Step 3: restart Pi-hole</h2>
+<p>See if it is up:</p>
+<p><code>pihole status</code></p>
+<p>Or the systemd unit:</p>
+<p><code>systemctl status pihole-FTL --no-pager</code></p>
+<p>You want active / enabled language, not failed or inactive. Soft restart DNS and the engine:</p>
+<p><code>pihole restartdns</code></p>
+<p>If status still looks wrong, or the admin page stays blank:</p>
+<p><code>sudo systemctl restart pihole-FTL</code></p>
+<p>On some installs a separate web unit still exists. If <code>systemctl status lighttpd --no-pager</code> shows a real unit (not "not found"), you can restart that too:</p>
+<p><code>sudo systemctl restart lighttpd</code></p>
+<p>If lighttpd is missing, skip it. Rely on <code>pihole restartdns</code> and <code>pihole-FTL</code>. Fuller admin-page walk: <a href="when-pihole-wont-open">when the Pi-hole admin page won't open</a>. Ads still house-wide after status looks fine: <a href="when-ads-come-back">when ads come back</a>.</p>
+
+<h2>Step 4: restart the house share</h2>
+<p>Check Samba:</p>
+<p><code>systemctl status smbd --no-pager</code></p>
+<p>Failed, inactive, or "dead"? Restart it:</p>
+<p><code>sudo systemctl restart smbd</code></p>
+<p>Optional, if browsing the share name from Windows is flaky:</p>
+<p><code>sudo systemctl restart nmbd</code></p>
+<p>Skip <code>nmbd</code> if the unit is missing on your install. Then open the folder again from a laptop or phone: <a href="open-share-from-laptop">open the house share from a laptop</a>, <a href="open-share-from-phone">open the house share from a phone</a>. Still gone after a clean active status? The longer checklist is <a href="leftover-box-share-check">when the house share disappeared, check the computer</a>, then <a href="when-share-wont-open">when the house share won't open</a>.</p>
+
+<h2>Step 5: prove it</h2>
+<p>For Pi-hole: open <a href="http://pi.hole/admin">http://pi.hole/admin</a> (or the computer's address plus <code>/admin</code>). Watch Query Log while a phone loads a page. You should see lookups. For the share: open the same path you always use, type the Samba password if asked, and copy a small file. If login fails with a password you know is right, clear the saved one on the laptop: <a href="forget-saved-share-login">forget the saved house-share login</a>.</p>
+
+<h2>Step 6: when a restart is not enough</h2>
+<p>Status flips back to failed right away, or the computer is swapping hard: check room and memory before you loop restarts. <a href="leftover-box-disk-space">See if the computer still has room</a>. Full system disk symptoms: <a href="when-house-disk-full">when the computer's disk is full</a>. OOM kills: <a href="when-memory-ran-out">when the computer ran out of memory</a>. After weekly updates, a reboot may actually be required: <a href="leftover-box-reboot-needed">see if a reboot is needed</a>. Prefer a clean reboot over yanking the cord: <a href="leftover-box-shutdown">shut down without yanking the plug</a> (then power on), or <code>sudo reboot</code> when you mean a restart of the whole machine.</p>
+
+<h2>What this is not</h2>
+<p>This is not a full reboot of the old PC (that is the last step when services keep dying). It is not wiping Pi-hole lists. It is not recreating the share from scratch. It is not a reason to buy a NAS or a new mini PC. It is not opening SSH, Samba, or the Pi-hole admin page to the internet.</p>
+
+<h2>What next</h2>
+<p>Ads still messy after FTL is active: <a href="when-ads-come-back">when ads come back</a>. Admin blank: <a href="when-pihole-wont-open">when the Pi-hole admin page won't open</a>. Share still missing: <a href="leftover-box-share-check">when the house share disappeared, check the computer</a>. Need a timed pause instead of a restart: <a href="pause-pihole">pause Pi-hole for a few minutes</a>. After a power blip, the wider pass: <a href="after-power-outage">after the power comes back</a>. Once a week, <a href="leftover-box-updates">keep the computer updated</a>, and <a href="update-pihole">keep Pi-hole updated</a>.</p>
+
+<p class="note">Optional: jot which service you restarted in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip buying a NAS because Samba needed one restart.</li>
+<li>Skip a new mini PC because Pi-hole needed <code>restartdns</code>.</li>
+<li>Skip yanking the power cord to "fix" a dead service.</li>
+<li>Skip opening the admin page or SMB past the house network.</li>
+<li>Skip restarting both when only one status is failed.</li>
+<li>Skip this until SSH works and the computer is actually on.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://docs.pi-hole.net/">Pi-hole docs</a>. <a href="https://docs.pi-hole.net/main/pihole-command/">Pi-hole command</a> (status, restartdns). <a href="https://manpages.debian.org/bookworm/systemd/systemctl.1.en.html">Debian: systemctl</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/systemctl.1.html">Ubuntu: systemctl</a>. <a href="https://www.samba.org/samba/docs/current/man-html/smbd.8.html">Samba: smbd</a>. Official pages only. For install, see <a href="first-useful-service">the first useful thing</a> and <a href="first-file-share">a file share</a>. For a dead share checklist, see <a href="leftover-box-share-check">when the house share disappeared, check the computer</a>. For ads that stay after FTL is up, see <a href="when-ads-come-back">when ads come back</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="leftover-box-still-on"><span class="t">Is it still on?</span><span class="d">You left the computer on. This morning ads are back, or SSH hangs. Check if it is awake before you buy anything.</span></a>
+<a class="note-row" href="when-ads-come-back"><span class="t">When ads come back</span><span class="d">Ads are back, sites won't load, or a phone still shows banners. Check the computer, Pi-hole, router DNS, then the phone.</span></a>
+<a class="note-row" href="when-pihole-wont-open"><span class="t">When the Pi-hole admin page won't open</span><span class="d">http://pi.hole/admin or the computer's address plus /admin won't load. Check house Wi-Fi, the address, then Pi-hole and the web service. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-share-check"><span class="t">When the house share disappeared, check the computer</span><span class="d">The computer is awake, but Finder or File Explorer cannot see the folder. Check that Samba is still running before you buy a NAS.</span></a>
+<a class="note-row" href="when-share-wont-open"><span class="t">When the house share won't open</span><span class="d">Finder, File Explorer, or the phone can't reach the folder on the old PC. Check awake, address, Samba, disk room, then the login. You don't need a NAS tonight.</span></a>
+<a class="note-row" href="pause-pihole"><span class="t">Pause Pi-hole for a few minutes</span><span class="d">Turn blocking off for five minutes to test a broken site or a dinner guest. It turns itself back on. You don't wipe the lists or change the router.</span></a>
+<a class="note-row" href="after-power-outage"><span class="t">After the power comes back</span><span class="d">Lights blinked. Ads may be back, SSH may miss the old address, and the share may be gone. Check the computer, find its number, point DNS again if needed, then the share. You don't need a new UPS tonight.</span></a>
+<a class="note-row" href="when-memory-ran-out"><span class="t">When the computer ran out of memory</span><span class="d">Pi-hole vanished, the share died, or dmesg says Out of memory. Confirm the OOM killer, free RAM, restart house jobs. Skip a new mini PC tonight.</span></a>
+<a class="note-row" href="leftover-box-reboot-needed"><span class="t">See if a reboot is needed</span><span class="d">After weekly updates, check whether a reboot is needed before you buy a monitoring box.</span></a>
+<a class="note-row" href="first-useful-service"><span class="t">The first useful thing</span><span class="d">Put a house-wide ad block on the old PC. The rest of the house keeps using the internet as usual. You don't need a Raspberry Pi.</span></a>
+<a class="note-row" href="first-file-share"><span class="t">A file share</span><span class="d">A folder on the old PC that the house can open from a laptop or a phone. You don't need a NAS for this.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-still-on"><span class="kicker">Previous</span><span class="t">Is it still on?</span></a>
+<a rel="next" href="when-ads-come-back"><span class="kicker">Next</span><span class="t">When ads come back</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

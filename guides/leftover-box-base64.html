@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Encode a file so you can paste it — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After SSH works, turn a file into pasteable text with base64 so you can copy small text without a USB stick. You don't need a zip app for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Encode a file so you can paste it — Labthrift">
+<meta property="og:description" content="After SSH works, turn a file into pasteable text with base64 so you can copy small text without a USB stick. You don't need a zip app for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-base64">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-base64">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Encode a file so you can paste it","description":"After SSH works, turn a file into pasteable text with base64 so you can copy small text without a USB stick. You don't need a zip app for this.","url":"https://labthrift.com/guides/leftover-box-base64","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-30"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"Faster network","item":"https://labthrift.com/guides/#switches"},{"@type":"ListItem","position":3,"name":"Encode a file so you can paste it"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Encode a file so you can paste it</span></nav>
+<p class="note">Written 30 Aug 2026. This is a how-to, not a product card.</p>
+<h1>Encode a file so you can paste it</h1>
+<p class="deck">After SSH works, turn a file into pasteable text with base64 so you can copy small text without a USB stick. You don&apos;t need a zip app for this.</p>
+<p>Sometimes you want to paste a small file as text, without a USB stick. Tonight you encode a file as text: <span><code>base64</code></span>. Base64 turns bytes into pasteable text, and back. Start with a tiny practice file in home. You are still only practicing on the computer. It does not need a zip app for this one job.</p>
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If pieces for a paste limit are what you want, that is <a href="leftover-box-split">split a file into smaller pieces</a>. If shrink is what you want, that is <a href="leftover-box-gzip">shrink one file</a>. If one file from the laptop is what you want, that is <a href="leftover-box-scp">copy a file to the computer from your laptop</a>.</p>
+<h2>What this is</h2>
+<p><span><code>base64</code></span> encodes a file so you can paste it. You type <span><code>base64 ~/paste-me.txt</code></span>. Text comes back. Decode with <span><code>base64 -d</code></span>. <span><code>-w 0</code></span> means one long line, no wrap. Tonight: a tiny file, not a disk image. It is not gzip. Gzip shrinks. It is not split. Split cuts into pieces.</p>
+<h2>Practice base64 in home</h2>
+<p>SSH in. Make sure home is where you sit:</p>
+<p><code>pwd</code></p><p>You want a path that ends in your login name. If not:</p>
+<p><code>cd ~</code></p><p>Make a tiny practice file:</p>
+<p><code>printf &apos;hello\n&apos; &gt; ~/paste-me.txt</code></p><p><code>cat ~/paste-me.txt</code></p><p>Encode:</p>
+<p><code>base64 ~/paste-me.txt</code></p><p>Save the encoded text:</p>
+<p><code>base64 ~/paste-me.txt &gt; ~/paste-me.b64</code></p><p><code>cat ~/paste-me.b64</code></p><p>Decode it back:</p>
+<p><code>base64 -d ~/paste-me.b64 &gt; ~/paste-me-out.txt</code></p><p><code>cat ~/paste-me-out.txt</code></p><p>You want the same hello line. That is enough for tonight. Practice only in home.</p>
+<p>Debian and Ubuntu usually already have <span><code>base64</code></span>. Don't make apt the job. If <span><code>base64</code></span> is missing:</p>
+<p><code>sudo apt install coreutils</code></p><p>Then stop. That install is not the lesson.</p>
+<p>When you are done, throw the practice files away. Careful delete only. That is <a href="leftover-box-rm">delete a file carefully</a>. Skip <span><code>rm -rf</code></span>.</p>
+<p><code>rm -i ~/paste-me.txt ~/paste-me.b64 ~/paste-me-out.txt</code></p><h2>Useful extras, still home only</h2>
+<p>Optional: one long line, no wrap:</p>
+<p><code>base64 -w 0 ~/paste-me.txt</code></p><p>Optional facts on the encoded file:</p>
+<p><code>stat ~/paste-me.b64</code></p><p>Skip huge dumps and whole disks. Tonight: a tiny practice file.</p>
+<h2>What this is not</h2>
+<p>This is not split. That is <a href="leftover-box-split">split a file into smaller pieces</a>. It is not gzip. That is <a href="leftover-box-gzip">shrink one file</a>. It is not tar. That is <a href="leftover-box-tar">pack files into one archive</a>. It is not scp. That is <a href="leftover-box-scp">copy a file to the computer from your laptop</a>. It is not echo. That is <a href="leftover-box-echo">put a short line into a file</a>. It is not opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>What next</h2>
+<p>Need pieces? <a href="leftover-box-split">Split a file into smaller pieces</a>. Need shrink? <a href="leftover-box-gzip">Shrink one file</a>. Need one file from the laptop? <a href="leftover-box-scp">Copy a file to the computer from your laptop</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip huge dumps and whole disks. Tonight: a tiny practice file.</li>
+<li>Skip gzip, tar, split, and scp as tonight&apos;s job. Those pages already exist.</li>
+<li>Skip files under <span><code>/etc</code></span>, SSH folders, or paths you don't own. Practice only in home.</li>
+<li>Skip <span><code>rm -rf</code></span>. Careful delete only: <a href="leftover-box-rm">delete a file carefully</a>.</li>
+<li>Skip opening SSH to the internet so you can do this from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/coreutils/base64.1.en.html">Debian: base64</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/base64.1.html">Ubuntu: base64</a>. <a href="https://www.gnu.org/software/coreutils/manual/html_node/base64-invocation.html">GNU coreutils: base64 invocation</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For pieces, see <a href="leftover-box-split">split a file into smaller pieces</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-xargs"><span class="t">Run one command per line</span><span class="d">After SSH works, run one command once per line with xargs so a list drives many short jobs. You don&apos;t need a scripting app for this.</span></a>
+<a class="note-row" href="leftover-box-gzip"><span class="t">Shrink one file</span><span class="d">After SSH works, shrink one file with gzip so a copy is smaller. You don&apos;t need a zip app for this.</span></a>
+<a class="note-row" href="leftover-box-tar"><span class="t">Pack files into one archive</span><span class="d">After SSH works, pack files into one archive with tar so you can copy one file instead of a folder. You don&apos;t need a zip app for this.</span></a>
+<a class="note-row" href="leftover-box-scp"><span class="t">Copy a file to the computer from your laptop</span><span class="d">After SSH works, use scp to move one file without a USB stick. You don&apos;t need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-curl"><span class="t">Download a file onto the computer</span><span class="d">After SSH works, pull one file from a web address with curl. You don&apos;t need a browser on the computer for this.</span></a>
+<a class="note-row" href="leftover-box-echo"><span class="t">Put a short line into a file</span><span class="d">After SSH works, put one short line into a file with echo so you don't need to open nano. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-cat"><span class="t">Read a file without opening the editor</span><span class="d">After SSH works, print a file with cat so you can read it without opening nano. Short files only. You don&apos;t need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-sha256sum"><span class="t">Check a file fingerprint</span><span class="d">After SSH works, check a file with sha256sum so you know it still matches the fingerprint you expected. You don&apos;t need a download manager for this.</span></a>
+<a class="note-row" href="leftover-box-split"><span class="t">Split a file into smaller pieces</span><span class="d">After SSH works, split one file into smaller pieces with split so a paste or copy fits size limits. You don&apos;t need a zip app for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-xargs"><span class="kicker">Previous</span><span class="t">Run one command per line</span></a>
+<a rel="next" href="leftover-box-split"><span class="kicker">Next</span><span class="t">Split a file into smaller pieces</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

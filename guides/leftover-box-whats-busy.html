@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See what is keeping the computer busy — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="The computer feels slow. Check which program is using the CPU before you buy a new mini PC.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See what is keeping the computer busy — Labthrift">
+<meta property="og:description" content="The computer feels slow. Check which program is using the CPU before you buy a new mini PC.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-whats-busy">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-whats-busy">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See what is keeping the computer busy","description":"The computer feels slow. Check which program is using the CPU before you buy a new mini PC.","url":"https://labthrift.com/guides/leftover-box-whats-busy","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-27"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">See what is keeping the computer busy</span></nav>
+<p class="note">Written 27 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>See what is keeping the computer busy</h1>
+<p class="deck">The computer feels slow. Check which program is using the CPU before you buy a new mini PC.</p>
+<p>The computer feels slow. Memory room is a different look: <a href="leftover-box-free-memory">see if the computer still has free memory</a>. Disk room is <a href="leftover-box-disk-space">see if the computer still has room</a>. This note asks which program is using the computer's worker (the CPU) right now.</p>
+
+<h2>Skip until SSH works</h2>
+<p>If ping fails and SSH hangs, start with <a href="leftover-box-still-on">is the computer still on?</a> If you have never logged in from the couch, that is <a href="first-ssh">SSH from the couch</a>. Prefer this look after you already checked memory: <a href="leftover-box-free-memory">see if the computer still has free memory</a>. This note assumes you can log in from the couch.</p>
+
+<h2>What this is</h2>
+<p>A look, not a shopping trip. One busy program can make SSH feel late. A copy, a weekly update, or a movie job you started can sit at the top and then go away. Don't buy a mini PC for a one-off copy. Don't kill programs tonight.</p>
+
+<h2>Ask which program is busy</h2>
+<p>SSH in from the couch, then run:</p>
+<p><code>ps aux --sort=-%cpu | head</code></p>
+<p><span><code>ps</code></span> is the computer listing running programs. <span><code>| head</code></span> keeps the first few lines so you don't get a wall of text. The first line is labels. Point at <span><code>%CPU</code></span> (how busy that program is) and <span><code>COMMAND</code></span> (the name). The top names after the labels are the busy ones right now.</p>
+<p>A copy often shows <span><code>rsync</code></span>. A weekly fix often shows <span><code>apt</code></span> or <span><code>unattended-upgrades</code></span>. Those can wait. If the same name stays at the top while you are not copying or updating, that program is the squeeze.</p>
+
+<h2>Optional load hint</h2>
+<p>If you want a second hint that the computer is piled up:</p>
+<p><code>uptime</code></p>
+<p>That is the same optional look as <a href="leftover-box-free-memory">see if the computer still has free memory</a>. Load numbers that stay high with nothing happening can mean the computer is working too hard. Keep this light. You don't need to learn load averages in depth tonight.</p>
+
+<h2>If something is busy</h2>
+<p>Wait out a copy or a weekly update. Don't kill processes tonight. Don't stack a movie library, a VM, and Pi-hole on a 4 GB old laptop. If memory is also tight, that is still <a href="leftover-box-free-memory">see if the computer still has free memory</a>. A later mini is <a href="n100-mini-pc">a tiny computer you can leave on</a>, when you actually need it. Skip buying one this morning if the busy name was a one-off job.</p>
+
+<h2>What next</h2>
+<p>Memory room stays <a href="leftover-box-free-memory">see if the computer still has free memory</a>. Disk room stays <a href="leftover-box-disk-space">see if the computer still has room</a>. If a house job quit after a reboot, later: <a href="leftover-box-failed-units">see if any house jobs failed to start</a>. How many workers the computer already has: <a href="leftover-box-cpu">see how many workers the computer already has</a>. Skip a new mini PC this morning if the computer was only busy for a copy.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH fails. That is <a href="leftover-box-still-on">is the computer still on?</a> or <a href="first-ssh">SSH from the couch</a>.</li>
+<li>Skip killing programs tonight.</li>
+<li>Skip installing a prettier process viewer for this look.</li>
+<li>Skip a new mini PC for a one-off copy.</li>
+<li>Skip a NAS for this look.</li>
+<li>Skip Proxmox tonight. That is <a href="what-is-a-vm">what a VM is, and when you don't need one</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/procps/ps.1.en.html">Debian: ps</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/ps.1.html">Ubuntu: ps</a>. <a href="https://manpages.debian.org/bookworm/procps/uptime.1.en.html">Debian: uptime</a>. Official pages only. For memory room, see <a href="leftover-box-free-memory">see if the computer still has free memory</a>. For disk room, see <a href="leftover-box-disk-space">see if the computer still has room</a>. For the awake check, see <a href="leftover-box-still-on">is the computer still on?</a>. For the login, see <a href="first-ssh">SSH from the couch</a>. A later mini: <a href="n100-mini-pc">a tiny computer you can leave on</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="when-the-computer-is-slow"><span class="t">When the old PC feels slow</span><span class="d">SSH lags, apt crawls, or the house share feels sticky. Check load, memory, disk room, then one busy job. Skip a new mini PC tonight.</span></a>
+<a class="note-row" href="when-memory-ran-out"><span class="t">When the computer ran out of memory</span><span class="d">Pi-hole vanished, the share died, or dmesg says Out of memory. Confirm the OOM killer, free RAM, restart house jobs. Skip a new mini PC tonight.</span></a>
+<a class="note-row" href="leftover-box-free-memory"><span class="t">See if the computer still has free memory</span><span class="d">The computer feels slow. Check free memory before you buy a new mini PC.</span></a>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="leftover-box-read-logs"><span class="t">When something broke, look at the log</span><span class="d">SSH works, but a house job doesn't. Read the program's recent log before you buy a monitoring box.</span></a>
+<a class="note-row" href="leftover-box-cpu"><span class="t">See how many workers the computer already has</span><span class="d">Before you buy a tiny computer, check how many workers the computer already has.</span></a>
+<a class="note-row" href="n100-mini-pc"><span class="t">A tiny computer you can leave on</span><span class="d">Don't buy one of these first. Use the old laptop, or a retired OptiPlex from Marketplace. These quiet little PCs are the later buy, when you know you will leave a box on and you want it small and silent.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-free-memory"><span class="kicker">Previous</span><span class="t">See if the computer still has free memory</span></a>
+<a rel="next" href="leftover-box-failed-units"><span class="kicker">Next</span><span class="t">See if any house jobs failed to start</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Unplug the backup USB safely — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Finish disk writes, unmount /mnt/backup, then yank the stick into a drawer. Fixes target is busy. You don't need a NAS.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Unplug the backup USB safely — Labthrift">
+<meta property="og:description" content="Finish disk writes, unmount /mnt/backup, then yank the stick into a drawer. Fixes target is busy. You don't need a NAS.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/unplug-backup-usb">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/unplug-backup-usb">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Unplug the backup USB safely","description":"Finish disk writes, unmount /mnt/backup, then yank the stick into a drawer. Fixes target is busy. You don't need a NAS.","url":"https://labthrift.com/guides/unplug-backup-usb","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-05"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">Unplug the backup USB safely</span></nav>
+<p class="note">Written 5 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>Unplug the backup USB safely</h1>
+<p class="deck">Finish disk writes, unmount <code>/mnt/backup</code>, then yank the stick into a drawer. Fixes <code>target is busy</code>. You don't need a NAS.</p>
+<p>Haven't copied the house folder yet? Start with <a href="first-backup">a backup of the house folder</a>. Stick still blank or Windows-formatted? That wipe is <a href="format-usb-for-backup">format a USB stick for the house backup</a>. Prefer leaving the stick plugged in for a weekly timer? Mount it at boot with <a href="auto-mount-backup-usb">mount the backup USB automatically</a>, and skip this note on weeks the stick stays in.</p>
+
+<h2>Skip if the stick stays plugged in</h2>
+<p>Some people leave the backup stick in the computer so a weekly job can find it. That is fine when <code>nofail</code> is in fstab and you accept that one bad day can touch both copies. This note is for the drawer habit: copy, unmount, unplug, put the stick somewhere else. Don't yank while <code>rsync</code> is still running.</p>
+
+<h2>What this is</h2>
+<p>Linux keeps writing in the background. A green activity light can lie. <code>sync</code> finishes those writes. <code>umount</code> tells the computer the stick is leaving. After that, the cable can come out. The usual mount point in these notes is <code>/mnt/backup</code>. If you mounted somewhere else, use that path instead.</p>
+
+<h2>Step 1: awake, then SSH</h2>
+<p>Power light. Fan. If it looks asleep, start with <a href="leftover-box-still-on">is the computer still on?</a>. You need SSH from the couch: <a href="first-ssh">SSH from the couch</a>. Connect fails? <a href="when-ssh-wont-connect">when SSH won't connect</a>.</p>
+
+<h2>Step 2: make sure the copy finished</h2>
+<p>If you just ran <code>rsync</code>, wait until the prompt comes back. A stuck copy is not a finished backup. Confirm files landed when you care: <a href="leftover-box-backup-check">check that the backup actually copied</a>. Still copying, or the stick vanished mid-job? <a href="when-backup-wont-run">When the house backup won't run</a>.</p>
+
+<h2>Step 3: see that it is mounted</h2>
+<p>Print the mount line:</p>
+<p><code>findmnt /mnt/backup</code></p>
+<p>A line with <code>/mnt/backup</code> means it is attached. No line means it is already unmounted (or never mounted). You can still run <code>sync</code> and unplug. Stick not listed anywhere? <a href="leftover-box-usb-disk">see if the USB backup disk showed up</a>.</p>
+
+<h2>Step 4: finish writes, then unmount</h2>
+<p>Flush pending writes:</p>
+<p><code>sync</code></p>
+<p>Then unmount the backup folder:</p>
+<p><code>sudo umount /mnt/backup</code></p>
+<p>Quiet success prints nothing. Confirm it is gone:</p>
+<p><code>findmnt /mnt/backup</code></p>
+<p>No line is what you want. Fuller look at attached folders: <a href="leftover-box-findmnt">see which folders are already attached</a>. Optional finish-writes note: <a href="leftover-box-sync">finish disk writes</a>.</p>
+
+<h2>Step 5: if umount says target is busy</h2>
+<p>Something still has a file open on the stick. Leave that SSH window (or any <code>cd /mnt/backup</code> shell) sitting in another folder:</p>
+<p><code>cd ~</code></p>
+<p>Stop a leftover viewer if you left one open:</p>
+<p><code>pkill -f '/mnt/backup' || true</code></p>
+<p>Then try again:</p>
+<p><code>sync &amp;&amp; sudo umount /mnt/backup</code></p>
+<p>Still busy? See who holds it:</p>
+<p><code>sudo lsof +f -- /mnt/backup</code></p>
+<p>Or:</p>
+<p><code>sudo fuser -vm /mnt/backup</code></p>
+<p>Close or kill only what you recognize from that list. Don't force-unmount the system disk. A last-resort lazy unmount (detaches when the last handle closes) is:</p>
+<p><code>sudo umount -l /mnt/backup</code></p>
+<p>Prefer fixing the busy handle over <code>-l</code> when you can. After a clean unmount, yank the stick and put it in a drawer. A problem on this computer cannot also wipe a copy that is sitting somewhere else.</p>
+
+<h2>Step 6: next week, mount again (or leave it auto)</h2>
+<p>Plug the same stick back in. Hand mount the way the backup note taught you, or rely on fstab if you set that up:</p>
+<p><code>sudo mount /mnt/backup</code></p>
+<p>Or, if you still mount by device name from <code>lsblk</code>:</p>
+<p><code>sudo mount /dev/sdb1 /mnt/backup</code></p>
+<p>Swap <code>sdb1</code> for the partition on <em>your</em> printout. UUID mount at boot is <a href="auto-mount-backup-usb">mount the backup USB automatically</a>. Then run the copy again, or let the weekly timer do it: <a href="leftover-box-backup-timer">back up the folder every week without remembering</a>.</p>
+
+<h2>What this is not</h2>
+<p>This is not a reason to yank the cable while <code>rsync</code> is still printing. It is not <code>umount</code> of the system disk (<code>/</code>). It is not eject from a Windows laptop (this stick is usually ext4). It is not a NAS. It is not a substitute for confirming the copy landed. It is not forcing <code>umount -l</code> every time so you can ignore a busy shell.</p>
+
+<h2>What next</h2>
+<p>Confirm files landed: <a href="leftover-box-backup-check">check that the backup actually copied</a>. Pull one file back sometime: <a href="leftover-box-restore-one">restore one file from the USB backup</a>. Leave the stick mounted at boot: <a href="auto-mount-backup-usb">mount the backup USB automatically</a>. Weekly copy without remembering: <a href="leftover-box-backup-timer">back up the folder every week without remembering</a>. Prefer another old PC instead of a stick: <a href="backup-to-another-pc">copy the house folder to another old computer</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip yanking while <code>rsync</code> (or any copy) is still running.</li>
+<li>Skip if the stick stays plugged in on purpose for a weekly timer (use auto-mount instead).</li>
+<li>Skip unmounting <code>/</code> or the system disk.</li>
+<li>Skip buying a NAS so a stick can unmount cleanly.</li>
+<li>Skip force-unmount as the first move. Leave the busy folder and try again.</li>
+<li>Skip cloud backup until a plain second copy exists on a stick or another old PC.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/coreutils/sync.1.en.html">Debian: sync</a>. <a href="https://manpages.debian.org/bookworm/mount/umount.8.en.html">Debian: umount</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/sync.1.html">Ubuntu: sync</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man8/umount.8.html">Ubuntu: umount</a>. <a href="https://manpages.debian.org/bookworm/util-linux/findmnt.8.en.html">Debian: findmnt</a>. Official pages only. For the copy, see <a href="first-backup">a backup of the house folder</a>. For auto mount, see <a href="auto-mount-backup-usb">mount the backup USB automatically</a>. For mount or rsync failures, see <a href="when-backup-wont-run">when the house backup won't run</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-backup"><span class="t">A backup of the house folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another old computer. You don't need a NAS for this.</span></a>
+<a class="note-row" href="format-usb-for-backup"><span class="t">Format a USB stick for the house backup</span><span class="d">Wipe and format a spare USB stick so the old PC can mount it for the house-folder backup. Ext4 for Linux. This erases the stick. You don't need a NAS.</span></a>
+<a class="note-row" href="auto-mount-backup-usb"><span class="t">Mount the backup USB automatically</span><span class="d">Leave the backup stick plugged in and mount it at boot by UUID, so weekly rsync finds /mnt/backup without a hand mount. You don't need a NAS.</span></a>
+<a class="note-row" href="leftover-box-backup-check"><span class="t">Check that the backup actually copied</span><span class="d">After the copy finishes, look on the USB disk and confirm the files are there before you trust it. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="when-backup-wont-run"><span class="t">When the house backup won't run</span><span class="d">rsync failed, the USB is missing, or the second copy never landed. Check the stick, the mount, the source path, then match the error (no space, permission, connection). You don't need a NAS.</span></a>
+<a class="note-row" href="when-backup-usb-full"><span class="t">When the backup USB is full</span><span class="d">rsync says no space, or df shows the stick is packed. Confirm the mount, free room or use a bigger stick, or copy to another old PC. You don't need a NAS.</span></a>
+<a class="note-row" href="leftover-box-usb-disk"><span class="t">See if the USB backup disk showed up</span><span class="d">Before you trust the weekly copy, confirm the computer can see the USB disk.</span></a>
+<a class="note-row" href="leftover-box-backup-timer"><span class="t">Back up the folder every week without remembering</span><span class="d">After one manual USB (or second-box) copy works, let the computer run the same rsync on a weekly timer. A phone reminder is still fine if you prefer.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="first-backup"><span class="kicker">Previous</span><span class="t">A backup of the house folder</span></a>
+<a rel="next" href="auto-mount-backup-usb"><span class="kicker">Next</span><span class="t">Mount the backup USB automatically</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

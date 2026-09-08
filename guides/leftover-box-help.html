@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Ask a command what it does — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After SSH works, ask a command what it does with --help so you can read the short cheat sheet without leaving the window. Optional man for the longer page. You don't need a software store for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Ask a command what it does — Labthrift">
+<meta property="og:description" content="After SSH works, ask a command what it does with --help so you can read the short cheat sheet without leaving the window. Optional man for the longer page. You don't need a software store for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-help">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-help">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Ask a command what it does","description":"After SSH works, ask a command what it does with --help so you can read the short cheat sheet without leaving the window. Optional man for the longer page. You don't need a software store for this.","url":"https://labthrift.com/guides/leftover-box-help","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-29"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Ask a command what it does</span></nav>
+<p class="note">Written 29 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Ask a command what it does</h1>
+<p class="deck">After SSH works, ask a command what it does with <span><code>--help</code></span> so you can read the short cheat sheet without leaving the window. Optional <span><code>man</code></span> for the longer page. You don't need a software store for this.</p>
+<p><a href="leftover-box-which">See where a command lives</a> told you if the tool is installed. Tonight you only need one more answer: what flags does it take? Most tools print a short cheat sheet when you add <span><code>--help</code></span>. You are still only looking. The computer does not need a desktop, a software store, or a new mini PC for this one job.</p>
+
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If you only need to know whether the tool exists, that is <a href="leftover-box-which">see where a command lives</a>. If you only need names in a folder, that is <a href="leftover-box-ls">see what&apos;s in a folder</a>. Skip this whole note if you only need a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</p>
+
+<h2>What this is</h2>
+<p><span><code>--help</code></span> means &quot;print the short cheat sheet.&quot; You can keep calling it &quot;what does this do.&quot; You type the tool name, then two dashes and the word help. The computer prints a short page of options, then drops you back at the prompt. It is not installing anything. It is not a web search. It prints the tool's own short options list. Some older tools only answer to <span><code>-h</code></span>. Try <span><code>--help</code></span> first.</p>
+
+<h2>Ask a practice command for its cheat sheet</h2>
+<p>SSH in. Pick a tool you already used. <span><code>ls</code></span> is a safe first try:</p>
+<p><code>ls --help</code></p>
+<p>You want a short flood of lines: usage at the top, then flags like <span><code>-l</code></span> and <span><code>-a</code></span>. That is the cheat sheet. You don't need to memorize it. Glance, then press Up and edit the real command.</p>
+<p>Try the editor next:</p>
+<p><code>nano --help</code></p>
+<p>You want a short page about nano. If you see command not found, install only that one tool, then try again:</p>
+<p><code>sudo apt install nano</code></p>
+<p>Then:</p>
+<p><code>nano --help</code></p>
+<p>If a tool ignores <span><code>--help</code></span>, try the short form:</p>
+<p><code>ping -h</code></p>
+<p>Careful: on some tools <span><code>-h</code></span> means something else. On <span><code>ls</code></span>, <span><code>-h</code></span> means human-readable sizes, not help. When the short form looks wrong, stick with <span><code>--help</code></span>.</p>
+
+<h2>Useful extras, still looking only</h2>
+<p>Need the longer manual for one night?</p>
+<p><code>man ls</code></p>
+<p>Space pages forward. <span><code>b</code></span> goes back. <span><code>q</code></span> leaves. Same keys as <a href="leftover-box-less">read a file one screen at a time</a>. If <span><code>man</code></span> itself is missing, install the manuals once:</p>
+<p><code>sudo apt install man-db</code></p>
+<p>Stick with <span><code>--help</code></span>. It is shorter, and you stay at the prompt when it finishes.</p>
+<p>Confirm the tool exists before you ask it for help:</p>
+<p><code>command -v ls</code></p>
+<p>A path means go. A blank window means install that one tool first. That is <a href="leftover-box-which">see where a command lives</a>.</p>
+<p>When the cheat sheet is long, page it:</p>
+<p><code>ls --help | less</code></p>
+<p>Space turns the page. <span><code>q</code></span> leaves. Same idea as reading a long file. That bar is <a href="leftover-box-pipe">send output into another command</a>.</p>
+<p>When you are done looking, you don't need to delete anything. This note only prints text.</p>
+
+<h2>What this is not</h2>
+<p>This is not a search for whether the tool is installed. That is <a href="leftover-box-which">see where a command lives</a>. It is not a dump of a file. That is <a href="leftover-box-cat">read a file without opening the editor</a>. It is not flipping back through lines you already typed. That is <a href="leftover-box-history">reuse a command you already typed</a>. It is not installing a package store or a &quot;software center.&quot; One missing tool is <span><code>sudo apt install</code></span> for that one name. It is not a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</p>
+
+<h2>What next</h2>
+<p>Need to hand the cheat sheet to another command? <a href="leftover-box-pipe">Send output into another command</a>. Need to park command print in a file? <a href="leftover-box-redirect">Save output to a file</a>. Need to know if the tool is even there? <a href="leftover-box-which">See where a command lives</a>. Need the editor after the cheat sheet pointed at a flag? <a href="leftover-box-nano">Edit a file from the couch</a>. Need names in a folder again? <a href="leftover-box-ls">See what&apos;s in a folder</a>. Need to flip back through lines you already typed? <a href="leftover-box-history">Reuse a command you already typed</a>. When a house job broke, look at the computer&apos;s own diary: <a href="leftover-box-read-logs">when something broke, look at the log</a>. When key login is boring on every computer you use, <a href="leftover-box-ssh-no-password">turn off password login once the key works</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip buying a software store, Softaculous, or a new mini PC because one cheat sheet looked long. Glance, then try the real command.</li>
+<li>Skip deep <span><code>info</code></span> pages, <span><code>apropos</code></span>, and installing every <span><code>-doc</code></span> package tonight. <span><code>--help</code></span> is enough for the first look.</li>
+<li>Skip copying random flags from a blog into <span><code>/etc</code></span> just because the cheat sheet listed them. Practice only on tools you already met.</li>
+<li>Skip SSH settings, <span><code>/etc/shadow</code></span>, and anything under <span><code>/etc/ssh</code></span>. Looking at trusted laptop keys is <a href="leftover-box-authorized-keys">see which laptop keys the computer already trusts</a>.</li>
+<li>Skip opening SSH to the internet so you can read help pages from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.gnu.org/software/coreutils/manual/html_node/Common-options.html">GNU coreutils: common options (including --help)</a>. <a href="https://manpages.debian.org/bookworm/man-db/man.1.en.html">Debian: man</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/man.1.html">Ubuntu: man</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For whether the tool exists, see <a href="leftover-box-which">see where a command lives</a>. For paging a long dump, see <a href="leftover-box-less">read a file one screen at a time</a>. For reusing a typed line, see <a href="leftover-box-history">reuse a command you already typed</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-which"><span class="t">See where a command lives</span><span class="d">After SSH works, ask where a command lives with command -v so you know if nano or python is installed before you chase a missing package. You don't need a software store for this.</span></a>
+<a class="note-row" href="leftover-box-history"><span class="t">Reuse a command you already typed</span><span class="d">After SSH works, flip back through commands with the Up arrow or history. You don't need a notebook for the same long line twice.</span></a>
+<a class="note-row" href="leftover-box-less"><span class="t">Read a file one screen at a time</span><span class="d">After SSH works, open a file with less so a long file does not flood the window. Space turns the page. q leaves. You don't need a file viewer app for this.</span></a>
+<a class="note-row" href="leftover-box-pipe"><span class="t">Send output into another command</span><span class="d">After SSH works, send output into another command with | so a long dump does not flood the window. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-ls"><span class="t">See what&apos;s in a folder</span><span class="d">After SSH works, list the folder you are sitting in with ls. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-nano"><span class="t">Edit a file from the couch</span><span class="d">After SSH works, open a file with nano, change a line, and save. The keys at the bottom of the screen are the whole trick. You don't need a new editor.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-which"><span class="kicker">Previous</span><span class="t">See where a command lives</span></a>
+<a rel="next" href="leftover-box-pipe"><span class="kicker">Next</span><span class="t">Send output into another command</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

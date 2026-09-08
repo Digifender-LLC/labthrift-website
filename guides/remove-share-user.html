@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Remove someone from the house share — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Take a partner or roommate off the house folder on the old PC. Drop them from Samba, then from the share's valid users. Optional: delete the Linux login. You don't need a NAS.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Remove someone from the house share — Labthrift">
+<meta property="og:description" content="Take a partner or roommate off the house folder on the old PC. Drop them from Samba, then from the share's valid users. Optional: delete the Linux login. You don't need a NAS.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/remove-share-user">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/remove-share-user">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Remove someone from the house share","description":"Take a partner or roommate off the house folder on the old PC. Drop them from Samba, then from the share's valid users. Optional: delete the Linux login. You don't need a NAS.","url":"https://labthrift.com/guides/remove-share-user","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-05"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">Remove someone from the house share</span></nav>
+<p class="note">Written 5 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>Remove someone from the house share</h1>
+<p class="deck">Take a partner or roommate off the house folder on the old PC. Drop them from Samba, then from the share's valid users. Optional: delete the Linux login. You don't need a NAS.</p>
+<p>Haven't made the share yet? Start with <a href="first-file-share">a file share</a>. Need to <em>add</em> a second login instead? That is <a href="add-share-user">add another person to the house share</a>. This note is the other direction: they should not open the folder anymore.</p>
+
+<h2>Skip until you have a second login to remove</h2>
+<p>If only one person can open the share, stop. There is nothing to remove. Don't wipe the whole share to kick one person. Don't change the first person's Samba password as a "removal" if you can drop the second login cleanly. Don't open SMB to the internet.</p>
+
+<h2>What this is</h2>
+<p>Remove their Samba password entry, take their name off <code>valid users</code> for the share, restart Samba, then optionally delete the Linux account you made for them. Finder and File Explorer keep the same path (<code>\\lab-address\photos</code> or whatever you picked). Their old username stops working. Files they already put in the folder stay on disk until you delete those files yourself.</p>
+
+<h2>Step 1: awake, then SSH</h2>
+<p>Power light. Fan. If it looks asleep, start with <a href="leftover-box-still-on">is the computer still on?</a>. You need SSH from the couch: <a href="first-ssh">SSH from the couch</a>. Connect fails? <a href="when-ssh-wont-connect">when SSH won't connect</a>.</p>
+
+<h2>Step 2: confirm who Samba knows</h2>
+<p>List Samba users:</p>
+<p><code>sudo pdbedit -L</code></p>
+<p>You should see their short name (the one from <a href="add-share-user">add another person</a>, often something like <code>alex</code>). If they are not on the list, they may already be gone from Samba. Still check <code>valid users</code> in step 4 so the share file is not leaving a leftover name.</p>
+
+<h2>Step 3: remove them from Samba</h2>
+<p>Swap <code>alex</code> for their short name:</p>
+<p><code>sudo smbpasswd -x alex</code></p>
+<p>That drops their Samba password entry. They can no longer authenticate to any share on this computer with that Samba login. List again to confirm:</p>
+<p><code>sudo pdbedit -L</code></p>
+<p>Their name should be gone. If <code>smbpasswd -x</code> says the user does not exist, they were already removed from Samba. Continue to step 4 anyway.</p>
+
+<h2>Step 4: take them off valid users</h2>
+<p>Open <code>/etc/samba/smb.conf</code> and find the share block (often <code>[photos]</code>). Find the <code>valid users</code> line. Remove their name. Leave the people who should still get in:</p>
+<p><code>valid users = youruser</code></p>
+<p>Swap <code>youruser</code> for whoever stays. If the line listed only them, put the first login back so you do not lock yourself out. Save the file. Restart Samba:</p>
+<p><code>sudo systemctl restart smbd</code></p>
+
+<h2>Step 5: optional — delete the Linux login</h2>
+<p>Samba needed a system account when you added them. If that account existed only for the share, you can delete it. Swap <code>alex</code> again:</p>
+<p><code>sudo deluser alex</code></p>
+<p>That removes the login. It does not delete their home folder by default on Debian and Ubuntu. To remove the home folder too (only if you mean to):</p>
+<p><code>sudo deluser --remove-home alex</code></p>
+<p>Do not delete your own login. Do not delete the account that owns <code>/srv/share</code> if that is still the share owner. If you only want them off the share and they still SSH for other reasons, skip this step.</p>
+
+<h2>Step 6: confirm they cannot open it</h2>
+<p>From a laptop or phone on the house network, try the same path with <em>their</em> old username and password. Login should fail. Your login should still work. Longer open walks: <a href="open-share-from-laptop">open the house share from a laptop</a>, or <a href="open-share-from-phone">open the house share from a phone</a>. Your open fails too? <a href="when-share-wont-open">when the house share won't open</a>.</p>
+
+<h2>Step 7: their files still on the share</h2>
+<p>Removing the login does not erase photos or folders they already wrote under <code>/srv/share</code> (or wherever the house folder lives). SSH in and delete those paths yourself if you want them gone. Check room after a big delete: <a href="leftover-box-disk-space">see if the computer still has room</a>.</p>
+
+<h2>What this is not</h2>
+<p>This is not wiping the share. It is not changing everyone else's password. It is not Active Directory. It is not a reason to buy a NAS. It is not opening SMB to the internet. It is not deleting files unless you choose step 7.</p>
+
+<h2>What next</h2>
+<p>Leave it. They stay off. Need them back later: <a href="add-share-user">add another person to the house share</a>. Password stuck for someone who stays: <a href="leftover-box-samba-password">set or change the house-share password</a>. Their device still remembers the old login: <a href="forget-saved-share-login">forget the saved house-share login</a>. Check live connections with <a href="see-who-uses-share">see who is using the house share</a>. Open fails: <a href="when-share-wont-open">when the house share won't open</a>. Still building the first share: <a href="first-file-share">a file share</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip until a second login exists. Adding one is <a href="add-share-user">add another person to the house share</a>.</li>
+<li>Skip wiping the whole share to remove one person.</li>
+<li>Skip deleting the share owner's Linux account.</li>
+<li>Skip opening SMB to the internet.</li>
+<li>Skip buying a NAS for a login cleanup.</li>
+<li>Skip assuming their old files disappear when Samba drops them — delete those paths on purpose if you want them gone.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.samba.org/samba/docs/current/man-html/smbpasswd.8.html">Samba: smbpasswd</a>. <a href="https://manpages.debian.org/bookworm/samba/pdbedit.8.en.html">Debian: pdbedit</a>. <a href="https://manpages.debian.org/bookworm/adduser/deluser.8.en.html">Debian: deluser</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man8/deluser.8.html">Ubuntu: deluser</a>. <a href="https://wiki.samba.org/index.php/Setting_up_Samba_as_a_Standalone_Server">Samba wiki: standalone server</a>. Official pages only. For adding a person, see <a href="add-share-user">add another person to the house share</a>. For the share itself, see <a href="first-file-share">a file share</a>. For open failures, see <a href="when-share-wont-open">when the house share won't open</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="add-share-user"><span class="t">Add another person to the house share</span><span class="d">Give a partner or roommate their own login for the house folder on the old PC. Same share path. Separate Samba password. You don't need a NAS.</span></a>
+<a class="note-row" href="see-who-uses-share"><span class="t">See who is using the house share</span><span class="d">Check which logins and devices are connected to the Samba folder on the old PC. smbstatus. You don't need a NAS.</span></a>
+<a class="note-row" href="first-file-share"><span class="t">A file share</span><span class="d">A folder on the old PC that the house can open from a laptop or a phone. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-samba-password"><span class="t">Set or change the house-share password</span><span class="d">Finder and File Explorer ask for a share password that is not always the login. Samba keeps its own copy. Set it once. Change it when you forget.</span></a>
+<a class="note-row" href="forget-saved-share-login"><span class="t">Forget the saved house-share login</span><span class="d">Windows, Mac, or a phone still uses the old Samba password after you changed it. Clear Credential Manager, Keychain, or the phone bookmark, then open again. You don't need a NAS.</span></a>
+<a class="note-row" href="when-share-wont-open"><span class="t">When the house share won't open</span><span class="d">Finder, File Explorer, or the phone can't open the house folder. Check the computer is on, confirm the address, then match the error (path not found, login failed, can't write, disk full). You don't need a NAS.</span></a>
+<a class="note-row" href="open-share-from-laptop"><span class="t">Open the house share from a laptop</span><span class="d">The house folder is on the old PC. Open it from Windows File Explorer or Mac Finder on the house network. You don't need a NAS for this.</span></a>
+<a class="note-row" href="open-share-from-phone"><span class="t">Open the house share from a phone</span><span class="d">The house folder is on the old PC. Open it from an iPhone or Android on house Wi-Fi. You don't need a NAS app for this.</span></a>
+<a class="note-row" href="leftover-box-share-check"><span class="t">When the house share disappeared, check the computer</span><span class="d">The computer is awake, but Finder or File Explorer cannot see the folder. Check that Samba is still running before you buy a NAS.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="add-share-user"><span class="kicker">Previous</span><span class="t">Add another person to the house share</span></a>
+<a rel="next" href="leftover-box-samba-password"><span class="kicker">Next</span><span class="t">Set or change the house-share password</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

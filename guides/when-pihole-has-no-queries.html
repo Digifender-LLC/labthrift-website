@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When Pi-hole shows no queries — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Admin opens, totals stay at zero, query log empty. Prove the house asks the computer for DNS, then check Pi-hole status. You don't need a new Raspberry Pi.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When Pi-hole shows no queries — Labthrift">
+<meta property="og:description" content="Admin opens, totals stay at zero, query log empty. Prove the house asks the computer for DNS, then check Pi-hole status. You don't need a new Raspberry Pi.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-pihole-has-no-queries">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-pihole-has-no-queries">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When Pi-hole shows no queries","description":"Admin opens, totals stay at zero, query log empty. Prove the house asks the computer for DNS, then check Pi-hole status. You don't need a new Raspberry Pi.","url":"https://labthrift.com/guides/when-pihole-has-no-queries","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-06"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When Pi-hole shows no queries</span></nav>
+<p class="note">Written 6 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When Pi-hole shows no queries</h1>
+<p class="deck">Admin opens, totals stay at zero, query log empty. Prove the house asks the computer for DNS, then check Pi-hole status. You don't need a new Raspberry Pi.</p>
+<p>Haven't installed the house ad block yet? Start with <a href="first-useful-service">the first useful thing</a>. Admin page itself won't load? That is <a href="when-pihole-wont-open">when the Pi-hole admin page won't open</a>. Ads are back on every phone while the log once looked busy? That checklist is <a href="when-ads-come-back">when ads come back</a>. This note is the quieter failure: the dashboard loads, but Total queries stays at <span><code>0</code></span> no matter how many tabs you open.</p>
+
+<h2>Skip until the admin page opens</h2>
+<p>You need <span><code>http://pi.hole/admin</code></span> or the computer's address plus <span><code>/admin</code></span> to load and accept the admin password. If it won't, fix that walk first. You also need house Wi-Fi (or a cable), not guest Wi-Fi that still uses ISP DNS, and not cellular data on a phone. Reading a healthy log later is <a href="see-what-pihole-blocked">see what Pi-hole blocked</a>.</p>
+
+<h2>What this is</h2>
+<p>Pi-hole only writes query rows when something asks it for a name. Zero forever usually means nothing is asking: the router still hands out ISP DNS, one device bypasses house DNS, or you are testing from a network that never reaches the computer. Less often, FTL (the DNS engine) is stopped while the web UI still answers. You prove who the phone asks, then prove Pi-hole is listening. You don't buy a second box for an empty diary.</p>
+
+<h2>Step 1: confirm the symptom</h2>
+<p>On a laptop or phone on the house network, open the admin page and sign in. Look at Total queries and the Query Log. Browse a news site or open a few apps for a minute. If the numbers stay at zero and no new rows appear, stay on this page. If rows appear for some devices and not others, that is usually one phone or one laptop bypassing DNS: <a href="when-one-phone-shows-ads">when one phone still shows ads</a> or <a href="when-one-laptop-shows-ads">when one laptop still shows ads</a>.</p>
+
+<h2>Step 2: see which DNS the test device uses</h2>
+<p>On the laptop you are testing with, check the DNS servers the OS was given. On Ubuntu or Debian:</p>
+<p><code>resolvectl status</code></p>
+<p>Or:</p>
+<p><code>cat /etc/resolv.conf</code></p>
+<p>On Windows, open Command Prompt:</p>
+<p><code>ipconfig /all</code></p>
+<p>Look for DNS Servers under the active Wi-Fi or ethernet adapter. On a Mac, System Settings → Network → the active interface → Details → DNS.</p>
+<p>You want the computer's house address (the one you use for SSH), not <span><code>1.1.1.1</code></span>, <span><code>8.8.8.8</code></span>, or the router's own address alone unless that router is set to forward every ask to Pi-hole. If the laptop shows Cloudflare, Google, or "Secure DNS" / Private DNS instead of the old PC, the query log will stay empty for that device even when Pi-hole is fine.</p>
+
+<h2>Step 3: point the house (or one device) at the computer</h2>
+<p>House-wide fix: set LAN / DHCP DNS on the router to the computer's address, then renew leases (toggle Wi-Fi on phones, or reboot them). Brand menus: <a href="common-router-dns">point common home routers at Pi-hole</a>. Short generic pass: <a href="leftover-box-router-dns">point the house at the ad block</a>.</p>
+<p>If Nest, Google Wifi, or an ISP gateway will not take custom DNS, set DNS on one phone or laptop only and prove the log moves: <a href="manual-dns-on-devices">point a phone or laptop at Pi-hole when the router won't</a>. Guest SSID is a separate network on purpose. Guests often never hit Pi-hole: <a href="guest-wifi-dns">when guest Wi-Fi still shows ads</a>.</p>
+<p>After you change DNS, open a few sites again and refresh the Query Log. New rows should appear within a minute.</p>
+
+<h2>Step 4: prove a lookup hits the computer</h2>
+<p>From the test laptop, ask the computer directly (swap in its real address):</p>
+<p><code>dig @192.168.1.50 example.com +short</code></p>
+<p>Or:</p>
+<p><code>nslookup example.com 192.168.1.50</code></p>
+<p>If that returns an answer and the Query Log gains a row for <span><code>example.com</code></span>, Pi-hole works. The house just was not sending it traffic. Go back to Step 3.</p>
+<p>If the direct lookup times out or refuses, stay on the computer for Step 5. Need the address again? <a href="find-the-leftover-box">Find it on the house network</a>.</p>
+
+<h2>Step 5: check Pi-hole status on the computer</h2>
+<p>SSH in from the couch, then:</p>
+<p><code>pihole status</code></p>
+<p>You want FTL / DNS listening and blocking enabled. If it says offline or the DNS service is not running:</p>
+<p><code>pihole restartdns</code></p>
+<p>Then:</p>
+<p><code>pihole status</code></p>
+<p>Optional deeper look:</p>
+<p><code>pihole -c -e</code></p>
+<p>Or watch live while you reload a page on the phone:</p>
+<p><code>pihole tail</code></p>
+<p>Press Ctrl-C when you have seen enough. If status stays broken after a restart, update software and lists once: <a href="update-pihole">keep Pi-hole updated</a>. Before a reinstall, save settings: <a href="backup-pihole">save a Pi-hole backup</a>.</p>
+
+<h2>Step 6: firewall and reachability (if direct dig still fails)</h2>
+<p>From the laptop, ping the computer. If ping fails, fix the address and the link first (Wi-Fi drop, wrong VLAN, soft-off). If ping works but dig to port 53 fails, check whether a firewall on the computer blocks DNS from the house. If you already turned on ufw, allow DNS (and the admin page) so phones can reach it: <a href="leftover-box-ufw">turn on a simple firewall without locking yourself out</a>.</p>
+<p>IPv6 can also send phones past Pi-hole while IPv4 looks fine. That usually shows as ads still present, not a totally empty log, but it is worth a look if only phones stay dirty after IPv4 DNS is right: <a href="when-ipv6-bypasses-ads">when ads sneak past on IPv6</a>.</p>
+
+<h2>What this is not</h2>
+<p>This is not a new Raspberry Pi. It is not exposing port 53 to the public internet. It is not Unbound on night one. It is not wiping every block list because the diary is empty. An empty log means nobody asked, or the DNS engine is down — not that you need a mesh kit.</p>
+
+<h2>What next</h2>
+<p>When rows appear, read them: <a href="see-what-pihole-blocked">see what Pi-hole blocked</a>. Ads still on every device after the log is alive? <a href="when-ads-come-back">when ads come back</a>. One bank page broken while ads stay gone? <a href="when-a-site-wont-load">when a site won't load after Pi-hole</a>. Tabs hang a few seconds then load? <a href="when-dns-is-slow">when browsing feels slow after Pi-hole</a>. Tired of typing the number? <a href="add-local-dns-name">Add a local name in Pi-hole</a>. Name still fails after you save it? <a href="when-local-name-fails">when the house name won't resolve</a>.</p>
+
+<p class="note">Optional: jot that DNS now points at the computer in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip a new Raspberry Pi because the query log is empty.</li>
+<li>Skip buying a mesh kit or a new router for an empty diary.</li>
+<li>Skip opening port 53 (or the admin page) to the public internet.</li>
+<li>Skip Unbound or a second Pi-hole until the first one sees house traffic.</li>
+<li>Skip this if the admin page itself won't load — fix that walk first.</li>
+<li>Skip this if some devices already fill the log and only one phone is dirty — use the one-phone walk.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://docs.pi-hole.net/">Pi-hole docs</a>. <a href="https://docs.pi-hole.net/core/pihole-command/">Pi-hole command</a> (status, restartdns, tail). Official pages only. For install, see <a href="first-useful-service">the first useful thing</a>. For router DNS, see <a href="common-router-dns">point common home routers at Pi-hole</a>. For reading a live log, see <a href="see-what-pihole-blocked">see what Pi-hole blocked</a>. For ads returning house-wide, see <a href="when-ads-come-back">when ads come back</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="see-what-pihole-blocked"><span class="t">See what Pi-hole blocked</span><span class="d">Open the query log (or watch it over SSH) so you can tell ads are dying, which device asked, and which name to allow later. You don't need a new router.</span></a>
+<a class="note-row" href="when-ads-come-back"><span class="t">When ads come back</span><span class="d">Ads are back, sites won't load, or a phone still shows banners. Check the computer, Pi-hole, router DNS, then the phone.</span></a>
+<a class="note-row" href="common-router-dns"><span class="t">Point common home routers at Pi-hole</span><span class="d">Where to set DNS on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so the house asks Pi-hole. Prefer LAN DHCP DNS. You don't need a new router.</span></a>
+<a class="note-row" href="manual-dns-on-devices"><span class="t">Point a phone or laptop at Pi-hole when the router won't</span><span class="d">When Nest, Google Wifi, or an ISP gateway will not take custom DNS, set DNS on one phone or laptop so it asks Pi-hole. You don't need a new router for this device.</span></a>
+<a class="note-row" href="when-pihole-wont-open"><span class="t">When the Pi-hole admin page won't open</span><span class="d">http://pi.hole/admin or the computer's address plus /admin won't load. Check house Wi-Fi, the address, then Pi-hole and the web service. You don't need a new router.</span></a>
+<a class="note-row" href="when-one-phone-shows-ads"><span class="t">When one phone still shows ads</span><span class="d">Everyone else's ads dropped. One phone still shows banners. Check Private DNS, Private Relay, a VPN, then the Wi-Fi lease. You don't need a new router.</span></a>
+<a class="note-row" href="when-one-laptop-shows-ads"><span class="t">When one laptop still shows ads</span><span class="d">Everyone else's ads dropped. One laptop (or one browser) still shows banners. Check Chrome, Edge, or Firefox Secure DNS, Windows encrypted DNS, Mac Private Relay, then a VPN. You don't need a new router.</span></a>
+<a class="note-row" href="first-useful-service"><span class="t">The first useful thing</span><span class="d">Put a house-wide ad block on the old PC. The rest of the house keeps using the internet as usual. You don't need a Raspberry Pi.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="see-what-pihole-blocked"><span class="kicker">Previous</span><span class="t">See what Pi-hole blocked</span></a>
+<a rel="next" href="when-ads-come-back"><span class="kicker">Next</span><span class="t">When ads come back</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

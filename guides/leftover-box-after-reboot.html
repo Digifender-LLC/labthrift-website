@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>After a reboot, check the computer still does its jobs — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="The computer came back up. Confirm SSH, house ad block, and the file share still work before you buy anything.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="After a reboot, check the computer still does its jobs — Labthrift">
+<meta property="og:description" content="The computer came back up. Confirm SSH, house ad block, and the file share still work before you buy anything.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-after-reboot">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-after-reboot">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"After a reboot, check the computer still does its jobs","description":"The computer came back up. Confirm SSH, house ad block, and the file share still work before you buy anything.","url":"https://labthrift.com/guides/leftover-box-after-reboot","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-26"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">After a reboot, check the computer still does its jobs</span></nav>
+<p class="note">Written 26 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>After a reboot, check the computer still does its jobs</h1>
+<p class="deck">The computer came back up. Confirm SSH, house ad block, and the file share still work before you buy anything.</p>
+<p>A reboot is a clean restart. The computer stops, then comes back. The three house jobs are couch login (SSH), house ad block (Pi-hole), and the shared folder (Samba). This note is the look after it is up. You are not buying anything.</p>
+
+<h2>Skip until the computer answers</h2>
+<p>If ping fails and SSH hangs, start with <a href="leftover-box-still-on">is the computer still on?</a> This note assumes the computer is awake again.</p>
+
+<h2>Why a reboot happened</h2>
+<p>After <a href="leftover-box-updates">keep the computer updated</a>, check <a href="leftover-box-reboot-needed">see if a reboot is needed</a>. A kernel line can ask for a reboot too. A kernel line is a core-of-the-OS fix. A power blink is a reboot. <a href="leftover-box-shutdown">Shut down the computer without yanking the plug</a> then power on is a restart too. You are not buying a monitoring box for one clean restart.</p>
+
+<h2>SSH from the couch</h2>
+<p>Same habit as <a href="first-ssh">SSH from the couch</a>. If the password or key fails after the reboot, don't buy a new box. Check the name: <a href="leftover-box-hostname">give the computer a name that sticks</a>. Check the address: <a href="leftover-box-dhcp-reservation">keep the computer on the same number</a>.</p>
+
+<h2>House ad block</h2>
+<p>Browse a site that used to show ads, or open the Pi-hole admin. If ads are back, that is <a href="leftover-box-ad-block-check">when ads come back, check the ad block</a>. If the router forgot the computer after a blink, set it again: <a href="leftover-box-router-dns">point the house at the ad block</a>.</p>
+
+<h2>House share</h2>
+<p>Open the folder from a laptop or a phone. If it vanished, that is <a href="leftover-box-share-check">when the house share disappeared, check the computer</a>.</p>
+
+<h2>Optional: check on the computer</h2>
+<p>If you already SSH'd in, you can check systemd, the computer's job list:</p>
+<p><code>systemctl is-active pihole-FTL</code></p>
+<p><code>systemctl is-active smbd</code></p>
+<p>You want <span><code>active</code></span> on both. If Pi-hole is not active, <a href="leftover-box-ad-block-check">when ads come back, check the ad block</a>. If Samba is not active, <a href="leftover-box-share-check">when the house share disappeared, check the computer</a>.</p>
+
+<h2>What next</h2>
+<p>House-wide power blink (router and computer both bounced)? <a href="after-power-outage">after the power comes back</a>. Leave it. Skip a UPS for a single clean reboot: <a href="leftover-box-no-ups">you don't need a UPS yet</a>. Skip a NAS. Skip a mesh kit. Weekly updates stay <a href="leftover-box-updates">keep the computer updated</a>. Unattended stays <a href="leftover-box-unattended">let the computer apply weekly fixes without you</a>. If <span><code>systemctl</code></span> said inactive, or a restart did not help, that is <a href="leftover-box-read-logs">when something broke, look at the log</a>. If a job was active today but dies after every reboot, later: <a href="leftover-box-enable-boot">make sure house jobs start after every reboot</a>. If you want the failed-jobs list first, later: <a href="leftover-box-failed-units">see if any house jobs failed to start</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if the computer is still off. That is <a href="leftover-box-still-on">is the computer still on?</a></li>
+<li>Skip a monitoring appliance.</li>
+<li>Skip a UPS this pass. That is <a href="leftover-box-no-ups">you don't need a UPS yet</a>.</li>
+<li>Skip opening SSH to the internet.</li>
+<li>Skip buying a second computer because one reboot scared you.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/systemd/systemctl.1.en.html">Debian: systemctl</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/systemctl.1.html">Ubuntu: systemctl</a>. Official pages only. For the awake check, see <a href="leftover-box-still-on">is the computer still on?</a>. For the weekly habit, see <a href="leftover-box-updates">keep the computer updated</a>. For ads, see <a href="leftover-box-ad-block-check">when ads come back, check the ad block</a>. For the share, see <a href="leftover-box-share-check">when the house share disappeared, check the computer</a>. For the login, see <a href="first-ssh">SSH from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="leftover-box-enable-boot"><span class="t">Make the computer come back on after a power cut</span><span class="d">Before you buy a monitoring box, check that Pi-hole and the house share are set to start when the computer boots.</span></a>
+<a class="note-row" href="leftover-box-reboot-needed"><span class="t">See if a reboot is needed</span><span class="d">After weekly updates, check whether a reboot is needed before you buy a monitoring box.</span></a>
+<a class="note-row" href="leftover-box-still-on"><span class="t">Is the computer still on?</span><span class="d">You left the computer on. This morning ads are back, or SSH hangs. Check if it is awake before you buy anything.</span></a>
+<a class="note-row" href="leftover-box-updates"><span class="t">Keep the computer updated</span><span class="d">Once a week, give the computer its fixes so SSH and Pi-hole are not sitting on last year's bugs. Skip this until next week if you just finished first weekend.</span></a>
+<a class="note-row" href="leftover-box-ad-block-check"><span class="t">See if house ad block is answering</span><span class="d">The computer is awake, but banners are back. Check that Pi-hole is still answering before you buy a mesh kit or blame the router.</span></a>
+<a class="note-row" href="leftover-box-share-check"><span class="t">See if the house folder is still shared</span><span class="d">The computer is awake, but Finder or File Explorer cannot see the folder. Check that Samba is still running before you buy a NAS.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-unattended"><span class="kicker">Previous</span><span class="t">Let the computer apply weekly fixes without you</span></a>
+<a rel="next" href="leftover-box-enable-boot"><span class="kicker">Next</span><span class="t">Make the computer come back on after a power cut</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

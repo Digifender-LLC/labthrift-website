@@ -1,0 +1,46 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://labthrift.com/.well-known/api-catalog",
+      "item": [
+        {
+          "href": "https://labthrift.com/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://labthrift.com/llms.txt",
+          "type": "text/plain"
+        },
+        {
+          "href": "https://labthrift.com/sitemap.xml",
+          "type": "application/xml"
+        },
+        {
+          "href": "https://labthrift.com/guides/",
+          "type": "text/html"
+        }
+      ]
+    },
+    {
+      "anchor": "https://labthrift.com/",
+      "service-desc": [
+        {
+          "href": "https://labthrift.com/openapi.yaml",
+          "type": "application/yaml"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://labthrift.com/about",
+          "type": "text/html"
+        }
+      ],
+      "describedby": [
+        {
+          "href": "https://labthrift.com/llms.txt",
+          "type": "text/plain"
+        }
+      ]
+    }
+  ]
+}

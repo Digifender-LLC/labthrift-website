@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Point common home routers at Pi-hole — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Where to set DNS on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so the house asks Pi-hole. Prefer LAN DHCP DNS. You don't need a new router.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Point common home routers at Pi-hole — Labthrift">
+<meta property="og:description" content="Where to set DNS on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so the house asks Pi-hole. Prefer LAN DHCP DNS. You don't need a new router.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/common-router-dns">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/common-router-dns">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Point common home routers at Pi-hole","description":"Where to set DNS on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so the house asks Pi-hole. Prefer LAN DHCP DNS. You don't need a new router.","url":"https://labthrift.com/guides/common-router-dns","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-04"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">Point common home routers at Pi-hole</span></nav>
+<p class="note">Written 4 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>Point common home routers at Pi-hole</h1>
+<p class="deck">Where to set DNS on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so the house asks Pi-hole. Prefer LAN DHCP DNS. You don't need a new router.</p>
+<p>Haven't installed Pi-hole yet? Start with <a href="first-useful-service">the first useful thing</a>. Need the computer's address first? <a href="find-the-leftover-box">Find it on the house network</a>. Prefer a short generic pass first? That is <a href="leftover-box-router-dns">point the house at the ad block</a>. This note is the maker-by-maker walk.</p>
+
+<h2>Skip until Pi-hole answers</h2>
+<p>Open the Pi-hole admin page on the computer. If that page does not load, install or fix Pi-hole first. This note only changes the router so phones and laptops ask that computer for names.</p>
+<p>A <a href="leftover-box-dhcp-reservation">DHCP reservation</a> for the computer is strongly recommended first. Brand menus: <a href="common-router-reservation">keep the computer on the same address on common routers</a>. If its number moves after a reboot, this DNS change looks broken and ads come back.</p>
+
+<h2>What you are changing</h2>
+<p>You want the setting that tells <em>phones and laptops</em> which name server to use. That is usually under LAN, DHCP, or DHCP Server. Primary DNS becomes the computer's address. Leave Secondary blank on the first pass so devices keep using Pi-hole.</p>
+<p>Do not confuse that with Internet / WAN DNS. WAN DNS is what the <em>router itself</em> asks upstream. Changing only WAN often still hands the router's own address to every phone, so the query log shows one client and some setups loop. Prefer LAN DHCP DNS when the router offers it.</p>
+
+<h2>TP-Link (Archer and similar)</h2>
+<p>Open a browser to <span><code>http://tplinkwifi.net</code></span> or the sticker address, often <span><code>192.168.0.1</code></span>. Log in with the password you set, or the sticker one.</p>
+<p>Go to Advanced → Network → DHCP Server. Put the computer's address in Primary DNS. Leave Secondary empty for now. Save. Reboot the router if it asks, or wait a minute, then renew Wi-Fi on a phone.</p>
+<p>Some TP-Link pages also show DNS under Advanced → Network → Internet. That is WAN DNS for the router. Use DHCP Server when you can. If your model only shows Internet DNS, set Primary there, then check a laptop with <span><code>ipconfig /all</code></span> or phone Wi-Fi details. If the phone still lists the router as DNS, the model is proxying. Ads can still drop. Per-device lines in the Pi-hole log may not.</p>
+
+<h2>ASUS</h2>
+<p>Open <span><code>http://www.asusrouter.com</code></span> or the LAN address, often <span><code>192.168.50.1</code></span>. Log in.</p>
+<p>Go to LAN → DHCP Server. Under DNS and WINS server setting, enter the computer's address as DNS Server 1. Leave DNS Server 2 blank for the first pass.</p>
+<p>If you see Advertise router's IP in addition to user specified DNS, turn that Off and Apply. Otherwise phones keep the router as a second book and some lookups skip Pi-hole. After Off, use the numeric LAN address to open the admin page, not the asusrouter.com name.</p>
+
+<h2>eero</h2>
+<p>Open the eero app. Tap Settings → Advanced networking → DNS. Choose Custom DNS. Enter the computer's IPv4 address. Save. The network may reboot once.</p>
+<p>Reserve the computer's address under Settings → Network settings → Reservations &amp; port forwarding so the number sticks. Skip HomeKit Secure Router and eero Secure add-ons for this job if they fight custom DNS.</p>
+
+<h2>Netgear Nighthawk</h2>
+<p>Open <span><code>http://www.routerlogin.net</code></span>. Many Nighthawk models do not hand a custom DNS address to DHCP clients. They keep the router's own LAN address as DNS and forward lookups using whatever you set under Internet / WAN DNS.</p>
+<p>Practical first pass: Advanced → Setup → Internet Setup (wording moves). Use these DNS servers. Primary is the computer's address. Secondary blank. Save. Ads should drop on the house. The Pi-hole query log may show one client, the router. That is normal on stock Netgear firmware.</p>
+<p>Skip turning off the Netgear DHCP server and running Pi-hole DHCP on day one. That works later if you need per-device stats. It is easy to brick the house network for an evening if you disable DHCP without another server ready.</p>
+
+<h2>Google Nest Wifi / Google Wifi</h2>
+<p>In the Google Home app, open the Wi-Fi settings → Advanced networking → DNS. Custom DNS here is usually upstream for the Nest router, not a clean LAN DHCP handoff. Some people get ads blocked. Some get a loop or no internet until they undo it.</p>
+<p>Honest first-timer move: <a href="manual-dns-on-devices">set DNS on one laptop or phone</a> and confirm Pi-hole works, or put a real router you control behind a bridged ISP modem and leave Nest for later. Skip buying a mesh kit “to fix DNS.” Skip Nest bridge mode unless you already have another router doing DHCP.</p>
+
+<h2>ISP gateway (Xfinity, AT&amp;T, Spectrum, and friends)</h2>
+<p>Many ISP combo boxes hide or ignore custom LAN DNS. If you cannot find DHCP DNS, or it resets overnight, you are not failing the tutorial. Common paths:</p>
+<ul>
+<li>Set DNS on one device first and live with that until you own the router role.</li>
+<li>Put the gateway in bridge / IP passthrough mode and plug in a router you control (TP-Link, ASUS, eero). Then use that router's LAN DHCP DNS steps above.</li>
+</ul>
+<p>Skip forwarding ports on the ISP box for Pi-hole. Skip opening the admin page to the internet.</p>
+
+<h2>Safer first test</h2>
+<p>Nervous about the whole house? Set DNS on one laptop only. On Windows: adapter properties → IPv4 → Use the following DNS, computer's address, blank secondary. On a Mac: System Settings → Network → Details → DNS. Confirm ads drop. Then change the router.</p>
+
+<h2>Check</h2>
+<p>Browse a few sites that used to show ads. Sites should still load. A lot of banners should not. Open the Pi-hole query log. You should see lookups from the house.</p>
+<p>If every device is dirty again, walk <a href="when-ads-come-back">when ads come back</a>. If only one phone is dirty, that is <a href="when-one-phone-shows-ads">when one phone still shows ads</a>. One laptop still dirty? That is <a href="when-one-laptop-shows-ads">when one laptop still shows ads</a>. Guest SSID still shows ads while the main house is clean? That is <a href="guest-wifi-dns">when guest Wi-Fi still shows ads</a>.</p>
+
+<h2>Undo</h2>
+<p>Set DNS back to automatic / ISP on the same screen you changed. The internet still works without Pi-hole. You did not brick anything. Whole house dead after pointing DNS here? The calm dinner fix is <a href="when-house-wont-browse">when the house won't browse after Pi-hole</a>.</p>
+
+<h2>What this is not</h2>
+<p>This is not a reason to buy a mesh kit, a Raspberry Pi, or a new router tonight. It is not opening Pi-hole to the internet. It is one house setting so phones ask the computer you already have.</p>
+
+<h2>What next</h2>
+<p>Can't open the gateway login at all? <a href="when-router-admin-wont-open">When the home router page won't open</a>. Form loads but password fails? <a href="when-router-password-fails">When the router password won't work</a>. Leave it a week. Phones still show ads after you saved DNS? <a href="flush-dns-on-devices">Flush old DNS on phones and laptops</a>. If ads return, start with <a href="when-ads-come-back">when ads come back</a>. After an ISP swap wiped DNS, walk <a href="when-isp-swaps-router">when the ISP swaps your router</a>. Keep the computer on the same number: <a href="leftover-box-dhcp-reservation">DHCP reservation</a>, or brand menus in <a href="common-router-reservation">keep the computer on the same address on common routers</a>. If the router will not take LAN DNS, set one device: <a href="manual-dns-on-devices">point a phone or laptop at Pi-hole when the router won't</a>. A file share on this same computer is later: <a href="first-file-share">a file share</a>. If IPv4 DNS looks right but phones still show banners, see <a href="when-ipv6-bypasses-ads">when ads sneak past on IPv6</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip buying a new router just to set DNS, if your current one offers LAN DHCP DNS.</li>
+<li>Skip a Raspberry Pi “because Pi-hole.”</li>
+<li>Skip Unbound on day one.</li>
+<li>Skip Pi-hole DHCP on day one unless your router cannot do LAN DNS and you are ready to own DHCP.</li>
+<li>Skip opening Pi-hole to the internet.</li>
+<li>Skip a mesh kit for ad block.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://docs.pi-hole.net/">Pi-hole docs</a>. <a href="https://www.tp-link.com/us/support/faq/1712/">TP-Link: change DNS settings</a> (WAN path; prefer DHCP Server for clients when available). <a href="https://www.asus.com/support/faq/1011703/">ASUS: DHCP Server</a>. <a href="https://www.asus.com/us/support/faq/1050080/">ASUS: advertise router IP as DNS</a>. <a href="https://eero.com/support/articles/how-do-i-set-up-custom-dns-servers-with-eero">eero: custom DNS</a>. Official pages only. Menus move by firmware. For the short generic pass, see <a href="leftover-box-router-dns">point the house at the ad block</a>. For install, see <a href="first-useful-service">the first useful thing</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="flush-dns-on-devices"><span class="t">Flush old DNS on phones and laptops</span><span class="d">After you point the router at Pi-hole, phones and laptops may still use the old DNS. Renew the Wi-Fi lease or flush the cache so ads drop. You don't need a new router.</span></a>
+<a class="note-row" href="manual-dns-on-devices"><span class="t">Point a phone or laptop at Pi-hole when the router won't</span><span class="d">When Nest, Google Wifi, or an ISP gateway will not take custom DNS, set DNS on one phone or laptop so it asks Pi-hole. You don't need a new router for this device.</span></a>
+<a class="note-row" href="when-router-admin-wont-open"><span class="t">When the home router page won't open</span><span class="d">192.168.x.1, routerlogin.net, or the sticker URL won't load. Find the gateway number, use http on house Wi-Fi, then log in. You don't need a new router.</span></a>
+<a class="note-row" href="when-router-password-fails"><span class="t">When the router password won't work</span><span class="d">The gateway login page loads, but sticker, app, or old password fails. Try the right account and maker app before a factory reset. A reset wipes DNS and reservations.</span></a>
+<a class="note-row" href="add-local-dns-name"><span class="t">Add a local name in Pi-hole</span><span class="d">Give the old PC a short house name so phones and laptops can open SSH, the share, and the admin page without remembering the number. You don't need a new router.</span></a>
+
+<a class="note-row" href="leftover-box-router-dns"><span class="t">Point the house at the ad block</span><span class="d">After Pi-hole is installed, point the house router at the computer for DNS. Phones and laptops need no app. Sites still load. A lot of ads don't.</span></a>
+<a class="note-row" href="first-useful-service"><span class="t">The first useful thing</span><span class="d">Put a house-wide ad block on the old PC. The rest of the house keeps using the internet as usual. You don't need a Raspberry Pi.</span></a>
+<a class="note-row" href="leftover-box-dhcp-reservation"><span class="t">Keep it on the same number</span><span class="d">SSH and Pi-hole keep working after a reboot when the router always gives the computer the same address.</span></a>
+<a class="note-row" href="common-router-reservation"><span class="t">Keep the computer on the same address on common routers</span><span class="d">Where to reserve DHCP on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so SSH and Pi-hole keep the same number after a reboot. You don't need a new router.</span></a>
+<a class="note-row" href="when-house-wont-browse"><span class="t">When the house won't browse after Pi-hole</span><span class="d">Phones say no internet, or every site times out, after you pointed the house at Pi-hole. Put router DNS back on automatic so dinner works, then fix the computer. You don't need a new router.</span></a>
+<a class="note-row" href="when-ads-come-back"><span class="t">When ads come back</span><span class="d">Ads are back, sites won't load, or a phone still shows banners. Check the computer, Pi-hole, router DNS, then the phone.</span></a>
+<a class="note-row" href="when-pihole-has-no-queries"><span class="t">When Pi-hole shows no queries</span><span class="d">Admin opens, totals stay at zero, query log empty. Prove the house asks the computer for DNS, then check Pi-hole status. You don't need a new Raspberry Pi.</span></a>
+<a class="note-row" href="when-ipv6-bypasses-ads"><span class="t">When ads sneak past on IPv6</span><span class="d">Pi-hole looks fine on IPv4, but phones still show banners. Check IPv6 DNS on the router, or turn that path off for now. You don't need a new router.</span></a>
+<a class="note-row" href="when-isp-swaps-router"><span class="t">When the ISP swaps your router</span><span class="d">Tech left a new gateway (or reset yours). Ads are back, and SSH may miss the old address. Re-find the computer, re-point DNS, re-do the reservation. You don't need a new router or a new Pi-hole.</span></a>
+<a class="note-row" href="when-one-phone-shows-ads"><span class="t">When one phone still shows ads</span><span class="d">Everyone else's ads dropped. One phone still shows banners. Check Private DNS, Private Relay, a VPN, then the Wi-Fi lease. You don't need a new router.</span></a>
+<a class="note-row" href="when-one-laptop-shows-ads"><span class="t">When one laptop still shows ads</span><span class="d">Everyone else's ads dropped. One laptop (or one browser) still shows banners. Check Chrome, Edge, or Firefox Secure DNS, Windows encrypted DNS, Mac Private Relay, then a VPN. You don't need a new router.</span></a>
+<a class="note-row" href="guest-wifi-dns"><span class="t">When guest Wi-Fi still shows ads</span><span class="d">Guest Wi-Fi is a separate network on purpose. Leave guests on ISP DNS, put a visitor on the main house Wi-Fi, or point guest DNS at Pi-hole only if they can reach the computer. You don't need a new router.</span></a>
+<a class="note-row" href="find-the-leftover-box"><span class="t">Find it on the house network</span><span class="d">The computer has a number on your house network. You need that number to SSH from the couch. You don't need a new router.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-router-dns"><span class="kicker">Previous</span><span class="t">Point the house at the ad block</span></a>
+<a rel="next" href="when-ads-come-back"><span class="kicker">Next</span><span class="t">When ads come back</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See the shortcut target — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After dirname, readlink prints the shortcut target so a practice shortcut shows the path it points at. You don't need extra system software for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See the shortcut target — Labthrift">
+<meta property="og:description" content="After dirname, readlink prints the shortcut target so a practice shortcut shows the path it points at. You don't need extra system software for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-readlink">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-readlink">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See the shortcut target","description":"After dirname, readlink prints the shortcut target so a practice shortcut shows the path it points at. You don't need extra system software for this.","url":"https://labthrift.com/guides/leftover-box-readlink","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-01"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"Faster network","item":"https://labthrift.com/guides/#switches"},{"@type":"ListItem","position":3,"name":"See the shortcut target"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">See the shortcut target</span></nav>
+<p class="note">Written 1 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>See the shortcut target</h1>
+<p class="deck">After <span><code>dirname</code></span>, <span><code>readlink</code></span> prints the shortcut target so a practice shortcut shows the path it points at. You don't need extra system software for this.</p>
+<p><a href="leftover-box-dirname">See the folder path</a> printed the folder path of a name. Tonight you ask where a shortcut points: <span><code>readlink</code></span>. Readlink prints the path a shortcut points at. Start with one tiny practice file, one shortcut, then <span><code>readlink ~/readlink-link.txt</code></span>.</p>
+<p>You are still only practicing in home on the computer. The computer does not need extra system software, htop, Grafana, or a NAS for this one job.</p>
+
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. SSH means type commands from your laptop, on the house network. If making the shortcut is what you want, that is <a href="leftover-box-ln">make a shortcut</a>. If the full path is what you want, that is <a href="leftover-box-realpath">see full path</a>. If the folder path is what you want, that is <a href="leftover-box-dirname">see the folder path</a>.</p>
+
+<h2>What this is</h2>
+<p><span><code>readlink</code></span> prints the path a shortcut points at. You make one tiny practice file, one shortcut with <span><code>ln -s</code></span>, then type <span><code>readlink ~/readlink-link.txt</code></span>. Stick with that safe peek. You don't need extra system software for this.</p>
+<p>It is not <span><code>ln</code></span> as the job. Ln makes the shortcut. Tonight uses <span><code>ln -s</code></span> only to make the practice shortcut. It is not <span><code>realpath</code></span>. Realpath prints the full path. Skip <span><code>readlink -f</code></span> as the realpath job. It is not <span><code>dirname</code></span>. Dirname prints the folder path.</p>
+
+<h2>Practice readlink in home</h2>
+<p>SSH into the computer.</p>
+<p>Make sure home is where you sit:</p>
+<p><code>pwd</code></p>
+<p>You want a path that ends in your login name.</p>
+<p>If the path is wrong, run this:</p>
+<p><code>cd ~</code></p>
+<p>Make one tiny practice file:</p>
+<p><code>printf &apos;hello\n&apos; &gt; ~/readlink-a.txt</code></p>
+<p>Make one practice shortcut that points at that file:</p>
+<p><code>ln -s ~/readlink-a.txt ~/readlink-link.txt</code></p>
+<p>Print the shortcut target (tonight's job):</p>
+<p><code>readlink ~/readlink-link.txt</code></p>
+<p>You want the path the shortcut points at, typically <span><code>/home/YOURLOGIN/readlink-a.txt</code></span> or <span><code>~/readlink-a.txt</code></span> as stored. Then the prompt back. That is enough for tonight. Practice only in home on the computer.</p>
+<p>Debian and Ubuntu usually already have <span><code>readlink</code></span> (coreutils). Don't make apt the job.</p>
+<p>If <span><code>readlink</code></span> is missing, install coreutils:</p>
+<p><code>sudo apt install coreutils</code></p>
+<p>Then stop. That apt line is not the lesson.</p>
+<p>When you are done looking, throw the practice names away with careful delete only. Delete the shortcut first, then the file. That is <a href="leftover-box-rm">delete a file carefully</a>. Skip <span><code>rm -rf</code></span>.</p>
+<p><code>rm -i ~/readlink-link.txt</code></p>
+<p><code>rm -i ~/readlink-a.txt</code></p>
+
+<h2>Useful extras, still home only</h2>
+<p>Optional extra: readlink without a trailing newline:</p>
+<p><code>readlink -n ~/readlink-link.txt</code></p>
+<p>That peek prints the same target path without a trailing newline. Don't make <span><code>-n</code></span> required. You can stay on <span><code>readlink ~/readlink-link.txt</code></span>.</p>
+<p>Optional extra: readlink on a regular file (not a shortcut):</p>
+<p><code>readlink ~/readlink-a.txt</code></p>
+<p>That peek typically prints nothing and exits 1. That peek shows readlink is for shortcuts. Don't make that required.</p>
+<p>Skip <span><code>readlink -f</code></span>, <span><code>readlink -e</code></span>, and <span><code>readlink -m</code></span> as this job. Those flags follow shortcuts to a full path. That is the realpath job. That is <a href="leftover-box-realpath">see full path</a>.</p>
+<p>Skip huge dumps as this job. Skip <span><code>readlink</code></span> piped into <span><code>rm</code></span>. Readlink prints a shortcut target. Rm deletes files. Don't mix those jobs. Skip files under <span><code>/etc</code></span>, whole <span><code>/</code></span>, SSH folders, USB sticks, and <span><code>/srv</code></span>. Practice only in home.</p>
+<p>Skip <span><code>screen</code></span>, <span><code>tmux</code></span>, htop, Grafana, and a NAS. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+
+<h2>What this is not</h2>
+<p>This is not <span><code>ln</code></span> as the job. Ln makes the shortcut. That is <a href="leftover-box-ln">make a shortcut</a>. It is not <span><code>realpath</code></span>. That is <a href="leftover-box-realpath">see full path</a>. It is not <span><code>dirname</code></span>. That is <a href="leftover-box-dirname">see the folder path</a>.</p>
+
+<h2>What next</h2>
+<p>Need a unique temporary practice file? <a href="leftover-box-mktemp">Make a temporary practice file</a>. Need the last name from a path? <a href="leftover-box-basename">See last name</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip huge dumps as this job. Tonight: one tiny practice shortcut.</li>
+<li>Skip <span><code>readlink</code></span> piped into <span><code>rm</code></span>. Readlink prints a shortcut target. Don't mix delete into this drill.</li>
+<li>Skip <span><code>ln</code></span> as this job. That is <a href="leftover-box-ln">make a shortcut</a>. Tonight uses <span><code>ln -s</code></span> only to make the practice shortcut.</li>
+<li>Skip <span><code>realpath</code></span> as this job. That is <a href="leftover-box-realpath">see full path</a>. Skip <span><code>readlink -f</code></span> as the realpath job.</li>
+<li>Skip apt as this job. The coreutils aside is not the lesson.</li>
+<li>Skip <span><code>rm -rf</code></span>. Careful delete only: <a href="leftover-box-rm">delete a file carefully</a>.</li>
+<li>Skip opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/coreutils/readlink.1.en.html">Debian: readlink(1)</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/readlink.1.html">Ubuntu: readlink(1)</a>. Official pages only. For making a shortcut, see <a href="leftover-box-ln">make a shortcut</a>. For the full path, see <a href="leftover-box-realpath">see full path</a>. For the folder path, see <a href="leftover-box-dirname">see the folder path</a>. For the login, see <a href="first-ssh">SSH from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-dirname"><span class="t">See the folder path</span><span class="d">After basename, dirname prints the folder path of a name, without the last name. You don't need extra system software for this.</span></a>
+<a class="note-row" href="leftover-box-basename"><span class="t">See last name</span><span class="d">After realpath, basename prints the last name of a path, without the folders. You don't need extra system software for this.</span></a>
+<a class="note-row" href="leftover-box-realpath"><span class="t">See full path</span><span class="d">After cmp, realpath shows the full path so practice files and shortcuts show where names actually live. You don't need extra system software for this.</span></a>
+<a class="note-row" href="leftover-box-ln"><span class="t">Make a shortcut</span><span class="d">After SSH works, ln -s makes a shortcut so a second name points at the same file. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-pwd"><span class="t">See which folder you are in</span><span class="d">After SSH works, pwd prints the folder you are sitting in so later file commands land where you expect. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-ls"><span class="t">See what&apos;s in a folder</span><span class="d">After SSH works, ls lists folder contents so you know what names are there. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-rm"><span class="t">Delete a file carefully</span><span class="d">After SSH works, delete one file with rm -i. Ask first. Skip rm -rf. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-dirname"><span class="kicker">Previous</span><span class="t">See the folder path</span></a>
+<a rel="next" href="leftover-box-mktemp"><span class="kicker">Next</span><span class="t">Make a temporary practice file</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

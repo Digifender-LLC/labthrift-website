@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Don't cook the computer — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="The computer stays on. It needs air. A laptop under a pile of clothes will cook. Skip this if the computer is a desktop with vents clear.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Don't cook the computer — Labthrift">
+<meta property="og:description" content="The computer stays on. It needs air. A laptop under a pile of clothes will cook. Skip this if the computer is a desktop with vents clear.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-heat">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-heat">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Don't cook the computer","description":"The computer stays on. It needs air. A laptop under a pile of clothes will cook. Skip this if the computer is a desktop with vents clear.","url":"https://labthrift.com/guides/leftover-box-heat","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-25"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">Don't cook the computer</span></nav>
+<p class="note">Written 25 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Don't cook the computer</h1>
+<p class="deck">The computer stays on. It needs air. A laptop under a pile of clothes will cook. Skip this if the computer is a desktop with vents clear.</p>
+<p>An old laptop shoved under a desk, lid shut, sweater on top, will cook. Then it throttles: it slows itself down to stay alive. Then SSH and Pi-hole drop. It is not off. It is too hot to keep working.</p>
+
+<h2>Skip this if the computer is a desktop</h2>
+<p>An OptiPlex, EliteDesk, or mini PC sitting on a hard surface, with vents clear, already has air. Skip this note. Come back only if you boxed it in a closed cabinet, or covered the vents. Loud fan with clear vents is a different job: <a href="when-fan-is-loud">when the old PC's fan is loud</a>.</p>
+
+<h2>A laptop still needs a hard, open surface</h2>
+<p>The lid can be shut. That is <a href="leftover-box-sleep">don't let the old laptop sleep</a>. Give the old laptop a hard, open surface. A desk, a shelf, a book. Not carpet. Not a sofa. Not inside a closed cabinet. Air has to leave the vents. The sleep note already says don't bury it under a sweater. This is the rest of that job: air, dust, and the difference between warm and hot.</p>
+
+<h2>Warm is fine. Hot is not.</h2>
+<p>Warm is fine. Hot means you cannot keep a hand on the metal for a few seconds. If you cannot, move it. Give it more air. No thermometer required.</p>
+
+<h2>Dust, once</h2>
+<p>Once, blow the vents. Don't vacuum the fan. A vacuum can spin the fan too fast and break it. You don't need a command. If you want to see that the computer has been on, this is optional:</p>
+<p><code>uptime</code></p>
+<p>That is look, then maybe type. Most of this note is look. Don't type.</p>
+
+<h2>What next</h2>
+<p>If the computer is a laptop, keep it awake when the lid closes. That is <a href="leftover-box-sleep">don't let the old laptop sleep</a>. If you are done for the night, <a href="leftover-box-shutdown">shut down the computer without yanking the plug</a>. If ads came back this morning, or SSH hangs, that is <a href="leftover-box-still-on">is the computer still on?</a>. Desktop or mini PC still screaming after vents are clear? <a href="when-fan-is-loud">When the old PC's fan is loud</a>. Don't buy a rack. Don't buy a NAS.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip this note if the computer is a desktop or a mini PC on a shelf with vents clear.</li>
+<li>Skip a cooling pad, a new case, and a rack this pass.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/procps/uptime.1.en.html">Debian: uptime</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/uptime.1.html">Ubuntu: uptime</a>. Official pages only. For the computer, see <a href="start-with-what-you-have">start with what you already have</a>. For the lid, see <a href="leftover-box-sleep">don't let the old laptop sleep</a>. For the night, see <a href="leftover-box-shutdown">shut down the computer without yanking the plug</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="when-fan-is-loud"><span class="t">When the old PC's fan is loud</span><span class="d">A Marketplace OptiPlex or EliteDesk screams in the living room. Blow the dust, give it air, move it to a closet. Skip a water cooler this weekend.</span></a>
+<a class="note-row" href="leftover-box-sleep"><span class="t">Don't let the old laptop sleep</span><span class="d">Close the lid. The old laptop has to stay awake so SSH and Pi-hole keep working. A desktop can skip this note.</span></a>
+<a class="note-row" href="leftover-box-shutdown"><span class="t">Shut down the computer without yanking the plug</span><span class="d">When you're done for the night, shut it down and let it finish writing files before it powers off. Don't yank the cord. Skip this if you only need a reboot after updates.</span></a>
+<a class="note-row" href="start-with-what-you-have"><span class="t">Start with what you already have</span><span class="d">Don't buy anything yet. Old laptop first, or a retired OptiPlex from Marketplace.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-sleep"><span class="kicker">Previous</span><span class="t">Don't let the old laptop sleep</span></a>
+<a rel="next" href="leftover-box-shutdown"><span class="kicker">Next</span><span class="t">Shut down the computer without yanking the plug</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

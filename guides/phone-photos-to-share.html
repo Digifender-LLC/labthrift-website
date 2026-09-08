@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Save phone photos to the house share — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Copy camera-roll photos from an iPhone or Android onto the house folder on the old PC. House Wi-Fi only. You don't need a NAS app or iCloud for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Save phone photos to the house share — Labthrift">
+<meta property="og:description" content="Copy camera-roll photos from an iPhone or Android onto the house folder on the old PC. House Wi-Fi only. You don't need a NAS app or iCloud for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/phone-photos-to-share">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/phone-photos-to-share">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Save phone photos to the house share","description":"Copy camera-roll photos from an iPhone or Android onto the house folder on the old PC. House Wi-Fi only. You don't need a NAS app or iCloud for this.","url":"https://labthrift.com/guides/phone-photos-to-share","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-04"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">Save phone photos to the house share</span></nav>
+<p class="note">Written 4 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>Save phone photos to the house share</h1>
+<p class="deck">Copy camera-roll photos from an iPhone or Android onto the house folder on the old PC. House Wi-Fi only. You don't need a NAS app or iCloud for this.</p>
+<p>Haven't made the house folder yet? Start with <a href="first-file-share">a file share</a>. Can't open the folder from the phone yet? That walk is <a href="open-share-from-phone">open the house share from a phone</a>. This note is the dump: pick photos, save them into the share, check they landed.</p>
+
+<h2>Skip until the phone can open the folder</h2>
+<p>If Files (iPhone), My Files (Samsung), or Material Files cannot already open the share, stop. Finish <a href="open-share-from-phone">open the house share from a phone</a> first. Stay on house Wi-Fi. Cellular will not reach the computer. Don't forward SMB on the router. Skip this if you only ever copy photos from a laptop cable.</p>
+
+<h2>What this is</h2>
+<p>Your phone already holds the photos. The house share is a folder on the old PC. You pick a batch in Photos or Gallery, send them to the file app that already knows the share, and drop them in a dated subfolder. The phone keeps its own copies unless you delete them. This is not iCloud, Google Photos backup, or a Synology app.</p>
+
+<h2>What you need</h2>
+<ul>
+<li>The phone on house Wi-Fi</li>
+<li>A working house share you can already open (often named <span><code>photos</code></span>)</li>
+<li>A few minutes for a small batch; a big dump can take longer over Wi-Fi</li>
+</ul>
+<p>Address shape, same as the open walk:</p>
+<p><code>smb://192.168.1.50/photos</code></p>
+<p>Swap the number for yours. If you don't know it, <a href="find-the-leftover-box">find it on the house network</a>.</p>
+
+<h2>Make a dated folder on the share (optional, worth it)</h2>
+<p>Open the share once. Make a folder named like <span><code>2026-09-04</code></span> or <span><code>vacation</code></span>. Dump into that instead of the root. Later you will thank yourself when you search.</p>
+<p>iPhone: Files → Shared → the server → New Folder. Samsung My Files or Material Files: same idea, New folder inside the share.</p>
+
+<h2>iPhone or iPad</h2>
+<p>Open Photos. Tap Select. Tap the photos (and videos) you want. Tap the Share button.</p>
+<p>Tap Save to Files. Under Browse, open Shared, then the house server, then the dated folder. Tap Save.</p>
+<p>If Shared does not show the server, connect again: Files → Browse → three dots → Connect to Server, same address as before. Registered User, Samba username and share password. Then retry Save to Files.</p>
+<p>Open Files, browse into that folder, and confirm thumbnails or file names showed up. That is the check. Leave the originals in Photos until you are sure.</p>
+
+<h2>Samsung Android</h2>
+<p>Open Gallery (or Photos). Select the batch. Tap Share. Pick My Files (or "Save to Drive / My Files" style targets your phone shows).</p>
+<p>Navigate to Network storage → the house share → your dated folder. Save or Copy there.</p>
+<p>If Network storage is missing, install the Network Storage add-on from the Galaxy Store once, then reconnect the SMB share the same way as <a href="open-share-from-phone">open the house share from a phone</a>.</p>
+
+<h2>Pixel, or Photos without a built-in SMB save</h2>
+<p>Google Photos and the stock Files app do not speak SMB. Install <a href="https://github.com/zhanghai/MaterialFiles">Material Files</a> if you have not already, and keep the house share added there.</p>
+<p>In Photos (or Gallery), select the batch, tap Share, then pick Material Files if it appears. If Share does not list it, Share → Files / Save a copy into Download, then open Material Files, move those files from Download into the house share folder.</p>
+<p>Ugly once. Fine for a first dump. A laptop cable is still allowed if the phone is being stubborn: <a href="open-share-from-laptop">open the house share from a laptop</a>.</p>
+
+<h2>After a big dump</h2>
+<p>On the computer, check room so the next dump does not fail halfway:</p>
+<p><code>df -h /srv/share</code></p>
+<p>Swap the path if your share lives elsewhere. The longer look is <a href="leftover-box-disk-space">see if the computer still has room</a>. Copies already failing with no space? <a href="when-house-disk-full">When the computer's disk is full</a>. If the system SSD is the share and it is getting tight, park the live folder on a USB disk that stays plugged in: <a href="house-folder-on-usb">put the house folder on a USB disk</a>.</p>
+<p>A second copy of the house folder is still separate: <a href="first-backup">a backup of the house folder</a>.</p>
+
+<h2>If save fails</h2>
+<p>Stay on house Wi-Fi. Reopen the share and confirm you can create a tiny text file by hand. If login fails, that is <a href="leftover-box-samba-password">the share password</a>. If the folder vanished for everyone, <a href="leftover-box-share-check">when the house share disappeared, check the computer</a>. If you can see the folder but cannot write, ownership on the Linux side is the usual fix:</p>
+<p><code>sudo chown -R youruser:youruser /srv/share</code></p>
+<p>Swap <span><code>youruser</code></span> and the path. Try the phone again.</p>
+
+<h2>What this is not</h2>
+<p>This is not automatic camera-roll sync. You pick a batch when you want. It is not a reason to buy a NAS, a Synology phone app, or a VPN so cellular can reach SMB. It is not deleting the phone copies for you. Keep the phone copies until you have opened one file from the share on a laptop or the phone Files app.</p>
+
+<h2>What next</h2>
+<p>Leave the share alone for a bit. Prefer a laptop for huge dumps? <a href="open-share-from-laptop">Open the house share from a laptop</a>. On a Linux desktop: <a href="open-share-from-linux">open the house share from a Linux laptop</a>. Watch room with <a href="leftover-box-disk-space">see if the computer still has room</a>. Disk already full: <a href="when-house-disk-full">when the computer's disk is full</a>. Dumps crawl even when writes work: <a href="when-share-is-slow">when the house share is slow</a>. When the system disk fills, <a href="house-folder-on-usb">put the house folder on a USB disk</a>. When you want a second copy, that is <a href="first-backup">a backup of the house folder</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip a NAS app for a first dump.</li>
+<li>Skip exposing SMB to the internet.</li>
+<li>Skip deleting phone originals before you open one file from the share.</li>
+<li>Skip dumping thousands of raw videos on Wi-Fi while everyone is streaming — use ethernet on the computer and a quiet hour, or a laptop cable.</li>
+<li>Skip iCloud or Google Photos as the only copy of the house folder.</li>
+<li>Skip this if the phone cannot open the share yet.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://support.apple.com/guide/iphone/use-the-files-app-iphd30cf443a/ios">Apple: use the Files app on iPhone</a>. <a href="https://support.apple.com/guide/iphone/transfer-files-iphone-a-storage-device-server-iphe9aff429a/ios">Apple: connect iPhone Files to a file server</a>. <a href="https://github.com/zhanghai/MaterialFiles">Material Files</a>. <a href="https://wiki.samba.org/index.php/Setting_up_Samba_as_a_Standalone_Server">Samba wiki: standalone server</a>. Official pages only. For opening the share first, see <a href="open-share-from-phone">open the house share from a phone</a>. For making the share, see <a href="first-file-share">a file share</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="open-share-from-phone"><span class="t">Open the house share from a phone</span><span class="d">The house folder is on the old PC. Open it from an iPhone or Android on house Wi-Fi. You don't need a NAS app for this.</span></a>
+<a class="note-row" href="first-file-share"><span class="t">A file share</span><span class="d">A folder on the old PC that the house can open from a laptop or a phone. You don't need a NAS for this.</span></a>
+<a class="note-row" href="open-share-from-laptop"><span class="t">Open the house share from a laptop</span><span class="d">The house folder is on the old PC. Open it from Windows File Explorer or Mac Finder on the house network. You don't need a NAS for this.</span></a>
+<a class="note-row" href="open-share-from-chromebook"><span class="t">Open the house share from a Chromebook</span><span class="d">The house folder is on the old PC. Open it from a Chromebook Files app on house Wi-Fi. You don't need a NAS app for this.</span></a>
+<a class="note-row" href="open-share-from-linux"><span class="t">Open the house share from a Linux laptop</span><span class="d">The house folder is on the old PC. Open it from Ubuntu or Fedora Files (or KDE Dolphin) on the house network. You don't need a NAS for this.</span></a>
+
+<a class="note-row" href="leftover-box-samba-password"><span class="t">Set or change the house-share password</span><span class="d">Finder and File Explorer ask for a share password that is not always the login. Samba keeps its own copy. Set it once. Change it when you forget.</span></a>
+<a class="note-row" href="when-house-disk-full"><span class="t">When the computer's disk is full</span><span class="d">Photos won't copy, the share says no space, or df shows the system disk packed. Confirm it is the computer (not the backup stick), free room or move the house folder. You don't need a NAS.</span></a>
+<a class="note-row" href="when-share-wont-write"><span class="t">When you can open the house share but can't write</span><span class="d">The house folder opens, but copy, save, or phone upload fails. Check disk room, Samba read only, then folder ownership. You don't need a NAS.</span></a>
+<a class="note-row" href="when-share-is-slow"><span class="t">When the house share is slow</span><span class="d">The folder opens and copies work, but photos crawl. Check Wi-Fi vs a cable, link speed, disk room, then the laptop. You don't need a 10G switch.</span></a>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="house-folder-on-usb"><span class="t">Put the house folder on a USB disk</span><span class="d">Move the house share onto a USB disk that stays plugged into the old PC so photos don't fill the system drive. You don't need a NAS for this.</span></a>
+<a class="note-row" href="first-backup"><span class="t">A backup of the house folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another old computer. You don't need a NAS for this.</span></a>
+<a class="note-row" href="find-the-leftover-box"><span class="t">Find it on the house network</span><span class="d">The computer has a number on your house network. You need that number to SSH from the couch. You don't need a new router.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="open-share-from-phone"><span class="kicker">Previous</span><span class="t">Open the house share from a phone</span></a>
+<a rel="next" href="leftover-box-disk-space"><span class="kicker">Next</span><span class="t">See if the computer still has room</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

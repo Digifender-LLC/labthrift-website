@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>802.3af vs at vs bt closet budget — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Match the AP's power class before you buy the switch. Budget the switch's total watts, not eight ports times a big number. af, at, and bt are the three common power classes: small, medium, and extra.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="802.3af vs at vs bt closet budget — Labthrift">
+<meta property="og:description" content="Match the AP's power class before you buy the switch. Budget the switch's total watts, not eight ports times a big number. af, at, and bt are the three common power classes: small, medium, and extra.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/poe-af-at-bt-closet-budget">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/poe-af-at-bt-closet-budget">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BlogPosting",
+ "headline": "af, at, bt: match the AP class before you buy the switch",
+ "description": "Match the AP's power class before you buy the switch. Budget the switch's total watts, not eight ports times a big number. af, at, and bt are the three common power classes: small, medium, and extra.",
+ "url": "https://labthrift.com/guides/poe-af-at-bt-closet-budget",
+ "image": "https://labthrift.com/assets/og-1200.png",
+ "datePublished": "2026-08-22"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+ {
+ "@type": "ListItem",
+ "position": 1,
+ "name": "Home",
+ "item": "https://labthrift.com/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 2,
+ "name": "Notes",
+ "item": "https://labthrift.com/guides/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 3,
+ "name": "Cheap PoE + APs",
+ "item": "https://labthrift.com/guides/#cheap-poe"
+ },
+ {
+ "@type": "ListItem",
+ "position": 4,
+ "name": "af, at, bt: match the AP class before you buy the switch",
+ "item": "https://labthrift.com/guides/poe-af-at-bt-closet-budget"
+ }
+ ]
+}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#cheap-poe">Better Wi-Fi</a> / <span aria-current="page">af, at, bt: match the AP class before you buy the switch</span></nav>
+<p class="note">Written 22 Aug 2026. Specs from the maker pages linked below. Prices from those stores. I haven't used these.</p>
+
+<h1>af, at, bt: match the AP class before you buy the switch</h1>
+<p class="deck">Match the AP's power class before you buy the switch. Budget the switch's total watts, not eight ports times a big number. af, at, and bt are the three common power classes: small, medium, and extra.</p>
+<p>802.3af is about 15.4 W at the port. 802.3at is about 30 W. 802.3bt Type 3/4 is camera / 6 GHz-Pro territory. Closet APs that stay in af: U7 Lite, EAP613, Instant On AP21/AP22, GWN7660. Closet APs that need at: EAP653, EAP670, EAP723, Instant On AP25/AP32, GWN7664E. bt: EAP773 at full radios (802.3at derates 6 GHz).</p>
+<p>Lite 8 PoE is 52 W. SG108PE is 64 W. Discontinued TPE-TG380 was 100 W. SG2210XMP-M2 is 160 W. Two 13 W Lites fit 52 W. Two 15.5 W EAP653s plus two cameras don't. The existing <a href="cheap-poe">two-AP brick</a> is still the first apartment answer. This page is just the class math.</p>
+
+<h2>What to buy</h2>
+<div class="table-wrap">
+<table>
+<tr><th>AP / switch</th><th>Class / budget</th><th>Maker max (cite, not a lab number)</th><th>Note</th></tr>
+<tr><td data-label="AP / switch">U7 Lite</td><td data-label="Class / budget">802.3af</td><td data-label="Maker max (cite, not a lab number)">~13 W</td><td data-label="Note"><a href="unifi-u7-lite-review">review</a></td></tr>
+<tr><td data-label="AP / switch">EAP613</td><td data-label="Class / budget">802.3af</td><td data-label="Maker max (cite, not a lab number)">10.9 W PoE</td><td data-label="Note"><a href="eap613-small-house-af">review</a></td></tr>
+<tr><td data-label="AP / switch">GWN7660</td><td data-label="Class / budget">802.3af/at</td><td data-label="Maker max (cite, not a lab number)">9 W</td><td data-label="Note"><a href="grandstream-gwn7660-embedded-controller">review</a></td></tr>
+<tr><td data-label="AP / switch">Instant On AP21 / AP22</td><td data-label="Class / budget">802.3af class 3</td><td data-label="Maker max (cite, not a lab number)">~10.9 W / 10.1 W</td><td data-label="Note"><a href="instant-on-ap21-ap22-house">AP21 vs AP22</a></td></tr>
+<tr class="pick"><td data-label="AP / switch">EAP653</td><td data-label="Class / budget">802.3at</td><td data-label="Maker max (cite, not a lab number)">15.5 W</td><td data-label="Note">Breaks a 15.4 W injector. <a href="eap613-vs-eap653">vs 613</a>.</td></tr>
+<tr><td data-label="AP / switch">EAP670 V2</td><td data-label="Class / budget">802.3at</td><td data-label="Maker max (cite, not a lab number)">US V2 22.3 W PoE</td><td data-label="Note"><a href="eap670-2-5g-wifi6">2.5G Wi-Fi 6</a></td></tr>
+<tr><td data-label="AP / switch">EAP773</td><td data-label="Class / budget">802.3bt full / at derates 6 GHz</td><td data-label="Maker max (cite, not a lab number)">Tri-band 10G</td><td data-label="Note"><a href="wifi-7-tax-closet-lab">Wi-Fi 7 tax</a></td></tr>
+<tr><td data-label="AP / switch">USW-Lite-8-PoE</td><td data-label="Class / budget">4× PoE+, 52 W total</td><td data-label="Maker max (cite, not a lab number)">$109 UI (surcharge $117)</td><td data-label="Note">Budget number, not a repurchase pitch.</td></tr>
+<tr><td data-label="AP / switch">TL-SG108PE</td><td data-label="Class / budget">4× PoE+, 64 W, fanless</td><td data-label="Maker max (cite, not a lab number)">$51–$61 Amazon</td><td data-label="Note"><a href="poe-injector-vs-switch-two-aps">injector vs switch</a></td></tr>
+<tr><td data-label="AP / switch">SG2210XMP-M2</td><td data-label="Class / budget">8× 2.5G PoE+, 160 W, fanless</td><td data-label="Maker max (cite, not a lab number)">Dong Knows $249.99 / Newegg $347.99</td><td data-label="Note"><a href="8-port-2-5g-poe-closet">2.5G PoE closet</a></td></tr>
+</table>
+</div>
+<h2>Skip</h2>
+<p>Skip “8 × 30 W = 240 W” shopping. The switch total is the product. Skip a noisy 150 W gigabit MP for two APs. Skip mixing 24 V passive with any row above, <a href="passive-24v-poe-traps">24 V traps</a>.</p>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.cablify.ca/unifi-ap-power-requirements-poe-guide/">Cablify UniFi PoE guide</a>. <a href="https://store.ui.com/us/en/products/usw-lite-8-poe">UI Lite 8 PoE</a>. <a href="https://www.omadanetworks.com/us/business-networking/omada-wifi-ceiling-mount/eap653/">Omada EAP653</a>. <a href="https://www.newegg.com/tp-link-eap773/p/N82E16833704729">Newegg EAP773</a>.</p>
+</section>
+
+
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="passive-24v-poe-traps"><span class="t">Old 24 V passive bricks will not power a modern house AP like a U7 Lite</span><span class="d">Old 24 V passive bricks will not power a modern house AP.</span></a>
+<a class="note-row" href="sg2210mp-fan-noise-vs-fanless"><span class="t">Buy the quiet fanless PoE switch. Don't keep the loud SG2210MP and mod the fan</span><span class="d">Buy the fanless SKU. Don't mod the fan.</span></a>
+<a class="note-row" href="eap670-2-5g-wifi6"><span class="t">Faster Wi-Fi 6 ceiling puck when you already have 2.5G PoE and no Wi-Fi 7 phones: EAP670</span><span class="d">Faster Wi-Fi 6 when you already have 2.5G PoE and no Wi-Fi 7 phones.</span></a>
+</section>
+
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="poe-injector-vs-switch-two-aps"><span class="kicker">Previous</span><span class="t">One injector, two injectors, or a 4-port PoE+ switch</span></a>
+<a rel="next" href="passive-24v-poe-traps"><span class="kicker">Next</span><span class="t">Old 24 V passive bricks will not power a modern house AP like a U7 Lite</span></a>
+</nav>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+</p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

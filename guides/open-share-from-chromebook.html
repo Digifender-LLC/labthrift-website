@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Open the house share from a Chromebook — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="The house folder is on the old PC. Open it from a Chromebook Files app on house Wi-Fi. You don't need a NAS app for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Open the house share from a Chromebook — Labthrift">
+<meta property="og:description" content="The house folder is on the old PC. Open it from a Chromebook Files app on house Wi-Fi. You don't need a NAS app for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/open-share-from-chromebook">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/open-share-from-chromebook">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Open the house share from a Chromebook","description":"The house folder is on the old PC. Open it from a Chromebook Files app on house Wi-Fi. You don't need a NAS app for this.","url":"https://labthrift.com/guides/open-share-from-chromebook","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-04"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">Open the house share from a Chromebook</span></nav>
+<p class="note">Written 4 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>Open the house share from a Chromebook</h1>
+<p class="deck">The house folder is on the old PC. Open it from a Chromebook Files app on house Wi-Fi. You don't need a NAS app for this.</p>
+<p>Haven't made the house folder yet? Start with <a href="first-file-share">a file share</a>. Need the computer's address first? <a href="find-the-leftover-box">Find it on the house network</a>. Opening from a Windows or Mac laptop? That is <a href="open-share-from-laptop">open the house share from a laptop</a>. From a phone? That is <a href="open-share-from-phone">open the house share from a phone</a>. From a Linux desktop? That is <a href="open-share-from-linux">open the house share from a Linux laptop</a>. This note is the Chromebook walk: Files, then SMB file share.</p>
+
+<h2>Skip until the folder exists</h2>
+<p>If you never made the share, stop. That is <a href="first-file-share">a file share</a>. This note assumes Samba is already serving a folder, often named photos, on the computer. The Chromebook has to be on the same house Wi-Fi. A phone hotspot will not reach it. Don't forward SMB on the router.</p>
+
+<h2>What this is</h2>
+<p>SMB is the language Windows, Mac, phones, and ChromeOS already use for shared folders. The Chromebook Files app can mount a Samba share without a Play Store NAS app. You type the computer's address, the share name, the Samba username, and the share password. That password is the one Samba keeps, not always the SSH login. If you forgot it, set it again in <a href="leftover-box-samba-password">set or change the house-share password</a>.</p>
+
+<h2>What you need</h2>
+<p>The computer's address, the same number you SSH to. Swap the example for yours:</p>
+<p><code>smb://192.168.1.50/photos</code></p>
+<p>If you don't know the number, <a href="find-the-leftover-box">find it on the house network</a>. If ping fails from another laptop, start with <a href="leftover-box-still-on">is the computer still on?</a> before you blame the Chromebook.</p>
+
+<h2>Add the share in Files</h2>
+<p>Open the Launcher. Open Files. In the top right, open the three-dot menu (More). Pick Add new service, then SMB file share. Some ChromeOS builds say Services → SMB file share. Same idea.</p>
+<p>A window opens. Fill it in:</p>
+<ul>
+<li>File share URL: <span><code>smb://192.168.1.50/photos</code></span> (your number, your share name)</li>
+<li>Display name: something short you will recognize, like House photos</li>
+<li>Username: the Samba username (usually the Linux login on the computer)</li>
+<li>Password: the share password</li>
+</ul>
+<p>Leave Guest off. Tap Add. The share shows in the Files sidebar, next to Downloads and Google Drive. Open it. Copy one file in. Copy one out. That is the whole check.</p>
+<p>The next time, that share stays in the sidebar. Stay on house Wi-Fi. Skip Guest.</p>
+
+<h2>If Files will not mount it</h2>
+<p>Stay on house Wi-Fi, not Guest Wi-Fi that isolates devices. Recheck the URL, the share name, and the password. If a phone or Windows laptop cannot see the folder either, Samba probably stopped, or the firewall hid it: <a href="leftover-box-share-check">when the house share disappeared, check the computer</a>. If the login fails, that is <a href="leftover-box-samba-password">the share password</a>, not a vanished folder.</p>
+<p>School or work Chromebooks sometimes block SMB. The policy name is around NTLM share authentication. If Add new service is missing, or every mount fails with a credentials error while a personal Chromebook works, that is an admin lock. Use a personal Chromebook, or open the folder from a phone or Windows/Mac laptop instead.</p>
+<p>If you can see the folder but cannot drop a file in, the Linux folder owner is the usual culprit. Samba is using that same user, so that user has to own the folder:</p>
+<p><code>sudo chown youruser:youruser /srv/share</code></p>
+<p>Swap <code>youruser</code> and the path if you used a different folder. Try the Chromebook again.</p>
+
+<h2>What this is not</h2>
+<p>This is not a reason to buy a NAS, a Synology app, or a VPN. It is not a reason to open SMB to the internet. The share stays on the house network. A phone or a Windows laptop can open the same folder if the Chromebook is being stubborn.</p>
+
+<h2>What next</h2>
+<p>Prefer Windows or a Mac for big dumps? <a href="open-share-from-laptop">Open the house share from a laptop</a>. On a Linux desktop: <a href="open-share-from-linux">open the house share from a Linux laptop</a>. From the couch on a phone: <a href="open-share-from-phone">open the house share from a phone</a>. Dump camera-roll photos: <a href="phone-photos-to-share">save phone photos to the house share</a>. If you forgot the share password, <a href="leftover-box-samba-password">set or change the house-share password</a>. If the folder vanishes later, <a href="leftover-box-share-check">when the house share disappeared, check the computer</a>. After the house can open it, <a href="leftover-box-disk-space">see if the computer still has room</a>. When you want a second copy, that is <a href="first-backup">a backup of the house folder</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip a NAS app for a first folder.</li>
+<li>Skip exposing SMB to the internet.</li>
+<li>Skip a VPN so you can reach it from a coffee shop.</li>
+<li>Skip ad-stuffed Android file apps when Files already speaks SMB.</li>
+<li>Skip RAID.</li>
+<li>Skip this if a Windows or Mac laptop already opens the folder and you never use a Chromebook for files.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://support.google.com/chromebook/answer/183093">Google: file types and external devices on Chromebooks</a> (SMB file share in Files). <a href="https://support.google.com/chromebook/answer/1700055">Google: open, save, or delete files on your Chromebook</a>. <a href="https://wiki.samba.org/index.php/Setting_up_Samba_as_a_Standalone_Server">Samba wiki: standalone server</a>. <a href="https://ubuntu.com/server/docs/how-to/samba/file-server/">Ubuntu Server: Samba as a file server</a>. Official pages only. For the share this opens, see <a href="first-file-share">a file share</a>. For the address, see <a href="find-the-leftover-box">find it on the house network</a>. For the share password, see <a href="leftover-box-samba-password">set or change the house-share password</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-file-share"><span class="t">A file share</span><span class="d">A folder on the old PC that the house can open from a laptop or a phone. You don't need a NAS for this.</span></a>
+<a class="note-row" href="open-share-from-laptop"><span class="t">Open the house share from a laptop</span><span class="d">The house folder is on the old PC. Open it from Windows File Explorer or Mac Finder on the house network. You don't need a NAS for this.</span></a>
+<a class="note-row" href="open-share-from-phone"><span class="t">Open the house share from a phone</span><span class="d">The house folder is on the old PC. Open it from an iPhone or Android on house Wi-Fi. You don't need a NAS app for this.</span></a>
+<a class="note-row" href="open-share-from-linux"><span class="t">Open the house share from a Linux laptop</span><span class="d">The house folder is on the old PC. Open it from Ubuntu or Fedora Files (or KDE Dolphin) on the house network. You don't need a NAS for this.</span></a>
+<a class="note-row" href="phone-photos-to-share"><span class="t">Save phone photos to the house share</span><span class="d">Copy camera-roll photos from an iPhone or Android onto the house folder on the old PC. House Wi-Fi only. You don't need a NAS app or iCloud for this.</span></a>
+<a class="note-row" href="leftover-box-samba-password"><span class="t">Set or change the house-share password</span><span class="d">Finder and File Explorer ask for a share password that is not always the login. Samba keeps its own copy. Set it once. Change it when you forget.</span></a>
+<a class="note-row" href="leftover-box-share-check"><span class="t">When the house share disappeared, check the computer</span><span class="d">The computer is awake, but Finder or File Explorer cannot see the folder. Check that Samba is still running before you buy a NAS.</span></a>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="find-the-leftover-box"><span class="t">Find it on the house network</span><span class="d">The computer has a number on your house network. You need that number to SSH from the couch. You don't need a new router.</span></a>
+<a class="note-row" href="first-backup"><span class="t">A backup of the house folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another old computer. You don't need a NAS for this.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="open-share-from-laptop"><span class="kicker">Previous</span><span class="t">Open the house share from a laptop</span></a>
+<a rel="next" href="open-share-from-phone"><span class="kicker">Next</span><span class="t">Open the house share from a phone</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

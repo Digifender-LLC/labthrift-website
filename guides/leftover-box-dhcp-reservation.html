@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Keep the computer on the same number - Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="SSH and Pi-hole keep working after a reboot when the router always gives the computer the same address.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Keep the computer on the same number - Labthrift">
+<meta property="og:description" content="SSH and Pi-hole keep working after a reboot when the router always gives the computer the same address.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-dhcp-reservation">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-dhcp-reservation">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Keep the computer on the same number","description":"SSH and Pi-hole keep working after a reboot when the router always gives the computer the same address.","url":"https://labthrift.com/guides/leftover-box-dhcp-reservation","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-25"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Keep the computer on the same number</span></nav>
+<p class="note">Written 25 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Keep the computer on the same number</h1>
+<p class="deck">SSH and Pi-hole keep working after a reboot when the router always gives the computer the same address.</p>
+<p>You already found the computer once. That was <a href="find-the-leftover-box">find the computer on the house network</a>. Get the number first if you don't have it: <a href="leftover-box-ip-addr">see the computer's address on the house network</a>. Confirm the path to the router: <a href="leftover-box-ping">check that the computer can reach the house router</a>. Write down the sticker: <a href="leftover-box-mac-addr">see the computer's hardware address</a>. Then you SSHed with that number. After a reboot, the number may move. This note is the short generic pass. Brand menus: <a href="common-router-reservation">keep the computer on the same address on common routers</a>
+<a class="note-row" href="fixed-address-on-pc"><span class="t">Give the computer a fixed address when the router won't</span><span class="d">Nest or an ISP gateway won't reserve DHCP. Set one stable number on Ubuntu Server so SSH and Pi-hole keep the same address after a reboot. You don't need a new router.</span></a>
+.</p>
+
+<h2>Why the number moves</h2>
+<p>The house router hands out addresses for a while, then may pick a new one when the computer comes back. You reboot after updates, or the power blips, and suddenly <a href="first-ssh">SSH from the couch</a> fails with the number you wrote down. <a href="find-the-leftover-box">Find the computer</a> works again, but you should not have to hunt every morning. Pi-hole is the same story: the house looks for it at the old number and ads come back.</p>
+
+<h2>What a DHCP reservation is</h2>
+<p>DHCP is how the router hands out numbers on the house network. A reservation means this computer always gets the same number. It still asks the router for an address. The router just always answers with the one you chose. You do the work on the router, not by typing a static address into Linux on the computer. Router menus call it Reserve, Always use this IP, or Static lease. Same idea.</p>
+
+<h2>Do it on the house router</h2>
+<p>Open a browser on your normal computer. Log into the house router with the address on the sticker, often <span><code>192.168.1.1</code></span> or <span><code>192.168.0.1</code></span>. That password is on the sticker, or the one you set. Find the client list, device list, or DHCP list. That is the same list from <a href="find-the-leftover-box">find the computer on the house network</a>.</p>
+<p>Find the computer by name, by the number you already use for SSH, or by the hardware address from <a href="leftover-box-mac-addr">see the computer's hardware address</a>. Choose Reserve, Always use this IP, or Static lease. Keep the number you already use. Don't invent a new one unless the old one is already taken. Save.</p>
+<p>Then reboot the computer, or wait for the lease to renew. Reboot lives on <a href="leftover-box-shutdown">shut down the computer without yanking the plug</a>. When it is back, SSH again with that same number.</p>
+
+<h2>Check</h2>
+<p>From another computer on the house network, knock three times with the known number:</p>
+<p><code>ping -c 3 192.168.1.50</code></p>
+<p>Swap in your real number. Then SSH the way <a href="first-ssh">SSH from the couch</a> taught you. If ping fails, see <a href="leftover-box-still-on">is the computer still on?</a> before you touch the router again.</p>
+
+<h2>What next</h2>
+<p>If Pi-hole is not up yet, that is <a href="first-useful-service">the first useful thing on the computer</a>. If Pi-hole is already up, <a href="leftover-box-router-dns">point the house at the ad block</a> with that same address. Brand DNS menus: <a href="common-router-dns">point common home routers at Pi-hole</a>. If password SSH has been boring for a week, <a href="leftover-box-ssh-keys">log in with a key, not the password every time</a>. If the short name is still ugly, <a href="leftover-box-hostname">give the computer a name that sticks</a>. If it is still on Wi-Fi, plug a cable: <a href="leftover-box-ethernet">a cable beats Wi-Fi for the computer</a>. Don't buy a NAS for this.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip this note if SSH already works every day with the same number, or if the reservation is already set.</li>
+<li>Skip typing a static IP into Linux on the computer for a first pass. The reservation on the router is enough.</li>
+<li>Skip a new router.</li>
+<li>Skip buying a Pi-hole just for this.</li>
+<li>Skip a managed switch for this.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p>Router UIs differ, so stay on the sticker login and the client or DHCP list. For the hardware address, see <a href="leftover-box-mac-addr">see the computer's hardware address</a>. For the address hunt, see <a href="find-the-leftover-box">find the computer on the house network</a>. For the login, see <a href="first-ssh">SSH from the couch</a>. For Pi-hole later, see <a href="first-useful-service">the first useful thing on the computer</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="common-router-reservation"><span class="t">Keep the computer on the same address on common routers</span><span class="d">Where to reserve DHCP on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so SSH and Pi-hole keep the same number after a reboot. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-mac-addr"><span class="t">See the computer's hardware address</span><span class="d">Before you reserve the computer's number, write down the sticker-like address the router uses to recognize it.</span></a>
+<a class="note-row" href="leftover-box-ethernet"><span class="t">A cable beats Wi-Fi for the computer</span><span class="d">Once the computer is doing real work, plug it into the router with a cable. House Wi-Fi can wait. Skip this if it is already on a cable.</span></a>
+<a class="note-row" href="find-the-leftover-box"><span class="t">Find the computer on the house network</span><span class="d">The computer has a number on your house network. You need that number to SSH from the couch. You don't need a new router.</span></a>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="add-local-dns-name"><span class="t">Add a local name in Pi-hole</span><span class="d">Give the old PC a short house name so phones and laptops can open SSH, the share, and the admin page without remembering the number. You don't need a new router.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-mac-addr"><span class="kicker">Previous</span><span class="t">See the computer's hardware address</span></a>
+<a rel="next" href="leftover-box-change-password"><span class="kicker">Next</span><span class="t">Change the login password</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

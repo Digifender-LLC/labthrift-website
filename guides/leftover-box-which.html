@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See where a command lives — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After SSH works, ask where a command lives with command -v so you know if nano or python is installed before you chase a missing package. You don't need a software store for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See where a command lives — Labthrift">
+<meta property="og:description" content="After SSH works, ask where a command lives with command -v so you know if nano or python is installed before you chase a missing package. You don't need a software store for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-which">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-which">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See where a command lives","description":"After SSH works, ask where a command lives with command -v so you know if nano or python is installed before you chase a missing package. You don't need a software store for this.","url":"https://labthrift.com/guides/leftover-box-which","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-29"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">See where a command lives</span></nav>
+<p class="note">Written 29 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>See where a command lives</h1>
+<p class="deck">After SSH works, ask where a command lives with <span><code>command -v</code></span> so you know if nano or python is installed before you chase a missing package. You don't need a software store for this.</p>
+<p><a href="leftover-box-history">Reuse a command you already typed</a> flips back through lines you already ran. Tonight you only need one answer: is this tool on the computer, and where? <span><code>command -v</code></span> prints the path for a name you type. Blank output means it is not there. You are still only looking. The computer does not need a desktop, a software store, or a new mini PC for this one job.</p>
+
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If you only need the names in a folder, that is <a href="leftover-box-ls">see what&apos;s in a folder</a>. If you only need to reuse a line you typed earlier, that is <a href="leftover-box-history">reuse a command you already typed</a>. Skip this whole note if you only need a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</p>
+
+<h2>What this is</h2>
+<p><span><code>command -v</code></span> means &quot;command, verbose path.&quot; You can keep calling it &quot;where does this live.&quot; You give one short name. If that name is a real program, it prints the full path, something like <span><code>/usr/bin/nano</code></span>. If the name is missing, the window stays blank and the command exits with nothing useful. That blank line is the useful answer. It is not a package install. It is not a search of every file. That is <a href="leftover-box-find">find a file by name</a>. One name, one path, or nothing.</p>
+
+<h2>Ask where a practice command lives</h2>
+<p>SSH in. Pick a tool you already used. <span><code>ls</code></span> is a safe first try:</p>
+<p><code>command -v ls</code></p>
+<p>You want a path, usually <span><code>/usr/bin/ls</code></span> or <span><code>/bin/ls</code></span>. That means the computer already has it.</p>
+<p>Try the editor next:</p>
+<p><code>command -v nano</code></p>
+<p>A path means <a href="leftover-box-nano">edit a file from the couch</a> can open. A blank window means nano is not installed yet. Install only that one tool if you need it:</p>
+<p><code>sudo apt install nano</code></p>
+<p>Then ask again. You want a path this time.</p>
+<p>Try a name that is probably missing, so you see the blank case:</p>
+<p><code>command -v this-is-not-a-real-tool</code></p>
+<p>You want a blank window. That is the whole first-night trick: path means go, blank means stop and install (or pick a different tool).</p>
+
+<h2>Useful extras, still looking only</h2>
+<p>Need several names in one go?</p>
+<p><code>command -v ls nano python3</code></p>
+<p>Each name that exists prints its path on its own line. Missing names stay quiet. That is enough to see which of three tools are already on the computer.</p>
+<p>Some guides still say <span><code>which</code></span>. It often works the same way:</p>
+<p><code>which nano</code></p>
+<p>Prefer <span><code>command -v</code></span> tonight. It is built into the shell, so you are not depending on an extra package. If <span><code>which</code></span> itself is missing, that is not a reason to buy anything. Stick with <span><code>command -v</code></span>.</p>
+<p>If you see command not found for everyday tools like <span><code>ls</code></span> or <span><code>cp</code></span>, install the usual tools, then try again:</p>
+<p><code>sudo apt install coreutils</code></p>
+<p>Debian and Ubuntu Server usually already have them. That install is not a reason to buy a software store.</p>
+<p>When you are done looking, you don't need to delete anything. This note only prints paths.</p>
+
+<h2>What this is not</h2>
+<p>This is not a search for a file by name. That is <a href="leftover-box-find">find a file by name</a>. It is not a dump of a file. That is <a href="leftover-box-cat">read a file without opening the editor</a>. It is not a list of folders. That is <a href="leftover-box-ls">see what&apos;s in a folder</a>. It is not installing a package store or a &quot;software center.&quot; One missing tool is <span><code>sudo apt install</code></span> for that one name. It is not a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</p>
+
+<h2>What next</h2>
+<p>Need the short cheat sheet for a tool you found? <a href="leftover-box-help">Ask a command what it does</a>. Need the editor and it was missing? Install nano, then <a href="leftover-box-nano">edit a file from the couch</a>. Need a short line without the editor? <a href="leftover-box-echo">Put a short line into a file</a>. Need names in a folder again? <a href="leftover-box-ls">See what&apos;s in a folder</a>. Need a shortcut? <a href="leftover-box-ln">Make a shortcut</a>. Need to flip back through lines you already typed? <a href="leftover-box-history">Reuse a command you already typed</a>. When a house job broke, look at the computer&apos;s own diary: <a href="leftover-box-read-logs">when something broke, look at the log</a>. When key login is boring on every computer you use, <a href="leftover-box-ssh-no-password">turn off password login once the key works</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip <span><code>printenv</code></span> as tonight&apos;s job. Printenv prints environment (HOME and PATH), not which: <a href="leftover-box-printenv">see HOME and PATH</a>.</li>
+<li>Skip buying a software store, Softaculous, or a new mini PC because one name printed blank. Install that one tool, or pick a tool that is already there.</li>
+<li>Skip <span><code>type -a</code></span>, <span><code>whereis</code></span>, and deep PATH edits tonight. <span><code>command -v</code></span> is enough to see if the name exists.</li>
+<li>Skip installing random packages from a blog just because the window was blank. Prefer the tool names you already met on Labthrift.</li>
+<li>Skip SSH settings, <span><code>/etc/shadow</code></span>, and anything under <span><code>/etc/ssh</code></span>. Looking at trusted laptop keys is <a href="leftover-box-authorized-keys">see which laptop keys the computer already trusts</a>.</li>
+<li>Skip opening SSH to the internet so you can hunt commands from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://pubs.opengroup.org/onlinepubs/9699919799/utilities/command.html">POSIX: command</a>. <a href="https://manpages.debian.org/bookworm/bash/bash.1.en.html">Debian: bash (see command built-in)</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/bash.1.html">Ubuntu: bash</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For the editor, see <a href="leftover-box-nano">edit a file from the couch</a>. For finding a file by name, see <a href="leftover-box-find">find a file by name</a>. For reusing a typed line, see <a href="leftover-box-history">reuse a command you already typed</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-history"><span class="t">Reuse a command you already typed</span><span class="d">After SSH works, flip back through commands with the Up arrow or history. You don't need a notebook for the same long line twice.</span></a>
+<a class="note-row" href="leftover-box-nano"><span class="t">Edit a file from the couch</span><span class="d">After SSH works, open a file with nano, change a line, and save. The keys at the bottom of the screen are the whole trick. You don't need a new editor.</span></a>
+<a class="note-row" href="leftover-box-find"><span class="t">Find a file by name</span><span class="d">After SSH works, search the computer for a file by name with find so you don't have to open every folder. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-ls"><span class="t">See what&apos;s in a folder</span><span class="d">After SSH works, list the folder you are sitting in with ls. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-ln"><span class="t">Make a shortcut</span><span class="d">After SSH works, make a shortcut with ln -s so a second name points at the same file. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-echo"><span class="t">Put a short line into a file</span><span class="d">After SSH works, put one short line into a file with echo so you don't need to open nano. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-ln"><span class="kicker">Previous</span><span class="t">Make a shortcut</span></a>
+<a rel="next" href="leftover-box-help"><span class="kicker">Next</span><span class="t">Ask a command what it does</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

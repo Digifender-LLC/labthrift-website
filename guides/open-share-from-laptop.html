@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Open the house share from a laptop — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="The house folder is on the old PC. Open it from Windows File Explorer or Mac Finder on the house network. You don't need a NAS for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Open the house share from a laptop — Labthrift">
+<meta property="og:description" content="The house folder is on the old PC. Open it from Windows File Explorer or Mac Finder on the house network. You don't need a NAS for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/open-share-from-laptop">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/open-share-from-laptop">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Open the house share from a laptop","description":"The house folder is on the old PC. Open it from Windows File Explorer or Mac Finder on the house network. You don't need a NAS for this.","url":"https://labthrift.com/guides/open-share-from-laptop","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-04"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">Open the house share from a laptop</span></nav>
+<p class="note">Written 4 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>Open the house share from a laptop</h1>
+<p class="deck">The house folder is on the old PC. Open it from Windows File Explorer or Mac Finder on the house network. You don't need a NAS for this.</p>
+<p>Haven't made the house folder yet? Start with <a href="first-file-share">a file share</a>. Need the computer's address first? <a href="find-the-leftover-box">Find it on the house network</a>. Opening from a phone instead? That is <a href="open-share-from-phone">open the house share from a phone</a>. This note is the Windows and Mac walk: File Explorer on Windows, Finder on a Mac. Opening from Ubuntu or Fedora Files? That is <a href="open-share-from-linux">open the house share from a Linux laptop</a>.</p>
+
+<h2>Skip until the folder exists</h2>
+<p>If you never made the share, stop. That is <a href="first-file-share">a file share</a>. This note assumes Samba is already serving a folder, often named photos, on the computer. The laptop has to be on the same house network. Cellular hotspot will not reach it. Don't forward SMB on the router.</p>
+
+<h2>What this is</h2>
+<p>SMB is the language Windows and Mac already use for shared folders. You type the computer's address, the share name, and the share password. That password is the one Samba keeps, not always the SSH login. If you forgot it, set it again in <a href="leftover-box-samba-password">set or change the house-share password</a>.</p>
+
+<h2>What you need</h2>
+<p>The computer's address, the same number you SSH to. Swap the example for yours.</p>
+<p>Windows path bar:</p>
+<p><code>\\192.168.1.50\photos</code></p>
+<p>Mac Connect to Server:</p>
+<p><code>smb://192.168.1.50/photos</code></p>
+<p>If you don't know the number, <a href="find-the-leftover-box">find it on the house network</a>. If ping fails, start with <a href="leftover-box-still-on">is the computer still on?</a> before you blame File Explorer.</p>
+
+<h2>Windows (File Explorer)</h2>
+<p>Open File Explorer. Click the path bar at the top so the text highlights. Type the address with backslashes, like <span><code>\\192.168.1.50\photos</code></span>. Press Enter.</p>
+<p>Windows asks for a username and password. Use the Samba username (usually the Linux login on the computer) and the share password. Check Remember my credentials if you want. Click OK.</p>
+<p>The folder opens like any other drive. Copy one file in. Copy one out. That is the whole check.</p>
+<p>To keep it handy every day, map a letter (or keep Finder's Locations entry): <a href="map-share-drive">map the house share as a drive</a>. Skip that if you only need it once.</p>
+<p>If Windows says it cannot find the network path, stay on house Wi-Fi or ethernet. Recheck the number and the share name. Skip Guest. The share uses a username and password.</p>
+
+<h2>Mac (Finder)</h2>
+<p>Open Finder. Menu Go → Connect to Server, or press Command-K. Type <span><code>smb://192.168.1.50/photos</code></span> or just <span><code>smb://192.168.1.50</code></span> if you want to pick the share from a list. Click Connect.</p>
+<p>Pick Registered User. Type the Samba username and the share password. Check Remember this password in my keychain if you want. Click Connect.</p>
+<p>The share shows under Locations in the Finder sidebar. Open it. Copy a file in. Copy one out.</p>
+<p>Next time, that server sits in Recent Servers under Connect to Server. Stay on the house network. Skip Guest.</p>
+
+<h2>If the laptop cannot see it</h2>
+<p>Confirm the laptop and the computer are on the same house network, not a guest Wi-Fi that isolates devices. Recheck the address and the share name. If a phone cannot see the folder either, start with symptom triage: <a href="when-share-wont-open">when the house share won't open</a>. If Samba stopped, or the firewall hid it: <a href="leftover-box-share-check">when the house share disappeared, check the computer</a>. If the login fails, that is <a href="leftover-box-samba-password">the share password</a>, not a vanished folder.</p>
+<p>If you can see the folder but cannot drop a file in, the Linux folder owner is the usual culprit. Samba is using that same user, so that user has to own the folder:</p>
+<p><code>sudo chown youruser:youruser /srv/share</code></p>
+<p>Swap <code>youruser</code> and the path if you used a different folder. Try the laptop again.</p>
+<p>Windows sometimes caches a bad password. Clear it (and Mac Keychain / phone bookmarks) with <a href="forget-saved-share-login">forget the saved house-share login</a>, then try again with the share password.</p>
+
+<h2>What this is not</h2>
+<p>This is not a reason to buy a NAS, Synology Drive, or a VPN. It is not a reason to open SMB to the internet. The share stays on the house network. A phone can open the same folder if you need it on the couch without the laptop.</p>
+
+<h2>What next</h2>
+<p>Leave it. Use the folder for a while. Need it from a coffee shop or cellular? <a href="open-share-from-away">Open the house share from away</a> (Tailscale — don't forward SMB). Want a letter under This PC, or a sticky Locations entry? <a href="map-share-drive">Map the house share as a drive</a>. Open it from a phone in <a href="open-share-from-phone">open the house share from a phone</a>. On a Chromebook: <a href="open-share-from-chromebook">open the house share from a Chromebook</a>. On a Linux desktop: <a href="open-share-from-linux">open the house share from a Linux laptop</a>. On a Mac, overnight backups can land on a separate share: <a href="time-machine-to-share">back up a Mac to the house share with Time Machine</a>. On Windows, that is <a href="file-history-to-share">File History to the house share</a>. If you forgot the share password, <a href="leftover-box-samba-password">set or change the house-share password</a>. If it won't open later, start with <a href="when-share-wont-open">when the house share won't open</a>. Opens fine but photo dumps crawl: <a href="when-share-is-slow">when the house share is slow</a>. If Samba stopped on an awake computer, <a href="leftover-box-share-check">when the house share disappeared, check the computer</a>. After the house can open it, <a href="leftover-box-disk-space">see if the computer still has room</a>. When you want a second copy of the house folder, that is <a href="first-backup">a backup of the house folder</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip a NAS or Synology app for a first folder.</li>
+<li>Skip exposing SMB to the internet.</li>
+<li>Skip a VPN so you can reach it from a coffee shop.</li>
+<li>Skip third-party "network drive" apps that stuff ads.</li>
+<li>Skip RAID.</li>
+<li>Skip this if a phone already opens the folder and you never use a laptop for files.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://support.microsoft.com/windows/map-a-network-drive-in-windows-60c43704-9f29-b538-2dd4-92f39bf059de">Microsoft: map a network drive</a>. <a href="https://support.apple.com/guide/mac-help/connect-mac-shared-computers-servers-mchlp1140/mac">Apple: connect to shared computers and servers</a>. <a href="https://wiki.samba.org/index.php/Setting_up_Samba_as_a_Standalone_Server">Samba wiki: standalone server</a>. Official pages only. For the share this opens, see <a href="first-file-share">a file share</a>. For the address, see <a href="find-the-leftover-box">find it on the house network</a>. For the share password, see <a href="leftover-box-samba-password">set or change the house-share password</a>. For phones, see <a href="open-share-from-phone">open the house share from a phone</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-file-share"><span class="t">A file share</span><span class="d">A folder on the old PC that the house can open from a laptop or a phone. You don't need a NAS for this.</span></a>
+<a class="note-row" href="open-share-from-phone"><span class="t">Open the house share from a phone</span><span class="d">The house folder is on the old PC. Open it from an iPhone or Android on house Wi-Fi. You don't need a NAS app for this.</span></a>
+<a class="note-row" href="open-share-from-away"><span class="t">Open the house share from away</span><span class="d">Open the house folder from a coffee shop or cellular without forwarding SMB. Tailscale on the computer and on your laptop or phone. Free personal plan is enough.</span></a>
+<a class="note-row" href="map-share-drive"><span class="t">Map the house share as a drive</span><span class="d">Give Windows a letter (Z:) or keep Finder's Locations entry so the house folder on the old PC opens every time. You don't need a NAS.</span></a>
+<a class="note-row" href="open-share-from-chromebook"><span class="t">Open the house share from a Chromebook</span><span class="d">The house folder is on the old PC. Open it from a Chromebook Files app on house Wi-Fi. You don't need a NAS app for this.</span></a>
+<a class="note-row" href="open-share-from-linux"><span class="t">Open the house share from a Linux laptop</span><span class="d">The house folder is on the old PC. Open it from Ubuntu or Fedora Files (or KDE Dolphin) on the house network. You don't need a NAS for this.</span></a>
+
+<a class="note-row" href="add-share-user"><span class="t">Add another person to the house share</span><span class="d">Give a partner or roommate their own login for the house folder on the old PC. Same share path. Separate Samba password. You don't need a NAS.</span></a>
+<a class="note-row" href="remove-share-user"><span class="t">Remove someone from the house share</span><span class="d">Take a partner or roommate off the house folder on the old PC. Drop them from Samba, then from valid users. Optional: delete the Linux login. You don't need a NAS.</span></a>
+<a class="note-row" href="leftover-box-samba-password"><span class="t">Set or change the house-share password</span><span class="d">Finder and File Explorer ask for a share password that is not always the login. Samba keeps its own copy. Set it once. Change it when you forget.</span></a>
+<a class="note-row" href="when-share-wont-open"><span class="t">When the house share won't open</span><span class="d">Finder, File Explorer, or the phone can't open the house folder. Check the computer is on, confirm the address, then match the error (path not found, login failed, can't write, disk full). You don't need a NAS.</span></a>
+<a class="note-row" href="when-share-wont-write"><span class="t">When you can open the house share but can't write</span><span class="d">The house folder opens, but copy, save, or phone upload fails. Check disk room, Samba read only, then folder ownership. You don't need a NAS.</span></a>
+<a class="note-row" href="when-share-is-slow"><span class="t">When the house share is slow</span><span class="d">The folder opens and copies work, but photos crawl. Check Wi-Fi vs a cable, link speed, disk room, then the laptop. You don't need a 10G switch.</span></a>
+<a class="note-row" href="forget-saved-share-login"><span class="t">Forget the saved house-share login</span><span class="d">Windows, Mac, or a phone still uses the old Samba password after you changed it. Clear Credential Manager, Keychain, or the phone bookmark, then open again. You don't need a NAS.</span></a>
+<a class="note-row" href="leftover-box-share-check"><span class="t">When the house share disappeared, check the computer</span><span class="d">The computer is awake, but Finder or File Explorer cannot see the folder. Check that Samba is still running before you buy a NAS.</span></a>
+<a class="note-row" href="find-the-leftover-box"><span class="t">Find it on the house network</span><span class="d">The computer has a number on your house network. You need that number to SSH from the couch. You don't need a new router.</span></a>
+<a class="note-row" href="time-machine-to-share"><span class="t">Back up a Mac to the house share with Time Machine</span><span class="d">Point Time Machine at a Samba folder on the old PC. Separate share from photos. Cap the size. You don't need a Time Capsule or a NAS for this.</span></a>
+<a class="note-row" href="file-history-to-share"><span class="t">Back up a Windows PC to the house share with File History</span><span class="d">Point Windows File History at a Samba folder on the old PC. Separate share from photos. You don't need a NAS for this.</span></a>
+<a class="note-row" href="first-backup"><span class="t">A backup of the house folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another old computer. You don't need a NAS for this.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="first-file-share"><span class="kicker">Previous</span><span class="t">A file share</span></a>
+<a rel="next" href="map-share-drive"><span class="kicker">Next</span><span class="t">Map the house share as a drive</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

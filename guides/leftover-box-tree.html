@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See folders as a tree — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After SSH works, tree shows nested folders so you can see what is inside without clicking around. You don't need a file manager for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See folders as a tree — Labthrift">
+<meta property="og:description" content="After SSH works, tree shows nested folders so you can see what is inside without clicking around. You don't need a file manager for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-tree">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-tree">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See folders as a tree","description":"After SSH works, tree shows nested folders so you can see what is inside without clicking around. You don't need a file manager for this.","url":"https://labthrift.com/guides/leftover-box-tree","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-30"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"Faster network","item":"https://labthrift.com/guides/#switches"},{"@type":"ListItem","position":3,"name":"See folders as a tree"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">See folders as a tree</span></nav>
+<p class="note">Written 30 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>See folders as a tree</h1>
+<p class="deck">After SSH works, tree shows nested folders so you can see what is inside without clicking around. You don't need a file manager for this.</p>
+<p><a href="leftover-box-unzip">Unpack a zip you already have</a> unpacks a zip. <a href="leftover-box-ls">See what&apos;s in a folder</a> lists one folder. Tonight you see nested folders as a tree. After unpack of a zip or tar, nested folders are hard to see with one <span><code>ls</code></span>. <span><code>tree</code></span> draws nested folders so you see what is inside without clicking around. You don't need a file manager, Finder, Explorer, Nautilus, or a NAS browser for this.</p>
+
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If you just unpacked a zip, that is <a href="leftover-box-unzip">unpack a zip you already have</a>. If you only need names in one folder, that is <a href="leftover-box-ls">see what&apos;s in a folder</a>. Skip this whole note if you only need a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>. Skip if you need a USB copy of the house folder. That is <a href="first-backup">a backup of the house folder</a>.</p>
+
+<h2>What this is</h2>
+<p><span><code>tree</code></span> prints folders and files as a tree. You type <span><code>tree</code></span>, then a path in home. Nested folders are visible in one look. Start with a tiny practice folder, not a tree of whole home.</p>
+<p>It is not a list of one folder. That is <a href="leftover-box-ls">see what&apos;s in a folder</a>. It is not a search by name. That is <a href="leftover-box-find">find a file by name</a>. It is not unpack of a zip. That is <a href="leftover-box-unzip">unpack a zip you already have</a>.</p>
+
+<h2>Show a practice tree in home</h2>
+<p>SSH in.</p>
+<p>Make sure home is where you sit:</p>
+<p><code>pwd</code></p>
+<p>You want a path that ends in your login name.</p>
+<p>If the path is wrong, run this:</p>
+<p><code>cd ~</code></p>
+<p>Make a tiny practice tree in home only:</p>
+<p><code>mkdir -p ~/tree-me/a/b</code></p>
+<p><code>echo hi &gt; ~/tree-me/a/b/hi.txt</code></p>
+<p>Show nested folders:</p>
+<p><code>tree ~/tree-me</code></p>
+<p>You want <span><code>a</code></span>, <span><code>b</code></span>, and <span><code>hi.txt</code></span> drawn as a tree.</p>
+<p>If <span><code>tree</code></span> says command not found, install <span><code>tree</code></span>, then try again:</p>
+<p><code>sudo apt install tree</code></p>
+<p>That install is not a reason to use a GUI file manager.</p>
+<p>Skip <span><code>tree /</code></span>, <span><code>tree /etc</code></span>, and tree of whole home for this practice.</p>
+<p>Skip <span><code>tree -a</code></span> of home for this practice if that dumps <span><code>.ssh</code></span>. Prefer skip listing <span><code>~/.ssh</code></span>.</p>
+<p>When you are done practicing, throw away the practice files. Careful delete only. That is <a href="leftover-box-rm">delete a file carefully</a>:</p>
+<p><code>rm -i ~/tree-me/a/b/hi.txt</code></p>
+<p>Delete practice folders the same careful way after they are empty. Skip <span><code>rm -rf</code></span>.</p>
+
+<h2>Useful extras, still home only</h2>
+<p>Skip paths under <span><code>/etc</code></span>, SSH folders, or paths you don't own. Practice only in home.</p>
+<p>Want depth limited so the tree stays short?</p>
+<p><code>tree -L 2 ~/tree-me</code></p>
+<p><span><code>-L 2</code></span> means two levels deep. Deeper folders stay hidden.</p>
+<p>Want folders only, no files?</p>
+<p><code>tree -d ~/tree-me</code></p>
+<p><span><code>-d</code></span> means directories only.</p>
+<p>Skip GUI file managers for this practice. <span><code>tree</code></span> is enough for this look. Skip NAS browsers. This tree does not need a NAS.</p>
+<p>Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+
+<h2>What this is not</h2>
+<p>This is not a list of one folder. That is <a href="leftover-box-ls">see what&apos;s in a folder</a>. It is not a search by name. That is <a href="leftover-box-find">find a file by name</a>. It is not unpack of a zip. That is <a href="leftover-box-unzip">unpack a zip you already have</a>.</p>
+
+<h2>What next</h2>
+<p>Need how big one folder is? <a href="leftover-box-du">See how big one folder is</a>. Just unpacked a zip? <a href="leftover-box-unzip">Unpack a zip you already have</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip paths under <span><code>/etc</code></span>, SSH folders, or paths you don't own. Practice only in home.</li>
+<li>Skip <span><code>tree /</code></span>, <span><code>tree /etc</code></span>, and tree of whole home for this practice.</li>
+<li>Skip <span><code>tree -a</code></span> of home for this practice if that dumps <span><code>.ssh</code></span>. Prefer skip listing <span><code>~/.ssh</code></span>.</li>
+<li>Skip GUI file managers, Finder, Explorer, Nautilus, and NAS browsers for this practice.</li>
+<li>Skip <span><code>rm -rf</code></span>. Careful delete only: <a href="leftover-box-rm">delete a file carefully</a>.</li>
+<li>Skip opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+<li>Skip if you actually need the USB backup. That is <a href="first-backup">a backup of the house folder</a>.</li>
+<li>Skip if you only need a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/tree/tree.1.en.html">Debian: tree</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/tree.1.html">Ubuntu: tree</a>. Official man pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For unpack of a zip, see <a href="leftover-box-unzip">unpack a zip you already have</a>. For pack, see <a href="leftover-box-tar">pack files into one archive</a>. For list of one folder, see <a href="leftover-box-ls">see what&apos;s in a folder</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-unzip"><span class="t">Unpack a zip you already have</span><span class="d">After SSH works, unzip unpacks a zip so files come out of a zip you already have. You don't need a zip app for this.</span></a>
+<a class="note-row" href="leftover-box-tar"><span class="t">Pack files into one archive</span><span class="d">After SSH works, tar packs files into one archive so you can copy one file instead of a folder. You don't need a zip app for this.</span></a>
+<a class="note-row" href="leftover-box-ls"><span class="t">See what's in a folder</span><span class="d">After SSH works, ls lists folder contents so you know what names are there. You don't need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-find"><span class="t">Find a file by name</span><span class="d">After SSH works, find searches the computer for a file by name so you don't have to open every folder. You don't need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-du"><span class="t">See how big one folder is</span><span class="d">After SSH works, du shows how big one folder is so you know before you copy or delete. You don't need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-largest-folders"><span class="t">See which folders are eating the disk</span><span class="d">Before you buy a bigger drive or a NAS, ask which folders are taking the room.</span></a>
+<a class="note-row" href="leftover-box-sftp"><span class="t">Browse folders then copy one file</span><span class="d">After SSH works, sftp browses folders so you can pick a file and copy it. You don't need FileZilla or a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-scp"><span class="t">Copy a file to the computer from your laptop</span><span class="d">After SSH works, scp moves one file without a USB stick. A short name makes the typing shorter. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-rm"><span class="t">Delete a file carefully</span><span class="d">After SSH works, delete one file with rm -i. Ask first. Skip rm -rf. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-unzip"><span class="kicker">Previous</span><span class="t">Unpack a zip you already have</span></a>
+<a rel="next" href="leftover-box-du"><span class="kicker">Next</span><span class="t">See how big one folder is</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

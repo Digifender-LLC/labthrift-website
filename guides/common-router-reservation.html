@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Keep the computer on the same address on common routers — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Where to reserve DHCP on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so SSH and Pi-hole keep the same number after a reboot. You don't need a new router.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Keep the computer on the same address on common routers — Labthrift">
+<meta property="og:description" content="Where to reserve DHCP on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so SSH and Pi-hole keep the same number after a reboot. You don't need a new router.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/common-router-reservation">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/common-router-reservation">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Keep the computer on the same address on common routers","description":"Where to reserve DHCP on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so SSH and Pi-hole keep the same number after a reboot. You don't need a new router.","url":"https://labthrift.com/guides/common-router-reservation","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-04"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">Keep the computer on the same address on common routers</span></nav>
+<p class="note">Written 4 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>Keep the computer on the same address on common routers</h1>
+<p class="deck">Where to reserve DHCP on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so SSH and Pi-hole keep the same number after a reboot. You don't need a new router.</p>
+<p>Need the computer's number first? <a href="find-the-leftover-box">Find it on the house network</a>. Prefer a short generic pass? That is <a href="leftover-box-dhcp-reservation">keep it on the same number</a>. This note is the maker-by-maker walk. Pointing the house at Pi-hole is a different job: <a href="common-router-dns">point common home routers at Pi-hole</a>.</p>
+
+<h2>Skip until you know the number and the sticker</h2>
+<p>Write down the address you already use for SSH. Write down the hardware address (MAC) so the router binds the reservation to this computer, not a phone that borrowed the old number. Hardware address how-to: <a href="leftover-box-mac-addr">see its hardware address</a>. Address how-to: <a href="leftover-box-ip-addr">see its address on the house network</a>.</p>
+<p>If you cannot log into the house router at all, this page will not help. Sticker login first.</p>
+
+<h2>What you are changing</h2>
+<p>DHCP is how the router hands out numbers. A reservation means this computer always gets the same one. It still asks the router. The router just always answers with the number you chose. Menus say Address Reservation, Manual Assignment, IP Binding, or Reservations. Same idea.</p>
+<p>Do this on the router. Skip typing a static IP into Linux on the computer for a first pass. Keep the number you already use. Don't invent a new one unless the old one is taken.</p>
+
+<h2>TP-Link (Archer and similar)</h2>
+<p>Open a browser to <span><code>http://tplinkwifi.net</code></span> or the sticker address, often <span><code>192.168.0.1</code></span>. Log in.</p>
+<p>Go to Advanced → Network → DHCP Server. Under Address Reservation, click Add. Pick the computer from View Connected Devices when the UI offers it, or paste the MAC and the number you already use. Enable the entry if there is a checkbox. Save. Reboot the router if it asks.</p>
+
+<h2>ASUS</h2>
+<p>Open <span><code>http://www.asusrouter.com</code></span> or the LAN address, often <span><code>192.168.50.1</code></span>. Log in.</p>
+<p>Go to LAN → DHCP Server. Turn Enable Manual Assignment to Yes. In Manually Assigned IP, add the computer's MAC and the number you already use. Apply. The address should sit inside the DHCP pool the same page shows.</p>
+<p>In the ASUS app, the same idea is Settings → LAN → IP Binding. Either path is fine. Leave the computer on automatic DHCP. Do not also set a conflicting static IP on Linux.</p>
+
+<h2>eero</h2>
+<p>Open the eero app. Settings → Advanced networking → Reservations &amp; port forwarding. Add a reservation. Pick the computer from the connected list. Keep or set the IPv4 address you already use for SSH. Save. You do not need to open a port for this job. Skip port forwarding.</p>
+<p>If eero is in bridge mode, reservations live on the router in front of it, not in the eero app.</p>
+
+<h2>Netgear Nighthawk</h2>
+<p>Open <span><code>http://www.routerlogin.net</code></span>. Log in as admin with the password you set.</p>
+<p>Go to Advanced → Setup → LAN Setup (some models say Settings → Setup → LAN Setup). Under Address Reservation, Add. Enter the IP you already use and the MAC from Attached Devices if the form is empty. Apply.</p>
+<p>The reserved address sticks the next time the computer asks DHCP. Reboot the computer, or renew its lease, then SSH with that same number. If Add fails with an “invalid MAC” error on some Nighthawk firmware, update the router firmware from Netgear’s page, or reserve from another browser after a reboot. Skip developer-tool workarounds on day one.</p>
+
+<h2>Google Nest Wifi / Google Wifi</h2>
+<p>The Google Home app is thin on LAN DHCP reservations. Some Nest setups have no clean “always this IP” control for a random old PC. Honest first-timer move: confirm the computer’s number after each reboot with <a href="find-the-leftover-box">find it on the house network</a>, set a fixed address on the computer itself (<a href="fixed-address-on-pc">give the computer a fixed address when the router won't</a>), or put a router you control behind a bridged ISP modem and reserve there.</p>
+<p>Skip buying a mesh kit “so reservation works.” Skip Nest bridge mode unless you already have another router doing DHCP.</p>
+
+<h2>ISP gateway (Xfinity, AT&amp;T, Spectrum, and friends)</h2>
+<p>Many ISP combo boxes hide Address Reservation, or reset it overnight. If you cannot find it, you are not failing the tutorial. Common paths:</p>
+<ul>
+<li>Use the sticker admin page and search for DHCP, LAN, or Address Reservation. Reserve if it exists.</li>
+<li>Put the gateway in bridge / IP passthrough and plug in a router you control (TP-Link, ASUS, eero). Then use that router’s steps above.</li>
+</ul>
+<p>Skip forwarding port 22 on the ISP box. Skip opening SSH to the internet.</p>
+
+<h2>Check</h2>
+<p>Reboot the computer, or wait for the lease to renew. From another computer on the house network:</p>
+<p><code>ping -c 3 192.168.1.50</code></p>
+<p>Swap in your real number. Then SSH the way <a href="first-ssh">SSH from the couch</a> taught you. If ping fails, see <a href="leftover-box-still-on">is it still on?</a> before you touch the router again.</p>
+
+<h2>What this is not</h2>
+<p>This is not a reason to buy a new router, a managed switch, or a Raspberry Pi. It is not typing a static IP into Linux on day one. It is one house setting so the number you wrote down stays true after a reboot.</p>
+
+<h2>What next</h2>
+<p>If Pi-hole is not up yet, that is <a href="first-useful-service">the first useful thing</a>. If Pi-hole is already up, point the house at it: <a href="common-router-dns">point common home routers at Pi-hole</a>. If the router will not take LAN DNS, set one device: <a href="manual-dns-on-devices">point a phone or laptop at Pi-hole when the router won't</a>. If Nest or the ISP box will not reserve DHCP either, set the number on the computer: <a href="fixed-address-on-pc">give the computer a fixed address when the router won't</a>. If ads return after a power blip, start with <a href="when-ads-come-back">when ads come back</a>. After an ISP swap wiped the reservation, walk <a href="when-isp-swaps-router">when the ISP swaps your router</a>. Prefer a cable for the computer: <a href="leftover-box-ethernet">a cable beats Wi-Fi for the old PC</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip this if SSH already works every day with the same number, or if the reservation is already set.</li>
+<li>Skip typing a fixed address into Linux when the router reservation works. If Nest or the ISP box will not reserve, use <a href="fixed-address-on-pc">give the computer a fixed address when the router won't</a>.</li>
+<li>Skip a new router just to reserve one address, if your current one offers Address Reservation.</li>
+<li>Skip opening port 22 to the internet.</li>
+<li>Skip a managed switch for this.</li>
+<li>Skip buying a mesh kit for a sticky address.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.tp-link.com/us/support/faq/182/">TP-Link: Address Reservation</a>. <a href="https://www.asus.com/support/faq/1000906/">ASUS: manually assign LAN IP</a>. <a href="https://eero.com/support/articles/how-do-i-set-up-port-forwarding">eero: Reservations &amp; port forwarding</a> (reservation lives on that screen; you do not need a port for this job). <a href="https://kb.netgear.com/25722/How-do-I-reserve-an-IP-address-on-my-NETGEAR-router">Netgear: reserve an IP address</a>. Official pages only. Menus move by firmware. For the short generic pass, see <a href="leftover-box-dhcp-reservation">keep it on the same number</a>. For DNS at Pi-hole, see <a href="common-router-dns">point common home routers at Pi-hole</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="manual-dns-on-devices"><span class="t">Point a phone or laptop at Pi-hole when the router won't</span><span class="d">When Nest, Google Wifi, or an ISP gateway will not take custom DNS, set DNS on one phone or laptop so it asks Pi-hole. You don't need a new router for this device.</span></a>
+<a class="note-row" href="leftover-box-dhcp-reservation"><span class="t">Keep it on the same number</span><span class="d">SSH and Pi-hole keep working after a reboot when the router always gives the computer the same address.</span></a>
+<a class="note-row" href="common-router-dns"><span class="t">Point common home routers at Pi-hole</span><span class="d">Where to set DNS on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so the house asks Pi-hole. Prefer LAN DHCP DNS. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-mac-addr"><span class="t">See its hardware address</span><span class="d">Before you reserve its number, write down the sticker-like address the router uses to recognize it.</span></a>
+<a class="note-row" href="find-the-leftover-box"><span class="t">Find it on the house network</span><span class="d">The computer has a number on your house network. You need that number to SSH from the couch. You don't need a new router.</span></a>
+<a class="note-row" href="when-ads-come-back"><span class="t">When ads come back</span><span class="d">Ads are back, sites won't load, or a phone still shows banners. Check the computer, Pi-hole, router DNS, then the phone.</span></a>
+<a class="note-row" href="when-isp-swaps-router"><span class="t">When the ISP swaps your router</span><span class="d">Tech left a new gateway (or reset yours). Ads are back, and SSH may miss the old address. Re-find the computer, re-point DNS, re-do the reservation. You don't need a new router or a new Pi-hole.</span></a>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the old PC from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-dhcp-reservation"><span class="kicker">Previous</span><span class="t">Keep it on the same number</span></a>
+<a rel="next" href="common-router-dns"><span class="kicker">Next</span><span class="t">Point common home routers at Pi-hole</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

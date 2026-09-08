@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Keep Wi-Fi off after a reboot — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After the cable works, stop Wi-Fi from coming back so the computer keeps one address. You don't need a new router.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Keep Wi-Fi off after a reboot — Labthrift">
+<meta property="og:description" content="After the cable works, stop Wi-Fi from coming back so the computer keeps one address. You don't need a new router.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-wifi-off">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-wifi-off">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Keep Wi-Fi off after a reboot","description":"After the cable works, stop Wi-Fi from coming back so the computer keeps one address. You don't need a new router.","url":"https://labthrift.com/guides/leftover-box-wifi-off","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-28"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Keep Wi-Fi off after a reboot</span></nav>
+<p class="note">Written 28 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Keep Wi-Fi off after a reboot</h1>
+<p class="deck">After the cable works, stop Wi-Fi from coming back so the computer keeps one address. You don't need a new router.</p>
+<p>You plugged the cable. SSH from the couch worked. Then the computer rebooted for weekly fixes, and Wi-Fi woke up again. Now the computer has two numbers: one on the cable, one on the radio. SSH hangs. Pi-hole is flaky. That is not a broken router. The computer is answering on two doors. Full symptom walk: <a href="when-computer-has-two-addresses">when the old PC has two house addresses</a>. You are not buying a mesh kit for this.</p>
+
+<h2>Skip until the cable works</h2>
+<p>If the computer is still only on house Wi-Fi, stop. Plug a cable first: <a href="leftover-box-ethernet">a cable beats Wi-Fi for the computer</a>. That note also turns the radio off for this session, as a check. This note is the next step: make that stay off after a reboot. Never joined house Wi-Fi, and there is no cable? That walk is <a href="wifi-on-the-pc">put the old PC on house Wi-Fi</a>. If you cannot log in from the couch, that is <a href="first-ssh">SSH from the couch</a>. Skip this note if it is a desktop or OptiPlex with no Wi-Fi radio.</p>
+
+<h2>What this is</h2>
+<p>The one-session off in <a href="leftover-box-ethernet">a cable beats Wi-Fi for the computer</a> is <span><code>sudo ip link set wlan0 down</code></span>. That lasts until the computer reboots. After a reboot, Wi-Fi often comes back by itself. Two numbers is how people lose SSH, and how a DHCP reservation on the cable address looks like it failed. This look asks Wi-Fi to stay off.</p>
+
+<h2>See if Wi-Fi is even there</h2>
+<p>SSH in from the couch, then run:</p>
+<p><code>ip -br link</code></p>
+<p>Look for a line whose name starts with <span><code>wlan</code></span> or <span><code>wlp</code></span>. That is Wi-Fi. The cable line often starts with <span><code>en</code></span> or is named <span><code>eth0</code></span>. If you see no radio line, you are done. An old desktop can skip the rest.</p>
+
+<h2>Turn it off so it stays off</h2>
+<p>Ask whether the computer has NetworkManager:</p>
+<p><code>command -v nmcli</code></p>
+<p>If that prints a path, turn Wi-Fi off this way. It usually survives a reboot:</p>
+<p><code>nmcli radio wifi off</code></p>
+<p>Then confirm:</p>
+<p><code>nmcli radio</code></p>
+<p>You want the WIFI line to say <span><code>disabled</code></span> or <span><code>off</code></span>.</p>
+<p>If <span><code>nmcli</code></span> is missing, use rfkill instead. rfkill is the radio switch. On Debian and Ubuntu, that block usually survives a reboot:</p>
+<p><code>sudo rfkill block wifi</code></p>
+<p>Then confirm:</p>
+<p><code>rfkill</code></p>
+<p>The Wi-Fi (wlan) line should say Soft blocked. If the computer only understands the older list command:</p>
+<p><code>rfkill list</code></p>
+
+<h2>Confirm the cable is the only door</h2>
+<p>Ask again:</p>
+<p><code>ip -br link</code></p>
+<p>The radio line should say DOWN. The cable line should stay UP. Then check the computer still has one house number:</p>
+<p><code>hostname -I</code></p>
+<p>You want one 192.168.… or 10.… address, not two. If SSH from the couch still works after that, you are done. Don't reboot just to prove it tonight. The next reboot (weekly fixes, or <a href="leftover-box-after-reboot">after a reboot, check the computer still does its jobs</a>) is the real test. After that reboot, run <span><code>ip -br link</code></span> again. The radio should still be DOWN.</p>
+
+<h2>If Wi-Fi comes back anyway</h2>
+<p>Some old laptops turn the radio back on after a reboot. Try the other command from the pair above (<span><code>nmcli</code></span> if you used rfkill, or rfkill if you used <span><code>nmcli</code></span>). Then check again. Don't blacklist kernel modules tonight. Don't buy a new router because the computer grew a second number.</p>
+
+<h2>What next</h2>
+<p>Write down the computer's one remaining number: <a href="leftover-box-ip-addr">see the computer's address on the house network</a>. Then keep that number: <a href="leftover-box-dhcp-reservation">keep the computer on the same number</a>. Cable speed stays <a href="leftover-box-link-speed">see the cable speed</a>. Skip a mesh kit and a new router for this look.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip this note if the computer has no Wi-Fi radio. An old desktop or OptiPlex often does not.</li>
+<li>Skip if the computer is still only on house Wi-Fi. Plug a cable first: <a href="leftover-box-ethernet">a cable beats Wi-Fi for the computer</a>.</li>
+<li>Skip if SSH from the couch does not work yet. That is <a href="first-ssh">SSH from the couch</a>.</li>
+<li>Skip buying a mesh kit or a new router because SSH hops between two numbers.</li>
+<li>Skip blacklisting kernel modules tonight.</li>
+<li>Skip opening SSH to the internet.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/network-manager/nmcli.1.en.html">Debian: nmcli</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/nmcli.1.html">Ubuntu: nmcli</a>. <a href="https://manpages.debian.org/bookworm/rfkill/rfkill.8.en.html">Debian: rfkill</a> (<span><code>block wifi</code></span>). <a href="https://manpages.ubuntu.com/manpages/noble/en/man8/rfkill.8.html">Ubuntu: rfkill</a>. <a href="https://manpages.debian.org/bookworm/iproute2/ip-link.8.en.html">Debian: ip-link</a>. Official pages only. For the cable, see <a href="leftover-box-ethernet">a cable beats Wi-Fi for the computer</a>. For the house number, see <a href="leftover-box-ip-addr">see the computer's address on the house network</a>. For the login, see <a href="first-ssh">SSH from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="when-ethernet-has-no-link"><span class="t">When the cable is plugged in but there's no link</span><span class="d">Ethernet is seated, but SSH still hangs or the computer never gets a house address. Check both ends, LAN vs WAN, link lights, then ip link before you buy a NIC.</span></a>
+<a class="note-row" href="when-computer-has-two-addresses"><span class="t">When the old PC has two house addresses</span><span class="d">SSH works on one number, Pi-hole or the reservation on another — Wi-Fi and the cable both live. Keep one link. You don't need a new router.</span></a>
+<a class="note-row" href="wifi-on-the-pc"><span class="t">Put the old PC on house Wi-Fi</span><span class="d">Ubuntu Server on an old laptop often has no cable nearby. Join house Wi-Fi so SSH and Pi-hole can work. Skip this if ethernet already works.</span></a>
+<a class="note-row" href="leftover-box-ethernet"><span class="t">Prefer a cable on the computer</span><span class="d">Once the computer is doing real work, plug it into the router with a cable. House Wi-Fi can wait. Skip this if it is already on a cable.</span></a>
+<a class="note-row" href="leftover-box-ip-addr"><span class="t">See the computer's address on the house network</span><span class="d">You need the computer's number before you reserve DHCP or SSH from another room.</span></a>
+<a class="note-row" href="leftover-box-dhcp-reservation"><span class="t">Keep the computer on the same number</span><span class="d">SSH and Pi-hole keep working after a reboot when the router always gives the computer the same address.</span></a>
+<a class="note-row" href="leftover-box-after-reboot"><span class="t">After a reboot, check the computer still does its jobs</span><span class="d">The computer came back up. Confirm SSH, house ad block, and the file share still work before you buy anything.</span></a>
+<a class="note-row" href="find-the-leftover-box"><span class="t">Find the computer on the house network</span><span class="d">The computer has a number on your house network. You need that number to SSH from the couch. You don't need a new router.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-ethernet"><span class="kicker">Previous</span><span class="t">Prefer a cable on the computer</span></a>
+<a rel="next" href="leftover-box-ip-addr"><span class="kicker">Next</span><span class="t">See the computer's address on the house network</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

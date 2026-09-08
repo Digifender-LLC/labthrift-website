@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When the old PC feels slow — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="SSH lags, apt crawls, or the house share feels sticky. Check load, memory, disk room, then one busy job. Skip a new mini PC tonight.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When the old PC feels slow — Labthrift">
+<meta property="og:description" content="SSH lags, apt crawls, or the house share feels sticky. Check load, memory, disk room, then one busy job. Skip a new mini PC tonight.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-the-computer-is-slow">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-the-computer-is-slow">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When the old PC feels slow","description":"SSH lags, apt crawls, or the house share feels sticky. Check load, memory, disk room, then one busy job. Skip a new mini PC tonight.","url":"https://labthrift.com/guides/when-the-computer-is-slow","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-06"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When the old PC feels slow</span></nav>
+<p class="note">Written 6 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When the old PC feels slow</h1>
+<p class="deck">SSH lags, apt crawls, or the house share feels sticky. Check load, memory, disk room, then one busy job. Skip a new mini PC tonight.</p>
+<p>Only the house folder crawls while SSH feels fine? That is usually the network or the stick, not this whole-box walk: <a href="when-share-is-slow">when the house share is slow</a>. Fan screams but commands still snappy? Start with <a href="when-fan-is-loud">when the old PC's fan is loud</a>. This note is the computer itself feeling heavy: typing in SSH hesitates, packages crawl, or everything on the box is sluggish together.</p>
+
+<h2>Skip until the box is reachable</h2>
+<p>If SSH never connects, fix that first: <a href="when-ssh-wont-connect">when SSH won't connect</a>. Soft-off or a dead screen is <a href="leftover-box-still-on">is it still on?</a> or <a href="when-computer-wont-boot">when the old PC won't boot</a>. A Wi-Fi radio that keeps falling off feels like "slow" until you check the link: <a href="when-wifi-keeps-dropping">when house Wi-Fi on the old PC keeps dropping</a>. You need a working SSH session (or a keyboard on the computer) for the checks below.</p>
+
+<h2>What this is</h2>
+<p>An old OptiPlex or laptop left on for Pi-hole and a share can feel fine for weeks, then one job eats the CPU, memory fills, or the system disk packs full of logs and photos. You read four numbers (load, free memory, disk room, one busy process), match the story, and fix that one thing. You don't buy a new N100 because <span><code>apt</code></span> and a local chat model were fighting for the same 8 GB.</p>
+
+<h2>Step 1: load and uptime</h2>
+<p>On the computer:</p>
+<p><code>uptime</code></p>
+<p>The three load numbers are 1, 5, and 15 minutes. On a dual-core office box, sustained load around <span><code>2</code></span> or higher means the cores are busy. Fresh reboot with load near <span><code>0</code></span> that climbs only when you copy photos is a different story than load stuck above the core count all day.</p>
+<p>Also:</p>
+<p><code>uptime -p</code></p>
+<p>If it has been awake for weeks and weekly updates already ran, check whether a reboot is waiting: <a href="leftover-box-reboot-needed">see if a reboot is needed</a>. A pending reboot after a kernel update can leave odd lag until you restart once at a quiet time.</p>
+
+<h2>Step 2: memory</h2>
+<p><code>free -h</code></p>
+<p>Look at the <strong>available</strong> column (or <span><code>available</code></span> under Mem). A few hundred MB available on an 8 GB box, with swap climbing, is a memory squeeze. Total installed size is a separate look: <a href="leftover-box-ram">see how much memory the computer already has</a>. Free room right now: <a href="leftover-box-free-memory">see if the computer still has free memory</a>. Overflow on disk: <a href="leftover-box-swap">see if the computer already has extra memory on disk</a>. If Pi-hole or the share vanished and the log shows Out of memory, that urgent walk is <a href="when-memory-ran-out">when the computer ran out of memory</a>.</p>
+<p>If you started a local chat model on this same PC, that is a common memory hog: <a href="local-chat-on-the-pc">run a local chat on the old PC</a>. Stop the model when you are not using it, or keep chat on a second box. Pi-hole alone is light. A big model on 8 GB is not.</p>
+
+<h2>Step 3: disk room</h2>
+<p><code>df -h /</code></p>
+<p>If the root filesystem is at 95% or shows <span><code>100%</code></span>, everything feels slow: logs, apt, Samba, even SSH can stutter. Confirm it is the system disk (not the backup stick), then free room or move the house folder: <a href="when-house-disk-full">when the computer's disk is full</a>. Inodes (many tiny files) can fill while <span><code>df -h</code></span> still looks fine — that walk covers the inode check too.</p>
+
+<h2>Step 4: who is busy</h2>
+<p>Snapshot once:</p>
+<p><code>ps aux --sort=-%cpu | head -n 12</code></p>
+<p>Or the interactive view:</p>
+<p><code>top</code></p>
+<p>Press <span><code>q</code></span> to quit. Find one line eating CPU or memory: a stuck <span><code>apt</code></span> / <span><code>dpkg</code></span>, a runaway sync, a model server, a browser you left open on a desktop install. The short drill for reading that list is <a href="leftover-box-whats-busy">see what is keeping the computer busy</a>.</p>
+<p>Weekly updates stuck or locking the package tools: <a href="when-updates-wont-install">when weekly updates won't install</a>. You usually wait out the other updater or finish an interrupted <span><code>dpkg</code></span> — not a new CPU.</p>
+
+<h2>Step 5: heat and dust (if load is high and the case is hot)</h2>
+<p>Put a hand near the vents. Hot case plus high load and a loud fan is air and dust, not a shopping list: <a href="when-fan-is-loud">when the old PC's fan is loud</a>, and don't bury the vents: <a href="leftover-box-heat">don't cook the computer</a>. Thermal throttle feels exactly like "the box got slow after it warmed up."</p>
+
+<h2>Step 6: disk health if it stays slow with low load</h2>
+<p>Load near idle, memory free, disk not full, but every file open still crawls? A dying drive does that. Quick SMART check before you trust photos: <a href="see-disk-health">see if the old disk is dying</a>. FAILED, clicks, or I/O errors: <a href="when-disk-is-dying">when the old disk is dying</a>. Back up the house folder first if SMART looks ugly: <a href="first-backup">a backup of the house folder</a>.</p>
+
+<h2>What this is not</h2>
+<p>This is not a new mini PC, more RAM soldered on a board that cannot take it, or a 10G switch for a sluggish SSH session. It is not the share-only slow walk (Wi-Fi vs cable to the laptop). It is not opening the computer to the public internet so a cloud monitor can graph load. It is not blaming Pi-hole for CPU when a chat model or a full disk is the real story.</p>
+
+<h2>What next</h2>
+<p>Pi-hole or Samba vanished with an Out of memory line? <a href="when-memory-ran-out">when the computer ran out of memory</a>. Memory was the bottleneck but nothing died? Re-check after you stop the heavy job: <a href="leftover-box-free-memory">see if the computer still has free memory</a>. Disk was packed: <a href="when-house-disk-full">when the computer's disk is full</a>. Fan and heat: <a href="when-fan-is-loud">when the old PC's fan is loud</a>. Only the share crawls: <a href="when-share-is-slow">when the house share is slow</a>. Pending kernel reboot: <a href="leftover-box-reboot-needed">see if a reboot is needed</a>.</p>
+
+<p class="note">Optional: jot what was busy (apt, model, disk %) in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip a new N100 or soldered-RAM upgrade before you read load, free memory, and <span><code>df</code></span> once.</li>
+<li>Skip blaming Pi-hole for CPU until you see it at the top of <span><code>ps</code></span> or <span><code>top</code></span>.</li>
+<li>Skip a 10G switch or a new mesh kit for a sluggish SSH session on the computer itself.</li>
+<li>Skip leaving a big local chat model running all day on an 8 GB box you also use for the share.</li>
+<li>Skip this if SSH never connects — fix the connect walk first.</li>
+<li>Skip this if only phone photo copies crawl and SSH is snappy — use the share-slow walk.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/procps/free.1.en.html">Debian: free</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/free.1.html">Ubuntu: free</a>. <a href="https://manpages.debian.org/bookworm/procps/uptime.1.en.html">Debian: uptime</a>. <a href="https://manpages.debian.org/bookworm/procps/ps.1.en.html">Debian: ps</a>. <a href="https://manpages.debian.org/bookworm/coreutils/df.1.en.html">Debian: df</a>. Official pages only. For free memory in isolation, see <a href="leftover-box-free-memory">see if the computer still has free memory</a>. For the busy-process drill, see <a href="leftover-box-whats-busy">see what is keeping the computer busy</a>. For a full system disk, see <a href="when-house-disk-full">when the computer's disk is full</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="leftover-box-free-memory"><span class="t">See if the computer still has free memory</span><span class="d">The computer feels slow. Check free memory before you buy a new mini PC.</span></a>
+<a class="note-row" href="when-memory-ran-out"><span class="t">When the computer ran out of memory</span><span class="d">Pi-hole vanished, the share died, or dmesg says Out of memory. Confirm the OOM killer, free RAM, restart house jobs. Skip a new mini PC tonight.</span></a>
+<a class="note-row" href="leftover-box-whats-busy"><span class="t">See what is keeping the computer busy</span><span class="d">The computer feels slow. Check which program is using the CPU before you buy a new mini PC.</span></a>
+<a class="note-row" href="leftover-box-reboot-needed"><span class="t">See if a reboot is needed</span><span class="d">After weekly updates, check whether a reboot is needed before you buy a monitoring box.</span></a>
+<a class="note-row" href="when-house-disk-full"><span class="t">When the computer's disk is full</span><span class="d">Photos won't copy, the share says no space, or df shows the system disk packed. Confirm it is the computer (not the backup stick), free room or move the house folder. You don't need a NAS.</span></a>
+<a class="note-row" href="when-fan-is-loud"><span class="t">When the old PC's fan is loud</span><span class="d">A Marketplace OptiPlex or EliteDesk screams in the living room. Blow the dust, give it air, move it to a closet. Skip a water cooler this weekend.</span></a>
+<a class="note-row" href="when-share-is-slow"><span class="t">When the house share is slow</span><span class="d">The folder opens and copies work, but photos crawl. Check Wi-Fi vs a cable, link speed, disk room, then the laptop. You don't need a 10G switch.</span></a>
+<a class="note-row" href="when-disk-is-dying"><span class="t">When the old disk is dying</span><span class="d">SMART says FAILED, the disk clicks, or dmesg shows I/O errors. Copy the house folder off first, then plan a drive swap. You don't need a NAS tonight.</span></a>
+<a class="note-row" href="see-disk-health"><span class="t">See if the old disk is dying</span><span class="d">SMART reports whether the drive still looks healthy. Install smartmontools, list the disk, run a quick health check before you trust photos on a Marketplace PC. You don't need a NAS.</span></a>
+<a class="note-row" href="local-chat-on-the-pc"><span class="t">Run a local chat on the old PC</span><span class="d">Install Ollama, pull a small model, chat over SSH. Stays on the house network. CPU is fine for a first try. Don't buy a GPU this weekend.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-free-memory"><span class="kicker">Previous</span><span class="t">See if the computer still has free memory</span></a>
+<a rel="next" href="leftover-box-whats-busy"><span class="kicker">Next</span><span class="t">See what is keeping the computer busy</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

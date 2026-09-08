@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When the house name won't resolve — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="lab.home (or your local name) says unknown host, or SSH and the share still need the IP. Prove which DNS the device uses, check the Pi-hole record, then the reserved address. Skip a new router tonight.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When the house name won't resolve — Labthrift">
+<meta property="og:description" content="lab.home (or your local name) says unknown host, or SSH and the share still need the IP. Prove which DNS the device uses, check the Pi-hole record, then the reserved address. Skip a new router tonight.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-local-name-fails">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-local-name-fails">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When the house name won't resolve","description":"lab.home (or your local name) says unknown host, or SSH and the share still need the IP. Prove which DNS the device uses, check the Pi-hole record, then the reserved address. Skip a new router tonight.","url":"https://labthrift.com/guides/when-local-name-fails","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-07"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When the house name won't resolve</span></nav>
+<p class="note">Written 7 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When the house name won't resolve</h1>
+<p class="deck">lab.home (or your local name) says unknown host, or SSH and the share still need the IP. Prove which DNS the device uses, check the Pi-hole record, then the reserved address. Skip a new router tonight.</p>
+<p>Haven't added a Local DNS row yet? Start with <a href="add-local-dns-name">add a local name in Pi-hole</a>. Only renaming the Linux hostname on the computer itself? That quieter job is <a href="leftover-box-hostname">give the computer a name that sticks</a>. Ads back on every device? Fix house DNS first: <a href="when-ads-come-back">when ads come back</a>. This note is when the short name you already saved still fails on a phone or laptop.</p>
+
+<h2>Skip until you have a name and a number</h2>
+<p>You need the short name you meant to use (for example <span><code>lab.home</code></span>) and the computer's house address. Don't know the number? <a href="find-the-leftover-box">Find it on the house network</a>. Can't open the Pi-hole admin page at all? <a href="when-pihole-wont-open">when the Pi-hole admin page won't open</a>. Guest Wi-Fi only? Guest networks often never ask Pi-hole: <a href="guest-wifi-dns">when guest Wi-Fi still shows ads</a>.</p>
+
+<h2>What this is</h2>
+<p>A Local DNS record in Pi-hole answers a name you invent with the computer's address. It only works for devices that already use Pi-hole as DNS. Failures are almost always: the device is not asking Pi-hole, the record points at the wrong number, the number moved after a reboot, or you typed <span><code>.local</code></span> / a typo. The fix is not a mesh kit.</p>
+
+<h2>Step 1: copy the exact failure</h2>
+<p>On the laptop or phone that fails, note what you tried and what it said. Common shapes:</p>
+<ul>
+<li><span><code>ping: lab.home: Name or service not known</code></span> / unknown host</li>
+<li>SSH hangs on the name, but <span><code>ssh youruser@192.168.x.x</code></span> works</li>
+<li>Share path with the name fails; the same path with the number works</li>
+<li>Browser opens <span><code>http://192.168.x.x/admin</code></span> but not <span><code>http://lab.home/admin</code></span></li>
+</ul>
+<p>If the number path also fails, you are not on a name problem yet. Share won't open: <a href="when-share-wont-open">when the house share won't open</a>. SSH won't connect: <a href="when-ssh-wont-connect">when SSH won't connect</a>.</p>
+
+<h2>Step 2: prove which DNS that device uses</h2>
+<p>Stay on the main house Wi-Fi (not guest). On a laptop:</p>
+<p><code>resolvectl status</code></p>
+<p>Or:</p>
+<p><code>cat /etc/resolv.conf</code></p>
+<p>On Windows, open a terminal:</p>
+<p><code>ipconfig /all</code></p>
+<p>Find DNS Servers for the active adapter. You want the computer's house address (the Pi-hole box), not 8.8.8.8, not the ISP. On a phone, open the Wi-Fi detail for this network and read DNS. Private DNS / Private Relay / a VPN that forces its own DNS will skip Pi-hole and never see your Local DNS row. Same walk as ads on one device: <a href="when-one-phone-shows-ads">when one phone still shows ads</a>, <a href="when-one-laptop-shows-ads">when one laptop still shows ads</a>.</p>
+<p>Router still handing out ISP DNS house-wide? Point it again: <a href="common-router-dns">point common home routers at Pi-hole</a>. Nest or a gateway that will not take LAN DNS? Set this one device by hand: <a href="manual-dns-on-devices">point a phone or laptop at Pi-hole when the router won't</a>.</p>
+
+<h2>Step 3: ask Pi-hole for the name on purpose</h2>
+<p>From a laptop that <em>does</em> use the computer as DNS:</p>
+<p><code>dig +short lab.home @192.168.x.x</code></p>
+<p>Swap in your real name and the computer's address. You want one line with that same address. Empty answer, NXDOMAIN, or a wrong number means the Local DNS row is missing, mistyped, or pointed at a stale IP.</p>
+<p>Compare with the public path (should fail or go elsewhere):</p>
+<p><code>dig +short lab.home @1.1.1.1</code></p>
+<p>A house name is not on the open internet. If Cloudflare answers nothing useful, that is normal. Your phone must ask the computer, not Cloudflare.</p>
+
+<h2>Step 4: open the Local DNS row</h2>
+<p>On a device that can reach the admin page, open <a href="http://pi.hole/admin">http://pi.hole/admin</a> or the computer's address plus <span><code>/admin</code></span>. Log in with the Pi-hole admin password. Forgot it? <a href="leftover-box-pihole-password">Change the printed Pi-hole admin password</a>.</p>
+<p>Open <strong>Local DNS</strong> (sometimes under Settings). Find the Domain and IP row for your name.</p>
+<ul>
+<li>No row: add it the way <a href="add-local-dns-name">add a local name in Pi-hole</a> describes.</li>
+<li>Typo in the Domain: delete and re-add, or edit if your build allows.</li>
+<li>Ending is <span><code>.local</code></span>: change to <span><code>.home</code></span> or <span><code>.lan</code></span>. Phones already use <span><code>.local</code></span> for a different trick, and it fights.</li>
+<li>IP is an old number: put the current address from <span><code>hostname -I</code></span> on the computer, or from <a href="find-the-leftover-box">find it on the house network</a>.</li>
+</ul>
+<p>Save. Then re-run the <span><code>dig</code></span> from Step 3.</p>
+
+<h2>Step 5: lock the number so the name stops drifting</h2>
+<p>If the name worked last week and died after a reboot, the computer probably got a new DHCP lease. Reserve the address on the router: <a href="leftover-box-dhcp-reservation">keep it on the same number</a>, brand menus in <a href="common-router-reservation">reserve an address on common home routers</a>. Router will not reserve? Set a fixed address on the PC: <a href="fixed-address-on-pc">give the computer a fixed address when the router won't</a>. Then fix the Local DNS IP to match. Two live addresses (Wi-Fi + cable) can also confuse which number the name should hit: <a href="when-computer-has-two-addresses">when the old PC has two house addresses</a>.</p>
+
+<h2>Step 6: clear a sticky cache, then retry the real job</h2>
+<p>On the failing laptop, flush DNS after you fix the record:</p>
+<p>Linux:</p>
+<p><code>resolvectl flush-caches</code></p>
+<p>Windows:</p>
+<p><code>ipconfig /flushdns</code></p>
+<p>Mac:</p>
+<p><code>sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder</code></p>
+<p>On a phone, toggle Wi-Fi off and on (or Forget and rejoin the house network) so it picks up DNS again. Then retry the job you care about:</p>
+<ul>
+<li>SSH: <span><code>ssh youruser@lab.home</code></span> (<a href="first-ssh">SSH from the couch</a>)</li>
+<li>Share: <span><code>smb://lab.home/photos</code></span> or <span><code>\\lab.home\photos</code></span> (<a href="open-share-from-laptop">open from a laptop</a>, <a href="open-share-from-phone">from a phone</a>)</li>
+<li>Admin: <span><code>http://lab.home/admin</code></span></li>
+</ul>
+<p>Pi-hole query log still empty while ads and names both fail? <a href="when-pihole-has-no-queries">when Pi-hole shows no queries</a>.</p>
+
+<h2>What this is not</h2>
+<p>This is not buying a public domain. It is not renaming the Linux hostname alone (<a href="leftover-box-hostname">give the computer a name that sticks</a>). It is not opening Pi-hole or SMB to the internet. It is not Unbound, Docker, or a second Pi for "split DNS." It is not a reason to replace the router when one device still uses Private DNS.</p>
+
+<h2>What next</h2>
+<p>Keep the weekly Pi-hole habit: <a href="update-pihole">keep Pi-hole updated</a>. Export settings so local names survive a reinstall: <a href="backup-pihole">save a Pi-hole backup</a>. Ads clean but a bank page broken? <a href="when-a-site-wont-load">when a site won't load after Pi-hole</a>. Still building the first share: <a href="first-file-share">a file share on the computer</a>.</p>
+
+<p class="note">Optional: jot the working house name and reserved address in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip a new router before you prove which DNS the failing device uses.</li>
+<li>Skip <span><code>.local</code></span> as the ending for a Pi-hole Local DNS name.</li>
+<li>Skip pointing a house name at an address that changes every reboot.</li>
+<li>Skip blaming Samba or SSH until <span><code>dig @computer</code></span> returns the right number.</li>
+<li>Skip opening the admin page past the house network.</li>
+<li>Skip buying a public domain for a first house nickname.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://docs.pi-hole.net/">Pi-hole docs</a>. <a href="https://docs.pi-hole.net/ftldns/configfile/">Pi-hole FTL configuration</a> (hosts / hostRecord). <a href="https://manpages.debian.org/bookworm/dnsutils/dig.1.en.html">Debian: dig</a>. <a href="https://manpages.debian.org/bookworm/systemd/resolvectl.1.en.html">Debian: resolvectl</a>. Official pages only. For adding the record, see <a href="add-local-dns-name">add a local name in Pi-hole</a>. For router DNS, see <a href="common-router-dns">point common home routers at Pi-hole</a>. For one stubborn phone, see <a href="when-one-phone-shows-ads">when one phone still shows ads</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="add-local-dns-name"><span class="t">Add a local name in Pi-hole</span><span class="d">Give the old PC a short house name so phones and laptops can open SSH, the share, and the admin page without remembering the number. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-hostname"><span class="t">Give the computer a name that sticks</span><span class="d">Ping and SSH are easier if the computer has a short name. lab works. Set it so the name survives a reboot.</span></a>
+<a class="note-row" href="common-router-dns"><span class="t">Point common home routers at Pi-hole</span><span class="d">Where to set DNS on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so the house asks Pi-hole. Prefer LAN DHCP DNS. You don't need a new router.</span></a>
+<a class="note-row" href="when-one-phone-shows-ads"><span class="t">When one phone still shows ads</span><span class="d">Everyone else's ads dropped. One phone still shows banners. Check Private DNS, Private Relay, a VPN, then the Wi-Fi lease. You don't need a new router.</span></a>
+<a class="note-row" href="when-ads-come-back"><span class="t">When ads come back</span><span class="d">Ads are back, sites won't load, or a phone still shows banners. Check the computer, Pi-hole, router DNS, then the phone.</span></a>
+<a class="note-row" href="when-pihole-has-no-queries"><span class="t">When Pi-hole shows no queries</span><span class="d">Admin opens, totals stay at zero, query log empty. Prove the house asks the computer for DNS, then check Pi-hole status. You don't need a new Raspberry Pi.</span></a>
+<a class="note-row" href="leftover-box-dhcp-reservation"><span class="t">Keep it on the same number</span><span class="d">SSH and Pi-hole keep working after a reboot when the router always gives the computer the same address.</span></a>
+<a class="note-row" href="find-the-leftover-box"><span class="t">Find it on the house network</span><span class="d">The computer has a number on your house network. You need that number to SSH from the couch. You don't need a new router.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="add-local-dns-name"><span class="kicker">Previous</span><span class="t">Add a local name in Pi-hole</span></a>
+<a rel="next" href="backup-pihole"><span class="kicker">Next</span><span class="t">Save a Pi-hole backup before you change things</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

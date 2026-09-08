@@ -1,0 +1,349 @@
+# Labthrift (Markdown mirror)
+
+> Plain Markdown twins of every Labthrift page for people and AI crawlers.
+
+HTML site: https://labthrift.com/
+
+## Pages
+
+- [A home lab, without the jargon](/md/home.md) — https://labthrift.com/
+- [About Labthrift](/md/about.md) — https://labthrift.com/about
+- [That page is not here.](/md/404.md) — https://labthrift.com/404
+- [10-inch mini rack for a closet that is not 19-inch](/md/guides/10-inch-mini-rack.md) — https://labthrift.com/guides/10-inch-mini-rack
+- [New 10G SFP+ NIC vs staying on 2.5G copper](/md/guides/10gtek-x520-vs-tx201.md) — https://labthrift.com/guides/10gtek-x520-vs-tx201
+- [If the PSU wants 208 V, it does not belong in a closet](/md/guides/110v-brick-vs-208v-1u.md) — https://labthrift.com/guides/110v-brick-vs-208v-1u
+- [12U open frame vs 10-inch wall cabinet](/md/guides/12u-vs-10-inch-closet-rack.md) — https://labthrift.com/guides/12u-vs-10-inch-closet-rack
+- [1U is for a rack. A closet gets a pizza box.](/md/guides/1u-vs-pizza-box-closet.md) — https://labthrift.com/guides/1u-vs-pizza-box-closet
+- [A small boot disk for the old PC, not a place for VMs](/md/guides/2-5-ssd-proxmox-boot.md) — https://labthrift.com/guides/2-5-ssd-proxmox-boot
+- [A faster switch for a first home lab](/md/guides/2-5g-switch.md) — https://labthrift.com/guides/2-5g-switch
+- [Buy the extra 10G cage only if one copy already fills the faster house port](/md/guides/2-5g-vs-10g-uplink-switch.md) — https://labthrift.com/guides/2-5g-vs-10g-uplink-switch
+- [Quiet switch that powers two Lite APs without a loud 24-port heater: 8-port 2.5G PoE](/md/guides/8-port-2-5g-poe-closet.md) — https://labthrift.com/guides/8-port-2-5g-poe-closet
+- [8-port vs 5-port 2.5G switch for a closet lab](/md/guides/8-port-vs-5-port-2-5g-switch.md) — https://labthrift.com/guides/8-port-vs-5-port-2-5g-switch
+- [Skip the palm box whose 12 GB cannot grow: AOOSTAR N1 Pro](/md/guides/aoostar-n1-pro-n150-soldered-12gb.md) — https://labthrift.com/guides/aoostar-n1-pro-n150-soldered-12gb
+- [Supported small 4×4, not a used Xeon-D leftover: ASUS NUC 14 Pro](/md/guides/asus-nuc-14-pro-vs-used-xeon-d.md) — https://labthrift.com/guides/asus-nuc-14-pro-vs-used-xeon-d
+- [Asustor AS5402T review: four NVMe slots on a 2-bay NAS](/md/guides/asustor-as5402t-review.md) — https://labthrift.com/guides/asustor-as5402t-review
+- [Asustor AS5404T review: 4-bay, dual 2.5GbE, four M.2](/md/guides/asustor-as5404t-review.md) — https://labthrift.com/guides/asustor-as5404t-review
+- [Copy the house folder to another old computer](/md/guides/backup-to-another-pc.md) — https://labthrift.com/guides/backup-to-another-pc
+- [Quiet dual-faster-port mini still sold new: Beelink EQ12](/md/guides/beelink-eq12-n100-dual-2-5g.md) — https://labthrift.com/guides/beelink-eq12-n100-dual-2-5g
+- [Dual gigabit living-room mini, not the 2.5G listing: Beelink EQ13](/md/guides/beelink-eq13-n200-dual-1g.md) — https://labthrift.com/guides/beelink-eq13-n200-dual-1g
+- [Read the network ports before you buy this N150 mini: Beelink EQ14](/md/guides/beelink-eq14-n150-dual-lan-proxmox.md) — https://labthrift.com/guides/beelink-eq14-n150-dual-lan-proxmox
+- [Quiet two-disk media box, not a four-port firewall: Beelink ME Pro](/md/guides/beelink-me-pro-n150-2bay-nas.md) — https://labthrift.com/guides/beelink-me-pro-n150-2bay-nas
+- [Skip the soldered LPDDR5 listing; wait for upgradable RAM: Beelink Mini S13](/md/guides/beelink-mini-s13-lpddr5-vs-ddr4.md) — https://labthrift.com/guides/beelink-mini-s13-lpddr5-vs-ddr4
+- [A $339 Beelink N150 vs the yearly cost of a used 1U](/md/guides/beelink-n150-vs-used-1u-bill.md) — https://labthrift.com/guides/beelink-n150-vs-used-1u-bill
+- [Pick the cheap living-room palm box; confirm the LAN: Mini S12 Pro vs Mini S13](/md/guides/beelink-s12-pro-vs-s13-living-room-node.md) — https://labthrift.com/guides/beelink-s12-pro-vs-s13-living-room-node
+- [Boot the old PC from the USB stick](/md/guides/boot-from-usb.md) — https://labthrift.com/guides/boot-from-usb
+- [Cat6a vs Cat5e in a closet that already does 2.5G](/md/guides/cat6a-vs-cat5e-closet.md) — https://labthrift.com/guides/cat6a-vs-cat5e-closet
+- [Cheap KVM-over-IP for a closet you don't want to sit in](/md/guides/cheap-kvm-over-ip.md) — https://labthrift.com/guides/cheap-kvm-over-ip
+- [Power two Wi-Fi points from one small switch](/md/guides/cheap-poe.md) — https://labthrift.com/guides/cheap-poe
+- [Cheap UPS for a closet that stays on overnight](/md/guides/cheap-ups-closet.md) — https://labthrift.com/guides/cheap-ups-closet
+- [1-foot Cat6 patch leads for the 12-port panel](/md/guides/closet-1ft-cat6-patch.md) — https://labthrift.com/guides/closet-1ft-cat6-patch
+- [A 1U shelf so the NAS is not sitting on the UPS](/md/guides/closet-1u-shelf.md) — https://labthrift.com/guides/closet-1u-shelf
+- [Hook-and-loop, not zip ties, in a closet](/md/guides/closet-cable-management.md) — https://labthrift.com/guides/closet-cable-management
+- [A 19-inch 12-port Cat6 panel for the StarTech 12U](/md/guides/closet-cat6-patch-panel.md) — https://labthrift.com/guides/closet-cat6-patch-panel
+- [A label maker you will actually use on patch leads](/md/guides/closet-label-maker.md) — https://labthrift.com/guides/closet-label-maker
+- [Map a drop before you blame the switch: Klein VDV526-100](/md/guides/closet-lan-explorer.md) — https://labthrift.com/guides/closet-lan-explorer
+- [Terminate your own drop on a pass-thru plug: Klein VDV226-110](/md/guides/closet-passthru-crimper.md) — https://labthrift.com/guides/closet-passthru-crimper
+- [A metal rack power strip that is not a fire hazard](/md/guides/closet-pdu-not-a-fire-hazard.md) — https://labthrift.com/guides/closet-pdu-not-a-fire-hazard
+- [A 110 punch-down tool so the 12-port panel is not a paperweight](/md/guides/closet-punchdown-tool.md) — https://labthrift.com/guides/closet-punchdown-tool
+- [A USB-to-RJ45 console cable that is not an ethernet dongle](/md/guides/closet-usb-console-cable.md) — https://labthrift.com/guides/closet-usb-console-cable
+- [Point common home routers at Pi-hole](/md/guides/common-router-dns.md) — https://labthrift.com/guides/common-router-dns
+- [Keep the computer on the same address on common routers](/md/guides/common-router-reservation.md) — https://labthrift.com/guides/common-router-reservation
+- [Ceiling AP you can later flash OpenWrt on: Cudy AP3000](/md/guides/cudy-ap3000-openwrt.md) — https://labthrift.com/guides/cudy-ap3000-openwrt
+- [Cheap four-port Amazon barebone; treat the listing as hostile: CWWK](/md/guides/cwwk-n100-4x-i226-amazon.md) — https://labthrift.com/guides/cwwk-n100-4x-i226-amazon
+- [DS224+ vs DS423+: 2-bay or 4-bay Synology Plus](/md/guides/ds224-plus-vs-ds423-plus.md) — https://labthrift.com/guides/ds224-plus-vs-ds423-plus
+- [Living-room dual-port mini vs closet four-port appliance](/md/guides/dual-lan-mini-vs-4x-2-5g-appliance.md) — https://labthrift.com/guides/dual-lan-mini-vs-4x-2-5g-appliance
+- [Two floors, one gigabit house, cheap af power: EAP613](/md/guides/eap613-small-house-af.md) — https://labthrift.com/guides/eap613-small-house-af
+- [Two about-$80 APs. Radio and power class differ. The cheap injector can be the trap: EAP613 vs EAP653](/md/guides/eap613-vs-eap653.md) — https://labthrift.com/guides/eap613-vs-eap653
+- [In-wall house AP when the cable already comes out of the wall box: EAP615-Wall](/md/guides/eap615-wall.md) — https://labthrift.com/guides/eap615-wall
+- [Faster Wi-Fi 6 ceiling puck when you already have 2.5G PoE and no Wi-Fi 7 phones: EAP670](/md/guides/eap670-2-5g-wifi6.md) — https://labthrift.com/guides/eap670-2-5g-wifi6
+- [Fanless 60 W brick that is not a mystery barrel](/md/guides/fanless-60w-psu.md) — https://labthrift.com/guides/fanless-60w-psu
+- [Back up a Windows PC to the house share with File History](/md/guides/file-history-to-share.md) — https://labthrift.com/guides/file-history-to-share
+- [Find it on the house network](/md/guides/find-the-leftover-box.md) — https://labthrift.com/guides/find-the-leftover-box
+- [A backup of the house folder](/md/guides/first-backup.md) — https://labthrift.com/guides/first-backup
+- [A file share](/md/guides/first-file-share.md) — https://labthrift.com/guides/first-file-share
+- [Stay on the maker OS, or wipe an x86 4-bay for TrueNAS](/md/guides/first-nas-diy-vs-appliance.md) — https://labthrift.com/guides/first-nas-diy-vs-appliance
+- [A first file box (NAS) for one person](/md/guides/first-nas.md) — https://labthrift.com/guides/first-nas
+- [SSH from the couch](/md/guides/first-ssh.md) — https://labthrift.com/guides/first-ssh
+- [The first useful thing](/md/guides/first-useful-service.md) — https://labthrift.com/guides/first-useful-service
+- [Your first weekend](/md/guides/first-weekend.md) — https://labthrift.com/guides/first-weekend
+- [Give the computer a fixed address when the router won't](/md/guides/fixed-address-on-pc.md) — https://labthrift.com/guides/fixed-address-on-pc
+- [Living-room router as an AP when the closet has no PoE yet: Flint 2 (GL-MT6000)](/md/guides/gl-mt6000-ap-mode-no-poe.md) — https://labthrift.com/guides/gl-mt6000-ap-mode-no-poe
+- [Living-room mini PC with one faster port: GMKtec G3 Plus](/md/guides/gmktec-g3-plus-n150-2-5g.md) — https://labthrift.com/guides/gmktec-g3-plus-n150-2-5g
+- [Skip the old thin-laptop chip listing that claims it beats N150: GMKtec G3 Pro](/md/guides/gmktec-g3-pro-i3-10110u.md) — https://labthrift.com/guides/gmktec-g3-pro-i3-10110u
+- [Skip the sold-out soldered 12 GB cube: GMKtec G5](/md/guides/gmktec-g5-n97-12gb-lpddr5.md) — https://labthrift.com/guides/gmktec-g5-n97-12gb-lpddr5
+- [Quiet house AP that runs its own controller: Grandstream GWN7660](/md/guides/grandstream-gwn7660-embedded-controller.md) — https://labthrift.com/guides/grandstream-gwn7660-embedded-controller
+- [When guest Wi-Fi still shows ads](/md/guides/guest-wifi-dns.md) — https://labthrift.com/guides/guest-wifi-dns
+- [HDMI dummy plug for a headless mini PC](/md/guides/hdmi-dummy-plug-headless.md) — https://labthrift.com/guides/hdmi-dummy-plug-headless
+- [Put the house folder on a USB disk](/md/guides/house-folder-on-usb.md) — https://labthrift.com/guides/house-folder-on-usb
+- [All notes](/md/guides/index.md) — https://labthrift.com/guides/
+- [House Wi-Fi with an app, no license, no controller VM: Aruba Instant On AP21 vs AP22](/md/guides/instant-on-ap21-ap22-house.md) — https://labthrift.com/guides/instant-on-ap21-ap22-house
+- [When ads come back, check the ad block](/md/guides/leftover-box-ad-block-check.md) — https://labthrift.com/guides/leftover-box-ad-block-check
+- [After a reboot, check the computer still does its jobs](/md/guides/leftover-box-after-reboot.md) — https://labthrift.com/guides/leftover-box-after-reboot
+- [Clear old package downloads when the disk is tight](/md/guides/leftover-box-apt-clean.md) — https://labthrift.com/guides/leftover-box-apt-clean
+- [See which laptop keys the computer already trusts](/md/guides/leftover-box-authorized-keys.md) — https://labthrift.com/guides/leftover-box-authorized-keys
+- [Check that the backup actually copied](/md/guides/leftover-box-backup-check.md) — https://labthrift.com/guides/leftover-box-backup-check
+- [Back up the folder every week without remembering](/md/guides/leftover-box-backup-timer.md) — https://labthrift.com/guides/leftover-box-backup-timer
+- [Encode a file so you can paste it](/md/guides/leftover-box-base64.md) — https://labthrift.com/guides/leftover-box-base64
+- [See the last name](/md/guides/leftover-box-basename.md) — https://labthrift.com/guides/leftover-box-basename
+- [Read disk labels and UUIDs](/md/guides/leftover-box-blkid.md) — https://labthrift.com/guides/leftover-box-blkid
+- [See stable disk names by hardware id](/md/guides/leftover-box-by-id.md) — https://labthrift.com/guides/leftover-box-by-id
+- [See stable disk names by UUID](/md/guides/leftover-box-by-uuid.md) — https://labthrift.com/guides/leftover-box-by-uuid
+- [See the month on a calendar](/md/guides/leftover-box-cal.md) — https://labthrift.com/guides/leftover-box-cal
+- [Read a file without opening the editor](/md/guides/leftover-box-cat.md) — https://labthrift.com/guides/leftover-box-cat
+- [Move into a folder](/md/guides/leftover-box-cd.md) — https://labthrift.com/guides/leftover-box-cd
+- [Change the login password](/md/guides/leftover-box-change-password.md) — https://labthrift.com/guides/leftover-box-change-password
+- [Make a file runnable](/md/guides/leftover-box-chmod.md) — https://labthrift.com/guides/leftover-box-chmod
+- [Clear the window](/md/guides/leftover-box-clear.md) — https://labthrift.com/guides/leftover-box-clear
+- [See whether two files match byte for byte](/md/guides/leftover-box-cmp.md) — https://labthrift.com/guides/leftover-box-cmp
+- [Line lists up in columns](/md/guides/leftover-box-column.md) — https://labthrift.com/guides/leftover-box-column
+- [Compare sorted lists](/md/guides/leftover-box-comm.md) — https://labthrift.com/guides/leftover-box-comm
+- [Copy a file without leaving the computer](/md/guides/leftover-box-cp.md) — https://labthrift.com/guides/leftover-box-cp
+- [See how many workers the computer already has](/md/guides/leftover-box-cpu.md) — https://labthrift.com/guides/leftover-box-cpu
+- [Download a file onto the computer](/md/guides/leftover-box-curl.md) — https://labthrift.com/guides/leftover-box-curl
+- [Pull one column](/md/guides/leftover-box-cut.md) — https://labthrift.com/guides/leftover-box-cut
+- [See what time the computer thinks it is](/md/guides/leftover-box-date.md) — https://labthrift.com/guides/leftover-box-date
+- [Keep the computer on the same number](/md/guides/leftover-box-dhcp-reservation.md) — https://labthrift.com/guides/leftover-box-dhcp-reservation
+- [See whether two files are the same](/md/guides/leftover-box-diff.md) — https://labthrift.com/guides/leftover-box-diff
+- [See the folder path](/md/guides/leftover-box-dirname.md) — https://labthrift.com/guides/leftover-box-dirname
+- [See if the computer still has room](/md/guides/leftover-box-disk-space.md) — https://labthrift.com/guides/leftover-box-disk-space
+- [See how big the disk already is](/md/guides/leftover-box-disk.md) — https://labthrift.com/guides/leftover-box-disk
+- [See which name server the computer is using](/md/guides/leftover-box-dns-check.md) — https://labthrift.com/guides/leftover-box-dns-check
+- [See how big one folder is](/md/guides/leftover-box-du.md) — https://labthrift.com/guides/leftover-box-du
+- [Put a short line into a file](/md/guides/leftover-box-echo.md) — https://labthrift.com/guides/leftover-box-echo
+- [Make sure house jobs start after every reboot](/md/guides/leftover-box-enable-boot.md) — https://labthrift.com/guides/leftover-box-enable-boot
+- [A cable beats Wi-Fi for the computer](/md/guides/leftover-box-ethernet.md) — https://labthrift.com/guides/leftover-box-ethernet
+- [Turn tabs into spaces](/md/guides/leftover-box-expand.md) — https://labthrift.com/guides/leftover-box-expand
+- [Slow down password guesses on SSH](/md/guides/leftover-box-fail2ban.md) — https://labthrift.com/guides/leftover-box-fail2ban
+- [See if anyone guessed the password](/md/guides/leftover-box-failed-guesses.md) — https://labthrift.com/guides/leftover-box-failed-guesses
+- [See if any house jobs failed to start](/md/guides/leftover-box-failed-units.md) — https://labthrift.com/guides/leftover-box-failed-units
+- [Peek at partition tables with fdisk](/md/guides/leftover-box-fdisk-list.md) — https://labthrift.com/guides/leftover-box-fdisk-list
+- [See what kind of file this is](/md/guides/leftover-box-file.md) — https://labthrift.com/guides/leftover-box-file
+- [Find a file by name](/md/guides/leftover-box-find.md) — https://labthrift.com/guides/leftover-box-find
+- [See which folders are already attached](/md/guides/leftover-box-findmnt.md) — https://labthrift.com/guides/leftover-box-findmnt
+- [Reflow paragraphs](/md/guides/leftover-box-fmt.md) — https://labthrift.com/guides/leftover-box-fmt
+- [Wrap long lines](/md/guides/leftover-box-fold.md) — https://labthrift.com/guides/leftover-box-fold
+- [See if the computer still has free memory](/md/guides/leftover-box-free-memory.md) — https://labthrift.com/guides/leftover-box-free-memory
+- [Find a word in a file](/md/guides/leftover-box-grep.md) — https://labthrift.com/guides/leftover-box-grep
+- [Shrink one file](/md/guides/leftover-box-gzip.md) — https://labthrift.com/guides/leftover-box-gzip
+- [See the start of a file](/md/guides/leftover-box-head.md) — https://labthrift.com/guides/leftover-box-head
+- [Don't cook the computer](/md/guides/leftover-box-heat.md) — https://labthrift.com/guides/leftover-box-heat
+- [Ask a command what it does](/md/guides/leftover-box-help.md) — https://labthrift.com/guides/leftover-box-help
+- [Reuse a command you already typed](/md/guides/leftover-box-history.md) — https://labthrift.com/guides/leftover-box-history
+- [Give the computer a name that sticks](/md/guides/leftover-box-hostname.md) — https://labthrift.com/guides/leftover-box-hostname
+- [Keep the computer on the house network](/md/guides/leftover-box-house-network.md) — https://labthrift.com/guides/leftover-box-house-network
+- [See user number and groups](/md/guides/leftover-box-id.md) — https://labthrift.com/guides/leftover-box-id
+- [When copies fail but free space looks fine](/md/guides/leftover-box-inodes.md) — https://labthrift.com/guides/leftover-box-inodes
+- [Check that the computer can reach the internet](/md/guides/leftover-box-internet.md) — https://labthrift.com/guides/leftover-box-internet
+- [See the computer's address on the house network](/md/guides/leftover-box-ip-addr.md) — https://labthrift.com/guides/leftover-box-ip-addr
+- [Match files on a shared field](/md/guides/leftover-box-join.md) — https://labthrift.com/guides/leftover-box-join
+- [See which folders are eating the disk](/md/guides/leftover-box-largest-folders.md) — https://labthrift.com/guides/leftover-box-largest-folders
+- [See who logged into the computer recently](/md/guides/leftover-box-last-login.md) — https://labthrift.com/guides/leftover-box-last-login
+- [Read a file one screen at a time](/md/guides/leftover-box-less.md) — https://labthrift.com/guides/leftover-box-less
+- [See the cable speed](/md/guides/leftover-box-link-speed.md) — https://labthrift.com/guides/leftover-box-link-speed
+- [See which doors the computer left open](/md/guides/leftover-box-listening.md) — https://labthrift.com/guides/leftover-box-listening
+- [Make a shortcut](/md/guides/leftover-box-ln.md) — https://labthrift.com/guides/leftover-box-ln
+- [See language and region](/md/guides/leftover-box-locale.md) — https://labthrift.com/guides/leftover-box-locale
+- [See what's in a folder](/md/guides/leftover-box-ls.md) — https://labthrift.com/guides/leftover-box-ls
+- [See disks and USB sticks](/md/guides/leftover-box-lsblk.md) — https://labthrift.com/guides/leftover-box-lsblk
+- [See the computer's hardware address](/md/guides/leftover-box-mac-addr.md) — https://labthrift.com/guides/leftover-box-mac-addr
+- [Make a folder](/md/guides/leftover-box-mkdir.md) — https://labthrift.com/guides/leftover-box-mkdir
+- [Make a temporary practice file](/md/guides/leftover-box-mktemp.md) — https://labthrift.com/guides/leftover-box-mktemp
+- [See what computer you already have](/md/guides/leftover-box-model.md) — https://labthrift.com/guides/leftover-box-model
+- [Rename or move a file](/md/guides/leftover-box-mv.md) — https://labthrift.com/guides/leftover-box-mv
+- [Look up a site name from the computer](/md/guides/leftover-box-name-lookup.md) — https://labthrift.com/guides/leftover-box-name-lookup
+- [Edit a file from the couch](/md/guides/leftover-box-nano.md) — https://labthrift.com/guides/leftover-box-nano
+- [Number lines](/md/guides/leftover-box-nl.md) — https://labthrift.com/guides/leftover-box-nl
+- [You don't need a UPS yet](/md/guides/leftover-box-no-ups.md) — https://labthrift.com/guides/leftover-box-no-ups
+- [Make sizes readable with numfmt](/md/guides/leftover-box-numfmt.md) — https://labthrift.com/guides/leftover-box-numfmt
+- [Peek at file bytes](/md/guides/leftover-box-od.md) — https://labthrift.com/guides/leftover-box-od
+- [Clear old logs when the disk is tight](/md/guides/leftover-box-old-logs.md) — https://labthrift.com/guides/leftover-box-old-logs
+- [See which OS the computer is already running](/md/guides/leftover-box-os-release.md) — https://labthrift.com/guides/leftover-box-os-release
+- [See if the computer still has old login accounts](/md/guides/leftover-box-other-accounts.md) — https://labthrift.com/guides/leftover-box-other-accounts
+- [Peek at partition layout with parted](/md/guides/leftover-box-parted-list.md) — https://labthrift.com/guides/leftover-box-parted-list
+- [Join columns side by side](/md/guides/leftover-box-paste.md) — https://labthrift.com/guides/leftover-box-paste
+- [Change the Pi-hole admin password](/md/guides/leftover-box-pihole-password.md) — https://labthrift.com/guides/leftover-box-pihole-password
+- [Check that the computer can reach the house router](/md/guides/leftover-box-ping.md) — https://labthrift.com/guides/leftover-box-ping
+- [Send output into another command](/md/guides/leftover-box-pipe.md) — https://labthrift.com/guides/leftover-box-pipe
+- [See if the old laptop is actually plugged in](/md/guides/leftover-box-plugged-in.md) — https://labthrift.com/guides/leftover-box-plugged-in
+- [See HOME and PATH](/md/guides/leftover-box-printenv.md) — https://labthrift.com/guides/leftover-box-printenv
+- [Print words exactly](/md/guides/leftover-box-printf.md) — https://labthrift.com/guides/leftover-box-printf
+- [Peek at partitions via /proc/partitions](/md/guides/leftover-box-proc-partitions.md) — https://labthrift.com/guides/leftover-box-proc-partitions
+- [See which folder you are in](/md/guides/leftover-box-pwd.md) — https://labthrift.com/guides/leftover-box-pwd
+- [See how much memory the computer already has](/md/guides/leftover-box-ram.md) — https://labthrift.com/guides/leftover-box-ram
+- [When something broke, look at the log](/md/guides/leftover-box-read-logs.md) — https://labthrift.com/guides/leftover-box-read-logs
+- [See the shortcut target](/md/guides/leftover-box-readlink.md) — https://labthrift.com/guides/leftover-box-readlink
+- [See the full path](/md/guides/leftover-box-realpath.md) — https://labthrift.com/guides/leftover-box-realpath
+- [See if a reboot is needed](/md/guides/leftover-box-reboot-needed.md) — https://labthrift.com/guides/leftover-box-reboot-needed
+- [Save output to a file](/md/guides/leftover-box-redirect.md) — https://labthrift.com/guides/leftover-box-redirect
+- [Fix a garbled terminal](/md/guides/leftover-box-reset.md) — https://labthrift.com/guides/leftover-box-reset
+- [Restore one file from the USB backup](/md/guides/leftover-box-restore-one.md) — https://labthrift.com/guides/leftover-box-restore-one
+- [Reverse characters](/md/guides/leftover-box-rev.md) — https://labthrift.com/guides/leftover-box-rev
+- [Delete a file carefully](/md/guides/leftover-box-rm.md) — https://labthrift.com/guides/leftover-box-rm
+- [Point the house at the ad block](/md/guides/leftover-box-router-dns.md) — https://labthrift.com/guides/leftover-box-router-dns
+- [Sync files so only changes copy](/md/guides/leftover-box-rsync.md) — https://labthrift.com/guides/leftover-box-rsync
+- [Set or change the house-share password](/md/guides/leftover-box-samba-password.md) — https://labthrift.com/guides/leftover-box-samba-password
+- [Copy a file to the computer from your laptop](/md/guides/leftover-box-scp.md) — https://labthrift.com/guides/leftover-box-scp
+- [Put a key on a second computer first](/md/guides/leftover-box-second-key.md) — https://labthrift.com/guides/leftover-box-second-key
+- [Print a number list](/md/guides/leftover-box-seq.md) — https://labthrift.com/guides/leftover-box-seq
+- [Browse folders then copy one file](/md/guides/leftover-box-sftp.md) — https://labthrift.com/guides/leftover-box-sftp
+- [Check a file fingerprint](/md/guides/leftover-box-sha256sum.md) — https://labthrift.com/guides/leftover-box-sha256sum
+- [When the house share disappeared, check the computer](/md/guides/leftover-box-share-check.md) — https://labthrift.com/guides/leftover-box-share-check
+- [Mix lines](/md/guides/leftover-box-shuf.md) — https://labthrift.com/guides/leftover-box-shuf
+- [Shut down the computer without yanking the plug](/md/guides/leftover-box-shutdown.md) — https://labthrift.com/guides/leftover-box-shutdown
+- [Don't let the old laptop sleep](/md/guides/leftover-box-sleep.md) — https://labthrift.com/guides/leftover-box-sleep
+- [Put lines in order](/md/guides/leftover-box-sort.md) — https://labthrift.com/guides/leftover-box-sort
+- [Split a file into smaller pieces](/md/guides/leftover-box-split.md) — https://labthrift.com/guides/leftover-box-split
+- [Unlock your key once per laptop session](/md/guides/leftover-box-ssh-agent.md) — https://labthrift.com/guides/leftover-box-ssh-agent
+- [Give the computer a short name on your laptop](/md/guides/leftover-box-ssh-config.md) — https://labthrift.com/guides/leftover-box-ssh-config
+- [When SSH says the computer looks different](/md/guides/leftover-box-ssh-host-key.md) — https://labthrift.com/guides/leftover-box-ssh-host-key
+- [Log in with a key, not the password every time](/md/guides/leftover-box-ssh-keys.md) — https://labthrift.com/guides/leftover-box-ssh-keys
+- [Turn off password login once the key works](/md/guides/leftover-box-ssh-no-password.md) — https://labthrift.com/guides/leftover-box-ssh-no-password
+- [See file size, date, and permissions](/md/guides/leftover-box-stat.md) — https://labthrift.com/guides/leftover-box-stat
+- [Is the computer still on?](/md/guides/leftover-box-still-on.md) — https://labthrift.com/guides/leftover-box-still-on
+- [See printable text with strings](/md/guides/leftover-box-strings.md) — https://labthrift.com/guides/leftover-box-strings
+- [See window size](/md/guides/leftover-box-stty.md) — https://labthrift.com/guides/leftover-box-stty
+- [See if your login can use admin commands](/md/guides/leftover-box-sudo.md) — https://labthrift.com/guides/leftover-box-sudo
+- [See if the computer already has extra memory on disk](/md/guides/leftover-box-swap.md) — https://labthrift.com/guides/leftover-box-swap
+- [Finish disk writes](/md/guides/leftover-box-sync.md) — https://labthrift.com/guides/leftover-box-sync
+- [Reverse lines](/md/guides/leftover-box-tac.md) — https://labthrift.com/guides/leftover-box-tac
+- [See the end of a file](/md/guides/leftover-box-tail.md) — https://labthrift.com/guides/leftover-box-tail
+- [Pack files into one archive](/md/guides/leftover-box-tar.md) — https://labthrift.com/guides/leftover-box-tar
+- [Watch and save output at once](/md/guides/leftover-box-tee.md) — https://labthrift.com/guides/leftover-box-tee
+- [See how long a command took](/md/guides/leftover-box-time.md) — https://labthrift.com/guides/leftover-box-time
+- [Stop a command after a few seconds](/md/guides/leftover-box-timeout.md) — https://labthrift.com/guides/leftover-box-timeout
+- [See what the computer already runs on a schedule](/md/guides/leftover-box-timers.md) — https://labthrift.com/guides/leftover-box-timers
+- [Set the computer clock to your house](/md/guides/leftover-box-timezone.md) — https://labthrift.com/guides/leftover-box-timezone
+- [Make an empty file](/md/guides/leftover-box-touch.md) — https://labthrift.com/guides/leftover-box-touch
+- [See terminal columns and colors](/md/guides/leftover-box-tput.md) — https://labthrift.com/guides/leftover-box-tput
+- [Change characters](/md/guides/leftover-box-tr.md) — https://labthrift.com/guides/leftover-box-tr
+- [See folders as a tree](/md/guides/leftover-box-tree.md) — https://labthrift.com/guides/leftover-box-tree
+- [Empty or shrink a practice file](/md/guides/leftover-box-truncate.md) — https://labthrift.com/guides/leftover-box-truncate
+- [See the terminal name](/md/guides/leftover-box-tty.md) — https://labthrift.com/guides/leftover-box-tty
+- [Peek at disk details with udevadm](/md/guides/leftover-box-udevadm.md) — https://labthrift.com/guides/leftover-box-udevadm
+- [Turn on a simple firewall without locking yourself out](/md/guides/leftover-box-ufw.md) — https://labthrift.com/guides/leftover-box-ufw
+- [See kernel name and architecture](/md/guides/leftover-box-uname.md) — https://labthrift.com/guides/leftover-box-uname
+- [Let the computer apply weekly fixes without you](/md/guides/leftover-box-unattended.md) — https://labthrift.com/guides/leftover-box-unattended
+- [Turn spaces into tabs](/md/guides/leftover-box-unexpand.md) — https://labthrift.com/guides/leftover-box-unexpand
+- [Drop duplicate lines](/md/guides/leftover-box-uniq.md) — https://labthrift.com/guides/leftover-box-uniq
+- [Unpack a zip you already have](/md/guides/leftover-box-unzip.md) — https://labthrift.com/guides/leftover-box-unzip
+- [Keep the computer updated](/md/guides/leftover-box-updates.md) — https://labthrift.com/guides/leftover-box-updates
+- [See how long the computer has been awake](/md/guides/leftover-box-uptime.md) — https://labthrift.com/guides/leftover-box-uptime
+- [See if the USB backup disk showed up](/md/guides/leftover-box-usb-disk.md) — https://labthrift.com/guides/leftover-box-usb-disk
+- [See if the computer can run a pretend computer](/md/guides/leftover-box-virt.md) — https://labthrift.com/guides/leftover-box-virt
+- [See change without typing again](/md/guides/leftover-box-watch.md) — https://labthrift.com/guides/leftover-box-watch
+- [See how long a file is](/md/guides/leftover-box-wc.md) — https://labthrift.com/guides/leftover-box-wc
+- [See what is keeping the computer busy](/md/guides/leftover-box-whats-busy.md) — https://labthrift.com/guides/leftover-box-whats-busy
+- [See where a command lives](/md/guides/leftover-box-which.md) — https://labthrift.com/guides/leftover-box-which
+- [See who is on the computer right now](/md/guides/leftover-box-who.md) — https://labthrift.com/guides/leftover-box-who
+- [See the login name](/md/guides/leftover-box-whoami.md) — https://labthrift.com/guides/leftover-box-whoami
+- [Keep Wi-Fi off after a reboot](/md/guides/leftover-box-wifi-off.md) — https://labthrift.com/guides/leftover-box-wifi-off
+- [Run one command per line](/md/guides/leftover-box-xargs.md) — https://labthrift.com/guides/leftover-box-xargs
+- [Repeat a line until you stop](/md/guides/leftover-box-yes.md) — https://labthrift.com/guides/leftover-box-yes
+- [Pack files into a zip a laptop can open](/md/guides/leftover-box-zip.md) — https://labthrift.com/guides/leftover-box-zip
+- [Buy paper you can call on a closet lot, not SmartNet you cannot transfer](/md/guides/lifetime-warranty-vs-smartnet.md) — https://labthrift.com/guides/lifetime-warranty-vs-smartnet
+- [Keep a lab plan with a passkey, not an email](/md/guides/lab-plan-passkeys.md) — https://labthrift.com/guides/lab-plan-passkeys
+- [Run a local chat on the old PC](/md/guides/local-chat-on-the-pc.md) — https://labthrift.com/guides/local-chat-on-the-pc
+- [Make a boot USB for the install](/md/guides/make-boot-usb.md) — https://labthrift.com/guides/make-boot-usb
+- [Managed vs unmanaged 2.5G: when VLANs are worth the tax](/md/guides/managed-vs-unmanaged-2-5g-switch.md) — https://labthrift.com/guides/managed-vs-unmanaged-2-5g-switch
+- [Point a phone or laptop at Pi-hole when the router won't](/md/guides/manual-dns-on-devices.md) — https://labthrift.com/guides/manual-dns-on-devices
+- [Four quiet desk 10G links without a used Catalyst: MikroTik CRS305](/md/guides/mikrotik-crs305-vs-used-cisco-10g.md) — https://labthrift.com/guides/mikrotik-crs305-vs-used-cisco-10g
+- [Learn RouterOS and VLANs when you want that work: MikroTik CRS310-8G+2S+IN](/md/guides/mikrotik-crs310-8g-2s-in.md) — https://labthrift.com/guides/mikrotik-crs310-8g-2s-in
+- [Run a quiet 10G closet lab without a loud used 1U: Minisforum MS-01](/md/guides/minisforum-ms-01-vs-used-1u.md) — https://labthrift.com/guides/minisforum-ms-01-vs-used-1u
+- [More CPU in a compact 10G closet box, still not a rack server: Minisforum MS-A2](/md/guides/minisforum-ms-a2-closet-lab.md) — https://labthrift.com/guides/minisforum-ms-a2-closet-lab
+- [A tiny computer you can leave on](/md/guides/n100-mini-pc.md) — https://labthrift.com/guides/n100-mini-pc
+- [Bedroom-shelf quiet versus closet door-shut heat](/md/guides/n100-n150-idle-watts-fan-noise.md) — https://labthrift.com/guides/n100-n150-idle-watts-fan-noise
+- [Transcode checklist under Proxmox, not stream-count theater](/md/guides/n100-n150-quicksync-proxmox-lxc.md) — https://labthrift.com/guides/n100-n150-quicksync-proxmox-lxc
+- [Buy RAM you can add later; skip soldered 12 GB cubes](/md/guides/n100-n150-ram-ceiling-soldered-traps.md) — https://labthrift.com/guides/n100-n150-ram-ceiling-soldered-traps
+- [Match CPU, ports, and RAM before you click Buy on Amazon](/md/guides/n150-amazon-listing-traps.md) — https://labthrift.com/guides/n150-amazon-listing-traps
+- [2.5-inch vs 3.5-inch in a first NAS: HDD bulk vs SATA SSD apps](/md/guides/nas-2-5-vs-3-5-drives.md) — https://labthrift.com/guides/nas-2-5-vs-3-5-drives
+- [2.5G vs 10G on a first NAS: when the NIC is the waste](/md/guides/nas-2-5g-vs-10g.md) — https://labthrift.com/guides/nas-2-5g-vs-10g
+- [Buy hard drives a first file box can rebuild: CMR, not the cheap packed style](/md/guides/nas-hdd-picks-2026-cmr.md) — https://labthrift.com/guides/nas-hdd-picks-2026-cmr
+- [Bedroom overnight box vs closet next to a workstation: pick by watts and noise](/md/guides/nas-power-noise-first-box.md) — https://labthrift.com/guides/nas-power-noise-first-box
+- [Extra depth and a window, still not 19-inch: NavePoint 6U 15.75 glass](/md/guides/navepoint-10-inch-15-75-glass.md) — https://labthrift.com/guides/navepoint-10-inch-15-75-glass
+- [Extra depth for a longer skinny switch, still not 19-inch: NavePoint 6U 15.75](/md/guides/navepoint-10-inch-15-75.md) — https://labthrift.com/guides/navepoint-10-inch-15-75
+- [Taller, deeper, and a window, still not 19-inch: NavePoint 9U 15.75 glass](/md/guides/navepoint-10-inch-9u-15-75-glass.md) — https://labthrift.com/guides/navepoint-10-inch-9u-15-75-glass
+- [Taller and deeper, still not 19-inch: NavePoint 9U 15.75](/md/guides/navepoint-10-inch-9u-15-75.md) — https://labthrift.com/guides/navepoint-10-inch-9u-15-75
+- [Extra U and a window, still not 19-inch: NavePoint 9U glass](/md/guides/navepoint-10-inch-9u-glass.md) — https://labthrift.com/guides/navepoint-10-inch-9u-glass
+- [Three extra U does not make a 19-inch switch hang: NavePoint 9U](/md/guides/navepoint-10-inch-9u.md) — https://labthrift.com/guides/navepoint-10-inch-9u
+- [A spare 1U plate, not a 19-inch spacer: NavePoint 10-inch blank](/md/guides/navepoint-10-inch-blank.md) — https://labthrift.com/guides/navepoint-10-inch-blank
+- [Skip the shielded 10-inch panel for the TRENDnet 12: NavePoint CAT6 STP](/md/guides/navepoint-10-inch-cat6-panel.md) — https://labthrift.com/guides/navepoint-10-inch-cat6-panel
+- [Same money as mesh, worse air: NavePoint 6U glass](/md/guides/navepoint-10-inch-glass.md) — https://labthrift.com/guides/navepoint-10-inch-glass
+- [A blank face for jacks you buy separately: NavePoint keystone panel](/md/guides/navepoint-10-inch-keystone-panel.md) — https://labthrift.com/guides/navepoint-10-inch-keystone-panel
+- [An extra tray for the 6U, not a 19-inch 10-inch-deep: NavePoint 10-inch shelf](/md/guides/navepoint-10-inch-shelf.md) — https://labthrift.com/guides/navepoint-10-inch-shelf
+- [MS305 vs TL-SG105S-M2: five quiet 2.5G ports](/md/guides/netgear-ms305-vs-tl-sg105s-m2.md) — https://labthrift.com/guides/netgear-ms305-vs-tl-sg105s-m2
+- [Metal 8-port that costs more than the shipped TP-Link default: Netgear MS308 vs TL-SG108S-M2](/md/guides/netgear-ms308-vs-tl-sg108s-m2.md) — https://labthrift.com/guides/netgear-ms308-vs-tl-sg108s-m2
+- [The $40 used Catalyst is still 1G](/md/guides/new-2-5g-vs-used-c3560-myth.md) — https://labthrift.com/guides/new-2-5g-vs-used-c3560-myth
+- [Buy a new 10Gtek DAC and a named X710. Skip “works great” NICs.](/md/guides/new-dac-x710-vs-mystery-10g.md) — https://labthrift.com/guides/new-dac-x710-vs-mystery-10g
+- [Pick the house Wi-Fi software you will actually live with: Omada EAP653 vs UniFi U7 Lite](/md/guides/omada-eap653-vs-unifi-u7-lite.md) — https://labthrift.com/guides/omada-eap653-vs-unifi-u7-lite
+- [Open the house share from a Chromebook](/md/guides/open-share-from-chromebook.md) — https://labthrift.com/guides/open-share-from-chromebook
+- [Open the house share from a laptop](/md/guides/open-share-from-laptop.md) — https://labthrift.com/guides/open-share-from-laptop
+- [Open the house share from a Linux laptop](/md/guides/open-share-from-linux.md) — https://labthrift.com/guides/open-share-from-linux
+- [Open the house share from a phone](/md/guides/open-share-from-phone.md) — https://labthrift.com/guides/open-share-from-phone
+- [Old 24 V passive bricks will not power a modern house AP like a U7 Lite](/md/guides/passive-24v-poe-traps.md) — https://labthrift.com/guides/passive-24v-poe-traps
+- [Save phone photos to the house share](/md/guides/phone-photos-to-share.md) — https://labthrift.com/guides/phone-photos-to-share
+- [af, at, bt: match the AP class before you buy the switch](/md/guides/poe-af-at-bt-closet-budget.md) — https://labthrift.com/guides/poe-af-at-bt-closet-budget
+- [One injector, two injectors, or a 4-port PoE+ switch](/md/guides/poe-injector-vs-switch-two-aps.md) — https://labthrift.com/guides/poe-injector-vs-switch-two-aps
+- [Quiet fanless four-port house firewall instead of a loud used 1U: Protectli VP2420e](/md/guides/protectli-vp2420e-vs-used-firewall.md) — https://labthrift.com/guides/protectli-vp2420e-vs-used-firewall
+- [Fanless four-port closet firewall you can warrant: Protectli VP2430e](/md/guides/protectli-vp2430e-n150-4x-2-5g-proxmox.md) — https://labthrift.com/guides/protectli-vp2430e-n150-4x-2-5g-proxmox
+- [Pay for US support or gamble on Amazon: Protectli vs CWWK](/md/guides/protectli-vp2430e-vs-cwwk-4nic.md) — https://labthrift.com/guides/protectli-vp2430e-vs-cwwk-4nic
+- [Quiet N150 with a 10G cage when MS-01 is gone: Protectli VP2440e](/md/guides/protectli-vp2440e-n150-10g-sfp.md) — https://labthrift.com/guides/protectli-vp2440e-n150-10g-sfp
+- [QSW-1105-5T vs TL-SG105S-M2: same five ports, usually more money](/md/guides/qnap-qsw-1105-5t-vs-tl-sg105s-m2.md) — https://labthrift.com/guides/qnap-qsw-1105-5t-vs-tl-sg105s-m2
+- [QSW-1108-8T-R2 vs TL-SG108S-M2: same eight ports, usually more money](/md/guides/qnap-qsw-1108-8t-r2-vs-tl-sg108s-m2.md) — https://labthrift.com/guides/qnap-qsw-1108-8t-r2-vs-tl-sg108s-m2
+- [Connect a 10G NAS and four faster PCs without a used Cisco chassis: QNAP QSW-2104-2S](/md/guides/qnap-qsw-2104-2s-closet.md) — https://labthrift.com/guides/qnap-qsw-2104-2s-closet
+- [Four faster ports and two 10G cages when you already live in QNAP: QNAP QSW-2104-2S](/md/guides/qnap-qsw-2104-2s.md) — https://labthrift.com/guides/qnap-qsw-2104-2s
+- [Quiet 2-bay on QNAP software with a faster port: QNAP TS-262A](/md/guides/qnap-ts-262a-review.md) — https://labthrift.com/guides/qnap-ts-262a-review
+- [Stay on the QNAP 2-bay default unless you will use the extra port: TS-262A vs TS-264](/md/guides/qnap-ts-264-vs-ts-262a.md) — https://labthrift.com/guides/qnap-ts-264-vs-ts-262a
+- [SFP+ DAC cables for a closet 10G hop](/md/guides/sfp-plus-dac-closet.md) — https://labthrift.com/guides/sfp-plus-dac-closet
+- [Buy the quiet fanless PoE switch. Don't keep the loud SG2210MP and mod the fan](/md/guides/sg2210mp-fan-noise-vs-fanless.md) — https://labthrift.com/guides/sg2210mp-fan-noise-vs-fanless
+- [Power house APs from a quiet desk switch, not a loud rack heater: SG2210XMP-M2 vs SG3210XHP-M2](/md/guides/sg2210xmp-m2-vs-sg3210xhp-m2.md) — https://labthrift.com/guides/sg2210xmp-m2-vs-sg3210xhp-m2
+- [Quiet managed eight faster ports and two 10G cages when you need VLANs: SG3210X-M2 vs TEG-3102WS](/md/guides/sg3210x-m2-vs-teg-3102ws.md) — https://labthrift.com/guides/sg3210x-m2-vs-teg-3102ws
+- [SSH from a phone](/md/guides/ssh-from-phone.md) — https://labthrift.com/guides/ssh-from-phone
+- [Start with what you already have](/md/guides/start-with-what-you-have.md) — https://labthrift.com/guides/start-with-what-you-have
+- [Buy a new or Synology-certified DS224+. Skip random “renewed.”](/md/guides/synology-cpo-vs-amazon-renewed.md) — https://labthrift.com/guides/synology-cpo-vs-amazon-renewed
+- [Quiet overnight backups on DSM without the Plus tax: DS223](/md/guides/synology-ds223-review.md) — https://labthrift.com/guides/synology-ds223-review
+- [Quiet overnight backups with Synology DSM: DS224+](/md/guides/synology-ds224-plus-review.md) — https://labthrift.com/guides/synology-ds224-plus-review
+- [Four-bay overnight backups on DSM when two bays are not enough: DS423+](/md/guides/synology-ds423-plus-review.md) — https://labthrift.com/guides/synology-ds423-plus-review
+- [Two identical disks mirror each other: SHR ≈ RAID 1 on two bays](/md/guides/synology-shr-vs-raid-1.md) — https://labthrift.com/guides/synology-shr-vs-raid-1
+- [Pick today's cheaper quiet box with four faster ports and two 10G cages: TEG-S562 vs QSW-2104-2S](/md/guides/teg-s562-vs-qsw-2104-2s.md) — https://labthrift.com/guides/teg-s562-vs-qsw-2104-2s
+- [Stay on the cheap quiet 2-bay unless you will use two faster ports: F2-425 vs F2-424](/md/guides/terramaster-f2-424-vs-f2-425.md) — https://labthrift.com/guides/terramaster-f2-424-vs-f2-425
+- [Cheap quiet 2-bay when you want Intel and don't need Synology DSM: TerraMaster F2-425](/md/guides/terramaster-f2-425-review.md) — https://labthrift.com/guides/terramaster-f2-425-review
+- [32 GB 4-bay for Docker or TrueNAS: TerraMaster F4-424 Pro](/md/guides/terramaster-f4-424-pro-truenas.md) — https://labthrift.com/guides/terramaster-f4-424-pro-truenas
+- [Four bays at 2-bay Plus money, still one faster port: TerraMaster F4-425](/md/guides/terramaster-f4-425-review.md) — https://labthrift.com/guides/terramaster-f4-425-review
+- [Back up a Mac to the house share with Time Machine](/md/guides/time-machine-to-share.md) — https://labthrift.com/guides/time-machine-to-share
+- [Two quiet five-port faster boxes; pick by today's price: TL-SG105S-M2 vs TEG-S350](/md/guides/tl-sg105s-m2-vs-teg-s350.md) — https://labthrift.com/guides/tl-sg105s-m2-vs-teg-s350
+- [Quiet switch that powers two house APs and a faster file-box link: TP-Link SG2210XMP-M2](/md/guides/tp-link-sg2210xmp-m2.md) — https://labthrift.com/guides/tp-link-sg2210xmp-m2
+- [Quiet managed eight faster ports when you actually need VLANs: TP-Link SG3210X-M2](/md/guides/tp-link-sg3210x-m2.md) — https://labthrift.com/guides/tp-link-sg3210x-m2
+- [Power two house APs from one quiet brick: TP-Link TL-SG1005P](/md/guides/tp-link-tl-sg1005p.md) — https://labthrift.com/guides/tp-link-tl-sg1005p
+- [Same quiet two-AP brick with VLAN menus when you need them: TP-Link TL-SG105PE](/md/guides/tp-link-tl-sg105pe.md) — https://labthrift.com/guides/tp-link-tl-sg105pe
+- [Two Wi-Fi APs plus a faster NAS without a rack PoE heater: TP-Link TL-SG105PP-M2](/md/guides/tp-link-tl-sg105pp-m2.md) — https://labthrift.com/guides/tp-link-tl-sg105pp-m2
+- [Five quiet faster ports for one NAS and one PC: TP-Link TL-SG105S-M2](/md/guides/tp-link-tl-sg105s-m2.md) — https://labthrift.com/guides/tp-link-tl-sg105s-m2
+- [More ports for a fuller closet, still only four PoE: TP-Link TL-SG108PE](/md/guides/tp-link-tl-sg108pe.md) — https://labthrift.com/guides/tp-link-tl-sg108pe
+- [Eight quiet faster ports when file copies crawl: TP-Link TL-SG108S-M2](/md/guides/tp-link-tl-sg108s-m2.md) — https://labthrift.com/guides/tp-link-tl-sg108s-m2
+- [Four fewer punches to save a few dollars: TRENDnet TC-P08C6](/md/guides/trendnet-tc-p08c6.md) — https://labthrift.com/guides/trendnet-tc-p08c6
+- [The 10-inch 12-port Cat6 panel for the skinny cabinet: TRENDnet TC-P12C6](/md/guides/trendnet-tc-p12c6.md) — https://labthrift.com/guides/trendnet-tc-p12c6
+- [Quiet faster closet ports plus a real 10G cage: TRENDnet TEG-S562](/md/guides/trendnet-teg-s562.md) — https://labthrift.com/guides/trendnet-teg-s562
+- [When one copy fills the faster house port: the 10G copper card that ships a cable](/md/guides/tx401-10gbase-t-later.md) — https://labthrift.com/guides/tx401-10gbase-t-later
+- [Quiet overnight photos on a 2-bay with a faster port: UGREEN DXP2800](/md/guides/ugreen-dxp2800-review.md) — https://labthrift.com/guides/ugreen-dxp2800-review
+- [New 10G in the chassis instead of a used Synology: UGREEN DXP4800 Plus](/md/guides/ugreen-dxp4800-plus-vs-used-synology.md) — https://labthrift.com/guides/ugreen-dxp4800-plus-vs-used-synology
+- [New Wi-Fi 7 gateway, not a used Dream Router: UniFi Express 7](/md/guides/unifi-express-7-vs-used-udr.md) — https://labthrift.com/guides/unifi-express-7-vs-used-udr
+- [New $49 faster puck, not a used gigabit US-8: UniFi Flex Mini 2.5G](/md/guides/unifi-flex-mini-2-5g-vs-used-us-8.md) — https://labthrift.com/guides/unifi-flex-mini-2-5g-vs-used-us-8
+- [New $109 fanless UniFi PoE, not a used US-8-60W: Lite 8 PoE](/md/guides/unifi-lite-8-poe-vs-used-us-8-60w.md) — https://labthrift.com/guides/unifi-lite-8-poe-vs-used-us-8-60w
+- [Simple ceiling Wi-Fi 7 for a UniFi house: UniFi U7 Lite](/md/guides/unifi-u7-lite-review.md) — https://labthrift.com/guides/unifi-u7-lite-review
+- [New USB-C UniFi gateway, not a used USG plus Cloud Key: Cloud Gateway Ultra](/md/guides/unifi-ucg-ultra-vs-used-usg.md) — https://labthrift.com/guides/unifi-ucg-ultra-vs-used-usg
+- [New fanless PoE for a UniFi house, not a used 48-port Catalyst: Switch Ultra](/md/guides/unifi-usw-ultra-vs-used-catalyst-poe.md) — https://labthrift.com/guides/unifi-usw-ultra-vs-used-catalyst-poe
+- [Keep Pi-hole updated](/md/guides/update-pihole.md) — https://labthrift.com/guides/update-pihole
+- [Meet a faster closet switch without swapping the mini PC](/md/guides/usb-vs-pcie-2-5g-nic.md) — https://labthrift.com/guides/usb-vs-pcie-2-5g-nic
+- [When used office gear is a gift](/md/guides/used-vs-new.md) — https://labthrift.com/guides/used-vs-new
+- [Wake the computer from the house network](/md/guides/wake-on-lan.md) — https://labthrift.com/guides/wake-on-lan
+- [What a VM is, and when you don't need one](/md/guides/what-is-a-vm.md) — https://labthrift.com/guides/what-is-a-vm
+- [What OS to put on it](/md/guides/what-os-to-pick.md) — https://labthrift.com/guides/what-os-to-pick
+- [When a site won't load after Pi-hole](/md/guides/when-a-site-wont-load.md) — https://labthrift.com/guides/when-a-site-wont-load
+- [When ads come back](/md/guides/when-ads-come-back.md) — https://labthrift.com/guides/when-ads-come-back
+- [When the house backup won't run](/md/guides/when-backup-wont-run.md) — https://labthrift.com/guides/when-backup-wont-run
+- [When the ISP swaps your router](/md/guides/when-isp-swaps-router.md) — https://labthrift.com/guides/when-isp-swaps-router
+- [When one phone still shows ads](/md/guides/when-one-phone-shows-ads.md) — https://labthrift.com/guides/when-one-phone-shows-ads
+- [When the house share won't open](/md/guides/when-share-wont-open.md) — https://labthrift.com/guides/when-share-wont-open
+- [When SSH won't connect](/md/guides/when-ssh-wont-connect.md) — https://labthrift.com/guides/when-ssh-wont-connect
+- [Skip the $190 Wi-Fi 7 puck until the WAN is faster than the AP](/md/guides/wifi-7-tax-closet-lab.md) — https://labthrift.com/guides/wifi-7-tax-closet-lab
+- [Put the old PC on house Wi-Fi](/md/guides/wifi-on-the-pc.md) — https://labthrift.com/guides/wifi-on-the-pc
+- [Wipe a Marketplace PC before you install](/md/guides/wipe-marketplace-pc.md) — https://labthrift.com/guides/wipe-marketplace-pc

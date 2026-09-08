@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See if the computer still has old login accounts — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Before you leave a Marketplace box on the house network, look at who else can still log in. You don't need extra login software for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See if the computer still has old login accounts — Labthrift">
+<meta property="og:description" content="Before you leave a Marketplace box on the house network, look at who else can still log in. You don't need extra login software for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-other-accounts">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-other-accounts">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See if the computer still has old login accounts","description":"Before you leave a Marketplace box on the house network, look at who else can still log in. You don't need extra login software for this.","url":"https://labthrift.com/guides/leftover-box-other-accounts","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-28"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">See if the computer still has old login accounts</span></nav>
+<p class="note">Written 28 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>See if the computer still has old login accounts</h1>
+<p class="deck">Before you leave a Marketplace box on the house network, look at who else can still log in. You don't need extra login software for this.</p>
+<p>An OptiPlex or office mini from Marketplace may still have the previous owner's login. That is a person folder, not a camera problem. Look first. You are not buying user-management software, and you are not deleting folders on day one.</p>
+
+<h2>Skip until SSH works</h2>
+<p>If you cannot log in from the couch, stop. That is <a href="first-ssh">SSH from the couch</a>. Change your own password first if you have not: <a href="leftover-box-change-password">change the login password</a>. This note assumes you can type commands on the computer from the couch, as yourself.</p>
+
+<h2>Skip if you just installed a fresh OS</h2>
+<p>If this weekend you wiped the computer and installed Debian or Ubuntu Server, you probably only have your own account. Skip this note. The install path is <a href="what-os-to-pick">what OS to put on the computer</a>. Still sitting on someone else's Windows or Linux from Marketplace? Prefer a full wipe first: <a href="wipe-marketplace-pc">wipe a Marketplace PC before you install</a>. This look is for a computer that already had someone else's Linux on it, when a wipe is not practical tonight.</p>
+
+<h2>What this is</h2>
+<p>A login account is a name the computer will let in, plus a folder of that person's files. Those folders live under <span><code>/home</code></span>. Your name is one of them. Extra names are people from the last owner. This is not the same look as <a href="leftover-box-last-login">see who logged into the computer recently</a> (history) or <a href="leftover-box-who">see who is on the computer right now</a> (this minute).</p>
+
+<h2>See your own name first</h2>
+<p>SSH in from the couch, then run:</p>
+<p><code>whoami</code></p>
+<p>That prints the account you are using. Don't lock this name later.</p>
+
+<h2>See the people folders</h2>
+<p>Ask what lives under home:</p>
+<p><code>ls /home</code></p>
+<p>You should see your name from <span><code>whoami</code></span>. Extra names are extra accounts. One name is normal on a computer you just installed. Two or more names on a Marketplace box is the usual old-office story.</p>
+<p>Optional longer list, if you want the computer to name every person account, not only the folders:</p>
+<p><code>getent passwd | awk -F: '$3 &gt;= 1000 &amp;&amp; $1 != "nobody" {print $1}'</code></p>
+<p><span><code>nobody</code></span> is a system name. Ignore it. Stick to names you also saw under <span><code>/home</code></span>.</p>
+
+<h2>If you see extra names</h2>
+<p>Don't delete the folders tonight. They may hold files you still want. Lock the extra login so that name cannot sign in, and leave the folder alone.</p>
+<p>See whether that extra name still has a password. Swap in the extra name you saw:</p>
+<p><code>sudo passwd -S othername</code></p>
+<p><span><code>P</code></span> means it still has a password. <span><code>L</code></span> means it is already locked. <span><code>NP</code></span> means no password, which is also a problem. Then lock it:</p>
+<p><code>sudo passwd -l othername</code></p>
+<p>Ask <span><code>passwd -S</code></span> again. You want <span><code>L</code></span>. The folder under <span><code>/home</code></span> stays. That is fine. You locked the door. You did not throw out the room.</p>
+<p>Do this once per extra name. Never lock the name <span><code>whoami</code></span> printed.</p>
+<p>Locking the password stops password login for that name. An extra SSH key can still get in. Optional look, swap in the extra name:</p>
+<p><code>ls /home/othername/.ssh</code></p>
+<p>If you see <span><code>authorized_keys</code></span> and you don't want that extra key, rename it for now. Don't delete the folder:</p>
+<p><code>sudo mv /home/othername/.ssh/authorized_keys /home/othername/.ssh/authorized_keys.bak</code></p>
+<p>Keys you add later for your own laptop are <a href="leftover-box-ssh-keys">log in with a key, not the password every time</a>.</p>
+
+<h2>What next</h2>
+<p>If you have not wiped a Marketplace box yet, that is the better path: <a href="wipe-marketplace-pc">wipe a Marketplace PC before you install</a>. Your own password stays <a href="leftover-box-change-password">change the login password</a>. Recent logins stay <a href="leftover-box-last-login">see who logged into the computer recently</a>. When password login has been boring, <a href="leftover-box-ssh-keys">log in with a key, not the password every time</a>. Skip a camera. Skip opening port 22. SSH stays on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip this note if you just installed a fresh OS and <span><code>ls /home</code></span> only shows you.</li>
+<li>Skip this note if SSH from the couch does not work yet. That is <a href="first-ssh">SSH from the couch</a>.</li>
+<li>Skip deleting folders under <span><code>/home</code></span> on day one.</li>
+<li>Skip a camera or extra login software for this look.</li>
+<li>Skip opening SSH to the internet.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/coreutils/whoami.1.en.html">Debian: whoami</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/whoami.1.html">Ubuntu: whoami</a>. <a href="https://manpages.debian.org/bookworm/coreutils/ls.1.en.html">Debian: ls</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/ls.1.html">Ubuntu: ls</a>. <a href="https://manpages.debian.org/bookworm/passwd/passwd.1.en.html">Debian: passwd</a> (<span><code>-S</code></span>, <span><code>-l</code></span>). <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/passwd.1.html">Ubuntu: passwd</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For your own password, see <a href="leftover-box-change-password">change the login password</a>. For recent logins, see <a href="leftover-box-last-login">see who logged into the computer recently</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="wipe-marketplace-pc"><span class="t">Wipe a Marketplace PC before you install</span><span class="d">A used OptiPlex may still have the last owner's Windows and logins. Wipe the disk with the installer before you plug it into the house network.</span></a>
+<a class="note-row" href="leftover-box-change-password"><span class="t">Change the login password</span><span class="d">Once SSH from the couch works, set a password you chose. Do this before you leave the install password sitting around.</span></a>
+<a class="note-row" href="leftover-box-sudo"><span class="t">See if your login can use admin commands</span><span class="d">Before you change passwords or turn on the firewall, check that your login can use sudo. You don't need extra login software.</span></a>
+<a class="note-row" href="leftover-box-last-login"><span class="t">See who logged into the computer recently</span><span class="d">Before you buy a camera or a monitoring box, peek at the computer login history with last.</span></a>
+<a class="note-row" href="leftover-box-who"><span class="t">See who is on the computer right now</span><span class="d">Before you buy a camera or a monitoring box, ask who is logged into the computer right now with who.</span></a>
+<a class="note-row" href="leftover-box-ssh-host-key"><span class="t">When SSH says the computer looks different</span><span class="d">After you reinstall, SSH can refuse because your laptop still remembers the old ID. Clear that memory. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-ssh-keys"><span class="t">Log in with a key, not the password every time</span><span class="d">After password SSH works for a while, put a key on your laptop so the computer trusts that laptop. Keep the password as a backup at first.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-change-password"><span class="kicker">Previous</span><span class="t">Change the login password</span></a>
+<a rel="next" href="leftover-box-sudo"><span class="kicker">Next</span><span class="t">See if your login can use admin commands</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

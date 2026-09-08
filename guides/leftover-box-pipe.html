@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Send output into another command — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After SSH works, send output into another command with | so a long dump does not flood the window. You don't need a file manager for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Send output into another command — Labthrift">
+<meta property="og:description" content="After SSH works, send output into another command with | so a long dump does not flood the window. You don't need a file manager for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-pipe">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-pipe">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Send output into another command","description":"After SSH works, send output into another command with | so a long dump does not flood the window. You don't need a file manager for this.","url":"https://labthrift.com/guides/leftover-box-pipe","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-29"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"Faster network","item":"https://labthrift.com/guides/#switches"},{"@type":"ListItem","position":3,"name":"Send output into another command"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Send output into another command</span></nav>
+<p class="note">Written 29 Aug 2026. This is a how-to, not a product card.</p>
+<h1>Send output into another command</h1>
+<p class="deck">After SSH works, send output into another command with <span><code>|</code></span> so a long dump does not flood the window. You don&apos;t need a file manager for this.</p>
+<p><a href="leftover-box-help">Ask a command what it does</a> already printed a cheat sheet. That cheat sheet can flood. Tonight you hand what the first command printed to a second command. The vertical bar <span><code>|</code></span> does that. You can keep calling it a pipe. You already saw one: <span><code>ls --help | less</code></span>. You are still only looking on the computer. It does not need a desktop, a file manager, or a new mini PC for this one job.</p>
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If you only need the short cheat sheet, that is <a href="leftover-box-help">ask a command what it does</a>. If you only need to page a file, that is <a href="leftover-box-less">read a file one screen at a time</a>. If you only need to park a short line in a file, that is <a href="leftover-box-echo">put a short line into a file</a>. Skip this whole note if you only need a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</p>
+<h2>What this is</h2>
+<p>A pipe means take what the first command printed, and hand it to the second. You type the first tool, a vertical bar, then the second tool. It never makes a file in the middle. That is the difference from the arrow in <a href="leftover-box-echo">put a short line into a file</a>. The arrow parks words in a file. The bar hands words to another command. It is not installing anything. It is not a search of every file. That is <a href="leftover-box-find">find a file by name</a>.</p>
+<h2>Page a cheat sheet</h2>
+<p>SSH in. Start with a tool you already used. <span><code>ls</code></span> is a safe first try:</p>
+<p><code>ls --help | less</code></p><p>You want the same cheat sheet as <a href="leftover-box-help">ask a command what it does</a>, one screen at a time. Space turns the page. <span><code>q</code></span> leaves. Same keys as <a href="leftover-box-less">read a file one screen at a time</a>. It did not write a new file. It only handed the print to <span><code>less</code></span>.</p>
+<p>Count a flood without dumping it:</p>
+<p><code>seq 1 80 | wc -l</code></p><p>You want the number <span><code>80</code></span>. <span><code>seq</code></span> would have printed eighty lines. The pipe handed them to <a href="leftover-box-wc">see how long a file is</a> instead. That is the whole first-night trick: first command prints, second command reads that print.</p>
+<h2>Useful extras, still looking only</h2>
+<p>Need only the matching lines from a cheat sheet?</p>
+<p><code>ls --help | grep -i color</code></p><p>You want a short handful of lines that mention color. That is <a href="leftover-box-grep">find a word in a file</a>, but the &quot;file&quot; tonight is the print, not a path.</p>
+<p>Need the first ten of a flood?</p>
+<p><code>seq 1 80 | head</code></p><p>You want lines 1 through 10. That is <a href="leftover-box-head">see the start of a file</a> on a print, not on a file.</p>
+<p>If it says command not found for <span><code>seq</code></span>, <span><code>wc</code></span>, or <span><code>head</code></span>, install the usual tools, then try again:</p>
+<p><code>sudo apt install coreutils</code></p><p>Debian and Ubuntu Server usually already have them. That install is not a reason to buy a file manager.</p>
+<p>When you are done looking, you don't need to delete anything. This note only prints text.</p>
+<h2>What this is not</h2>
+<p>This is not parking command print in a file. That is <a href="leftover-box-redirect">save output to a file</a>. It is not parking words you typed. That is <a href="leftover-box-echo">put a short line into a file</a>. It is not paging a file that already lives on disk. That is <a href="leftover-box-less">read a file one screen at a time</a>. It is not the cheat sheet by itself. That is <a href="leftover-box-help">ask a command what it does</a>. It is not a search for whether the tool exists. That is <a href="leftover-box-which">see where a command lives</a>. It is not a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</p>
+<h2>What next</h2>
+<p>Need the short cheat sheet first? <a href="leftover-box-help">Ask a command what it does</a>. Need to page a file that already lives on disk? <a href="leftover-box-less">Read a file one screen at a time</a>. Need a line count of a file? <a href="leftover-box-wc">See how long a file is</a>. Need only matching lines? <a href="leftover-box-grep">Find a word in a file</a>. Need to park command print in a file? <a href="leftover-box-redirect">Save output to a file</a>. Need words you typed, not command print? <a href="leftover-box-echo">Put a short line into a file</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip piping output into <span><code>rm</code></span>, <span><code>mv</code></span>, or anything that changes files. Practice only with tools that print: <span><code>less</code></span>, <span><code>wc</code></span>, <span><code>grep</code></span>, <span><code>head</code></span>.</li>
+<li>Skip mixing the bar with arrows into files you care about. Parking command print is <a href="leftover-box-redirect">save output to a file</a>. Words you typed are <a href="leftover-box-echo">put a short line into a file</a>.</li>
+<li>Skip <span><code>xargs</code></span>, <span><code>2&gt;&amp;1</code></span>, and error pipes tonight. Watching print while you save a copy is <a href="leftover-box-tee">watch and save output at once</a>. One bar between two tools is enough for the first look.</li>
+<li>Skip SSH settings, <span><code>/etc/shadow</code></span>, and anything under <span><code>/etc/ssh</code></span>. Looking at trusted laptop keys is <a href="leftover-box-authorized-keys">see which laptop keys the computer already trusts</a>.</li>
+<li>Skip opening SSH to the internet so you can pipe output from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.gnu.org/software/bash/manual/html_node/Pipelines.html">GNU Bash: Pipelines</a>. <a href="https://manpages.debian.org/bookworm/bash/bash.1.en.html">Debian: bash</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/bash.1.html">Ubuntu: bash</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For the cheat sheet, see <a href="leftover-box-help">ask a command what it does</a>. For paging a file, see <a href="leftover-box-less">read a file one screen at a time</a>. For parking a line in a file, see <a href="leftover-box-echo">put a short line into a file</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-help"><span class="t">Ask a command what it does</span><span class="d">After SSH works, ask a command what it does with --help so you can read the short cheat sheet. You don&apos;t need a software store for this.</span></a>
+<a class="note-row" href="leftover-box-less"><span class="t">Read a file one screen at a time</span><span class="d">After SSH works, open a file with less so a long file does not flood the window. Space turns the page. q leaves. You don&apos;t need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-wc"><span class="t">See how long a file is</span><span class="d">After SSH works, count lines with wc so you know if a dump will flood the window. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-grep"><span class="t">Find a word in a file</span><span class="d">After SSH works, search a file with grep so you see only the matching lines. You don&apos;t need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-echo"><span class="t">Put a short line into a file</span><span class="d">After SSH works, put one short line into a file with echo so you don't need to open nano. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-which"><span class="t">See where a command lives</span><span class="d">After SSH works, ask where a command lives with command -v so you know if a tool is installed. You don&apos;t need a software store for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-help"><span class="kicker">Previous</span><span class="t">Ask a command what it does</span></a>
+<a rel="next" href="leftover-box-redirect"><span class="kicker">Next</span><span class="t">Save output to a file</span></a>
+</nav>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

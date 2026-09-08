@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Run a local chat on the old PC — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Install Ollama on the old PC, pull a small model, and chat on the house network. CPU is fine for a first try. Don't buy a GPU this weekend.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Run a local chat on the old PC — Labthrift">
+<meta property="og:description" content="Install Ollama on the old PC, pull a small model, and chat on the house network. CPU is fine for a first try. Don't buy a GPU this weekend.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/local-chat-on-the-pc">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/local-chat-on-the-pc">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Run a local chat on the old PC","description":"Install Ollama on the old PC, pull a small model, and chat on the house network. CPU is fine for a first try. Don't buy a GPU this weekend.","url":"https://labthrift.com/guides/local-chat-on-the-pc","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-04"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">Run a local chat on the old PC</span></nav>
+<p class="note">Written 4 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>Run a local chat on the old PC</h1>
+<p class="deck">Install Ollama on the old PC, pull a small model, and chat from SSH. Answers stay on the house network. CPU is fine for a first try. Don't buy a GPU this weekend.</p>
+<p>Need a computer that stays on first? That is <a href="first-weekend">your first weekend</a>. Prefer Debian or Ubuntu Server: <a href="what-os-to-pick">what OS to put on it</a>. This note is the short path to a house chat that does not send your prompts to a cloud account.</p>
+
+<h2>Skip until you have RAM and disk</h2>
+<p>Check memory and free disk before you pull a model. From SSH:</p>
+<p><code>free -h</code></p>
+<p><code>df -h ~</code></p>
+<p>Aim for about 8 GB of RAM for a small 1B–3B model, and a few free gigabytes on disk for the download. 4 GB boxes can still try the 1B tag, slowly. If the disk is already full of photos, park the share on USB first: <a href="house-folder-on-usb">put the house folder on a USB disk</a>.</p>
+
+<h2>What this is</h2>
+<p>Ollama is a small installer that downloads chat models and runs them on the computer. You talk to it in the terminal. No API key. No cloud account. The model files live on this disk. A fancy web UI can wait.</p>
+
+<h2>Install Ollama</h2>
+<p>On Debian or Ubuntu Server, the official install script puts the binary in place and sets up a service:</p>
+<p><code>curl -fsSL https://ollama.com/install.sh | sh</code></p>
+<p>Prefer to read the script before piping it? Download it, open it, then run it:</p>
+<p><code>curl -fsSL https://ollama.com/install.sh -o ~/install-ollama.sh</code></p>
+<p><code>less ~/install-ollama.sh</code></p>
+<p><code>bash ~/install-ollama.sh</code></p>
+<p>Check that the service is up:</p>
+<p><code>ollama -v</code></p>
+<p><code>systemctl is-active ollama</code></p>
+<p>You want a version number and <code>active</code>.</p>
+
+<h2>Pull a small model</h2>
+<p>Start tiny. Llama 3.2 at 1B is the polite first download on an old OptiPlex:</p>
+<p><code>ollama pull llama3.2:1b</code></p>
+<p>If you have about 8 GB of RAM free and a little patience, the default 3B tag is a better chat:</p>
+<p><code>ollama pull llama3.2</code></p>
+<p>List what landed:</p>
+<p><code>ollama list</code></p>
+
+<h2>Chat from SSH</h2>
+<p>Run the model you pulled:</p>
+<p><code>ollama run llama3.2:1b</code></p>
+<p>Or for the 3B tag:</p>
+<p><code>ollama run llama3.2</code></p>
+<p>Type a short question. Wait. On CPU this can take a while for the first reply while the model loads. Type <code>/bye</code> to leave.</p>
+<p>One-shot prompt without the interactive loop:</p>
+<p><code>ollama run llama3.2:1b "Explain DHCP in two sentences."</code></p>
+
+<h2>Keep it on the house network</h2>
+<p>By default Ollama listens on the computer itself. That is what you want for a first weekend: chat over SSH, not over the open internet. Don't forward port 11434 on the router. Don't put this on a public VPS. The house share and Pi-hole notes use the same rule: house network only.</p>
+<p>If you later want a browser UI on the LAN, that is a different job. Skip it tonight.</p>
+
+<h2>What this is not</h2>
+<p>This is not ChatGPT in the cloud. Small local models guess more and know less. It is not a reason to buy an RTX card, a Mac Studio, or a new N100 this weekend. It is not a second Pi-hole. Leave the ad block alone while you experiment.</p>
+
+<h2>What next</h2>
+<p>If the computer feels tight on RAM while a model is loaded, see <a href="leftover-box-free-memory">how much memory is free</a> and <a href="leftover-box-whats-busy">what's busy</a>. If you want a pretend second computer later so experiments can't break Pi-hole, that is <a href="what-is-a-vm">what a VM is</a>. A tiny always-on PC is still later: <a href="n100-mini-pc">a tiny computer you can leave on</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip buying a GPU for this first chat.</li>
+<li>Skip 7B+ models until you have RAM to spare and time to wait.</li>
+<li>Skip Open WebUI, Docker stacks, and “AI PC” bundles on day one.</li>
+<li>Skip exposing Ollama to the internet.</li>
+<li>Skip replacing Pi-hole or the file share with an AI box.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://docs.ollama.com/linux">Ollama Linux install</a>. <a href="https://ollama.com/library/llama3.2">Ollama library: llama3.2</a>. Official pages only. For the install weekend, see <a href="first-weekend">your first weekend</a>. For OS choice, see <a href="what-os-to-pick">what OS to put on it</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="what-is-a-vm"><span class="t">What a VM is, and when you don't need one</span><span class="d">A pretend computer inside the old PC. Useful later, when you want to try something without breaking Pi-hole. You don't need one this weekend.</span></a>
+<a class="note-row" href="first-weekend"><span class="t">Your first weekend</span><span class="d">Install the OS, name it, and reach it from the couch. Don't buy anything this weekend.</span></a>
+<a class="note-row" href="what-os-to-pick"><span class="t">What OS to put on it</span><span class="d">Debian or Ubuntu Server if you can dedicate the old PC. Leave Windows if you still use the laptop.</span></a>
+<a class="note-row" href="n100-mini-pc"><span class="t">A tiny computer you can leave on</span><span class="d">Buy this later. An old laptop or a Marketplace OptiPlex is the first box.</span></a>
+<a class="note-row" href="leftover-box-free-memory"><span class="t">See how much memory is free</span><span class="d">Before you blame the computer or buy RAM, see how much memory is free right now.</span></a>
+<a class="note-row" href="start-with-what-you-have"><span class="t">Start with what you already have</span><span class="d">Don't buy anything yet. Old laptop first, or a retired OptiPlex from Marketplace.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="what-is-a-vm"><span class="kicker">Previous</span><span class="t">What a VM is</span></a>
+<a rel="next" href="n100-mini-pc"><span class="kicker">Next</span><span class="t">A tiny computer you can leave on</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

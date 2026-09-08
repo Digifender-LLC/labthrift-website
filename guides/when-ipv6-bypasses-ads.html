@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When ads sneak past on IPv6 — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Pi-hole looks fine on IPv4, but phones still show banners. Check whether the house still hands out IPv6 DNS past the computer, then fix the router or turn IPv6 DNS off for now.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When ads sneak past on IPv6 — Labthrift">
+<meta property="og:description" content="Pi-hole looks fine on IPv4, but phones still show banners. Check whether the house still hands out IPv6 DNS past the computer, then fix the router or turn IPv6 DNS off for now.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-ipv6-bypasses-ads">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-ipv6-bypasses-ads">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When ads sneak past on IPv6","description":"Pi-hole looks fine on IPv4, but phones still show banners. Check whether the house still hands out IPv6 DNS past the computer, then fix the router or turn IPv6 DNS off for now.","url":"https://labthrift.com/guides/when-ipv6-bypasses-ads","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-06"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When ads sneak past on IPv6</span></nav>
+<p class="note">Written 6 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When ads sneak past on IPv6</h1>
+<p class="deck">Pi-hole looks fine on IPv4, but phones still show banners. Check whether the house still hands out IPv6 DNS past the computer, then fix the router or turn IPv6 DNS off for now.</p>
+<p>Haven't installed Pi-hole yet? Start with <a href="first-useful-service">the first useful thing</a>. Ads back for everyone and you have not checked power or router DNS yet? Start with <a href="when-ads-come-back">when ads come back</a>. This note is the quieter trap: IPv4 DNS points at the computer, but the house still gives out IPv6 DNS from the ISP, so phones look up ads on a path Pi-hole never sees.</p>
+
+<h2>Skip until IPv4 DNS already looks right</h2>
+<p>Confirm the computer is on and Pi-hole answers. Confirm the router LAN or DHCP DNS still uses this computer's IPv4 address. Brand menus: <a href="common-router-dns">point common home routers at Pi-hole</a>. If that walk is unfinished, finish it first. Don't buy a mesh kit for IPv6.</p>
+
+<h2>What this is</h2>
+<p>Many ISP gateways and home routers enable IPv6 by default. Phones and laptops get a second address book for names over IPv6. You fixed the IPv4 book (Pi-hole). The IPv6 book still points at the ISP. The device prefers that second book for some lookups, and banners return even while the Pi-hole query log looks calm. The calm first-timer fix is usually: point IPv6 DNS at the computer too, or turn IPv6 DNS (or LAN IPv6) off on the router until you care.</p>
+
+<h2>Step 1: prove IPv4 is clean and the phone is not</h2>
+<p>On a phone that still shows ads, open a site that used to be dirty. On a laptop that looks clean, check the Pi-hole query log (admin page, or SSH):</p>
+<p><code>pihole -t</code></p>
+<p>Or open <a href="http://pi.hole/admin">http://pi.hole/admin</a> and watch Query Log. If the dirty phone barely appears while a clean laptop floods the log, that phone is asking someone else for names. If only one phone is dirty and Private DNS / Private Relay / a VPN is on, that is still <a href="when-one-phone-shows-ads">when one phone still shows ads</a>. Come back here when those are off and ads remain.</p>
+
+<h2>Step 2: see whether the phone has IPv6 DNS that is not Pi-hole</h2>
+<p>On iPhone: Settings → Wi-Fi → the <span><code>i</code></span> next to the house network. Look for IPv6 Address and DNS. On Android: Wi-Fi details for the house network; look for IPv6 and DNS (wording varies by maker). Write down any DNS that is not the computer's IPv4 address and not a Pi-hole IPv6 address you set on purpose. ISP-looking DNS (or “Automatic” while IPv6 is up) is the usual smoking gun.</p>
+<p>No IPv6 section and no IPv6 address on the phone? This may not be your night. Go back to <a href="when-ads-come-back">when ads come back</a> or the one-device notes. You don't need to invent IPv6 problems.</p>
+
+<h2>Step 3: see if the computer even has an IPv6 address</h2>
+<p>SSH into the computer:</p>
+<p><code>ip -6 -br addr</code></p>
+<p>Look for a global or ULA address on the house interface (not only <span><code>::1</code></span>). No usable IPv6 on the computer? You cannot point the house at an IPv6 Pi-hole yet. Use Step 5 (turn IPv6 DNS or LAN IPv6 off on the router) instead of inventing an address. Pi-hole still works for IPv4.</p>
+
+<h2>Step 4: prefer pointing IPv6 DNS at Pi-hole</h2>
+<p>If the computer has a stable IPv6 address and Pi-hole is running, put that address in the router's IPv6 DNS / DHCPv6 / Router Advertisement DNS fields the same way you set IPv4 DNS. Primary IPv6 DNS = the computer. Leave secondary blank or use the same address if the menu demands two. Exact labels vary; common places are IPv6, LAN IPv6, DHCPv6, or “IPv6 DNS server.” The IPv4 walk for brand menus is <a href="common-router-dns">point common home routers at Pi-hole</a> — look for the IPv6 twin of that screen.</p>
+<p>On the computer, confirm Pi-hole is listening:</p>
+<p><code>pihole status</code></p>
+<p>Then from a laptop on house Wi-Fi, forget the Wi-Fi network and join again (or toggle airplane mode) so leases renew. Browse the dirty site on the phone again.</p>
+
+<h2>Step 5: if the router will not take IPv6 DNS, turn that path off</h2>
+<p>Nest, Google Wifi, and some ISP gateways are rude about custom IPv6 DNS. First-timer calm choice: disable IPv6 on the LAN, or disable DHCPv6 / router advertisements that hand out ISP DNS, so devices stop getting a second book. Names then go through the IPv4 Pi-hole path you already set. Streaming and banking still work for almost every house on IPv4 alone tonight.</p>
+<p>Don't disable the whole internet. Don't factory-reset the gateway for this. If the menu only offers “IPv6 on/off,” off on the LAN side is the blunt fix. Re-enable later when you want to set real IPv6 DNS.</p>
+
+<h2>Step 6: match what you see</h2>
+<p>Match the symptom before you buy anything:</p>
+<div class="table-wrap">
+<table>
+<tr><th>What you see</th><th>Likely cause</th></tr>
+<tr><td data-label="What you see">Router IPv4 DNS wrong or automatic</td><td data-label="Likely cause">Not this page yet. <a href="when-ads-come-back">When ads come back</a> / <a href="common-router-dns">common router DNS</a>.</td></tr>
+<tr><td data-label="What you see">One phone; Private DNS / Relay / VPN on</td><td data-label="Likely cause"><a href="when-one-phone-shows-ads">When one phone still shows ads</a>.</td></tr>
+<tr><td data-label="What you see">Phone has IPv6 DNS ≠ Pi-hole; IPv4 DNS is Pi-hole</td><td data-label="Likely cause">IPv6 bypass. Steps 4–5.</td></tr>
+<tr><td data-label="What you see">Computer has no IPv6 address</td><td data-label="Likely cause">Can't point IPv6 DNS at it. Step 5 (turn IPv6 DNS/LAN IPv6 off).</td></tr>
+<tr><td data-label="What you see">Guest Wi-Fi still dirty; main Wi-Fi clean</td><td data-label="Likely cause"><a href="guest-wifi-dns">When guest Wi-Fi still shows ads</a>.</td></tr>
+<tr><td data-label="What you see">After ISP swap, everything dirty again</td><td data-label="Likely cause"><a href="when-isp-swaps-router">When the ISP swaps your router</a> — then re-check IPv6 DNS.</td></tr>
+</table>
+</div>
+
+<h2>What this is not</h2>
+<p>This is not a reason to buy a new router or a Raspberry Pi. It is not a full IPv6 redesign of the house. It is not Unbound, a second Pi-hole, or opening Pi-hole to the internet. It is pointing the second address book at the same computer, or closing that book until you care.</p>
+
+<h2>What next</h2>
+<p>When banners drop again, leave the router alone for a week. Watch the log sometimes: <a href="see-what-pihole-blocked">see what Pi-hole blocked</a>. If a bank or login breaks, that is <a href="when-a-site-wont-load">when a site won't load after Pi-hole</a>. Keep lists fresh: <a href="update-pihole">keep Pi-hole updated</a>. Before a scary change, <a href="backup-pihole">save a Pi-hole backup</a>. Tired of typing the number? <a href="add-local-dns-name">Add a local name in Pi-hole</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip buying a new router for IPv6 DNS.</li>
+<li>Skip buying a Raspberry Pi “because IPv6.”</li>
+<li>Skip opening Pi-hole to the internet.</li>
+<li>Skip Unbound or a second Pi-hole on day one.</li>
+<li>Skip a full IPv6 redesign of the house tonight.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://docs.pi-hole.net/">Pi-hole docs</a>. <a href="https://docs.pi-hole.net/guides/network/upstream/">Pi-hole: upstream DNS</a>. Official pages only. For install, see <a href="first-useful-service">the first useful thing</a>. For the house-wide checklist, see <a href="when-ads-come-back">when ads come back</a>. For IPv4 brand menus, see <a href="common-router-dns">point common home routers at Pi-hole</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="when-ads-come-back"><span class="t">When ads come back</span><span class="d">Ads are back, sites won't load, or a phone still shows banners. Check the computer, Pi-hole, router DNS, then the phone.</span></a>
+<a class="note-row" href="when-one-phone-shows-ads"><span class="t">When one phone still shows ads</span><span class="d">Everyone else's ads dropped. One phone still shows banners. Check Private DNS, Private Relay, a VPN, then the Wi-Fi lease. You don't need a new router.</span></a>
+<a class="note-row" href="when-one-laptop-shows-ads"><span class="t">When one laptop still shows ads</span><span class="d">Everyone else's ads dropped. One laptop (or one browser) still shows banners. Check Chrome, Edge, or Firefox Secure DNS, Windows encrypted DNS, Mac Private Relay, then a VPN. You don't need a new router.</span></a>
+<a class="note-row" href="guest-wifi-dns"><span class="t">When guest Wi-Fi still shows ads</span><span class="d">Guest Wi-Fi is a separate network on purpose. Leave guests on ISP DNS, put a visitor on the main house Wi-Fi, or point guest DNS at Pi-hole only if they can reach the computer. You don't need a new router.</span></a>
+<a class="note-row" href="common-router-dns"><span class="t">Point common home routers at Pi-hole</span><span class="d">Where to set DNS on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so the house asks Pi-hole. Prefer LAN DHCP DNS. You don't need a new router.</span></a>
+<a class="note-row" href="first-useful-service"><span class="t">The first useful thing</span><span class="d">Put a house-wide ad block on the old PC. The rest of the house keeps using the internet as usual. You don't need a Raspberry Pi.</span></a>
+<a class="note-row" href="see-what-pihole-blocked"><span class="t">See what Pi-hole blocked</span><span class="d">Open the query log (or watch it over SSH) so you can tell ads are dying, which device asked, and which name to allow later. You don't need a new router.</span></a>
+<a class="note-row" href="when-a-site-wont-load"><span class="t">When a site won't load after Pi-hole</span><span class="d">A bank, streamer, or login page breaks after Pi-hole. Pause blocking for five minutes, then allow the domain you need. You don't need a new router.</span></a>
+<a class="note-row" href="when-isp-swaps-router"><span class="t">When the ISP swaps your router</span><span class="d">Tech left a new gateway (or reset yours). Ads are back, and SSH may miss the old address. Re-find the computer, re-point DNS, re-do the reservation. You don't need a new router or a new Pi-hole.</span></a>
+<a class="note-row" href="manual-dns-on-devices"><span class="t">Point a phone or laptop at Pi-hole when the router won't</span><span class="d">When Nest, Google Wifi, or an ISP gateway will not take custom DNS, set DNS on one phone or laptop so it asks Pi-hole. You don't need a new router for this device.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="when-ads-come-back"><span class="kicker">Previous</span><span class="t">When ads come back</span></a>
+<a rel="next" href="when-one-phone-shows-ads"><span class="kicker">Next</span><span class="t">When one phone still shows ads</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

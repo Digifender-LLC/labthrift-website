@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>New fanless PoE for a UniFi house, not a used 48-port Catalyst — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="If the house is already UniFi, buy new fanless PoE instead of a used 48-port Catalyst. The Ultra 60W is the quiet eight-port box on the UI store.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="New fanless PoE for a UniFi house, not a used 48-port Catalyst — Labthrift">
+<meta property="og:description" content="If the house is already UniFi, buy new fanless PoE instead of a used 48-port Catalyst. The Ultra 60W is the quiet eight-port box on the UI store.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/unifi-usw-ultra-vs-used-catalyst-poe">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/unifi-usw-ultra-vs-used-catalyst-poe">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BlogPosting",
+ "headline": "New fanless PoE for a UniFi house, not a used 48-port Catalyst: Switch Ultra",
+ "description": "If the house is already UniFi, buy new fanless PoE instead of a used 48-port Catalyst. The Ultra 60W is the quiet eight-port box on the UI store.",
+ "url": "https://labthrift.com/guides/unifi-usw-ultra-vs-used-catalyst-poe",
+ "image": "https://labthrift.com/assets/og-1200.png",
+ "datePublished": "2026-08-22"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+ {
+ "@type": "ListItem",
+ "position": 1,
+ "name": "Home",
+ "item": "https://labthrift.com/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 2,
+ "name": "Notes",
+ "item": "https://labthrift.com/guides/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 3,
+ "name": "Used vs new",
+ "item": "https://labthrift.com/guides/#used-vs-new"
+ },
+ {
+ "@type": "ListItem",
+ "position": 4,
+ "name": "New fanless PoE for a UniFi house, not a used 48-port Catalyst: Switch Ultra",
+ "item": "https://labthrift.com/guides/unifi-usw-ultra-vs-used-catalyst-poe"
+ }
+ ]
+}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#used-vs-new">Used or new</a> / <span aria-current="page">New fanless PoE for a UniFi house, not a used 48-port Catalyst: Switch Ultra</span></nav>
+<p class="note">Written 22 Aug 2026. Specs from the maker pages linked below. Prices from those stores. I haven't used these.</p>
+
+<h1>New fanless PoE for a UniFi house, not a used 48-port Catalyst: Switch Ultra</h1>
+<p class="deck">If the house is already UniFi, buy new fanless PoE instead of a used 48-port Catalyst. The Ultra 60W is the quiet eight-port box on the UI store.</p>
+<p>This is not a rewrite of <a href="cheap-poe">cheap PoE for two APs</a>. That piece still defaults to the TL-SG1005P. This note is the UniFi-already-in-the-house replacement for a used Catalyst PoE.</p>
+<p>USW-Ultra-60W: <strong>$159</strong> / <strong>$171 surcharge-incl.</strong> on store.ui.com, 22 Aug 2026. 52 W PoE with the 60 W adapter; 42 W on PoE++ in; 17 W on PoE+ in; 8 W on PoE in (Streakwave / UI note). Fanless. Device draw is small; the PoE budget is the wall number. USW-Lite-8-PoE is the smaller sibling: <strong>$109</strong> / <strong>$117 surcharge-incl.</strong> UI store. Datasheet: max device <strong>8 W</strong>, 52 W PoE budget, fanless, external 54 V / 60 W. Already in the cheap-PoE guide, not the hero here. USW-Ultra without PSU: Micro Center <strong>$129.99</strong> (SKU 861328). PSU not included. Easy to get wrong.</p>
+
+<h2>What to buy</h2>
+<div class="table-wrap">
+<table>
+<tr><th>Box</th><th>PoE / power</th><th>Street, 22 Aug 2026</th><th>Buy if</th></tr>
+<tr class="pick"><td data-label="Box"><a href="https://store.ui.com/us/en/products/usw-ultra-60w">USW-Ultra-60W</a></td><td data-label="PoE / power">Fanless. 52 W PoE with the 60 W adapter. UI Care 5-year add-on $29. See <a href="lifetime-warranty-vs-smartnet">lifetime vs SmartNet</a>.</td><td data-label="Street, 22 Aug 2026">$159 / $171 surcharge-incl., UI store.</td><td data-label="Buy if">Already UniFi. Eight ports. New paper. Not a used 48-port Catalyst.</td></tr>
+<tr><td data-label="Box"><a href="https://store.ui.com/us/en/products/usw-lite-8-poe">USW-Lite-8-PoE</a></td><td data-label="PoE / power">Fanless. Max device 8 W. 52 W PoE. 54 V / 60 W brick.</td><td data-label="Street, 22 Aug 2026">$109 / $117 surcharge-incl.</td><td data-label="Buy if">Smaller UniFi sibling. Two APs. Easy to outgrow.</td></tr>
+<tr><td data-label="Box"><a href="https://www.microcenter.com/product/689993/ubiquiti-unifi-usw-ultra-network-switch-8-port">USW-Ultra (no PSU)</a></td><td data-label="PoE / power">Same switch. No adapter in the box.</td><td data-label="Street, 22 Aug 2026">Micro Center $129.99, SKU 861328.</td><td data-label="Buy if">Only if you already own the 60 W brick and you counted twice.</td></tr>
+</table>
+</div>
+<h2>Skip</h2>
+<p>Skip the used 48-port Catalyst PoE. The ports are lovely. The fans, the 208 V aisle, and the SmartNet story are not. See <a href="used-vs-new">used vs new</a>, <a href="110v-brick-vs-208v-1u">brick rule</a>. Skip the Micro Center Ultra if you don't already have the PSU. Skip this whole page if you are not already UniFi; go back to <a href="cheap-poe">cheap PoE</a>.</p>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://store.ui.com/us/en/products/usw-ultra-60w">UI store Ultra 60W</a> (fetched 22 Aug 2026). <a href="https://store.ui.com/us/en/products/usw-lite-8-poe">UI store Lite 8 PoE</a>. <a href="https://dl.ubnt.com/ds/usw-lite-8-poe">Lite datasheet</a>. <a href="https://www.microcenter.com/product/689993/ubiquiti-unifi-usw-ultra-network-switch-8-port">Micro Center 689993</a>. Streakwave / UI PoE-in budget note. Street moves.</p>
+</section>
+
+
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="synology-cpo-vs-amazon-renewed"><span class="t">Buy a new or Synology-certified DS224+. Skip random “renewed.”</span><span class="d">Amazon Renewed is not Synology CPO. New diskless DS224+ is the clean US buy.</span></a>
+<a class="note-row" href="ugreen-dxp4800-plus-vs-used-synology"><span class="t">New 10G in the chassis instead of a used Synology: UGREEN DXP4800 Plus</span><span class="d">New 10GbE in the chassis. Don't buy a used DS918+ for 10G.</span></a>
+<a class="note-row" href="asus-nuc-14-pro-vs-used-xeon-d"><span class="t">Supported small 4×4, not a used Xeon-D leftover: ASUS NUC 14 Pro</span><span class="d">Supported small 4×4 with a name on the firmware, not a used Xeon-D leftover.</span></a>
+</section>
+
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="1u-vs-pizza-box-closet"><span class="kicker">Previous</span><span class="t">1U is for a rack. A closet gets a pizza box.</span></a>
+<a rel="next" href="synology-cpo-vs-amazon-renewed"><span class="kicker">Next</span><span class="t">Buy a new or Synology-certified DS224+. Skip random “renewed.”</span></a>
+</nav>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+</p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

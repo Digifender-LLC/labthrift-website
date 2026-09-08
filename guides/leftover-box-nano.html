@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Edit a file from the couch — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After SSH works, open a file with nano, change a line, and save. The keys at the bottom of the screen are the whole trick. You don't need a new editor.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Edit a file from the couch — Labthrift">
+<meta property="og:description" content="After SSH works, open a file with nano, change a line, and save. The keys at the bottom of the screen are the whole trick. You don't need a new editor.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-nano">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-nano">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Edit a file from the couch","description":"After SSH works, open a file with nano, change a line, and save. The keys at the bottom of the screen are the whole trick. You don't need a new editor.","url":"https://labthrift.com/guides/leftover-box-nano","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-28"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Edit a file from the couch</span></nav>
+<p class="note">Written 28 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Edit a file from the couch</h1>
+<p class="deck">After SSH works, open a file with <span><code>nano</code></span>, change a line, and save. The keys at the bottom of the screen are the whole trick. You don't need a new editor.</p>
+<p><a href="first-ssh">SSH from the couch</a> lets you type commands on the computer. Sometimes the computer already has a file you need to change: a note, a share path, a line in a config. <span><code>nano</code></span> is a small text editor that is already on Debian and Ubuntu. You run it in the SSH window. The computer does not need VS Code, vim, or a USB stick for this one job.</p>
+
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. A short name is nicer: <a href="leftover-box-ssh-config">give the computer a short name on your laptop</a>. If you only need to move a file that already lives on the laptop, that is <a href="leftover-box-scp">copy a file to the computer from your laptop</a>. This note is <span><code>nano</code></span> after you have logged in. Laptop-side <span><code>nano</code></span> for the SSH nickname is on the short-name note. Skip this whole note if you are not changing a file tonight.</p>
+
+<h2>What this is</h2>
+<p><span><code>nano</code></span> opens a file in the SSH window. The bottom two lines are keyboard shortcuts. The caret <span><code>^</code></span> means Ctrl. You type, save, quit. The computer writes the file. On most Debian and Ubuntu installs, nano is already there. It is not vim. If you typed <span><code>vim</code></span> by accident and the screen looks stuck, type <span><code>:q!</code></span> and Enter to leave without saving, then start over with <span><code>nano</code></span>.</p>
+
+<h2>Practice on a throwaway file first</h2>
+<p>Don't start on a login file. SSH in, then make a file that does not matter:</p>
+<p><code>echo 'hello' &gt; ~/nano-practice.txt</code></p>
+<p>Then open it:</p>
+<p><code>nano ~/nano-practice.txt</code></p>
+<p>You should see the words, a cursor, and those two shortcut lines at the bottom. Add a second line. That is enough for a first save.</p>
+
+<h2>Save and quit</h2>
+<p>The three keys you actually need:</p>
+<ul>
+<li><strong>Ctrl+O</strong> writes the file (think “out”). nano asks for the filename. Enter keeps the same name.</li>
+<li><strong>Ctrl+X</strong> leaves nano. If you changed something and forgot to save, it asks. Y then Enter saves. N discards.</li>
+<li><strong>Ctrl+C</strong> cancels the question nano is asking, if you typed the wrong name.</li>
+</ul>
+<p>Arrow keys move. Backspace deletes. Optional later: Ctrl+K cuts the whole line, Ctrl+U pastes it back. You don't need those tonight.</p>
+
+<h2>Check it landed</h2>
+<p>Back at the prompt:</p>
+<p><code>cat ~/nano-practice.txt</code></p>
+<p>You want your new line in the print. That print command is <a href="leftover-box-cat">read a file without opening the editor</a>. Optional look at size and date:</p>
+<p><code>ls -lh ~/nano-practice.txt</code></p>
+<p>Delete the practice file when you are done playing:</p>
+<p><code>rm ~/nano-practice.txt</code></p>
+
+<h2>Before you edit a real file, copy it</h2>
+<p>A config is easier to undo if you kept the old one. For a file in your home folder:</p>
+<p><code>cp ~/notes.txt ~/notes.txt.bak</code></p>
+<p>Then:</p>
+<p><code>nano ~/notes.txt</code></p>
+<p>Swap the filename for yours. If the original was fine, copy the <span><code>.bak</code></span> back over it later. Skip this extra copy on the throwaway practice file.</p>
+
+<h2>Optional: a system file</h2>
+<p>Files under <span><code>/etc</code></span> need admin. Confirm you can use sudo first: <a href="leftover-box-sudo">see if your login can use admin commands</a>. Then:</p>
+<p><code>sudo nano /etc/hostname</code></p>
+<p>That hostname file is the computer's name. Changing it for real is <a href="leftover-box-hostname">give the computer a name that sticks</a>, not a random edit. Don't open SSH settings tonight. Turning off password login is <a href="leftover-box-ssh-no-password">turn off password login once the key works</a>, and it has a safer order than “open sshd_config and guess.”</p>
+
+<h2>If nano is missing</h2>
+<p>Some skinny leftover installs skip it. Ask:</p>
+<p><code>nano --version</code></p>
+<p>If that says command not found, install it the same way as other fixes: <a href="leftover-box-updates">keep the computer updated</a>, then:</p>
+<p><code>sudo apt update &amp;&amp; sudo apt install -y nano</code></p>
+<p>Skip buying an editor app. Skip vim as a first editor.</p>
+
+<h2>What next</h2>
+<p>Need an empty file before you edit? <a href="leftover-box-touch">Make an empty file</a>. Want a spare before you edit? <a href="leftover-box-cp">Copy a file without leaving the computer</a>. Need the file on the laptop too? <a href="leftover-box-scp">Copy a file to the computer from your laptop</a> (paths swap to pull one back). Cleaning leftover Marketplace keys uses this same editor: <a href="leftover-box-authorized-keys">see which laptop keys the computer already trusts</a>. Tired of retyping the same long line? <a href="leftover-box-history">Reuse a command you already typed</a>. Want to see the names in the folder first? <a href="leftover-box-ls">See what&#39;s in a folder</a>. When key login is boring on every computer you use, <a href="leftover-box-ssh-no-password">turn off password login once the key works</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip buying VS Code, a “cloud IDE,” or a KVM for a one-line change.</li>
+<li>Skip starting with vim. Use nano until this is boring.</li>
+<li>Skip editing <span><code>/etc/ssh/sshd_config</code></span> from this note. That harden step is <a href="leftover-box-ssh-no-password">turn off password login once the key works</a>.</li>
+<li>Skip opening SSH to the internet so you can edit from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.nano-editor.org/">GNU nano</a>. <a href="https://www.nano-editor.org/dist/latest/nano.1.html">GNU nano: nano(1)</a>. <a href="https://manpages.debian.org/bookworm/nano/nano.1.en.html">Debian: nano</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/nano.1.html">Ubuntu: nano</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For a short name, see <a href="leftover-box-ssh-config">give the computer a short name on your laptop</a>. For moving a file without editing it, see <a href="leftover-box-scp">copy a file to the computer from your laptop</a>. For sudo, see <a href="leftover-box-sudo">see if your login can use admin commands</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-scp"><span class="t">Copy a file to the computer from your laptop</span><span class="d">After SSH works, use scp to move one file without a USB stick. A short name like lab makes the typing shorter. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-cp"><span class="t">Copy a file without leaving the computer</span><span class="d">After SSH works, copy a file with cp so you can edit a spare without wrecking the original. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-touch"><span class="t">Make an empty file</span><span class="d">After SSH works, make an empty file with touch so nano and copies have a file to land on. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-config"><span class="t">Give the computer a short name on your laptop</span><span class="d">After SSH works, put a short name in your laptop SSH config so you type ssh lab instead of the long address. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-authorized-keys"><span class="t">See which laptop keys the computer already trusts</span><span class="d">Before you turn off password login, look at which laptop keys can already get in. Remove leftovers from an old Marketplace box. You don't need a YubiKey for this.</span></a>
+<a class="note-row" href="leftover-box-sudo"><span class="t">See if your login can use admin commands</span><span class="d">Before you change passwords or turn on the firewall, check that your login can use sudo. You don't need extra login software.</span></a>
+<a class="note-row" href="leftover-box-hostname"><span class="t">Give the computer a name that sticks</span><span class="d">Ping and SSH are easier if the computer has a short name. lab works. Set it so the name survives a reboot.</span></a>
+<a class="note-row" href="leftover-box-history"><span class="t">Reuse a command you already typed</span><span class="d">After SSH works, flip back through commands with the Up arrow or history. You don't need a notebook for the same long line twice.</span></a>
+<a class="note-row" href="leftover-box-ls"><span class="t">See what's in a folder</span><span class="d">After SSH works, list the folder you are sitting in with ls. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-cd"><span class="t">Move into a folder</span><span class="d">After SSH works, change folders with cd. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-scp"><span class="kicker">Previous</span><span class="t">Copy a file to the computer from your laptop</span></a>
+<a rel="next" href="leftover-box-history"><span class="kicker">Next</span><span class="t">Reuse a command you already typed</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

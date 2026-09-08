@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See how big one folder is — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After SSH works, check how big one folder is with du so you know before you copy or delete. You don't need a file manager for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See how big one folder is — Labthrift">
+<meta property="og:description" content="After SSH works, check how big one folder is with du so you know before you copy or delete. You don't need a file manager for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-du">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-du">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See how big one folder is","description":"After SSH works, check how big one folder is with du so you know before you copy or delete. You don't need a file manager for this.","url":"https://labthrift.com/guides/leftover-box-du","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-30"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"Faster network","item":"https://labthrift.com/guides/#switches"},{"@type":"ListItem","position":3,"name":"See how big one folder is"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">See how big one folder is</span></nav>
+<p class="note">Written 30 Aug 2026. This is a how-to, not a product card.</p>
+<h1>See how big one folder is</h1>
+<p class="deck">After SSH works, check how big one folder is with <span><code>du</code></span> so you know before you copy or delete. You don&apos;t need a file manager for this.</p>
+<p><a href="leftover-box-tree">See folders as a tree</a> showed nested folders. <a href="leftover-box-unzip">Unpack a zip you already have</a> unpacked a zip. <a href="leftover-box-tar">Pack files into one archive</a> packed a folder. <a href="leftover-box-ls">See what&apos;s in a folder</a> listed names. Tonight you check size: how big one folder you already know is. After you unpack a zip, nested folders are hard to size by eye. <span><code>du</code></span> tells you how big one folder is. You are still only looking on the computer. It does not need a file manager, a desktop, or a NAS for this one job.</p>
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If you need nested folders as a drawing, that is <a href="leftover-box-tree">see folders as a tree</a>. If you need how much room the whole disk still has, that is <a href="leftover-box-disk-space">see if the computer still has room</a>. If you need which folders eat the disk, that is <a href="leftover-box-largest-folders">see which folders are eating the disk</a>. Skip this whole note if you only need a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>. Skip if you need a USB copy of the house folder. That is <a href="first-backup">a backup of the house folder</a>.</p>
+<h2>What this is</h2>
+<p><span><code>du</code></span> means disk usage for a path you name. You type <span><code>du</code></span>, then a folder in home. Tonight: <span><code>du -sh ~/some-folder</code></span>. <span><code>-s</code></span> means summary: one number for the whole folder, not a line per nested path. <span><code>-h</code></span> means human sizes, like <span><code>12K</code></span> or <span><code>4.0M</code></span>, instead of raw bytes. It is not how full the whole disk is. That is <a href="leftover-box-disk-space">see if the computer still has room</a> (<span><code>df</code></span>). It is not ranking every big folder on the computer. That is <a href="leftover-box-largest-folders">see which folders are eating the disk</a>. It is not one file&apos;s size, date, and permissions. That is <a href="leftover-box-stat">see file size, date, and permissions</a>. It is not a nested drawing. That is <a href="leftover-box-tree">see folders as a tree</a>. It is not a name list. That is <a href="leftover-box-ls">see what&apos;s in a folder</a>. It is not a search by name. That is <a href="leftover-box-find">find a file by name</a>. It is not a delete. That is <a href="leftover-box-rm">delete a file carefully</a>.</p>
+<h2>Size a practice folder in home</h2>
+<p>SSH in. Make sure home is where you sit:</p>
+<p><code>pwd</code></p><p>You want a path that ends in your login name. If not:</p>
+<p><code>cd ~</code></p><p>If you still have <span><code>~/tree-me</code></span> from <a href="leftover-box-tree">see folders as a tree</a>, you can size that folder. Otherwise make a tiny practice tree in home only:</p>
+<p><code>mkdir -p ~/size-me/a/b</code></p>
+<p><code>echo hi &gt; ~/size-me/a/b/hi.txt</code></p><p>Ask how big the whole folder is:</p>
+<p><code>du -sh ~/size-me</code></p><p>Or, if you kept the tree practice folder:</p>
+<p><code>du -sh ~/tree-me</code></p><p>You want one small human size, often a few kilobytes. A nearly empty folder still takes a little room because the computer stores the folder itself.</p>
+<p>Optional: see each child sitting right under that folder, without listing every nested file:</p>
+<p><code>du -h -d 1 ~/size-me</code></p><p><span><code>-d 1</code></span> means one level deep. You get the folder you named, plus each child under it. Files further down are rolled into those children.</p>
+<p>Skip <span><code>du /</code></span>, <span><code>du /etc</code></span>, and <span><code>sudo du</code></span> of the whole disk for this practice. Whole-disk room left is <a href="leftover-box-disk-space">see if the computer still has room</a>. Ranking the biggest folders is <a href="leftover-box-largest-folders">see which folders are eating the disk</a>.</p>
+<p>If <span><code>du</code></span> says No such file or directory, you are not in home or the practice folder is missing. <span><code>pwd</code></span>, then <span><code>cd ~</code></span>, then try again.</p>
+<p>When you are done practicing, throw away the practice files. Careful delete only. That is <a href="leftover-box-rm">delete a file carefully</a>:</p>
+<p><code>rm -i ~/size-me/a/b/hi.txt</code></p><p>Delete practice folders the same careful way after they are empty. Skip <span><code>rm -rf</code></span>.</p>
+<h2>Useful extras, still home only</h2>
+<p>Want a size for each item sitting right in that folder?</p>
+<p><code>du -sh ~/size-me/*</code></p><p>That is still a summary per child, not a dump of every file.</p>
+<p>Skip <span><code>du -a</code></span> as tonight&apos;s lesson. That flag lists every file. Tonight: one folder you already know.</p>
+<p>Skip other disks, USB sticks, and <span><code>/srv</code></span> as tonight&apos;s lesson. Practice only in home.</p>
+<p>If it says command not found for <span><code>du</code></span>, install coreutils, then try again:</p>
+<p><code>sudo apt install coreutils</code></p><p>Debian and Ubuntu Server usually already have it. That install is not a reason to buy a disk-space app.</p>
+<h2>What this is not</h2>
+<p>This is not how full the whole disk is. That is <a href="leftover-box-disk-space">see if the computer still has room</a>. It is not ranking every big folder on the computer. That is <a href="leftover-box-largest-folders">see which folders are eating the disk</a>. It is not one file&apos;s size, date, and permissions. That is <a href="leftover-box-stat">see file size, date, and permissions</a>. It is not a nested drawing. That is <a href="leftover-box-tree">see folders as a tree</a>. It is not a name list. That is <a href="leftover-box-ls">see what&apos;s in a folder</a>. It is not a search by name. That is <a href="leftover-box-find">find a file by name</a>. It is not a careful delete. That is <a href="leftover-box-rm">delete a file carefully</a>. It is not a USB backup. That is <a href="first-backup">a backup of the house folder</a>. It is not a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>. It is not opening SSH to the internet so you can size folders from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>What next</h2>
+<p>Need a zip a laptop can open? <a href="leftover-box-zip">Pack files into a zip a laptop can open</a>. Need size (or clock) to update by itself? <a href="leftover-box-watch">See change without typing again</a>. Need nested folders as a drawing? <a href="leftover-box-tree">See folders as a tree</a>. Need how much room the whole disk still has? <a href="leftover-box-disk-space">See if the computer still has room</a>. Need which folders eat the disk? <a href="leftover-box-largest-folders">See which folders are eating the disk</a>. Need the throwaway gone for real? <a href="leftover-box-rm">Delete a file carefully</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip paths under <span><code>/etc</code></span>, SSH folders, or paths you don't own. Practice only in home.</li>
+<li>Skip <span><code>du /</code></span>, <span><code>du /etc</code></span>, and <span><code>sudo du</code></span> of the whole disk for this practice. Whole-disk room is <a href="leftover-box-disk-space">see if the computer still has room</a>. Ranking biggest folders is <a href="leftover-box-largest-folders">see which folders are eating the disk</a>.</li>
+<li>Skip <span><code>du -a</code></span> as tonight&apos;s lesson. That dumps every file.</li>
+<li>Skip <span><code>rm -rf</code></span>. Careful delete only: <a href="leftover-box-rm">delete a file carefully</a>.</li>
+<li>Skip buying a disk-space app. Debian and Ubuntu already ship <span><code>du</code></span>.</li>
+<li>Skip opening SSH to the internet so you can size folders from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+<li>Skip if you actually need the USB backup. That is <a href="first-backup">a backup of the house folder</a>.</li>
+<li>Skip if you only need a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/coreutils/du.1.en.html">Debian: du</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/du.1.html">Ubuntu: du</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For nested folders as a drawing, see <a href="leftover-box-tree">see folders as a tree</a>. For whole-disk room, see <a href="leftover-box-disk-space">see if the computer still has room</a>. For ranking biggest folders, see <a href="leftover-box-largest-folders">see which folders are eating the disk</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-tree"><span class="t">See folders as a tree</span><span class="d">After SSH works, show nested folders with tree so you can see what is inside without clicking around. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-zip"><span class="t">Pack files into a zip a laptop can open</span><span class="d">After SSH works, pack files into a zip with zip so a Windows laptop can open them. You don&apos;t need a zip desktop app for this.</span></a>
+<a class="note-row" href="leftover-box-watch"><span class="t">See change without typing again</span><span class="d">After SSH works, re-run a command with watch so you see change without typing again. You don&apos;t need a monitoring app for this.</span></a>
+<a class="note-row" href="leftover-box-unzip"><span class="t">Unpack a zip you already have</span><span class="d">After SSH works, unpack a zip with unzip so files come out of a zip. You don&apos;t need a zip desktop app for this.</span></a>
+<a class="note-row" href="leftover-box-tar"><span class="t">Pack files into one archive</span><span class="d">After SSH works, pack files into one archive with tar so you can copy one file instead of a folder. You don&apos;t need a zip app for this.</span></a>
+<a class="note-row" href="leftover-box-ls"><span class="t">See what&apos;s in a folder</span><span class="d">After SSH works, list the folder you are sitting in with ls. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-find"><span class="t">Find a file by name</span><span class="d">After SSH works, search for a file by name with find so you don't have to open every folder. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-stat"><span class="t">See file size, date, and permissions</span><span class="d">After SSH works, see file size, date, and permissions with stat. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">Before you buy a bigger drive, check free space with df.</span></a>
+<a class="note-row" href="leftover-box-largest-folders"><span class="t">See which folders are eating the disk</span><span class="d">Before you buy a bigger drive or a NAS, ask which folders are taking the room.</span></a>
+<a class="note-row" href="leftover-box-rm"><span class="t">Delete a file carefully</span><span class="d">After SSH works, delete one file with rm -i. Ask first. Skip rm -rf. You don&apos;t need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-tree"><span class="kicker">Previous</span><span class="t">See folders as a tree</span></a>
+<a rel="next" href="leftover-box-zip"><span class="kicker">Next</span><span class="t">Pack files into a zip a laptop can open</span></a>
+</nav>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

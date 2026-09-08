@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See whether two files match byte for byte — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After comm, compare two files byte for byte with cmp so you know if they match. You don't need extra software for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See whether two files match byte for byte — Labthrift">
+<meta property="og:description" content="After comm, compare two files byte for byte with cmp so you know if they match. You don't need extra software for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-cmp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-cmp">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See whether two files match byte for byte","description":"After comm, compare two files byte for byte with cmp so you know if they match. You don't need extra software for this.","url":"https://labthrift.com/guides/leftover-box-cmp","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-01"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"Faster network","item":"https://labthrift.com/guides/#switches"},{"@type":"ListItem","position":3,"name":"See whether two files match byte for byte"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">See whether two files match byte for byte</span></nav>
+<p class="note">Written 1 Sep 2026. This is a how-to, not a product card.</p>
+<h1>See whether two files match byte for byte</h1>
+<p class="deck">After comm, compare two files byte for byte with cmp so you know if they match. You don&apos;t need extra software for this.</p>
+<p><a href="leftover-box-comm">Compare sorted lists</a> compared two sorted lists. Tonight you compare two files byte for byte: <span><code>cmp</code></span>. Cmp says whether two files match, or where the first difference is. Start with two tiny practice files. You are still only practicing in home on the computer. It does not need extra system software, htop, Grafana, or a NAS for this one job.</p>
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If sorted lists compared are what you want, that is <a href="leftover-box-comm">compare sorted lists</a>. If a line-oriented compare is what you want, that is <a href="leftover-box-diff">see whether two files are the same</a>. If a fingerprint is what you want, that is <a href="leftover-box-sha256sum">check a file fingerprint</a>.</p>
+<h2>What this is</h2>
+<p><span><code>cmp</code></span> compares two files byte for byte. You make two tiny practice files, then type <span><code>cmp ~/cmp-a.txt ~/cmp-b.txt</code></span>. Quiet output means they match. A short report means they differ, and where. It is not diff. Diff is line-oriented. It is not sha256sum. Sha256sum fingerprints one file. It is not comm. Comm compares sorted lists.</p>
+<h2>Practice cmp in home</h2>
+<p>SSH in. Make sure home is where you sit:</p>
+<p><code>pwd</code></p><p>You want a path that ends in your login name. If not:</p>
+<p><code>cd ~</code></p><p>Make two tiny matching files:</p>
+<p><code>printf &apos;hello\n&apos; &gt; ~/cmp-a.txt</code></p><p><code>printf &apos;hello\n&apos; &gt; ~/cmp-b.txt</code></p><p>Compare them:</p>
+<p><code>cmp ~/cmp-a.txt ~/cmp-b.txt</code></p><p>Quiet output means they match. Then change one:</p>
+<p><code>printf &apos;hello!\n&apos; &gt; ~/cmp-b.txt</code></p><p><code>cmp ~/cmp-a.txt ~/cmp-b.txt</code></p><p>You want a short report that they differ, then the prompt back. That is enough for tonight. Practice only in home.</p>
+<p>Debian and Ubuntu usually already have <span><code>cmp</code></span>. Don't make apt the job. If <span><code>cmp</code></span> is missing:</p>
+<p><code>sudo apt install diffutils</code></p><p>Then stop. That install is not the lesson.</p>
+<p>When you are done, throw the practice files away. Careful delete only. That is <a href="leftover-box-rm">delete a file carefully</a>. Skip <span><code>rm -rf</code></span>.</p>
+<p><code>rm -i ~/cmp-a.txt ~/cmp-b.txt</code></p><h2>Useful extras, still home only</h2>
+<p>Optional: silent, then print the exit status:</p>
+<p><code>cmp -s ~/cmp-a.txt ~/cmp-b.txt; echo $?</code></p><p><span><code>0</code></span> means match. Non-zero means they differ. Don't make <span><code>-s</code></span> required.</p>
+<p>Optional: list differing bytes:</p>
+<p><code>cmp -l ~/cmp-a.txt ~/cmp-b.txt</code></p><p>Don't make <span><code>-l</code></span> required. You can stay on the default report.</p>
+<p>Skip cmp piped into <span><code>rm</code></span>. Cmp compares. Rm deletes. Don't mix those jobs.</p>
+<h2>What this is not</h2>
+<p>This is not comm. That is <a href="leftover-box-comm">compare sorted lists</a>. It is not diff. That is <a href="leftover-box-diff">see whether two files are the same</a>. It is not sha256sum. That is <a href="leftover-box-sha256sum">check a file fingerprint</a>. It is not join. That is <a href="leftover-box-join">match files on a shared field</a>. It is not opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>What next</h2>
+<p>Need sorted lists compared? <a href="leftover-box-comm">Compare sorted lists</a>. Need a line-oriented compare? <a href="leftover-box-diff">See whether two files are the same</a>. Need a fingerprint? <a href="leftover-box-sha256sum">Check a file fingerprint</a>. Need the practice files gone? <a href="leftover-box-rm">Delete a file carefully</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip huge dumps. Tonight: two tiny practice files.</li>
+<li>Skip cmp piped into <span><code>rm</code></span>. Cmp compares. Don't mix delete into this drill.</li>
+<li>Skip comm, diff, and sha256sum as tonight&apos;s job. Those pages already exist.</li>
+<li>Skip files under <span><code>/etc</code></span>, SSH folders, or paths you don't own. Practice only in home.</li>
+<li>Skip <span><code>rm -rf</code></span>. Careful delete only: <a href="leftover-box-rm">delete a file carefully</a>.</li>
+<li>Skip opening SSH to the internet so you can do this from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/diffutils/cmp.1.en.html">Debian: cmp(1)</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/cmp.1.html">Ubuntu: cmp(1)</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For line-oriented compare, see <a href="leftover-box-diff">see whether two files are the same</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-comm"><span class="t">Compare sorted lists</span><span class="d">After join, comm compares sorted lists so practice files show what is only in list 1, only in list 2, or in both. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-diff"><span class="t">See whether two files are the same</span><span class="d">After SSH works, compare two files with diff so you can tell if the spare still matches. You don&apos;t need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-sha256sum"><span class="t">Check a file fingerprint</span><span class="d">After SSH works, check a file with sha256sum so you know it still matches the fingerprint you expected. You don&apos;t need a download manager for this.</span></a>
+<a class="note-row" href="leftover-box-join"><span class="t">Match files on a shared field</span><span class="d">After column, match two practice files on a shared field with join so the lists line up on a key. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-pipe"><span class="t">Send output into another command</span><span class="d">After SSH works, send output into another command with | so a long dump does not flood the window. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-rm"><span class="t">Delete a file carefully</span><span class="d">After SSH works, delete one file with rm -i. Ask first. Skip rm -rf. You don&apos;t need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-comm"><span class="kicker">Previous</span><span class="t">Compare sorted lists</span></a>
+<a rel="next" href="leftover-box-realpath"><span class="kicker">Next</span><span class="t">See the full path</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

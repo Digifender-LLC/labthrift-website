@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Drop duplicate lines — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After SSH works, drop duplicate lines with uniq so a mixed list shows each line once. You don't need a file manager for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Drop duplicate lines — Labthrift">
+<meta property="og:description" content="After SSH works, drop duplicate lines with uniq so a mixed list shows each line once. You don't need a file manager for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-uniq">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-uniq">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Drop duplicate lines","description":"After SSH works, drop duplicate lines with uniq so a mixed list shows each line once. You don't need a file manager for this.","url":"https://labthrift.com/guides/leftover-box-uniq","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-30"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"Faster network","item":"https://labthrift.com/guides/#switches"},{"@type":"ListItem","position":3,"name":"Drop duplicate lines"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Drop duplicate lines</span></nav>
+<p class="note">Written 30 Aug 2026. This is a how-to, not a product card.</p>
+<h1>Drop duplicate lines</h1>
+<p class="deck">After SSH works, drop duplicate lines with uniq so a mixed list shows each line once. You don&apos;t need a file manager for this.</p>
+<p><a href="leftover-box-sort">Put lines in order</a> put a mixed list in A-to-Z order. Tonight you find repeated lines: <span><code>uniq</code></span>. Uniq drops duplicate lines that sit next to each other. Sort first, then uniq. You are still only looking. The computer does not need a file manager for this one job.</p>
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If order is what you want, that is <a href="leftover-box-sort">put lines in order</a>. If one column pulled is what you want, that is <a href="leftover-box-cut">pull one column</a>. If a search is what you want, that is <a href="leftover-box-grep">find a word in a file</a>.</p>
+<h2>What this is</h2>
+<p><span><code>uniq</code></span> drops duplicate lines that sit next to each other. Unsorted copies that are apart stay. Start with <span><code>sort ~/fruit.txt | uniq</code></span>. <span><code>-c</code></span> counts. <span><code>-d</code></span> prints only copies. It is not sort. Sort puts lines in order. It is not grep. Grep finds a word.</p>
+<h2>Drop copies from a practice list</h2>
+<p>SSH into the computer. Make a tiny mixed list:</p>
+<p><code>printf &apos;pear\napple\nbanana\napple\n&apos; &gt; ~/fruit.txt</code></p><p><code>cat ~/fruit.txt</code></p><p>Uniq alone on mixed order often keeps both apples, because they are not neighbors:</p>
+<p><code>uniq ~/fruit.txt</code></p><p>Sort first, then uniq:</p>
+<p><code>sort ~/fruit.txt | uniq</code></p><p>You want apple, banana, pear, each once. That is enough for tonight. Practice only in home.</p>
+<p>Debian and Ubuntu usually already have <span><code>uniq</code></span>. Don't make apt the job. If <span><code>uniq</code></span> is missing:</p>
+<p><code>sudo apt install coreutils</code></p><p>Then stop. That install is not the lesson.</p>
+<p>When you are done, throw the practice files away. Careful delete only. That is <a href="leftover-box-rm">delete a file carefully</a>. Skip <span><code>rm -rf</code></span>.</p>
+<p><code>rm ~/fruit.txt ~/fruit-unique.txt</code></p><h2>Useful extras, still looking only</h2>
+<p>Optional: save while you watch:</p>
+<p><code>sort ~/fruit.txt | uniq | tee ~/fruit-unique.txt</code></p><p><code>cat ~/fruit-unique.txt</code></p><p>Optional: counts:</p>
+<p><code>sort ~/fruit.txt | uniq -c</code></p><p>Optional: only the copies:</p>
+<p><code>sort ~/fruit.txt | uniq -d</code></p><p>Optional: names in this folder, unique:</p>
+<p><code>ls | sort | uniq</code></p><p>Looking only. Skip uniq piped into <span><code>rm</code></span>.</p>
+<h2>What this is not</h2>
+<p>This is not sort. That is <a href="leftover-box-sort">put lines in order</a>. It is not cut. That is <a href="leftover-box-cut">pull one column</a>. It is not tee. That is <a href="leftover-box-tee">watch and save output at once</a>. It is not grep. That is <a href="leftover-box-grep">find a word in a file</a>. It is not diff. That is <a href="leftover-box-diff">see whether two files are the same</a>. It is not opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>.</p>
+<h2>What next</h2>
+<p>Need order first? <a href="leftover-box-sort">Put lines in order</a>. Need one column? <a href="leftover-box-cut">Pull one column</a>. Need a search? <a href="leftover-box-grep">Find a word in a file</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip sort, cut, tee, and grep as tonight&apos;s job. Those pages already exist.</li>
+<li>Skip uniq without sort if copies are not neighbors. Sort first.</li>
+<li>Skip uniq piped into <span><code>rm</code></span>.</li>
+<li>Skip files under <span><code>/etc</code></span>, SSH folders, or paths you don't own. Practice only in home.</li>
+<li>Skip <span><code>rm -rf</code></span>. Careful delete only: <a href="leftover-box-rm">delete a file carefully</a>.</li>
+<li>Skip opening SSH to the internet so you can do this from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.gnu.org/software/coreutils/manual/html_node/uniq-invocation.html">GNU coreutils: uniq invocation</a>. <a href="https://manpages.debian.org/bookworm/coreutils/uniq.1.en.html">Debian: uniq</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/uniq.1.html">Ubuntu: uniq</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For order first, see <a href="leftover-box-sort">put lines in order</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-sort"><span class="t">Put lines in order</span><span class="d">After SSH works, put lines in order with sort so a mixed list is easier to scan. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-cut"><span class="t">Pull one column</span><span class="d">After SSH works, pull one column with cut so a mixed line is easier to scan. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-pipe"><span class="t">Send output into another command</span><span class="d">After SSH works, send output into another command with | so a long dump does not flood the window. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-tee"><span class="t">Watch and save output at once</span><span class="d">After SSH works, watch and save output at once with tee. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-redirect"><span class="t">Save output to a file</span><span class="d">After SSH works, save output to a file with &gt;. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-grep"><span class="t">Find a word in a file</span><span class="d">After SSH works, search a file with grep so you see only the matching lines. You don&apos;t need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-diff"><span class="t">See whether two files are the same</span><span class="d">After SSH works, compare two files with diff so you can tell if the spare still matches. You don&apos;t need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-sort"><span class="kicker">Previous</span><span class="t">Put lines in order</span></a>
+<a rel="next" href="leftover-box-cut"><span class="kicker">Next</span><span class="t">Pull one column</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See if a reboot is needed — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After weekly updates, check whether a reboot is needed before you buy a monitoring box.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See if a reboot is needed — Labthrift">
+<meta property="og:description" content="After weekly updates, check whether a reboot is needed before you buy a monitoring box.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-reboot-needed">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-reboot-needed">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See if a reboot is needed","description":"After weekly updates, check whether a reboot is needed before you buy a monitoring box.","url":"https://labthrift.com/guides/leftover-box-reboot-needed","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-28"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">See if a reboot is needed</span></nav>
+<p class="note">Written 28 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>See if a reboot is needed</h1>
+<p class="deck">After weekly updates, check whether a reboot is needed before you buy a monitoring box.</p>
+<p><a href="leftover-box-updates">Keep the computer updated</a> says reboot only if the flag says so. This note is the quiet look that answers that. Debian and Ubuntu leave a small flag file when a reboot will finish the fixes. You are not guessing from a kernel line. You are reading the flag. You don't need a monitoring appliance for one flag.</p>
+
+<h2>Skip until the weekly habit exists</h2>
+<p>If you have never run the two update commands, start with <a href="leftover-box-updates">keep the computer updated</a>. If SSH from the couch is not working yet, that is <a href="first-ssh">SSH from the couch</a>. Prefer this look right after an upgrade finishes, or any morning you wonder whether last week's fixes still need a restart. This note assumes you can log in from the couch.</p>
+
+<h2>What this is</h2>
+<p>A look, not a shopping trip. You are reading a reboot flag the computer already wrote. You are not buying a UPS, an N100, a mesh kit, or a monitoring box this morning. A reboot finishes some updates. A power-off for the night is different: <a href="leftover-box-shutdown">shut down the computer without yanking the plug</a>.</p>
+
+<h2>Ask if a reboot is needed</h2>
+<p>SSH in from the couch, then run:</p>
+<p><code>test -f /var/run/reboot-required &amp;&amp; echo needs reboot || echo no reboot needed</code></p>
+<p>If you see <span><code>needs reboot</code></span>, a restart will finish the last fixes. If you see <span><code>no reboot needed</code></span>, leave it alone. Don't reboot every week on habit. Don't buy anything because the line printed once.</p>
+
+<h2>Optional: which packages asked</h2>
+<p>If the flag is there and you want the short list of packages that asked:</p>
+<p><code>cat /var/run/reboot-required.pkgs</code></p>
+<p>No file, or an empty look, is fine. The flag file is enough. Keep this note on yes or no.</p>
+
+<h2>If it needs a reboot</h2>
+<p>Finish with a clean restart:</p>
+<p><code>sudo reboot</code></p>
+<p>Wait a minute. Then <a href="leftover-box-still-on">is the computer still on?</a>, log back in, and confirm the house jobs: <a href="leftover-box-after-reboot">after a reboot, check the computer still does its jobs</a>. Failed jobs after that are <a href="leftover-box-failed-units">see if any house jobs failed to start</a>. Don&apos;t yank the cord for this. That is for a night you mean to power off: <a href="leftover-box-shutdown">shut down the computer without yanking the plug</a>.</p>
+
+<h2>What next</h2>
+<p>The weekly two commands stay <a href="leftover-box-updates">keep the computer updated</a>. When that habit is boring, later is <a href="leftover-box-unattended">let the computer apply weekly fixes without you</a> (still leave automatic reboot off). How long it has been awake after a restart is <a href="leftover-box-uptime">see how long the computer has been awake</a>. The first rule stays <a href="start-with-what-you-have">start with what you already have</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if you have not run weekly updates yet. That is <a href="leftover-box-updates">keep the computer updated</a>.</li>
+<li>Skip a reboot when the line says <span><code>no reboot needed</code></span>.</li>
+<li>Skip a monitoring box, a UPS, or a new mini PC for this look.</li>
+<li>Skip letting unattended upgrades reboot the computer by itself. That is still off in <a href="leftover-box-unattended">let the computer apply weekly fixes without you</a>.</li>
+<li>Skip a NAS for this look.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.debian.org/doc/manuals/debian-reference/ch09.en.html#_the_kernel">Debian Reference: the kernel (reboot-required)</a>. <a href="https://manpages.debian.org/bookworm/apt/apt.8.en.html">Debian: apt</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man8/apt.8.html">Ubuntu: apt</a>. Official pages only. For the weekly habit, see <a href="leftover-box-updates">keep the computer updated</a>. For jobs after a restart, see <a href="leftover-box-after-reboot">after a reboot, check the computer still does its jobs</a>. For a night power-off, see <a href="leftover-box-shutdown">shut down the computer without yanking the plug</a>. For the login, see <a href="first-ssh">SSH from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="when-updates-wont-install"><span class="t">When weekly updates won't install</span><span class="d">apt says could not get lock, waiting for cache, or dpkg was interrupted. Wait out the other updater, free disk room, then finish the weekly fixes. You don't need a new mini PC.</span></a>
+<a class="note-row" href="leftover-box-updates"><span class="t">Keep the computer updated</span><span class="d">Once a week, give the computer its fixes so SSH and Pi-hole are not sitting on last year's bugs. Skip this until next week if you just finished first weekend.</span></a>
+<a class="note-row" href="leftover-box-after-reboot"><span class="t">After a reboot, check the computer still does its jobs</span><span class="d">The computer came back up. Confirm SSH, house ad block, and the file share still work before you buy anything.</span></a>
+<a class="note-row" href="leftover-box-shutdown"><span class="t">Shut down the computer without yanking the plug</span><span class="d">When you're done for the night, shut it down and let it finish writing files before it powers off. Don't yank the cord. Skip this if you only need a reboot after updates.</span></a>
+<a class="note-row" href="leftover-box-unattended"><span class="t">Let the computer apply weekly fixes without you</span><span class="d">After the weekly two-command habit is boring, you can let the computer apply those same fixes by itself. Skip this until that habit is boring. Don't let it reboot on its own.</span></a>
+<a class="note-row" href="leftover-box-uptime"><span class="t">See how long the computer has been awake</span><span class="d">Before you buy a UPS or a new mini PC, see how long the computer has been awake.</span></a>
+<a class="note-row" href="leftover-box-still-on"><span class="t">Is the computer still on?</span><span class="d">You left the computer on. This morning ads are back, or SSH hangs. Check if it is awake before you buy anything.</span></a>
+<a class="note-row" href="start-with-what-you-have"><span class="t">Start with what you already have</span><span class="d">Don't buy anything yet. Old laptop first, or a retired OptiPlex from Marketplace.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-updates"><span class="kicker">Previous</span><span class="t">Keep the computer updated</span></a>
+<a rel="next" href="leftover-box-shutdown"><span class="kicker">Next</span><span class="t">Shut down the computer without yanking the plug</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

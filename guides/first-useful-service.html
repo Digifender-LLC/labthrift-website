@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>The first useful thing — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Put a house-wide ad block on the old PC. The rest of the house keeps using the internet as usual. You don't need a Raspberry Pi.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="The first useful thing — Labthrift">
+<meta property="og:description" content="Put a house-wide ad block on the old PC. The rest of the house keeps using the internet as usual. You don't need a Raspberry Pi.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/first-useful-service">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/first-useful-service">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"The first useful thing","description":"Put a house-wide ad block on the old PC. The rest of the house keeps using the internet as usual. You don't need a Raspberry Pi.","url":"https://labthrift.com/guides/first-useful-service","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-23"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">The first useful thing</span></nav>
+<p class="path-step"><a href="./#start">Getting started</a> · <b>6 of 9</b></p>
+<p class="note">Written 23 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>The first useful thing</h1>
+<p class="deck">Put a house-wide ad block on the old PC. The rest of the house keeps using the internet as usual. You don't need a Raspberry Pi.</p>
+<p>You already have a computer that stays on. SSH from the couch works. The next job is one useful thing for the house, not a new gadget.</p>
+
+<h2>What this is</h2>
+<p>A program called Pi-hole. It answers name lookups for the house and skips the ones that are ads. Phones and laptops don't need an extra app. You point the house at this box once.</p>
+<p>DNS is the phone book that turns names into numbers. When a laptop asks for a site, something has to look up the number. Pi-hole is one free program that sits in that phone book and skips ad names. Real sites still go through. A lot of ads never load.</p>
+<p>You don't buy a Raspberry Pi. The OptiPlex or old laptop is already a computer that stays on. Pi-hole is just software on it. The name sounds like a tiny board. Ignore that. You already did the hardware part.</p>
+
+<h2>Install it on the computer</h2>
+<p>This assumes Debian or Ubuntu Server, the OS from <a href="what-os-to-pick">what OS to put on it</a>, installed as in <a href="first-weekend">your first weekend</a>. SSH in from the couch.</p>
+<p>The house has to find this computer later, so give it a static-ish address. A DHCP reservation is the easy way: tell the router to always give it the same number. Use the address you found on the first weekend. If you skip this, it might get a new number after a reboot, and the house will look in the wrong place.</p>
+<p>The official path is one command from <a href="https://pi-hole.net">pi-hole.net</a>. Walk through the prompts. Take the defaults. Use the URL on their site, not a copy from a forum. The <a href="https://docs.pi-hole.net/main/basic-install/">basic install docs</a> are the page to follow.</p>
+<p>On the computer, run:</p>
+<p><code>curl -sSL https://install.pi-hole.net | bash</code></p>
+<p>If it asks for sudo, that is normal. Note the admin password it prints. You will need it in a minute.</p>
+
+<h2>Open the page it prints</h2>
+<p>The installer prints a web address. Open it on your normal computer. Usually <a href="http://pi.hole/admin">http://pi.hole/admin</a>, or that computer's address plus <code>/admin</code>. You will see a dashboard. That is enough for tonight. Don't start hunting extra block lists.</p>
+
+<h2>Point the house at it</h2>
+<p>On the router, set DNS to this computer's address so every phone and laptop asks it for names. Full steps: <a href="leftover-box-router-dns">point the house at the ad block</a>. Brand menus: <a href="common-router-dns">point common home routers at Pi-hole</a>. If ufw is already on for this computer, allow DNS there too: <a href="leftover-box-ufw">turn on a simple firewall without locking yourself out</a>.</p>
+
+<h2>What next</h2>
+<p>Leave it a week. First, <a href="leftover-box-pihole-password">change the printed admin password</a>. Then <a href="see-what-pihole-blocked">see what Pi-hole blocked</a> so you know it is working. If the admin opens but totals stay at zero, see <a href="when-pihole-has-no-queries">when Pi-hole shows no queries</a>. Then maybe <a href="first-file-share">a file share on this same computer</a>. If it is still on house Wi-Fi, put it on a cable first: <a href="leftover-box-ethernet">a cable beats Wi-Fi for the computer</a>. Once a week, <a href="update-pihole">keep Pi-hole updated</a> (apt alone does not). Before a reinstall or a big list change, <a href="backup-pihole">save a Pi-hole backup</a>. Tired of typing the number? <a href="add-local-dns-name">Add a local name in Pi-hole</a>. Phones still show ads right after you set router DNS? <a href="flush-dns-on-devices">Flush old DNS on phones and laptops</a>. If ads come back later, start with <a href="when-ads-come-back">when ads come back</a>. If only one phone stays dirty, see <a href="when-one-phone-shows-ads">when one phone still shows ads</a>. Guest SSID still shows ads? See <a href="guest-wifi-dns">when guest Wi-Fi still shows ads</a>. Need a five-minute off switch? <a href="pause-pihole">Pause Pi-hole for a few minutes</a>. If one site you need is broken while ads stay gone, see <a href="when-a-site-wont-load">when a site won't load after Pi-hole</a>. Want to deny a domain on purpose? <a href="block-a-site">Block a site in Pi-hole on purpose</a>. If the dashboard itself won't load, see <a href="when-pihole-wont-open">when the Pi-hole admin page won't open</a>. Waiting is fine. Not Kubernetes. Not a new mini PC.</p>
+
+<p class="note">Optional: track the first service you leave on in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip buying a Raspberry Pi “because Pi-hole.”</li>
+<li>Skip Docker if you are not already using it. A bare install is fine on a dedicated old PC.</li>
+<li>Skip Unbound on day one.</li>
+<li>Skip blocking so hard that banking sites die.</li>
+<li>Skip a second box for this.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://pi-hole.net">Pi-hole</a>. <a href="https://docs.pi-hole.net/main/basic-install/">Pi-hole basic install</a>. Official pages only. For the install, see <a href="first-weekend">your first weekend</a>. For the OS choice, see <a href="what-os-to-pick">what OS to put on it</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="update-pihole"><span class="t">Keep Pi-hole updated</span><span class="d">Weekly apt does not refresh Pi-hole. Update the software and the block lists on the old PC so ads stay gone. You don't need a new Raspberry Pi.</span></a>
+<a class="note-row" href="see-what-pihole-blocked"><span class="t">See what Pi-hole blocked</span><span class="d">Open the query log (or watch it over SSH) so you can tell ads are dying, which device asked, and which name to allow later. You don't need a new router.</span></a>
+<a class="note-row" href="when-pihole-has-no-queries"><span class="t">When Pi-hole shows no queries</span><span class="d">Admin opens, totals stay at zero, query log empty. Prove the house asks the computer for DNS, then check Pi-hole status. You don't need a new Raspberry Pi.</span></a>
+<a class="note-row" href="block-a-site"><span class="t">Block a site in Pi-hole on purpose</span><span class="d">One domain you don't want in the house. Add it to the deny list. You don't wipe every block list or buy a new router.</span></a>
+<a class="note-row" href="backup-pihole"><span class="t">Save a Pi-hole backup before you change things</span><span class="d">Export settings with Teleporter so a reinstall or a bad list does not wipe your allow list and local DNS. You don't need a new Raspberry Pi.</span></a>
+<a class="note-row" href="restore-pihole-backup"><span class="t">Put a Pi-hole backup back with Teleporter</span><span class="d">After a reinstall or a bad list, import the Teleporter zip so allow lists, deny entries, and local DNS names return. Fresh Pi-hole first. You don't need a new Raspberry Pi.</span></a>
+<a class="note-row" href="add-local-dns-name"><span class="t">Add a local name in Pi-hole</span><span class="d">Give the old PC a short house name so phones and laptops can open SSH, the share, and the admin page without remembering the number. You don't need a new router.</span></a>
+
+<a class="note-row" href="pause-pihole"><span class="t">Pause Pi-hole for a few minutes</span><span class="d">Turn blocking off for five minutes to test a broken site or a dinner guest. It turns itself back on. You don't wipe the lists or change the router.</span></a>
+<a class="note-row" href="when-a-site-wont-load"><span class="t">When a site won't load after Pi-hole</span><span class="d">A bank, streamer, or login page breaks after Pi-hole. Pause blocking for five minutes, then allow the domain you need. You don't need a new router.</span></a>
+<a class="note-row" href="when-pihole-wont-open"><span class="t">When the Pi-hole admin page won't open</span><span class="d">http://pi.hole/admin or the computer's address plus /admin won't load. Check house Wi-Fi, the address, then Pi-hole and the web service. You don't need a new router.</span></a>
+<a class="note-row" href="common-router-dns"><span class="t">Point common home routers at Pi-hole</span><span class="d">Where to set DNS on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so the house asks Pi-hole. Prefer LAN DHCP DNS. You don't need a new router.</span></a>
+<a class="note-row" href="flush-dns-on-devices"><span class="t">Flush old DNS on phones and laptops</span><span class="d">After you point the router at Pi-hole, phones and laptops may still use the old DNS. Renew the Wi-Fi lease or flush the cache so ads drop. You don't need a new router.</span></a>
+<a class="note-row" href="when-ads-come-back"><span class="t">When ads come back</span><span class="d">Ads are back, sites won't load, or a phone still shows banners. Check the computer, Pi-hole, router DNS, then the phone.</span></a>
+<a class="note-row" href="when-one-phone-shows-ads"><span class="t">When one phone still shows ads</span><span class="d">Everyone else's ads dropped. One phone still shows banners. Check Private DNS, Private Relay, a VPN, then the Wi-Fi lease. You don't need a new router.</span></a>
+<a class="note-row" href="guest-wifi-dns"><span class="t">When guest Wi-Fi still shows ads</span><span class="d">Guest Wi-Fi is a separate network on purpose. Leave guests on ISP DNS, put a visitor on the main house Wi-Fi, or point guest DNS at Pi-hole only if they can reach the computer. You don't need a new router.</span></a>
+<a class="note-row" href="first-weekend"><span class="t">Your first weekend</span><span class="d">Install the OS, name it, and reach it from the couch.</span></a>
+<a class="note-row" href="what-os-to-pick"><span class="t">What OS to put on it</span><span class="d">Debian or Ubuntu Server if you can dedicate the old PC. Leave Windows if you still use the laptop as a laptop.</span></a>
+<a class="note-row" href="start-with-what-you-have"><span class="t">Start with what you already have</span><span class="d">Don't buy anything yet. Old laptop first, or a retired OptiPlex from Marketplace.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="first-ssh"><span class="kicker">Previous</span><span class="t">SSH from the couch</span></a>
+<a rel="next" href="first-file-share"><span class="kicker">Next</span><span class="t">A file share</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

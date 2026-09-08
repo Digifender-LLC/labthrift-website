@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See the start of a file — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After SSH works, print the first lines of a file with head so a long file does not flood the window. You don't need a file viewer for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See the start of a file — Labthrift">
+<meta property="og:description" content="After SSH works, print the first lines of a file with head so a long file does not flood the window. You don't need a file viewer for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-head">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-head">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See the start of a file","description":"After SSH works, print the first lines of a file with head so a long file does not flood the window. You don't need a file viewer for this.","url":"https://labthrift.com/guides/leftover-box-head","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-29"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">See the start of a file</span></nav>
+<p class="note">Written 29 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>See the start of a file</h1>
+<p class="deck">After SSH works, print the first lines of a file with <span><code>head</code></span> so a long file does not flood the window. You don't need a file viewer for this.</p>
+<p><a href="leftover-box-cat">Read a file without opening the editor</a> dumps the whole short file. <a href="leftover-box-less">Read a file one screen at a time</a> pages from the top. <a href="leftover-box-tail">See the end of a file</a> prints the newest lines at the bottom. When you only care about the opening lines, <span><code>head</code></span> prints those and stops. You are still only looking. It does not need a desktop, a file viewer, or a NAS for this one job.</p>
+
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If the file is short and you want every line, that is <a href="leftover-box-cat">read a file without opening the editor</a>. If you want the newest lines at the bottom, that is <a href="leftover-box-tail">see the end of a file</a>. If you want to turn pages from the start, that is <a href="leftover-box-less">read a file one screen at a time</a>. Skip this whole note if you only need a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</p>
+
+<h2>What this is</h2>
+<p><span><code>head</code></span> prints the first lines of a file. You run it on the computer, after SSH. The file stays on disk. You are only looking. It does not dump every line. That is <span><code>cat</code></span>. It does not take over the window like a pager. That is <span><code>less</code></span>. It does not print the end. That is <span><code>tail</code></span>. It does not search for a word. That is <span><code>grep</code></span>. It does not ask what kind of file this is. That is <span><code>file</code></span>. One path, same computer, only the start.</p>
+
+<h2>Print the first lines</h2>
+<p>SSH in. Make a throwaway file that is long enough to have an obvious start:</p>
+<p><code>seq 1 40 &gt; ~/lines.txt</code></p>
+<p>Then print the first lines:</p>
+<p><code>head ~/lines.txt</code></p>
+<p>You should see 1 through 10. With no extra flags, <span><code>head</code></span> prints the first ten lines and stops. That is the whole first-night trick.</p>
+<p>A real file that is safe to practice on:</p>
+<p><code>head /etc/services</code></p>
+<p>That list is already on Debian and Ubuntu. You are only looking. Don't edit it.</p>
+
+<h2>Useful extras, still looking only</h2>
+<p>Ask for a different count:</p>
+<p><code>head -n 5 ~/lines.txt</code></p>
+<p>That prints the first five lines. Swap the number if you want more or fewer.</p>
+<p>Need the last lines instead? That is <a href="leftover-box-tail">see the end of a file</a>. Need a line count before a dump? That is <a href="leftover-box-wc">see how long a file is</a>. Need to know if the path is even text? That is <a href="leftover-box-file">see what kind of file this is</a>.</p>
+<p>If you see command not found, install the usual tools, then try again:</p>
+<p><code>sudo apt install coreutils</code></p>
+<p>Debian and Ubuntu Server usually already have it. That install is not a reason to buy a file viewer.</p>
+<p>When you are done practicing:</p>
+<p><code>rm -i ~/lines.txt</code></p>
+
+<h2>What this is not</h2>
+<p>This is not a dump of the whole file. That is <a href="leftover-box-cat">read a file without opening the editor</a>. It is not paging through every line from the top. That is <a href="leftover-box-less">read a file one screen at a time</a>. It is not a peek at the last lines. That is <a href="leftover-box-tail">see the end of a file</a>. It is not a line count. That is <a href="leftover-box-wc">see how long a file is</a>. It is not asking what kind of file this is. That is <a href="leftover-box-file">see what kind of file this is</a>. It is not a compare of two files. That is <a href="leftover-box-diff">see whether two files are the same</a>. It is not a search for a word. That is <a href="leftover-box-grep">find a word in a file</a>. It is not a hunt for a file by name. That is <a href="leftover-box-find">find a file by name</a>. It is not an editor. That is <a href="leftover-box-nano">edit a file from the couch</a>. It is not a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</p>
+
+<h2>What next</h2>
+<p>Need only the newest lines at the bottom? <a href="leftover-box-tail">See the end of a file</a>. Need to know if a dump will flood the window first? <a href="leftover-box-wc">See how long a file is</a>. Need to know if the path is text before you dump it? <a href="leftover-box-file">See what kind of file this is</a>. Need to see if a spare still matches? <a href="leftover-box-diff">See whether two files are the same</a>. Need a short file printed all at once? <a href="leftover-box-cat">Read a file without opening the editor</a>. Need the whole long file one screen at a time? <a href="leftover-box-less">Read a file one screen at a time</a>. Need only the lines with one word? <a href="leftover-box-grep">Find a word in a file</a>. Forgot which folder holds the file? <a href="leftover-box-find">Find a file by name</a>. Need to change a line? <a href="leftover-box-nano">Edit a file from the couch</a>. Need a spare before you edit? <a href="leftover-box-cp">Copy a file without leaving the computer</a>. Need the throwaway gone for real? <a href="leftover-box-rm">Delete a file carefully</a>. Need a file from the laptop instead? <a href="leftover-box-scp">Copy a file to the computer from your laptop</a>. When a house job broke, look at the computer&apos;s own diary: <a href="leftover-box-read-logs">when something broke, look at the log</a>. When key login is boring on every computer you use, <a href="leftover-box-ssh-no-password">turn off password login once the key works</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip <span><code>cat</code></span> on a file that never stops when you only care about the opening lines. That dump is the wrong tool for a peek at the start.</li>
+<li>Skip <span><code>head</code></span> on photos, zip files, or programs. Those print junk. A text file is the job. Ask first with <a href="leftover-box-file">see what kind of file this is</a>.</li>
+<li>Skip <span><code>head</code></span> if you already know the path is a short text note you made tonight. That is <a href="leftover-box-cat">read a file without opening the editor</a>.</li>
+<li>Skip buying a file manager, a “cloud IDE,” or a NAS to read the start of one text file.</li>
+<li>Skip SSH settings, <span><code>/etc/shadow</code></span>, and anything under <span><code>/etc/ssh</code></span>. Looking at trusted laptop keys is <a href="leftover-box-authorized-keys">see which laptop keys the computer already trusts</a>.</li>
+<li>Skip opening SSH to the internet so you can peek at files from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/coreutils/head.1.en.html">Debian: head</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/head.1.html">Ubuntu: head</a>. <a href="https://www.gnu.org/software/coreutils/manual/html_node/head-invocation.html">GNU coreutils: head</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For a short dump, see <a href="leftover-box-cat">read a file without opening the editor</a>. For the end of a file, see <a href="leftover-box-tail">see the end of a file</a>. For paging, see <a href="leftover-box-less">read a file one screen at a time</a>. For a kind-of-file check, see <a href="leftover-box-file">see what kind of file this is</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-cat"><span class="t">Read a file without opening the editor</span><span class="d">After SSH works, print a file with cat so you can read it without opening nano. Short files only. You don't need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-tail"><span class="t">See the end of a file</span><span class="d">After SSH works, print the last lines of a file with tail so a long file does not flood the window. You don't need a log viewer app for this.</span></a>
+<a class="note-row" href="leftover-box-less"><span class="t">Read a file one screen at a time</span><span class="d">After SSH works, open a file with less so a long file does not flood the window. Space turns the page. q leaves. You don't need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-wc"><span class="t">See how long a file is</span><span class="d">After SSH works, count lines with wc so you know if a dump will flood the window. You don't need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-file"><span class="t">See what kind of file this is</span><span class="d">After SSH works, ask what kind of file this is with file before you dump it. You don't need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-grep"><span class="t">Find a word in a file</span><span class="d">After SSH works, search a file with grep so you see only the matching lines. You don't need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-ls"><span class="t">See what&apos;s in a folder</span><span class="d">After SSH works, list the folder you are sitting in with ls. You don't need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-nano"><span class="t">Edit a file from the couch</span><span class="d">After SSH works, open a file with nano, change a line, and save. The keys at the bottom of the screen are the whole trick. You don't need a new editor.</span></a>
+<a class="note-row" href="leftover-box-diff"><span class="t">See whether two files are the same</span><span class="d">After SSH works, compare two files with diff so you can tell if the spare still matches. You don't need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-file"><span class="kicker">Previous</span><span class="t">See what kind of file this is</span></a>
+<a rel="next" href="leftover-box-diff"><span class="kicker">Next</span><span class="t">See whether two files are the same</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

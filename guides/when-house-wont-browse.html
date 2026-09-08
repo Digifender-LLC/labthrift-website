@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When the house won't browse after Pi-hole — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Phones say no internet, or every site times out, after you pointed the house at Pi-hole. Put router DNS back on automatic so dinner works, then fix the computer. You don't need a new router.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When the house won't browse after Pi-hole — Labthrift">
+<meta property="og:description" content="Phones say no internet, or every site times out, after you pointed the house at Pi-hole. Put router DNS back on automatic so dinner works, then fix the computer. You don't need a new router.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-house-wont-browse">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-house-wont-browse">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When the house won't browse after Pi-hole","description":"Phones say no internet, or every site times out, after you pointed the house at Pi-hole. Put router DNS back on automatic so dinner works, then fix the computer. You don't need a new router.","url":"https://labthrift.com/guides/when-house-wont-browse","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-07"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When the house won't browse after Pi-hole</span></nav>
+<p class="note">Written 7 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When the house won't browse after Pi-hole</h1>
+<p class="deck">Phones say no internet, or every site times out, after you pointed the house at Pi-hole. Put router DNS back on automatic so dinner works, then fix the computer. You don't need a new router.</p>
+<p>Haven't installed Pi-hole yet? Start with <a href="first-useful-service">the first useful thing</a>. Sites load but ads are back? That is <a href="when-ads-come-back">when ads come back</a>. One bank or login broken while everything else is fine? That is <a href="when-a-site-wont-load">when a site won't load after Pi-hole</a>. Tabs hang a few seconds then paint? That is <a href="when-dns-is-slow">when browsing feels slow after Pi-hole</a>. This note is the panic case: Wi-Fi is connected, but names won't resolve house-wide.</p>
+
+<h2>Skip until the router points DNS at the computer</h2>
+<p>If you never changed LAN / DHCP DNS on the house router, this page will not help. Pointing the house is <a href="common-router-dns">point common home routers at Pi-hole</a>, or the short pass <a href="leftover-box-router-dns">point the house at the ad block</a>. If only one phone is weird while others browse fine, that is closer to <a href="when-one-phone-shows-ads">when one phone still shows ads</a>.</p>
+
+<h2>What this is</h2>
+<p>When the router tells every phone and laptop to ask the old PC for names, and that PC is asleep, off, or Pi-hole is dead, the house looks like the internet died. Wi-Fi still shows connected. Apps time out. Some phones say “no internet.” You did not brick the router. You pointed DNS at a computer that stopped answering. Undo DNS first so people can browse. Fix the computer second. Point DNS back when it is healthy.</p>
+
+<h2>Step 1: calm check in thirty seconds</h2>
+<p>On a phone or laptop on house Wi-Fi, try a normal site (news, weather). Fail for everyone? Stay on this page. Only one device fails? Toggle airplane mode or forget/rejoin Wi-Fi once, then see <a href="when-one-phone-shows-ads">when one phone still shows ads</a> or <a href="when-one-laptop-shows-ads">when one laptop still shows ads</a>.</p>
+<p>From a laptop that still has any working path, try pinging a number (not a name):</p>
+<p><code>ping -c 3 1.1.1.1</code></p>
+<p>Replies mean the WAN path is often fine and DNS is the suspect. Total silence on every device, including the modem lights looking wrong, can be the ISP — wait a few minutes before you buy anything.</p>
+
+<h2>Step 2: put router DNS back on automatic (dinner fix)</h2>
+<p>Log into the house gateway the way you did when you set Pi-hole. Can't open the login page? <a href="when-router-admin-wont-open">When the home router page won't open</a>. Password fails? <a href="when-router-password-fails">When the router password won't work</a>.</p>
+<p>Find the same LAN / DHCP / DNS screen you changed before. Set DNS back to <strong>Automatic</strong>, <strong>Get from ISP</strong>, or clear the custom primary/secondary fields so the router hands out its own DNS again. Save. Reboot the router only if the maker page says you must.</p>
+<p>On phones and laptops, toggle Wi-Fi off and on (or airplane mode) so they grab a fresh lease. Browse again. Sites should load. Ads will come back for now — that is fine. You bought calm for the house.</p>
+<p>Brand menus for the same screens you used to point at Pi-hole live in <a href="common-router-dns">point common home routers at Pi-hole</a> (use the Undo idea there: automatic / ISP on the screen you changed).</p>
+
+<h2>Step 3: one-laptop escape if the router login itself is stuck</h2>
+<p>If the gateway page will not load because names are dead, try the gateway by number (sticker or <span><code>ipconfig</code></span> / <span><code>ip route</code></span> default). Prefer <span><code>http://</code></span> plus that number on house Wi-Fi.</p>
+<p>Still stuck? On <strong>one</strong> laptop only, set Wi-Fi DNS manually to <span><code>1.1.1.1</code></span> (and maybe <span><code>1.0.0.1</code></span>), renew the lease, then open the router by number and put LAN DNS back on automatic. When the house works again, put that laptop back on Automatic so it follows the router.</p>
+
+<h2>Step 4: wake or fix the computer</h2>
+<p>Power light. Fan. Screen if it has one. Asleep or dark? Start with <a href="leftover-box-still-on">is the computer still on?</a>. Soft-off on purpose? <a href="wake-on-lan">Wake the computer from the house network</a>. Old laptop that sleeps with the lid? <a href="leftover-box-sleep">Don't let the laptop sleep</a>.</p>
+<p>When it answers, SSH in: <a href="first-ssh">SSH from the couch</a>. Connect fails? <a href="when-ssh-wont-connect">when SSH won't connect</a>. Then:</p>
+<p><code>pihole status</code></p>
+<p>You want FTL running. If not:</p>
+<p><code>sudo systemctl restart pihole-FTL</code></p>
+<p>Open the admin page at <a href="http://pi.hole/admin">http://pi.hole/admin</a> or the computer's address plus <span><code>/admin</code></span>. Blank or timed out? <a href="when-pihole-wont-open">When the Pi-hole admin page won't open</a>. Admin opens but totals stay at zero after you re-point DNS later? <a href="when-pihole-has-no-queries">When Pi-hole shows no queries</a>.</p>
+<p>Confirm the computer still has one stable house address: <a href="find-the-leftover-box">find it on the house network</a>. Two addresses fighting? <a href="when-computer-has-two-addresses">When the old PC has two house addresses</a>.</p>
+
+<h2>Step 5: point the house at Pi-hole again</h2>
+<p>Only after <span><code>pihole status</code></span> looks healthy and you can open the admin page from a laptop on house Wi-Fi. Set LAN / DHCP DNS primary to the computer's address again: <a href="common-router-dns">point common home routers at Pi-hole</a>. Save. Renew leases on phones.</p>
+<p>Browse a site that used to show ads. Sites should load. A lot of banners should not. Query log should move. If ads stay gone nowhere, walk <a href="when-ads-come-back">when ads come back</a>. Keep the number from drifting: <a href="common-router-reservation">keep the computer on the same address on common routers</a>.</p>
+
+<h2>What this is not</h2>
+<p>This is not a factory reset of the router on night one (that wipes Wi-Fi passwords and reservations). It is not a new mesh kit, a Raspberry Pi, or opening Pi-hole to the internet. It is not “ads came back while sites still load” — that checklist is <a href="when-ads-come-back">when ads come back</a>. It is not one blocked bank domain — that is <a href="when-a-site-wont-load">when a site won't load after Pi-hole</a>.</p>
+
+<h2>What next</h2>
+<p>Leave DNS on the computer once the house is calm again. After the next reboot, glance at the three house jobs: <a href="leftover-box-after-reboot">after a reboot, check the computer still does its jobs</a>. Tired of typing the number? <a href="add-local-dns-name">Add a local name in Pi-hole</a>. Tabs sticky but sites eventually load? <a href="when-dns-is-slow">When browsing feels slow after Pi-hole</a>. Save settings before you experiment: <a href="backup-pihole">save a Pi-hole backup</a>.</p>
+
+<p class="note">Optional: jot that you put DNS back / re-pointed after a browse outage in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip a factory reset of the router because names timed out once.</li>
+<li>Skip a mesh kit, a new gateway, or a Raspberry Pi for this outage.</li>
+<li>Skip opening Pi-hole (or SSH) to the public internet.</li>
+<li>Skip leaving the whole house on <span><code>1.1.1.1</code></span> forever if you still want house-wide ad block.</li>
+<li>Skip this if sites load and only ads came back. That is a different walk.</li>
+<li>Skip this if only one site is broken. Allow that domain instead.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://docs.pi-hole.net/">Pi-hole docs</a>. <a href="https://docs.pi-hole.net/core/pihole-command/">Pi-hole command</a> (status). Official pages only. Menus move by firmware. For pointing DNS, see <a href="common-router-dns">point common home routers at Pi-hole</a>. For install, see <a href="first-useful-service">the first useful thing</a>. For ads returning while sites still load, see <a href="when-ads-come-back">when ads come back</a>. For a dead admin page, see <a href="when-pihole-wont-open">when the Pi-hole admin page won't open</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="when-ads-come-back"><span class="t">When ads come back</span><span class="d">Ads are back, sites won't load, or a phone still shows banners. Check the computer, Pi-hole, router DNS, then the phone.</span></a>
+<a class="note-row" href="common-router-dns"><span class="t">Point common home routers at Pi-hole</span><span class="d">Where to set DNS on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so the house asks Pi-hole. Prefer LAN DHCP DNS. You don't need a new router.</span></a>
+<a class="note-row" href="when-pihole-wont-open"><span class="t">When the Pi-hole admin page won't open</span><span class="d">http://pi.hole/admin or the computer's address plus /admin won't load. Check house Wi-Fi, the address, then Pi-hole and the web service. You don't need a new router.</span></a>
+<a class="note-row" href="when-a-site-wont-load"><span class="t">When a site won't load after Pi-hole</span><span class="d">A bank, streamer, or login page breaks after Pi-hole. Pause blocking for five minutes, then allow the domain you need. You don't need a new router.</span></a>
+<a class="note-row" href="when-dns-is-slow"><span class="t">When browsing feels slow after Pi-hole</span><span class="d">Pages hang a few seconds, then load. Ads may still be blocked. Time a DNS lookup, check Pi-hole and its upstream, then prove it with a bypass. You don't need a faster plan tonight.</span></a>
+<a class="note-row" href="leftover-box-still-on"><span class="t">Is it still on?</span><span class="d">You left the computer on. This morning ads are back, or SSH hangs. Check if it is awake before you buy anything.</span></a>
+<a class="note-row" href="when-router-admin-wont-open"><span class="t">When the home router page won't open</span><span class="d">192.168.x.1, routerlogin.net, or the sticker URL won't load. Find the gateway number, use http on house Wi-Fi, then log in. You don't need a new router.</span></a>
+<a class="note-row" href="first-useful-service"><span class="t">The first useful thing</span><span class="d">Put a house-wide ad block on the old PC. The rest of the house keeps using the internet as usual. You don't need a Raspberry Pi.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="when-ads-come-back"><span class="kicker">Previous</span><span class="t">When ads come back</span></a>
+<a rel="next" href="common-router-dns"><span class="kicker">Next</span><span class="t">Point common home routers at Pi-hole</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Open the house share from away — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Open the house folder from a coffee shop or cellular without forwarding SMB. Tailscale on the computer and on your laptop or phone. Free personal plan is enough.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Open the house share from away — Labthrift">
+<meta property="og:description" content="Open the house folder from a coffee shop or cellular without forwarding SMB. Tailscale on the computer and on your laptop or phone. Free personal plan is enough.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/open-share-from-away">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/open-share-from-away">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Open the house share from away","description":"Open the house folder from a coffee shop or cellular without forwarding SMB. Tailscale on the computer and on your laptop or phone. Free personal plan is enough.","url":"https://labthrift.com/guides/open-share-from-away","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-06"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">Open the house share from away</span></nav>
+<p class="note">Written 6 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>Open the house share from away</h1>
+<p class="deck">Open the house folder from a coffee shop or cellular without forwarding SMB. Put Tailscale on the computer and on your laptop or phone. Free personal plan is enough.</p>
+<p>Haven't made the house folder yet? Start with <a href="first-file-share">a file share</a>. Opening it only on house Wi-Fi? That quieter walk is <a href="open-share-from-laptop">open the house share from a laptop</a> or <a href="open-share-from-phone">open the house share from a phone</a>. Need Tailscale for SSH first? <a href="ssh-from-away">SSH from away</a> is the same private path — this note reuses that address for the folder.</p>
+
+<h2>Skip until the share and Tailscale both work</h2>
+<p>If Finder or File Explorer cannot open the folder on house Wi-Fi, fix that first. If you never installed Tailscale, do the install walk in <a href="ssh-from-away">SSH from away</a> until <span><code>tailscale ip -4</code></span> prints a <span><code>100.x.y.z</code></span> address and both ends show Connected. Tailscale will not invent a missing Samba share. Don't open ports 445 or 139 on the router "just to test."</p>
+
+<h2>What this is</h2>
+<p>Same house folder. Same Samba username and share password. Different number. On the couch you use the house address (<span><code>192.168…</code></span>). Away from home you use the computer's Tailscale address (<span><code>100.x.y.z</code></span>). The laptop or phone reaches that private path over Tailscale. SMB stays on the computer. The public internet never gets a forwarded file-share port. Free personal Tailscale covers a handful of devices. You don't need a cloud sync app, a NAS remote kit, or subnet routing on day one.</p>
+
+<h2>Step 1: write down the Tailscale address</h2>
+<p>On the computer (SSH from the house is fine):</p>
+<p><code>tailscale status</code></p>
+<p><code>tailscale ip -4</code></p>
+<p>Write down the <span><code>100.x.y.z</code></span> number. That is the address you type into Finder, File Explorer, or Files — not the house <span><code>192.168…</code></span>. Leave MagicDNS off until this number opens the folder once.</p>
+
+<h2>Step 2: prove the share still opens on the house network</h2>
+<p>Still on house Wi-Fi, open the folder the way you already do. Windows path bar:</p>
+<p><code>\\192.168.1.50\photos</code></p>
+<p>Mac Finder → Go → Connect to Server:</p>
+<p><code>smb://192.168.1.50/photos</code></p>
+<p>Swap the number and share name for yours. If that fails, stop here and use <a href="when-share-wont-open">when the house share won't open</a>. Away-from-home will not fix a broken share.</p>
+
+<h2>Step 3: open the same folder with the Tailscale number (still at home)</h2>
+<p>Still on house Wi-Fi, with Tailscale Connected on the laptop, try the Tailscale address first. Windows:</p>
+<p><code>\\100.x.y.z\photos</code></p>
+<p>Mac:</p>
+<p><code>smb://100.x.y.z/photos</code></p>
+<p>Sign in with the same Samba username and share password you already use on the house address. First connect may ask you to trust the server again — that is normal when the address string is new. Copy one small file in and out. If this fails while house <span><code>192.168…</code></span> still works, check <span><code>tailscale status</code></span> on both ends, then whether ufw hid SMB on the Tailscale interface: <a href="leftover-box-ufw">turn on a simple firewall without locking yourself out</a>. Samba usually listens on every interface; a locked <span><code>interfaces =</code></span> line in smb.conf is the other common culprit.</p>
+
+<h2>Step 4: prove it from away</h2>
+<p>Leave house Wi-Fi. Join coffee-shop Wi-Fi, or turn Wi-Fi off and use cellular (phone hotspot is fine). Confirm the laptop Tailscale client is Connected. Open the same Tailscale path again:</p>
+<p><code>\\100.x.y.z\photos</code></p>
+<p>or</p>
+<p><code>smb://100.x.y.z/photos</code></p>
+<p>Same folder, same password. That is the whole job. When you are back on the couch, the old house address still works. Keep both.</p>
+
+<h2>Phone from away</h2>
+<p>Install Tailscale from the App Store or Google Play. Sign in with the same account. Turn the VPN toggle on. Then open the share the same way as on house Wi-Fi, but with the Tailscale number: <a href="open-share-from-phone">open the house share from a phone</a>. On iPhone Files, Connect to Server with <span><code>smb://100.x.y.z/photos</code></span>. On Samsung My Files, add the network drive with that address. On a Pixel, Material Files still works — same address, same share password. Captive portals sometimes block traffic until you accept the terms in a browser. Sign into the portal first, then retry Tailscale.</p>
+
+<h2>If it fails only away from home</h2>
+<p>If house SMB still works and Tailscale SSH also works, but the folder hangs from the coffee shop, wait a minute — some networks are rude to UDP and Tailscale falls back slowly. Confirm the VPN toggle is on. Don't type the house <span><code>192.168…</code></span> address while you are away; that number only exists on the house LAN. If Tailscale itself never shows Connected, use <a href="when-tailscale-wont-connect">when Tailscale won't connect</a>. If the computer slept, that is <a href="leftover-box-still-on">is it still on?</a>, not a share bug. If the folder opens but copies crawl on cellular, that is the phone's data path — a coffee-shop cable on a laptop is calmer for big photo dumps.</p>
+
+<h2>What this is not</h2>
+<p>This is not forwarding SMB on the router. It is not a reason to put Samba on the public internet. It is not Tailscale subnet routing or "expose the whole house LAN" on day one. It is not Dropbox, iCloud, or a NAS remote-access subscription. Stay on the free personal plan until you actually need more devices.</p>
+
+<h2>What next</h2>
+<p>Prefer SSH over the same private path: <a href="ssh-from-away">SSH from away</a>. Client stuck? <a href="when-tailscale-wont-connect">When Tailscale won't connect</a>. House Wi-Fi only is still <a href="open-share-from-laptop">open the house share from a laptop</a> and <a href="open-share-from-phone">open the house share from a phone</a>. Forgot the share password? <a href="leftover-box-samba-password">Set or change the house-share password</a>. Folder won't open on the house network either? <a href="when-share-wont-open">When the house share won't open</a>. Want a second copy of the folder at home: <a href="first-backup">a backup of the house folder</a>.</p>
+
+<p class="note">Optional: jot which devices you put on the tailnet in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip this until the house share already opens once on house Wi-Fi.</li>
+<li>Skip this until Tailscale shows Connected on the computer and on your laptop or phone.</li>
+<li>Skip forwarding ports 445 or 139 on the router.</li>
+<li>Skip subnet routers and "expose the whole LAN" on day one.</li>
+<li>Skip a paid Tailscale plan for one PC and one laptop.</li>
+<li>Skip a cloud sync app just to grab one photo from away.</li>
+<li>Skip this if you never leave the house and couch SMB is enough.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://tailscale.com/docs/install/linux">Tailscale: install on Linux</a>. <a href="https://tailscale.com/download">Tailscale: download</a>. <a href="https://support.apple.com/guide/iphone/transfer-files-iphone-a-storage-device-server-iphe9aff429a/ios">Apple: connect iPhone Files to a file server</a>. <a href="https://support.apple.com/guide/mac-help/connect-mac-shared-computers-servers-mchlp1140/mac">Apple: connect to shared computers and servers</a>. <a href="https://wiki.samba.org/index.php/Setting_up_Samba_as_a_Standalone_Server">Samba wiki: standalone server</a>. Official pages only. For Tailscale setup, see <a href="ssh-from-away">SSH from away</a>. For the share this opens, see <a href="first-file-share">a file share</a>. For house Wi-Fi opens, see <a href="open-share-from-laptop">open the house share from a laptop</a> and <a href="open-share-from-phone">open the house share from a phone</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="ssh-from-away"><span class="t">SSH from away</span><span class="d">Reach the old PC from a coffee shop or cellular without opening port 22. Tailscale on the computer and on your laptop. Free personal plan is enough.</span></a>
+<a class="note-row" href="when-tailscale-wont-connect"><span class="t">When Tailscale won't connect</span><span class="d">SSH to the Tailscale address fails, or the laptop never shows Connected. Check both ends online on the same account, the 100.x address, captive portal, then house SSH — before you forward port 22.</span></a>
+<a class="note-row" href="open-share-from-laptop"><span class="t">Open the house share from a laptop</span><span class="d">The house folder is on the old PC. Open it from Windows File Explorer or Mac Finder on the house network. You don't need a NAS for this.</span></a>
+<a class="note-row" href="open-share-from-phone"><span class="t">Open the house share from a phone</span><span class="d">The house folder is on the old PC. Open it from an iPhone or Android on house Wi-Fi. You don't need a NAS app for this.</span></a>
+<a class="note-row" href="first-file-share"><span class="t">A file share</span><span class="d">A folder on the old PC that the house can open from a laptop or a phone. You don't need a NAS for this.</span></a>
+<a class="note-row" href="when-share-wont-open"><span class="t">When the house share won't open</span><span class="d">Finder, File Explorer, or the phone can't open the house folder. Check the computer is on, confirm the address, then match the error (path not found, login failed, can't write, disk full). You don't need a NAS.</span></a>
+<a class="note-row" href="leftover-box-samba-password"><span class="t">Set or change the house-share password</span><span class="d">Finder and File Explorer ask for a share password that is not always the login. Samba keeps its own copy. Set it once. Change it when you forget.</span></a>
+<a class="note-row" href="leftover-box-still-on"><span class="t">Is it still on?</span><span class="d">You left the computer on. This morning ads are back, or SSH hangs. Check if it is awake before you buy anything.</span></a>
+<a class="note-row" href="leftover-box-ufw"><span class="t">Turn on a simple firewall without locking yourself out</span><span class="d">ufw with OpenSSH allowed first. You don't need a new firewall appliance for day-two SSH.</span></a>
+<a class="note-row" href="first-backup"><span class="t">A backup of the house folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another old computer. You don't need a NAS for this.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="ssh-from-away"><span class="kicker">Previous</span><span class="t">SSH from away</span></a>
+<a rel="next" href="when-tailscale-wont-connect"><span class="kicker">Next</span><span class="t">When Tailscale won't connect</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

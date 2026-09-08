@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>A backup of the house folder — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="A second copy of the house folder, on a USB disk you already have, or on another old PC. You don't need a NAS for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="A backup of the house folder — Labthrift">
+<meta property="og:description" content="A second copy of the house folder, on a USB disk you already have, or on another old PC. You don't need a NAS for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/first-backup">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/first-backup">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"A backup of the house folder","description":"A second copy of the house folder, on a USB disk you already have, or on another old PC. You don't need a NAS for this.","url":"https://labthrift.com/guides/first-backup","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-24"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">A backup of the house folder</span></nav>
+<p class="path-step"><a href="./#start">Getting started</a> · <b>8 of 9</b></p>
+<p class="note">Written 24 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>A backup of the house folder</h1>
+<p class="deck">A second copy of the house folder, on a USB disk you already have, or on another old PC. You don't need a NAS for this.</p>
+<p>The <a href="first-file-share">share on this computer</a> is useful the day that computer dies, only if a second copy exists. That second copy is a backup. Same computer. Same SSH from the couch.</p>
+
+<h2>What this is</h2>
+<p>A program called rsync. A tool already on Debian and Ubuntu that copies a folder and, next time, only copies what changed. You don't buy Synology Backup or a cloud plan for a folder of photos.</p>
+<p>This assumes the share from <a href="first-file-share">a file share</a>, or any folder you care about, like <code>/srv/share</code>. Debian or Ubuntu Server, the OS from <a href="what-os-to-pick">what OS to put on it</a>, installed as in <a href="first-weekend">your first weekend</a>. SSH in from the couch.</p>
+
+<h2>Where the copy lives</h2>
+<div class="table-wrap">
+<table>
+<tr><th>Where the copy lives</th><th>When to pick it</th></tr>
+<tr class="pick"><td data-label="Where the copy lives">A USB disk you already have</td><td data-label="When to pick it">The default. Plug it in, copy, unplug. You don't need a second computer.</td></tr>
+<tr><td data-label="Where the copy lives">Another old PC on the house network</td><td data-label="When to pick it">You already did the first weekend on that computer too, so SSH already works.</td></tr>
+</table>
+</div>
+
+<h2>USB disk you already have</h2>
+<p>Plug the disk into the computer. Find it with <code>lsblk</code>. That is a list of disks. It often shows up as <code>/dev/sdb1</code>. Use the name <code>lsblk</code> actually printed, not a guess.</p>
+<p><code>lsblk</code></p>
+<p>Mount it, which means make the USB disk show up as a folder:</p>
+<p><code>sudo mkdir -p /mnt/backup &amp;&amp; sudo mount /dev/sdb1 /mnt/backup</code></p>
+<p>No partition, mount fails, or you want a clean Linux filesystem on a spare stick first? That wipe-and-format walk is <a href="format-usb-for-backup">format a USB stick for the house backup</a>.</p>
+<p>Then copy the share:</p>
+<p><code>rsync -a /srv/share/ /mnt/backup/share/</code></p>
+<p>The trailing slashes matter. They tell rsync to copy the contents of the share into that backup folder. Leave both slashes on.</p>
+
+<h2>Another old PC</h2>
+<p>If you have a second old PC on the house network, the short version is copy over SSH:</p>
+<p><code>rsync -a /srv/share/ otheruser@other-address:share-backup/</code></p>
+<p>Swap <code>otheruser</code> and <code>other-address</code> for the login and address of that second box. Trailing slashes still matter, same as the USB copy. For the full walk (prove SSH, make a landing folder, dry-run, check it landed), see <a href="backup-to-another-pc">copy the house folder to another old computer</a>.</p>
+
+<h2>After the copy</h2>
+<p>Before you trust it, look on the USB (or the second box) and confirm files landed: <a href="leftover-box-backup-check">check that the backup actually copied</a>. Copy fails or the stick vanished? <a href="when-backup-wont-run">When the house backup won't run</a>.</p>
+<p>If you used the USB disk, unmount it before you yank the cable:</p>
+<p><code>sudo umount /mnt/backup</code></p>
+<p>Leave the disk unplugged most of the time. A problem on this computer cannot also wipe a copy that is sitting in a drawer. Fuller walk (sync, <code>target is busy</code>, remount next week): <a href="unplug-backup-usb">unplug the backup USB safely</a>.</p>
+
+<h2>Do it again next week</h2>
+<p>Same command. rsync will skip files that did not change, and copy the ones that did. A reminder on your phone is enough for now. After one manual copy worked, this computer can run that same rsync every week: <a href="leftover-box-backup-timer">back up the folder every week without remembering</a>.</p>
+
+<h2>What next</h2>
+<p>Before you trust one old drive with the only copy, <a href="see-disk-health">see if the old disk is dying</a>. Spare stick needs a wipe first: <a href="format-usb-for-backup">format a USB stick for the house backup</a>. Unmount before the drawer: <a href="unplug-backup-usb">unplug the backup USB safely</a>. See the USB disk first: <a href="leftover-box-usb-disk">see if the USB backup disk showed up</a> (or the fuller disk list: <a href="leftover-box-lsblk">see disks and USB sticks on the computer</a>). Confirm the copy landed: <a href="leftover-box-backup-check">check that the backup actually copied</a>. If rsync fails: <a href="when-backup-wont-run">when the house backup won't run</a>. Stick full: <a href="when-backup-usb-full">when the backup USB is full</a>. Then copy one file back: <a href="leftover-box-restore-one">restore one file from the USB backup</a>. Then leave it. Use the folder, and copy it again next week. A Mac can also back up overnight to a separate share: <a href="time-machine-to-share">Time Machine to the house share</a>. A VM is <a href="what-is-a-vm">this note</a>, still later. Not a NAS. Not RAID. Not Backblaze on day one. Full folder back after a wipe: <a href="restore-house-folder">put the house folder back from the backup</a>.</p>
+
+<p class="note">Optional: jot what you back up and where in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip buying a NAS for backups. The USB disk you already have is enough.</li>
+<li>Skip RAID. RAID is not a backup.</li>
+<li>Skip restic and Borg on day one.</li>
+<li>Skip a cloud plan until the USB copy exists.</li>
+<li>Skip the 3-2-1 lecture.</li>
+<li>Skip leaving the USB plugged in forever.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/rsync/rsync.1.en.html">Debian: rsync man page</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/rsync.1.html">Ubuntu: rsync man page</a>. Official pages only. For the share this copies, see <a href="first-file-share">a file share</a>. For the install, see <a href="first-weekend">your first weekend</a>. A dedicated file box is later: <a href="first-nas">a first file box (NAS)</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="see-disk-health"><span class="t">See if the old disk is dying</span><span class="d">SMART reports whether the drive still looks healthy. Install smartmontools, list the disk, run a quick health check before you trust photos on a Marketplace PC. You don't need a NAS.</span></a>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="format-usb-for-backup"><span class="t">Format a USB stick for the house backup</span><span class="d">Wipe and format a spare USB stick so the old PC can mount it for the house-folder backup. Ext4 for Linux. This erases the stick. You don't need a NAS.</span></a>
+<a class="note-row" href="auto-mount-backup-usb"><span class="t">Mount the backup USB automatically</span><span class="d">Leave the backup stick plugged in and mount it at boot by UUID, so weekly rsync finds /mnt/backup without a hand mount. You don't need a NAS.</span></a>
+<a class="note-row" href="unplug-backup-usb"><span class="t">Unplug the backup USB safely</span><span class="d">Finish disk writes, unmount /mnt/backup, then yank the stick into a drawer. Fixes target is busy. You don't need a NAS.</span></a>
+<a class="note-row" href="house-folder-on-usb"><span class="t">Put the house folder on a USB disk</span><span class="d">Move the house share onto a USB disk that stays plugged into the old PC so photos don't fill the system drive. You don't need a NAS for this.</span></a>
+<a class="note-row" href="time-machine-to-share"><span class="t">Back up a Mac to the house share with Time Machine</span><span class="d">Point Time Machine at a Samba folder on the old PC. Separate share from photos. Cap the size. You don't need a Time Capsule or a NAS for this.</span></a>
+<a class="note-row" href="file-history-to-share"><span class="t">Back up a Windows PC to the house share with File History</span><span class="d">Point Windows File History at a Samba folder on the old PC. Separate share from photos. You don't need a NAS for this.</span></a>
+<a class="note-row" href="backup-to-another-pc"><span class="t">Copy the house folder to another old computer</span><span class="d">A second copy over the house network to another old PC. Not only a USB stick. You don't need a NAS for this.</span></a>
+<a class="note-row" href="when-backup-wont-run"><span class="t">When the house backup won't run</span><span class="d">rsync failed, the USB is missing, or the second copy never landed. Check the stick, the mount, the source path, then match the error (no space, permission, connection). You don't need a NAS.</span></a>
+<a class="note-row" href="when-backup-usb-full"><span class="t">When the backup USB is full</span><span class="d">rsync says no space, or df shows the stick is packed. Confirm the mount, free room or use a bigger stick, or copy to another old PC. You don't need a NAS.</span></a>
+<a class="note-row" href="leftover-box-backup-check"><span class="t">Check that the backup actually copied</span><span class="d">After the copy finishes, look on the USB disk and confirm the files are there before you trust it. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="leftover-box-restore-one"><span class="t">Restore one file from the USB backup</span><span class="d">A backup you never copied back is a hope. Pull one file off the USB onto the computer so you know you can get it. You don't need a NAS for this.</span></a>
+<a class="note-row" href="restore-house-folder"><span class="t">Put the house folder back from the backup</span><span class="d">After a wipe, a reinstall, or an empty share, copy the house folder from the USB (or second old PC) back onto the computer. You don't need a NAS.</span></a>
+<a class="note-row" href="first-file-share"><span class="t">A file share</span><span class="d">A folder on the old PC that the house can open from a laptop or a phone. You don't need a NAS for this.</span></a>
+<a class="note-row" href="first-useful-service"><span class="t">The first useful thing</span><span class="d">Put a house-wide ad block on that computer. The rest of the house keeps using the internet as usual. You don't need a Raspberry Pi.</span></a>
+<a class="note-row" href="start-with-what-you-have"><span class="t">Start with what you already have</span><span class="d">Don't buy anything yet. Old laptop first, or a retired OptiPlex from Marketplace.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-old-logs"><span class="kicker">Previous</span><span class="t">Clear old logs when the disk is tight</span></a>
+<a rel="next" href="leftover-box-usb-disk"><span class="kicker">Next</span><span class="t">See if the USB backup disk showed up</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Peek at partition tables with fdisk — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After udevadm shows disk properties, use fdisk -l (look-only) so you see the partition table layout, sizes and slice names, without creating, deleting, or rewriting anything.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Peek at partition tables with fdisk — Labthrift">
+<meta property="og:description" content="After udevadm shows disk properties, use fdisk -l (look-only) so you see the partition table layout, sizes and slice names, without creating, deleting, or rewriting anything.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-fdisk-list">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-fdisk-list">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Peek at partition tables with fdisk","description":"After udevadm shows disk properties, use fdisk -l (look-only) so you see the partition table layout, sizes and slice names, without creating, deleting, or rewriting anything.","url":"https://labthrift.com/guides/leftover-box-fdisk-list","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-02"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"File storage","item":"https://labthrift.com/guides/#first-nas"},{"@type":"ListItem","position":3,"name":"Peek at partition tables with fdisk"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#first-nas">File storage</a> / <span aria-current="page">Peek at partition tables with fdisk</span></nav>
+<p class="note">Written 2 Sep 2026. This is a how-to, not a product card.</p>
+<h1>Peek at partition tables with fdisk</h1>
+<p class="deck">After <a href="leftover-box-udevadm">udevadm</a> shows disk properties, use a look-only <span><code>fdisk -l</code></span> so you see the partition table layout, sizes and slice names, without creating, deleting, or rewriting anything.</p>
+<p>A partition table is the map of how a disk is sliced into named pieces. <span><code>fdisk -l</code></span> prints that map as text. Tonight you only read. You don't enter the interactive editor, write a new table, format a slice, or wipe a disk.</p>
+<h2>Skip until SSH works</h2>
+<p>If you cannot log in from the couch yet, stop. That is <a href="first-ssh">SSH from the couch</a>. Partition tables don't help a login that fails.</p>
+<p>If you only need the list of disks and USB sticks, that is <a href="leftover-box-lsblk">see disks and USB sticks on the computer</a> (<span><code>lsblk</code></span>). If you only need which folders are already attached, that is <a href="leftover-box-findmnt">see which folders are already attached</a> (<span><code>findmnt</code></span>). If you only need labels and UUIDs printed as text, that is <a href="leftover-box-blkid">read disk labels and UUIDs</a> (<span><code>blkid</code></span>). If you only need filesystem UUID paths, that is <a href="leftover-box-by-uuid">see stable disk names by UUID</a>. If you only need hardware-style fixed names, that is <a href="leftover-box-by-id">see stable disk names by hardware id</a>. If you only need udev&apos;s property scrapbook, that is <a href="leftover-box-udevadm">peek at disk details with udevadm</a>. If you only need room left on a path, that is <a href="leftover-box-disk-space">see if the computer still has room</a> (<span><code>df</code></span>).</p>
+<h2>What this is</h2>
+<p><strong>fdisk</strong> is an old Linux tool that can both <em>list</em> and <em>edit</em> partition tables. The list switch is <span><code>-l</code></span> (the letter L). That is the only mode you use tonight.</p>
+<p>Here is the one jargon split for tonight: <span><code>lsblk</code></span> shows a friendly tree of disks and slices. <span><code>fdisk -l</code></span> shows the same idea in a more technical printout: disk size, partition table type (often GPT or DOS/MBR), and each slice&apos;s start/end/size. Same computer, table-style peek. Still no write, format, or wipe.</p>
+<h2>Practice: list the tables (look only)</h2>
+<p>SSH in from the couch. Then ask for the list:</p>
+<p><code>fdisk -l</code></p><p>If you see permission denied, try once with admin rights (still look-only):</p>
+<p><code>sudo fdisk -l</code></p><p>You should see blocks of text, one per disk, naming the device (often <span><code>/dev/sda</code></span> or <span><code>/dev/nvme0n1</code></span>), the disk size, the partition table type, and a table of slices with names like <span><code>/dev/sda1</code></span>. In plain English: fdisk is reading the map that already lives on the disk, not drawing a new one.</p>
+<p>Optional: limit the printout to one disk you already trust from <span><code>lsblk</code></span>:</p>
+<p><code>sudo fdisk -l /dev/sda</code></p><p>Swap <span><code>/dev/sda</code></span> for the name on your box. Don't invent one. Home-safe look only. Don't type interactive letters like <span><code>n</code></span>, <span><code>d</code></span>, or <span><code>w</code></span>. Don't format, wipe, remount, or edit fstab tonight.</p>
+<h2>Optional: after you plug in a USB for backup</h2>
+<p>Plug the stick into the computer. Run <span><code>lsblk</code></span> so you know today&apos;s letter, then run <span><code>sudo fdisk -l</code></span> on that whole-disk name (for example <span><code>/dev/sdb</code></span>, not a slice like <span><code>sdb1</code></span>). You should see a small table for the stick. Compare with <a href="leftover-box-blkid">blkid</a> if you want LABEL/UUID next, or with <a href="leftover-box-udevadm">udevadm</a> if you want model/serial. If you need the mount map, that is <a href="leftover-box-findmnt">see which folders are already attached</a>. The backup job, once a path is live, is <a href="first-backup">a backup of the house folder</a>.</p>
+<h2>Useful extras, still a look</h2>
+<p>Skip interactive <span><code>fdisk</code></span> (no bare <span><code>fdisk /dev/…</code></span> menu). Skip <span><code>n</code></span> / <span><code>d</code></span> / <span><code>w</code></span> / <span><code>o</code></span> / <span><code>g</code></span> as the lesson. Tonight: <span><code>-l</code></span> only.</p>
+<p>Look-only <span><code>parted -l</code></span> is its own note: <a href="leftover-box-parted-list">peek at partition layout with parted</a>. Skip interactive parted write verbs, <span><code>cfdisk</code></span>, <span><code>sfdisk</code></span>, <span><code>gdisk</code></span>, <span><code>mount</code></span>, <span><code>umount</code></span>, rewriting disks, <span><code>dd</code></span>, <span><code>shred</code></span>, format, or rewriting fstab. Those are not this note.</p>
+<p>Skip buying a NAS because a GPT line looks unfamiliar. Free room is <a href="leftover-box-disk-space">see if the computer still has room</a>. Disk names without tags are <a href="leftover-box-lsblk">see disks and USB sticks on the computer</a>. Mount maps are <a href="leftover-box-findmnt">see which folders are already attached</a>. Printed labels and UUIDs are <a href="leftover-box-blkid">read disk labels and UUIDs</a>. Filesystem UUID paths are <a href="leftover-box-by-uuid">see stable disk names by UUID</a>. Hardware-style fixed names are <a href="leftover-box-by-id">see stable disk names by hardware id</a>. Udev properties are <a href="leftover-box-udevadm">peek at disk details with udevadm</a>.</p>
+<p>Skip <span><code>screen</code></span>, <span><code>tmux</code></span>, and port 22 forwarding. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>.</p>
+<p>Skip <span><code>awk</code></span>, <span><code>sed</code></span>, and install as new pages this cycle. For a second layout printout, see <a href="leftover-box-parted-list">peek at partition layout with parted</a>.</p>
+<h2>What this is not</h2>
+<p>This is not <span><code>lsblk</code></span>. That lists disks and USB sticks by name: <a href="leftover-box-lsblk">see disks and USB sticks on the computer</a>. It is not <span><code>findmnt</code></span>. That shows which folders are already attached: <a href="leftover-box-findmnt">see which folders are already attached</a>. It is not <span><code>blkid</code></span>. That prints LABEL, UUID, and TYPE as text: <a href="leftover-box-blkid">read disk labels and UUIDs</a>. It is not by-uuid. That lists filesystem UUID paths under <span><code>/dev/disk/by-uuid</code></span>: <a href="leftover-box-by-uuid">see stable disk names by UUID</a>. It is not by-id. That lists hardware-style names under <span><code>/dev/disk/by-id</code></span>: <a href="leftover-box-by-id">see stable disk names by hardware id</a>. It is not <span><code>udevadm</code></span>. That prints udev&apos;s property list: <a href="leftover-box-udevadm">peek at disk details with udevadm</a>. It is not <span><code>parted -l</code></span>. That is a second layout printout: <a href="leftover-box-parted-list">peek at partition layout with parted</a>. It is not disk-space (<span><code>df</code></span>). That shows how full a mounted path is: <a href="leftover-box-disk-space">see if the computer still has room</a>. It is not <span><code>disk</code></span>, which focuses on how big the main disk already is: <a href="leftover-box-disk">see how big the computer disk already is</a>. It is not USB-disk, a shorter &quot;did the stick show up?&quot; check: <a href="leftover-box-usb-disk">see if the USB backup disk showed up</a>. It is not the backup copy itself: <a href="first-backup">a backup of the house folder</a>.</p>
+<h2>What next</h2>
+<p>Need udev properties first? <a href="leftover-box-udevadm">Peek at disk details with udevadm</a>. Need hardware-style fixed names? <a href="leftover-box-by-id">See stable disk names by hardware id</a>. Need filesystem UUID paths? <a href="leftover-box-by-uuid">See stable disk names by UUID</a>. Need labels and UUIDs printed? <a href="leftover-box-blkid">Read disk labels and UUIDs</a>. Need the disk-name list? <a href="leftover-box-lsblk">See disks and USB sticks on the computer</a>. Need which folders are already attached? <a href="leftover-box-findmnt">See which folders are already attached</a>. Need room left on a path? <a href="leftover-box-disk-space">See if the computer still has room</a>. Stick visible and ready for a second copy? <a href="first-backup">A backup of the house folder</a>. Need a second look-only layout printout? <a href="leftover-box-parted-list">Peek at partition layout with parted</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip <span><code>lsblk</code></span>, <span><code>findmnt</code></span>, <span><code>blkid</code></span>, by-uuid, by-id, udevadm, disk-space, or total disk size as tonight&apos;s job if you only came for the look-only <span><code>fdisk -l</code></span> peek. Those notes already exist.</li>
+<li>Skip interactive <span><code>fdisk</code></span> and any write letters (<span><code>n</code></span>/<span><code>d</code></span>/<span><code>w</code></span>/…). List mode only.</li>
+<li>Skip interactive <span><code>parted</code></span> write verbs here. Look-only <span><code>parted -l</code></span> is <a href="leftover-box-parted-list">peek at partition layout with parted</a>. Skip <span><code>cfdisk</code></span>/<span><code>sfdisk</code></span>/<span><code>gdisk</code></span> as the lesson, and skip <span><code>mount</code></span>/<span><code>umount</code></span>, rewriting disks, <span><code>dd</code></span>, <span><code>shred</code></span>, format, and rewriting fstab.</li>
+<li>Skip buying a NAS because a GPT or DOS line looks unfamiliar.</li>
+<li>Skip <span><code>awk</code></span>/<span><code>sed</code></span>/install as new pages this cycle, <span><code>screen</code></span>, <span><code>tmux</code></span>, and port 22 forwarding.</li>
+<li>Skip opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/fdisk/fdisk.8.en.html">Debian: fdisk(8)</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man8/fdisk.8.html">Ubuntu: fdisk(8)</a>. Official pages only. For udev properties, see <a href="leftover-box-udevadm">peek at disk details with udevadm</a>. For hardware-style fixed names, see <a href="leftover-box-by-id">see stable disk names by hardware id</a>. For filesystem UUID paths, see <a href="leftover-box-by-uuid">see stable disk names by UUID</a>. For printed labels and UUIDs, see <a href="leftover-box-blkid">read disk labels and UUIDs</a>. For the disk-name list, see <a href="leftover-box-lsblk">see disks and USB sticks on the computer</a>. For the mount map, see <a href="leftover-box-findmnt">see which folders are already attached</a>. For free room, see <a href="leftover-box-disk-space">see if the computer still has room</a>. For a second copy once a USB path is live, see <a href="first-backup">a backup of the house folder</a>. For the login, see <a href="first-ssh">SSH from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-lsblk"><span class="t">See disks and USB sticks on the computer</span><span class="d">After SSH works (and before you blame a missing USB backup), list disks and USB sticks with lsblk so you see names like sda and sdb without opening a disk app.</span></a>
+<a class="note-row" href="leftover-box-findmnt"><span class="t">See which folders are already attached</span><span class="d">After you can list disks with lsblk (and before you blame a missing USB backup), use findmnt to see which folders are already attached (mounted) so you know what is live as / or a USB path.</span></a>
+<a class="note-row" href="leftover-box-blkid"><span class="t">Read disk labels and UUIDs</span><span class="d">After you can list disks with lsblk and see which folders are attached with findmnt, use blkid to read labels, UUIDs, and filesystem types on disk slices so you can tell which stick or slice is which.</span></a>
+<a class="note-row" href="leftover-box-by-uuid"><span class="t">See stable disk names by UUID</span><span class="d">After blkid shows labels and UUIDs, use ls on /dev/disk/by-uuid (and optional by-label) so you see the fixed paths Linux already made. Names that don't move when sdb becomes sdc.</span></a>
+<a class="note-row" href="leftover-box-by-id"><span class="t">See stable disk names by hardware id</span><span class="d">After by-uuid shows filesystem UUID paths, use ls on /dev/disk/by-id (and optional by-path) so you see hardware-style fixed names (ata-..., usb-..., nvme-...) that don't move when sdb becomes sdc.</span></a>
+<a class="note-row" href="leftover-box-udevadm"><span class="t">Peek at disk details with udevadm</span><span class="d">After by-id shows hardware-style fixed names, use udevadm info (look-only) on a disk path so you see the properties udev already knows, without mounting or rewriting anything.</span></a>
+<a class="note-row" href="leftover-box-parted-list"><span class="t">Peek at partition layout with parted</span><span class="d">After fdisk -l shows the partition table, use parted -l (look-only) so you see a second layout printout, sizes and filesystem hints, without creating, resizing, or rewriting anything.</span></a>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">Before you buy a bigger drive, check free space with df.</span></a>
+<a class="note-row" href="leftover-box-disk"><span class="t">See how big the computer disk already is</span><span class="d">Before you buy a tiny computer or a NAS, check how big the computer disk already is.</span></a>
+<a class="note-row" href="leftover-box-usb-disk"><span class="t">See if the USB backup disk showed up</span><span class="d">Before you trust the weekly copy, confirm the computer can see the USB disk.</span></a>
+<a class="note-row" href="first-backup"><span class="t">A backup of the house folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another computer. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-udevadm"><span class="kicker">Previous</span><span class="t">Peek at disk details with udevadm</span></a>
+<a rel="next" href="leftover-box-parted-list"><span class="kicker">Next</span><span class="t">Peek at partition layout with parted</span></a>
+</nav>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When the cable is plugged in but there's no link — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Ethernet is seated, but SSH still hangs or the computer never gets a house address. Check both ends, LAN vs WAN, link lights, then ip link before you buy a NIC.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When the cable is plugged in but there's no link — Labthrift">
+<meta property="og:description" content="Ethernet is seated, but SSH still hangs or the computer never gets a house address. Check both ends, LAN vs WAN, link lights, then ip link before you buy a NIC.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-ethernet-has-no-link">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-ethernet-has-no-link">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When the cable is plugged in but there's no link","description":"Ethernet is seated, but SSH still hangs or the computer never gets a house address. Check both ends, LAN vs WAN, link lights, then ip link before you buy a NIC.","url":"https://labthrift.com/guides/when-ethernet-has-no-link","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-06"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When the cable is plugged in but there's no link</span></nav>
+<p class="note">Written 6 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When the cable is plugged in but there's no link</h1>
+<p class="deck">Ethernet is seated, but SSH still hangs or the computer never gets a house address. Check both ends, LAN vs WAN, link lights, then ip link before you buy a NIC.</p>
+<p>Want the calm "plug it in on purpose" note first? That is <a href="leftover-box-ethernet">a cable beats Wi-Fi for the computer</a>. This page is the failure case: the click is in both jacks, and the house still acts like the cable is dead. Don't buy a USB adapter tonight. Don't open port 22 on the router to "test."</p>
+
+<h2>Skip until you can touch the computer</h2>
+<p>You need eyes on the ports, or a keyboard and screen on the computer, or a working Wi-Fi login so you can run commands. If SSH already works on the house radio and you only care that the cable is dark, stay on Wi-Fi for now: <a href="wifi-on-the-pc">put the old PC on house Wi-Fi</a>. If nothing answers on any path, prove the box is awake: <a href="leftover-box-still-on">is it still on?</a></p>
+
+<h2>What this is</h2>
+<p>A cable "link" means the computer and the router (or switch) both see each other at the jack. No link means no house address on that plug, so SSH and Pi-hole on that path stay dead. Most nights it is a loose click, the WAN port by mistake, a dead patch cable, or the cable interface still DOWN while Wi-Fi still holds the only address. The walk below is physical first, then lights, then <span><code>ip</code></span> on the computer, then the usual traps.</p>
+
+<h2>Step 1: both ends, LAN not WAN</h2>
+<p>Unplug and reseat both ends until you feel the click. One end is the computer. The other end is a <strong>LAN</strong> port on the house router (or a switch that already talks to that router). Do not use the WAN / Internet / globe port. That port faces the street. A house computer on WAN often gets no useful address, or fights the modem. If the cable runs through a wall jack, treat that jack as one more click to reseat, or try a short known-good cable straight to the router for one proof.</p>
+
+<h2>Step 2: try a different cable and a different LAN port</h2>
+<p>Swap in another Ethernet cable from the drawer. Cat5 is fine. Move to a different yellow or numbered LAN port on the router. Skip the one labeled WAN. If you have a small switch in between, power-cycle that switch once, then reseat both ends again. One dead cable ruins a whole evening of software guesses.</p>
+
+<h2>Step 3: look for link lights</h2>
+<p>On many OptiPlex and mini PCs, the ethernet jack has a small LED. On many routers, each LAN port has a light when something is linked. Dark on both ends after a firm click usually means no carrier: wrong port, dead cable, or the computer's port is off or broken. A light on the router and dark on the computer (or the reverse) still points at the cable or that one jack. Leave fancy speed colors for later. You want any link light first.</p>
+
+<h2>Step 4: see the cable interface on the computer</h2>
+<p>If Wi-Fi SSH still works, use that. Otherwise plug in a keyboard and monitor. Print short link status:</p>
+<p><code>ip -br link</code></p>
+<p>Then addresses:</p>
+<p><code>ip -br addr</code></p>
+<p>The cable name is often <span><code>eth0</code></span>, or it starts with <span><code>enp</code></span> or <span><code>eno</code></span>. The radio is often <span><code>wlan0</code></span>, or it starts with <span><code>wlp</code></span>. You want the cable line <span><code>UP</code></span>, not <span><code>DOWN</code></span>, and not stuck with <span><code>NO-CARRIER</code></span> in the longer view:</p>
+<p><code>ip link</code></p>
+<p><span><code>NO-CARRIER</code></span> means the OS sees the port, but nothing is linked on the wire. Go back to Steps 1–3. Missing cable name entirely can mean a USB dongle that never got seated, a broken onboard port, or a driver the live install never loaded. Confirm the physical jack before you shop.</p>
+
+<h2>Step 5: bring the cable up and ask for an address</h2>
+<p>If the cable line is <span><code>DOWN</code></span>, turn it on (swap in your real name from Step 4):</p>
+<p><code>sudo ip link set eth0 up</code></p>
+<p>Ask DHCP again on that plug if your install uses the usual client:</p>
+<p><code>sudo dhclient -v eth0</code></p>
+<p>Some Ubuntu Server installs use <span><code>netplan</code></span> and <span><code>systemd-networkd</code></span> instead of a hand <span><code>dhclient</code></span>. If <span><code>dhclient</code></span> is missing, check whether the cable already has a <span><code>192.168…</code></span> or <span><code>10…</code></span> on <span><code>ip -br addr</code></span> after the link is UP. No address with link UP often means the router DHCP pool is exhausted, the computer was set to a wrong static number, or you are still on the WAN port. Router-side calm reservation later: <a href="common-router-reservation">keep the computer on the same address on common routers</a>. Hand static only when the router will not reserve: <a href="fixed-address-on-pc">give the computer a fixed address when the router won't</a>.</p>
+
+<h2>Step 6: prove the cable path, then park Wi-Fi</h2>
+<p>Once the cable has a house address, find that number the usual way: <a href="find-the-leftover-box">find it on the house network</a>. From the laptop on house Wi-Fi:</p>
+<p><code>ssh you@192.168.x.x</code></p>
+<p>Use the cable address, not an old Wi-Fi number you wrote down last week. When SSH works on the cable, turn the radio off as a check (use your real Wi-Fi name):</p>
+<p><code>sudo ip link set wlan0 down</code></p>
+<p>SSH should still work. If it dies, the cable never took the job. Reseat again. When the cable is boring, leave Wi-Fi off across reboots: <a href="leftover-box-wifi-off">keep Wi-Fi off after a reboot</a>.</p>
+
+<h2>Step 7: match what you see</h2>
+<p>Match the symptom before you buy anything:</p>
+<div class="table-wrap">
+<table>
+<tr><th>What you see</th><th>Likely cause</th></tr>
+<tr><td data-label="What you see">No lights either end</td><td data-label="Likely cause">Loose click, dead cable, WAN port, or port powered off. Steps 1–3.</td></tr>
+<tr><td data-label="What you see"><code>NO-CARRIER</code> on the cable name</td><td data-label="Likely cause">Wire or far-end port. Steps 1–3. Not a new router DNS setting.</td></tr>
+<tr><td data-label="What you see">Cable <code>DOWN</code></td><td data-label="Likely cause">Interface off. Step 5 <code>ip link set … up</code>.</td></tr>
+<tr><td data-label="What you see">Link UP; no <code>192.168</code>/<code>10</code> address</td><td data-label="Likely cause">DHCP or wrong static. Step 5. Confirm LAN not WAN.</td></tr>
+<tr><td data-label="What you see">SSH works only while Wi-Fi is up</td><td data-label="Likely cause">You are still on the radio. Step 6.</td></tr>
+<tr><td data-label="What you see">No <code>eth</code>/<code>enp</code>/<code>eno</code> name at all</td><td data-label="Likely cause">Dongle unseated, dead onboard port, or missing driver. Reseat USB NIC; try another port before shopping.</td></tr>
+<tr><td data-label="What you see">SSH fails on every path</td><td data-label="Likely cause">Not only ethernet. <a href="when-ssh-wont-connect">When SSH won't connect</a> or <a href="leftover-box-still-on">is it still on?</a>.</td></tr>
+</table>
+</div>
+
+<h2>What this is not</h2>
+<p>This is not a reason to buy a 2.5G switch tonight. It is not a new motherboard because one patch cable was bad. It is not forwarding SSH to the internet to "bypass" a dark LAN port. It is not turning off the house firewall on your laptop. Stay on a known-good cable and a LAN port until link is boring.</p>
+
+<h2>What next</h2>
+<p>When the cable holds SSH, keep Wi-Fi from coming back: <a href="leftover-box-wifi-off">keep Wi-Fi off after a reboot</a>. Optional speed check later: <a href="leftover-box-link-speed">see the cable speed</a>. Still hunting the number after a reboot: <a href="find-the-leftover-box">find it on the house network</a>. SSH still odd with a good link: <a href="when-ssh-wont-connect">when SSH won't connect</a>. No ethernet port in reach? <a href="wifi-on-the-pc">put the old PC on house Wi-Fi</a>. Radio joined but flaps? <a href="when-wifi-keeps-dropping">When house Wi-Fi on the old PC keeps dropping</a>. The calm plug-in note stays: <a href="leftover-box-ethernet">a cable beats Wi-Fi for the computer</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip this if <code>ip -br link</code> already shows the cable UP with a house address and SSH works on that number.</li>
+<li>Skip a new USB NIC until a second cable and a second LAN port both fail.</li>
+<li>Skip a 2.5G switch, mesh kit, or NAS for a dark link light.</li>
+<li>Skip forwarding port 22 on the router to "test" the cable.</li>
+<li>Skip buying Cat6 because Cat5 was in the drawer.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/iproute2/ip-link.8.en.html">Debian: ip-link</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man8/ip-link.8.html">Ubuntu: ip-link</a>. <a href="https://manpages.debian.org/bookworm/iproute2/ip-address.8.en.html">Debian: ip-address</a>. Official pages only. For the calm plug-in habit, see <a href="leftover-box-ethernet">a cable beats Wi-Fi for the computer</a>. For the address, see <a href="find-the-leftover-box">find the computer on the house network</a>. For house SSH failures that are not the wire, see <a href="when-ssh-wont-connect">when SSH won't connect</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="leftover-box-ethernet"><span class="t">A cable beats Wi-Fi for the computer</span><span class="d">Once the computer is doing real work, plug it into the router with a cable. House Wi-Fi can wait. Skip this if it is already on a cable.</span></a>
+<a class="note-row" href="leftover-box-wifi-off"><span class="t">Keep Wi-Fi off after a reboot</span><span class="d">After the cable works, stop Wi-Fi from coming back so the computer keeps one address. You don't need a new router.</span></a>
+<a class="note-row" href="when-computer-has-two-addresses"><span class="t">When the old PC has two house addresses</span><span class="d">SSH works on one number, Pi-hole or the reservation on another — Wi-Fi and the cable both live. Keep one link. You don't need a new router.</span></a>
+<a class="note-row" href="wifi-on-the-pc"><span class="t">Put the old PC on house Wi-Fi</span><span class="d">Ubuntu Server on an old laptop often has no cable nearby. Join house Wi-Fi so SSH and Pi-hole can work. Skip this if ethernet already works.</span></a>
+<a class="note-row" href="when-wifi-keeps-dropping"><span class="t">When house Wi-Fi on the old PC keeps dropping</span><span class="d">SSH dies or ads come back because the computer's Wi-Fi keeps falling off. Check power save, signal, then prefer a cable. You don't need a mesh kit tonight.</span></a>
+<a class="note-row" href="find-the-leftover-box"><span class="t">Find the computer on the house network</span><span class="d">The computer has a number on your house network. You need that number to SSH from the couch. You don't need a new router.</span></a>
+<a class="note-row" href="when-ssh-wont-connect"><span class="t">When SSH won't connect</span><span class="d">SSH hangs, says connection refused, or Permission denied. Check the computer is on, confirm the address, then the user and password. You don't need a new router or a KVM.</span></a>
+<a class="note-row" href="leftover-box-link-speed"><span class="t">See the cable speed</span><span class="d">After the cable works, see whether the link is 1G or stuck slower. You don't need a 10G switch for this check.</span></a>
+<a class="note-row" href="leftover-box-still-on"><span class="t">Is it still on?</span><span class="d">You left the computer on. This morning ads are back, or SSH hangs. Check if it is awake before you buy anything.</span></a>
+<a class="note-row" href="fixed-address-on-pc"><span class="t">Give the computer a fixed address when the router won't</span><span class="d">Nest or an ISP gateway won't reserve DHCP. Set one stable number on Ubuntu Server so SSH and Pi-hole keep the same address after a reboot. You don't need a new router.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-ethernet"><span class="kicker">Previous</span><span class="t">A cable beats Wi-Fi for the computer</span></a>
+<a rel="next" href="leftover-box-wifi-off"><span class="kicker">Next</span><span class="t">Keep Wi-Fi off after a reboot</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

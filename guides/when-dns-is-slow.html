@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When browsing feels slow after Pi-hole — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Pages hang a few seconds, then load. Ads may still be blocked. Time a DNS lookup, check Pi-hole and its upstream, then prove it with a bypass. You don't need a faster plan tonight.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When browsing feels slow after Pi-hole — Labthrift">
+<meta property="og:description" content="Pages hang a few seconds, then load. Ads may still be blocked. Time a DNS lookup, check Pi-hole and its upstream, then prove it with a bypass. You don't need a faster plan tonight.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-dns-is-slow">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-dns-is-slow">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When browsing feels slow after Pi-hole","description":"Pages hang a few seconds, then load. Ads may still be blocked. Time a DNS lookup, check Pi-hole and its upstream, then prove it with a bypass. You don't need a faster plan tonight.","url":"https://labthrift.com/guides/when-dns-is-slow","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-06"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When browsing feels slow after Pi-hole</span></nav>
+<p class="note">Written 6 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When browsing feels slow after Pi-hole</h1>
+<p class="deck">Pages hang a few seconds, then load. Ads may still be blocked. Time a DNS lookup, check Pi-hole and its upstream, then prove it with a bypass. You don't need a faster plan tonight.</p>
+<p>Haven't installed Pi-hole yet? Start with <a href="first-useful-service">the first useful thing</a>. One site broken while the rest of the house is fine? That is <a href="when-a-site-wont-load">when a site won't load after Pi-hole</a>. Ads back everywhere? That is <a href="when-ads-come-back">when ads come back</a>. Nothing loads at all (no internet / DNS timeouts house-wide)? That is <a href="when-house-wont-browse">when the house won't browse after Pi-hole</a>. This note is the other mess: names still resolve and ads stay blocked, but every new tab sits blank for a beat before it paints. That lag is often DNS, not your ISP plan.</p>
+
+<h2>Skip until the house asks Pi-hole</h2>
+<p>If the router never pointed DNS at the computer, this page will not help. Point it first: <a href="leftover-box-router-dns">point the house at the ad block</a>, or brand menus in <a href="common-router-dns">point common home routers at Pi-hole</a>. If Pi-hole is down or the admin page is blank, start with <a href="when-pihole-wont-open">when the Pi-hole admin page won't open</a> or <a href="when-ads-come-back">when ads come back</a>. You need SSH on the computer, or the admin page on the house network.</p>
+
+<h2>What this is</h2>
+<p>Browsers ask a name server before they fetch a page. When that answer is slow, every new host feels sticky even though a speed test to a number still looks fine. Pi-hole sits in that path. A slow upstream, a overloaded box, or a huge block list can add seconds. You time a lookup, check the computer, then prove it by pointing one laptop past Pi-hole for a minute. You don't buy a mesh kit for this.</p>
+
+<h2>Step 1: prove it is DNS, not the WAN</h2>
+<p>On a laptop on house Wi-Fi, open a site you have not visited today (a fresh name). Feel the hang. Then from the computer over SSH, time a lookup you care about (swap the name):</p>
+<p><code>time dig +short example.com @127.0.0.1</code></p>
+<p>Or, if <span><code>dig</code></span> is missing:</p>
+<p><code>time resolvectl query example.com</code></p>
+<p>Under about half a second is usually fine on a quiet house. Multi-second waits, or timeouts, mean the name path is the suspect. Then ping a number past the router (not a name):</p>
+<p><code>ping -c 3 1.1.1.1</code></p>
+<p>Three quick replies mean the WAN path is alive. Slow names with a fine ping to a number is DNS. If even <span><code>1.1.1.1</code></span> crawls or fails, fix the internet path first: <a href="leftover-box-internet">check that the computer can reach the internet</a>.</p>
+
+<h2>Step 2: confirm who phones ask</h2>
+<p>On the computer, confirm Pi-hole is the house answerer people should hit. Status in one line:</p>
+<p><code>pihole status</code></p>
+<p>You want FTL running and blocking on. Then see whether the computer itself is asking a sane name server: <a href="leftover-box-dns-check">see which name server the computer is using</a>. On a phone or laptop, a temporary look at Wi-Fi DNS should show the computer's house address (or the router only if the router forwards to Pi-hole). If devices still ask the ISP directly, point the router again: <a href="common-router-dns">point common home routers at Pi-hole</a>. One device with Private DNS or a VPN can feel “slow and weird” while others are fine — that walk is closer to <a href="when-one-phone-shows-ads">when one phone still shows ads</a> or <a href="when-one-laptop-shows-ads">when one laptop still shows ads</a>.</p>
+
+<h2>Step 3: check Pi-hole and the box</h2>
+<p>Open <a href="http://pi.hole/admin">http://pi.hole/admin</a> (or the computer's address plus <span><code>/admin</code></span>). On the dashboard, look at recent query rate and whether the page itself loads slowly. From SSH, status is enough:</p>
+<p><code>pihole status</code></p>
+<p>If the computer itself is thrashing (fan loud, load sky high), DNS will feel sticky for the whole house. Free memory and a busy process are separate looks: <a href="leftover-box-free-memory">see if the computer still has free memory</a>, <a href="leftover-box-whats-busy">see what is keeping the computer busy</a>. Heat under a pile of clothes is <a href="leftover-box-heat">don't cook the computer</a>. Disk packed so logs and gravity updates crawl: <a href="when-house-disk-full">when the computer's disk is full</a>.</p>
+<p>A quick name lookup from the computer still helps: <a href="leftover-box-name-lookup">look up a site name from the computer</a>. Prefer a site you use, not an ad tracker (blocked names can return <span><code>0.0.0.0</code></span> on purpose).</p>
+
+<h2>Step 4: check the upstream DNS</h2>
+<p>Pi-hole asks an upstream server for names it has not cached and has not blocked. A bad or far upstream makes every cold name wait. In the admin page open Settings → DNS (wording varies by version) and note which upstreams are checked. Prefer one or two reliable public resolvers close to you (Cloudflare <span><code>1.1.1.1</code></span>, Google <span><code>8.8.8.8</code></span>, or your ISP’s documented DNS). Don't enable every box on the list. Don't turn on DNSSEC troubleshooting rabbit holes on day one.</p>
+<p>From SSH you can ask Pi-hole’s own listener, then ask an upstream directly and compare wall time:</p>
+<p><code>time dig +short example.com @127.0.0.1</code></p>
+<p><code>time dig +short example.com @1.1.1.1</code></p>
+<p>If <span><code>@1.1.1.1</code></span> is fast and <span><code>@127.0.0.1</code></span> is slow, the hang is on the computer or in Pi-hole’s path to its configured upstream. If both are slow, the WAN or the upstream is the problem. Official upstream notes live in the <a href="https://docs.pi-hole.net/guides/network/upstream/">Pi-hole upstream DNS guide</a>.</p>
+
+<h2>Step 5: prove it with a one-device bypass</h2>
+<p>On one laptop only, set Wi-Fi DNS to <span><code>1.1.1.1</code></span> (and maybe <span><code>1.0.0.1</code></span>) instead of Automatic / router. Renew the lease or toggle Wi-Fi. Browse a few fresh sites. If the hang vanishes on that laptop while the rest of the house still feels sticky, Pi-hole (or the path to it) was the cause. Put that laptop back on Automatic when you are done so ads stay blocked.</p>
+<p>Same idea without leaving Pi-hole: pause blocking for five minutes and retry. Blocking off does not always fix a slow upstream, but it rules out a pathological list path:</p>
+<p><code>pihole disable 5m</code></p>
+<p>Turn it back on when the test is done:</p>
+<p><code>pihole enable</code></p>
+<p>If one bank or login is broken rather than slow, stop here and use <a href="when-a-site-wont-load">when a site won't load after Pi-hole</a> or <a href="allow-a-site">allow a site in Pi-hole on purpose</a>.</p>
+
+<h2>Step 6: lists and updates without a shopping trip</h2>
+<p>A fresh gravity update or a giant extra block list can make the first lookups after a change feel heavy. Update on purpose when you mean to, then re-time a dig:</p>
+<p><code>pihole -up</code></p>
+<p>Weekly OS updates stay on their own note: <a href="leftover-box-updates">keep the computer updated</a>. Pi-hole’s own refresh is <a href="update-pihole">keep Pi-hole updated</a>. Before you wipe lists or reinstall, <a href="backup-pihole">save a Pi-hole backup</a>. Don't subscribe to every block list on the internet for a first house.</p>
+
+<h2>What this is not</h2>
+<p>This is not a reason to buy a faster ISP plan, a mesh kit, or a new mini PC on day one. It is not “ads came back.” That checklist is <a href="when-ads-come-back">when ads come back</a>. It is not one broken domain that needs an allow. That is <a href="when-a-site-wont-load">when a site won't load after Pi-hole</a>. It is not Unbound, recursive DNS, or DNSSEC homework this weekend. Stay on timing, upstream, and a one-device bypass.</p>
+
+<h2>What next</h2>
+<p>When lookups are quick again, leave the upstream alone for a week. For a calm allow when one site is broken, see <a href="allow-a-site">allow a site in Pi-hole on purpose</a>. For the query log, see <a href="see-what-pihole-blocked">see what Pi-hole blocked</a>. Router pointing still shaky? <a href="common-router-dns">Point common home routers at Pi-hole</a>. IPv6 still sneaking past? <a href="when-ipv6-bypasses-ads">When ads sneak past on IPv6</a>. Share copies crawling while names are fine is a different walk: <a href="when-share-is-slow">when the house share is slow</a>.</p>
+
+<p class="note">Optional: jot that house DNS feels fine again in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip a faster ISP plan because tabs hang before they paint.</li>
+<li>Skip a mesh kit or a new router for slow DNS.</li>
+<li>Skip Unbound and recursive DNS on day one.</li>
+<li>Skip adding every block list you find on a forum.</li>
+<li>Skip leaving one laptop on <span><code>1.1.1.1</code></span> forever if you still want ads blocked on it.</li>
+<li>Skip this if ads are back on every device. That is a different walk.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://docs.pi-hole.net/">Pi-hole docs</a>. <a href="https://docs.pi-hole.net/guides/network/upstream/">Pi-hole: upstream DNS</a>. <a href="https://docs.pi-hole.net/core/pihole-command/">Pi-hole command</a> (status, disable, enable, -up, -c). <a href="https://manpages.debian.org/bookworm/dnsutils/dig.1.en.html">Debian: dig</a>. <a href="https://manpages.debian.org/bookworm/systemd/resolvectl.1.en.html">Debian: resolvectl</a>. Official pages only. For install, see <a href="first-useful-service">the first useful thing</a>. For ads returning house-wide, see <a href="when-ads-come-back">when ads come back</a>. For one broken site, see <a href="when-a-site-wont-load">when a site won't load after Pi-hole</a>. For which name server the computer asks, see <a href="leftover-box-dns-check">see which name server the computer is using</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-useful-service"><span class="t">The first useful thing</span><span class="d">Put a house-wide ad block on the old PC. The rest of the house keeps using the internet as usual. You don't need a Raspberry Pi.</span></a>
+<a class="note-row" href="when-house-wont-browse"><span class="t">When the house won't browse after Pi-hole</span><span class="d">Phones say no internet, or every site times out, after you pointed the house at Pi-hole. Put router DNS back on automatic so dinner works, then fix the computer. You don't need a new router.</span></a>
+<a class="note-row" href="when-ads-come-back"><span class="t">When ads come back</span><span class="d">Ads are back, sites won't load, or a phone still shows banners. Check the computer, Pi-hole, router DNS, then the phone.</span></a>
+<a class="note-row" href="when-a-site-wont-load"><span class="t">When a site won't load after Pi-hole</span><span class="d">A bank, streamer, or login page breaks after Pi-hole. Pause blocking for five minutes, then allow the domain you need. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-dns-check"><span class="t">See which name server the computer is using</span><span class="d">When names fail or ads come back, check which DNS the computer asks before you buy a mesh kit.</span></a>
+<a class="note-row" href="leftover-box-name-lookup"><span class="t">Look up a site name from the computer</span><span class="d">When a website name fails, try resolving it from the computer before you buy a mesh kit.</span></a>
+<a class="note-row" href="common-router-dns"><span class="t">Point common home routers at Pi-hole</span><span class="d">Where to set DNS on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so the house asks Pi-hole. Prefer LAN DHCP DNS. You don't need a new router.</span></a>
+<a class="note-row" href="see-what-pihole-blocked"><span class="t">See what Pi-hole blocked</span><span class="d">Open the query log (or watch it over SSH) so you can tell ads are dying, which device asked, and which name to allow later. You don't need a new router.</span></a>
+<a class="note-row" href="when-pihole-wont-open"><span class="t">When the Pi-hole admin page won't open</span><span class="d">http://pi.hole/admin or the computer's address plus /admin won't load. Check house Wi-Fi, the address, then Pi-hole and the web service. You don't need a new router.</span></a>
+<a class="note-row" href="update-pihole"><span class="t">Keep Pi-hole updated</span><span class="d">Weekly apt does not refresh Pi-hole. Update the software and the block lists on the old PC so ads stay gone. You don't need a new Raspberry Pi.</span></a>
+<a class="note-row" href="when-share-is-slow"><span class="t">When the house share is slow</span><span class="d">The folder opens and copies work, but photos crawl. Check Wi-Fi vs a cable, link speed, disk room, then the laptop. You don't need a 10G switch.</span></a>
+<a class="note-row" href="leftover-box-free-memory"><span class="t">See if the computer still has free memory</span><span class="d">The computer feels slow. Check free memory before you buy a new mini PC.</span></a>
+<a class="note-row" href="allow-a-site"><span class="t">Allow a site in Pi-hole on purpose</span><span class="d">One domain the house needs that a block list keeps catching. Add it to the allow list. You don't wipe every list or buy a new router.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="when-a-site-wont-load"><span class="kicker">Previous</span><span class="t">When a site won't load after Pi-hole</span></a>
+<a rel="next" href="allow-a-site"><span class="kicker">Next</span><span class="t">Allow a site in Pi-hole on purpose</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

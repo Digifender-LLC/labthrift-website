@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See how long the computer has been awake — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Before you buy a UPS or a new mini PC, see how long the computer has been awake.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See how long the computer has been awake — Labthrift">
+<meta property="og:description" content="Before you buy a UPS or a new mini PC, see how long the computer has been awake.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-uptime">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-uptime">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See how long the computer has been awake","description":"Before you buy a UPS or a new mini PC, see how long the computer has been awake.","url":"https://labthrift.com/guides/leftover-box-uptime","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-27"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">See how long the computer has been awake</span></nav>
+<p class="note">Written 27 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>See how long the computer has been awake</h1>
+<p class="deck">Before you buy a UPS or a new mini PC, see how long the computer has been awake.</p>
+<p>Ping says the computer answers. That is <a href="leftover-box-still-on">is the computer still on?</a>. This note is different. You are already logged in. You want the clock: up for two days, or up for fourteen minutes. A short awake time after you left it on overnight often means a reboot, a power blink, or sleep. A long awake time means it has been sitting there doing house jobs. You don't need a battery box this morning because you have not looked.</p>
+
+<h2>Skip until SSH works</h2>
+<p>If ping fails and SSH hangs, start with <a href="leftover-box-still-on">is the computer still on?</a> If you have never logged in from the couch, that is <a href="first-ssh">SSH from the couch</a>. Prefer this look after the computer is supposed to stay on: <a href="first-weekend">your first weekend with the computer</a>. This note assumes you can log in from the couch.</p>
+
+<h2>What this is</h2>
+<p>A look, not a shopping trip. You are reading how long the computer has been running since the last boot. You are not buying a UPS tonight. You are not buying an N100, a mesh kit, or a monitoring box this morning.</p>
+
+<h2>Ask how long it has been awake</h2>
+<p>SSH in from the couch, then run:</p>
+<p><code>uptime -p</code></p>
+<p>You should see something like <span><code>up 2 days, 3 hours, 11 minutes</code></span>. That plain sentence is the whole answer. Days and hours mean the computer has been awake through your last night. Minutes alone, when you thought it had been on for days, means it rebooted or woke up recently. Don't buy a UPS because the sentence says <span><code>up 14 minutes</code></span> once. Look again tomorrow morning.</p>
+
+<h2>Optional full line</h2>
+<p>If you want the longer line with load numbers:</p>
+<p><code>uptime</code></p>
+<p>The awake time is still in that line. The three load numbers at the end are a different look. When the computer feels slow, use <a href="leftover-box-whats-busy">see what is keeping the computer busy</a> and <a href="leftover-box-free-memory">see if the computer still has free memory</a>. Keep this note on the awake clock.</p>
+
+<h2>If the awake time is short</h2>
+<p>Confirm the house jobs came back: <a href="leftover-box-after-reboot">after a reboot, check the computer still does its jobs</a>. An old laptop may have slept with the lid. That is <a href="leftover-box-sleep">don't let the old laptop sleep</a>. A blink of the lights can reboot a computer on a plain outlet. You still don't need a UPS this weekend: <a href="leftover-box-no-ups">you don't need a UPS yet</a>. A later cheap battery box, when blinks keep interrupting house jobs, is <a href="cheap-ups-closet">cheap UPS for a closet that stays on overnight</a>. Skip buying one because <span><code>uptime -p</code></span> said minutes once.</p>
+
+<h2>What next</h2>
+<p>The awake knock from the couch stays <a href="leftover-box-still-on">is the computer still on?</a>. After a short awake time, confirm jobs in <a href="leftover-box-after-reboot">after a reboot, check the computer still does its jobs</a>. Failed house jobs after a reboot are <a href="leftover-box-failed-units">see if any house jobs failed to start</a>. A clean power-off when you mean to stop is <a href="leftover-box-shutdown">shut down the computer without yanking the plug</a>. The first rule stays <a href="start-with-what-you-have">start with what you already have</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH fails. That is <a href="leftover-box-still-on">is the computer still on?</a> or <a href="first-ssh">SSH from the couch</a>.</li>
+<li>Skip a UPS because <span><code>uptime -p</code></span> printed minutes once.</li>
+<li>Skip a new mini PC for a short awake time. Check sleep, power, and house jobs first.</li>
+<li>Skip a monitoring appliance for this look.</li>
+<li>Skip a NAS for this look.</li>
+<li>Skip Proxmox tonight. That is <a href="what-is-a-vm">what a VM is, and when you don't need one</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/procps/uptime.1.en.html">Debian: uptime</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/uptime.1.html">Ubuntu: uptime</a>. Official pages only. For the awake knock, see <a href="leftover-box-still-on">is the computer still on?</a>. For jobs after a reboot, see <a href="leftover-box-after-reboot">after a reboot, check the computer still does its jobs</a>. For sleep on an old laptop, see <a href="leftover-box-sleep">don't let the old laptop sleep</a>. For skipping a UPS this weekend, see <a href="leftover-box-no-ups">you don't need a UPS yet</a>. A later battery box is <a href="cheap-ups-closet">cheap UPS for a closet that stays on overnight</a>. For the login, see <a href="first-ssh">SSH from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="leftover-box-still-on"><span class="t">Is the computer still on?</span><span class="d">You left the computer on. This morning ads are back, or SSH hangs. Check if it is awake before you buy anything.</span></a>
+<a class="note-row" href="leftover-box-after-reboot"><span class="t">After a reboot, check the computer still does its jobs</span><span class="d">The computer came back up. Confirm SSH, house ad block, and the file share still work before you buy anything.</span></a>
+<a class="note-row" href="leftover-box-sleep"><span class="t">Don't let the old laptop sleep</span><span class="d">Close the lid. The old laptop has to stay awake so SSH and Pi-hole keep working. A desktop can skip this note.</span></a>
+<a class="note-row" href="leftover-box-shutdown"><span class="t">Shut down the computer without yanking the plug</span><span class="d">When you're done for the night, shut it down and let it finish writing files before it powers off. Don't yank the cord. Skip this if you only need a reboot after updates.</span></a>
+<a class="note-row" href="leftover-box-no-ups"><span class="t">You don't need a UPS yet</span><span class="d">The computer can sit on a house outlet. A blink of the lights is a reboot. Skip a battery box this weekend.</span></a>
+<a class="note-row" href="leftover-box-whats-busy"><span class="t">See what is keeping the computer busy</span><span class="d">The computer feels slow. Check which program is using the CPU before you buy a new mini PC.</span></a>
+<a class="note-row" href="start-with-what-you-have"><span class="t">Start with what you already have</span><span class="d">Don't buy anything yet. Old laptop first, or a retired OptiPlex from Marketplace.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-still-on"><span class="kicker">Previous</span><span class="t">Is the computer still on?</span></a>
+<a rel="next" href="leftover-box-hostname"><span class="kicker">Next</span><span class="t">Give the computer a name that sticks</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

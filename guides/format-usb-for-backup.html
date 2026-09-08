@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Format a USB stick for the house backup — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Wipe and format a spare USB stick so the old PC can mount it for the house-folder backup. Ext4 for Linux. This erases the stick. You don't need a NAS.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Format a USB stick for the house backup — Labthrift">
+<meta property="og:description" content="Wipe and format a spare USB stick so the old PC can mount it for the house-folder backup. Ext4 for Linux. This erases the stick. You don't need a NAS.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/format-usb-for-backup">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/format-usb-for-backup">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Format a USB stick for the house backup","description":"Wipe and format a spare USB stick so the old PC can mount it for the house-folder backup. Ext4 for Linux. This erases the stick. You don't need a NAS.","url":"https://labthrift.com/guides/format-usb-for-backup","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-05"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">Format a USB stick for the house backup</span></nav>
+<p class="note">Written 5 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>Format a USB stick for the house backup</h1>
+<p class="deck">Wipe and format a spare USB stick so the old PC can mount it for the house-folder backup. Ext4 for Linux. This erases the stick. You don't need a NAS.</p>
+<p>Only need to see whether the stick already shows up? That look is <a href="leftover-box-usb-disk">see if the USB backup disk showed up</a>. Already mounting fine and ready to copy? Jump to <a href="first-backup">a backup of the house folder</a>. This note is for a blank stick, a Windows stick that mounts awkwardly, or a mount that keeps failing until you give the stick one clean Linux filesystem.</p>
+
+<h2>Skip until you mean to erase this stick</h2>
+<p>Formatting deletes everything on the stick. Don't format the computer's system disk. Don't format the only copy of photos you care about. Don't buy a NAS so a stick can get a filesystem. If SSH still fails, fix that first: <a href="first-ssh">SSH from the couch</a>.</p>
+
+<h2>What this is</h2>
+<p>One spare USB stick, wiped on purpose, with a single ext4 partition the old PC can mount at <code>/mnt/backup</code>. Ext4 is the usual Linux filesystem. Windows and phones will not open that stick afterward without extra tools. That is fine for a backup stick that lives with this computer. You are not building a boot installer stick (that is <a href="make-boot-usb">make a boot USB for the install</a>). You are not moving the live house share onto USB forever (that is <a href="house-folder-on-usb">put the house folder on a USB disk</a>).</p>
+
+<h2>Step 1: awake, then SSH</h2>
+<p>Power light. Fan. If it looks asleep, start with <a href="leftover-box-still-on">is the computer still on?</a>. You need SSH from the couch: <a href="first-ssh">SSH from the couch</a>. Connect fails? <a href="when-ssh-wont-connect">when SSH won't connect</a>.</p>
+
+<h2>Step 2: plug in the spare stick and name the disk</h2>
+<p>Use a stick you are willing to wipe. Plug it into the computer. Wait a few seconds. List disks:</p>
+<p><code>lsblk -f</code></p>
+<p>Find the new disk whose SIZE matches the stick, often <code>sdb</code> with a partition like <code>sdb1</code>. The computer's own disk is usually the smaller line you installed Debian or Ubuntu on. Wrong disk here wipes the OS. If nothing new appears, try another port or cable, then run the same command again. Fuller look: <a href="leftover-box-usb-disk">see if the USB backup disk showed up</a>.</p>
+<p>Write down the disk name (<code>sdb</code>) and the partition name (<code>sdb1</code>) from <em>your</em> printout. The examples below use those names. Swap them if yours differ. Never copy <code>sda</code> from a blog if your stick is <code>sdb</code>.</p>
+
+<h2>Step 3: unmount if it already mounted</h2>
+<p>Windows sticks often auto-mount. Unmount the partition first (harmless if it was not mounted):</p>
+<p><code>sudo umount /dev/sdb1</code></p>
+<p>If the stick has no partition line yet, skip this and go to step 4 with the disk name only.</p>
+
+<h2>Step 4: one partition, then ext4</h2>
+<p>This erases the stick. Last chance to unplug the wrong disk.</p>
+<p>Make a fresh GPT layout and one partition that fills the stick:</p>
+<p><code>sudo parted /dev/sdb --script mklabel gpt mkpart primary ext4 1MiB 100%</code></p>
+<p>Then format that partition. Label it so you recognize it later:</p>
+<p><code>sudo mkfs.ext4 -L HOUSEBAK /dev/sdb1</code></p>
+<p>Confirm:</p>
+<p><code>lsblk -f</code></p>
+<p>You should see <code>ext4</code> and the label <code>HOUSEBAK</code> on the USB partition. If <code>parted</code> or <code>mkfs.ext4</code> is missing, install the usual tools once:</p>
+<p><code>sudo apt update &amp;&amp; sudo apt install -y parted e2fsprogs</code></p>
+<p>Then rerun the parted and mkfs lines.</p>
+
+<h2>Step 5: mount it and make the backup folder</h2>
+<p>Mount the formatted partition:</p>
+<p><code>sudo mkdir -p /mnt/backup &amp;&amp; sudo mount /dev/sdb1 /mnt/backup</code></p>
+<p>Confirm the mount stuck (prints a line if it did):</p>
+<p><code>findmnt /mnt/backup</code></p>
+<p>Make a landing folder your user can write:</p>
+<p><code>sudo mkdir -p /mnt/backup/share &amp;&amp; sudo chown "$USER:$USER" /mnt/backup/share</code></p>
+<p>Optional check that the label matches:</p>
+<p><code>findmnt -no LABEL /mnt/backup</code></p>
+
+<h2>Step 6: copy the house folder (or stop here)</h2>
+<p>Haven't made the share yet? That is <a href="first-file-share">a file share</a>, not a format problem. When the house folder exists (often <code>/srv/share</code>), the copy itself is <a href="first-backup">a backup of the house folder</a>:</p>
+<p><code>rsync -a /srv/share/ /mnt/backup/share/</code></p>
+<p>Then confirm files landed: <a href="leftover-box-backup-check">check that the backup actually copied</a>. Unmount before you yank the cable:</p>
+<p><code>sudo umount /mnt/backup</code></p>
+<p>Fuller unplug walk (sync, busy mount, remount): <a href="unplug-backup-usb">unplug the backup USB safely</a>. Mount fails next week, or rsync complains? <a href="when-backup-wont-run">When the house backup won't run</a>.</p>
+
+<h2>What this is not</h2>
+<p>This is not a bootable Ubuntu installer stick. It is not exFAT so a Windows laptop can browse the backup (pick ext4 for a Linux-only house backup). It is not RAID. It is not a reason to buy a NAS tonight. It is not formatting the system disk. It is not leaving the only photo copy on a stick you are about to wipe.</p>
+
+<h2>What next</h2>
+<p>Run the copy: <a href="first-backup">a backup of the house folder</a>. Confirm it landed: <a href="leftover-box-backup-check">check that the backup actually copied</a>. Unmount for the drawer: <a href="unplug-backup-usb">unplug the backup USB safely</a>. Pull one file back sometime: <a href="leftover-box-restore-one">restore one file from the USB backup</a>. Prefer another old PC instead of a stick: <a href="backup-to-another-pc">copy the house folder to another old computer</a>. Stick still missing after you plug it in: <a href="leftover-box-usb-disk">see if the USB backup disk showed up</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if you are not willing to erase this stick.</li>
+<li>Skip formatting the system disk. Match SIZE in <code>lsblk</code> to the stick first.</li>
+<li>Skip buying a NAS so a stick can get a filesystem.</li>
+<li>Skip the installer-stick walk. That is <a href="make-boot-usb">make a boot USB for the install</a>.</li>
+<li>Skip if you only needed a look. That is <a href="leftover-box-usb-disk">see if the USB backup disk showed up</a>.</li>
+<li>Skip cloud backup until a plain second copy exists on a stick or another old PC.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/parted/parted.8.en.html">Debian: parted</a>. <a href="https://manpages.debian.org/bookworm/e2fsprogs/mkfs.ext4.8.en.html">Debian: mkfs.ext4</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man8/parted.8.html">Ubuntu: parted</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man8/mkfs.ext4.8.html">Ubuntu: mkfs.ext4</a>. <a href="https://manpages.debian.org/bookworm/util-linux/lsblk.8.en.html">Debian: lsblk</a>. Official pages only. For the copy after format, see <a href="first-backup">a backup of the house folder</a>. For seeing the stick, see <a href="leftover-box-usb-disk">see if the USB backup disk showed up</a>. For mount or rsync failures, see <a href="when-backup-wont-run">when the house backup won't run</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-backup"><span class="t">A backup of the house folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another old computer. You don't need a NAS for this.</span></a>
+<a class="note-row" href="when-backup-usb-full"><span class="t">When the backup USB is full</span><span class="d">rsync says no space, or df shows the stick is packed. Confirm the mount, free room or use a bigger stick, or copy to another old PC. You don't need a NAS.</span></a>
+<a class="note-row" href="auto-mount-backup-usb"><span class="t">Mount the backup USB automatically</span><span class="d">Leave the backup stick plugged in and mount it at boot by UUID, so weekly rsync finds /mnt/backup without a hand mount. You don't need a NAS.</span></a>
+<a class="note-row" href="unplug-backup-usb"><span class="t">Unplug the backup USB safely</span><span class="d">Finish disk writes, unmount /mnt/backup, then yank the stick into a drawer. Fixes target is busy. You don't need a NAS.</span></a>
+<a class="note-row" href="leftover-box-usb-disk"><span class="t">See if the USB backup disk showed up</span><span class="d">Before you trust the weekly copy, confirm the computer can see the USB disk.</span></a>
+<a class="note-row" href="when-backup-wont-run"><span class="t">When the house backup won't run</span><span class="d">rsync failed, the USB is missing, or the second copy never landed. Check the stick, the mount, the source path, then match the error (no space, permission, connection). You don't need a NAS.</span></a>
+<a class="note-row" href="leftover-box-backup-check"><span class="t">Check that the backup actually copied</span><span class="d">After the copy finishes, look on the USB disk and confirm the files are there before you trust it. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="backup-to-another-pc"><span class="t">Copy the house folder to another old computer</span><span class="d">A second copy over the house network to another old PC. Not only a USB stick. You don't need a NAS for this.</span></a>
+<a class="note-row" href="make-boot-usb"><span class="t">Make a boot USB for the install</span><span class="d">Write Ubuntu Server or Debian onto a USB stick so the old PC can boot the installer. Use Etcher or Rufus. Don't drag the ISO into a folder.</span></a>
+<a class="note-row" href="house-folder-on-usb"><span class="t">Put the house folder on a USB disk</span><span class="d">Move the house share onto a USB disk that stays plugged into the old PC so photos don't fill the system drive. You don't need a NAS for this.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-usb-disk"><span class="kicker">Previous</span><span class="t">See if the USB backup disk showed up</span></a>
+<a rel="next" href="first-backup"><span class="kicker">Next</span><span class="t">A backup of the house folder</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

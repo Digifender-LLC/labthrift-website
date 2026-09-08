@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See the cable speed — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Before you buy a faster switch, check whether the computer is already at gigabit, or stuck at 100.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See the cable speed — Labthrift">
+<meta property="og:description" content="Before you buy a faster switch, check whether the computer is already at gigabit, or stuck at 100.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-link-speed">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-link-speed">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See the cable speed","description":"Before you buy a faster switch, check whether the computer is already at gigabit, or stuck at 100.","url":"https://labthrift.com/guides/leftover-box-link-speed","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-27"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">See the cable speed</span></nav>
+<p class="note">Written 27 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>See the cable speed</h1>
+<p class="deck">Before you buy a faster switch, check whether the computer is already at gigabit, or stuck at 100.</p>
+<p>Link speed is how fast this cable is actually running, in megabits per second. Ping can still work at 100. File copies crawl. You already plugged a cable in <a href="leftover-box-ethernet">a cable beats Wi-Fi for the computer</a> and reached the router in <a href="leftover-box-ping">check that the computer can reach the house router</a>. Packets past the router are <a href="leftover-box-internet">check that the computer can reach the internet</a>. This note reads the speed on that plug.</p>
+
+<h2>Skip until SSH works</h2>
+<p>If you have never logged in from the couch, that is <a href="first-ssh">SSH from the couch</a>. You can also type this at the keyboard. Prefer this look after a cable is plugged in and ping to the router works: <a href="leftover-box-ethernet">a cable beats Wi-Fi for the computer</a>, then <a href="leftover-box-ping">check that the computer can reach the house router</a>. This note assumes you can log in from the couch, or sit at the keyboard.</p>
+
+<h2>What this is</h2>
+<p>A look, not a shopping trip. 1000 is gigabit, the speed old laptops and OptiPlex boxes usually do. 100 is ten times slower: a bad cable, a cheap 100-only port, or an old laptop NIC. 2500 means a faster 2.5G port already. Don't buy a 2.5G switch for a computer stuck at 100. Try another cable from the drawer first.</p>
+
+<h2>Find the cable name</h2>
+<p>SSH in from the couch, or sit at the keyboard, then ask:</p>
+<p><code>ip -br link</code></p>
+<p>Skip the <span><code>lo</code></span> line. That is the loopback line. The computer uses it internally. Point at the ethernet line that is UP (often a name that starts with <span><code>en</code></span>, or <span><code>eth0</code></span>). Copy that name. Wi-Fi lines can wait if a cable is plugged in.</p>
+
+<h2>Ask for the speed</h2>
+<p>Replace NAME with the cable name you just copied:</p>
+<p><code>cat /sys/class/net/NAME/speed</code></p>
+<p>One number comes back. That number is megabits per second.</p>
+<ul>
+<li><span><code>1000</code></span> is gigabit. Fine for a computer. File copies that still crawl are a later switch note: <a href="2-5g-switch">a faster switch for a first home lab</a>.</li>
+<li><span><code>100</code></span> is the slow trap. Swap the cable from the drawer, try another LAN port on the router, then ask again. Don't buy 2.5G for this.</li>
+<li><span><code>2500</code></span> means this computer already has a faster port. You don't need a new switch for this computer.</li>
+<li><span><code>-1</code></span>, or the words Invalid argument, means that name is down. Pick the UP cable line from <span><code>ip -br link</code></span>.</li>
+</ul>
+
+<h2>Optional longer print</h2>
+<p>If <span><code>ethtool</code></span> is already installed, the same speed is on a Speed line:</p>
+<p><code>ethtool NAME</code></p>
+<p>Skip installing extra packages tonight. The <span><code>cat</code></span> look is enough.</p>
+
+<h2>What next</h2>
+<p>Write down the hardware address: <a href="leftover-box-mac-addr">see the computer's hardware address</a>. Keep the number stable: <a href="leftover-box-dhcp-reservation">keep the computer on the same number</a>. Path to the router: <a href="leftover-box-ping">check that the computer can reach the house router</a>. Past the router: <a href="leftover-box-internet">check that the computer can reach the internet</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH and the keyboard both fail. That is <a href="leftover-box-still-on">is the computer still on?</a> or <a href="first-ssh">SSH from the couch</a>.</li>
+<li>Skip a new switch for a computer stuck at 100. Try another cable first.</li>
+<li>Skip buying Cat6 because Cat5 was in the drawer. The extra-fast ports can wait.</li>
+<li>Skip forwarding port 22.</li>
+<li>Skip buying a NAS for this look.</li>
+<li>Skip Proxmox tonight. That is <a href="what-is-a-vm">what a VM is, and when you don't need one</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/iproute2/ip-link.8.en.html">Debian: ip-link</a>. <a href="https://www.kernel.org/doc/Documentation/ABI/testing/sysfs-class-net">Linux: sysfs class net (speed)</a>. Official pages only. For the cable, see <a href="leftover-box-ethernet">a cable beats Wi-Fi for the computer</a>. For the path to the router, see <a href="leftover-box-ping">check that the computer can reach the house router</a>. For ping past the router, see <a href="leftover-box-internet">check that the computer can reach the internet</a>. For the hardware address, see <a href="leftover-box-mac-addr">see the computer's hardware address</a>. For keeping the number, see <a href="leftover-box-dhcp-reservation">keep the computer on the same number</a>. For a later faster switch, see <a href="2-5g-switch">a faster switch for a first home lab</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="when-ethernet-has-no-link"><span class="t">When the cable is plugged in but there's no link</span><span class="d">Ethernet is seated, but SSH still hangs or the computer never gets a house address. Check both ends, LAN vs WAN, link lights, then ip link before you buy a NIC.</span></a>
+<a class="note-row" href="leftover-box-internet"><span class="t">Check that the computer can reach the internet</span><span class="d">Before you blame the computer or buy a mesh kit, ping a number past the house router.</span></a>
+<a class="note-row" href="leftover-box-ping"><span class="t">Check that the computer can reach the house router</span><span class="d">Before you blame the switch or buy a new cable, ping the router from the computer.</span></a>
+<a class="note-row" href="leftover-box-ethernet"><span class="t">Prefer a cable on the computer</span><span class="d">Once the computer is doing real work, plug it into the router with a cable. House Wi-Fi can wait. Skip this if it is already on a cable.</span></a>
+<a class="note-row" href="leftover-box-mac-addr"><span class="t">See the computer's hardware address</span><span class="d">Before you reserve the computer's number, write down the sticker-like address the router uses to recognize it.</span></a>
+<a class="note-row" href="leftover-box-dhcp-reservation"><span class="t">Keep the computer on the same number</span><span class="d">SSH and Pi-hole keep working after a reboot when the router always gives the computer the same address.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-internet"><span class="kicker">Previous</span><span class="t">Check that the computer can reach the internet</span></a>
+<a rel="next" href="leftover-box-mac-addr"><span class="kicker">Next</span><span class="t">See the computer's hardware address</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

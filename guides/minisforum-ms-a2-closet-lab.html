@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>More CPU in a compact 10G closet box, still not a rack server — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="More CPU in a compact 10G closet box when you outgrow the MS-01, without moving to a used 1U. The MS-A2 does that job with a fan and a higher price.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="More CPU in a compact 10G closet box, still not a rack server — Labthrift">
+<meta property="og:description" content="More CPU in a compact 10G closet box when you outgrow the MS-01, without moving to a used 1U. The MS-A2 does that job with a fan and a higher price.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/minisforum-ms-a2-closet-lab">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/minisforum-ms-a2-closet-lab">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BlogPosting",
+ "headline": "More CPU in a compact 10G closet box, still not a rack server: Minisforum MS-A2",
+ "description": "More CPU in a compact 10G closet box when you outgrow the MS-01, without moving to a used 1U. The MS-A2 does that job with a fan and a higher price.",
+ "url": "https://labthrift.com/guides/minisforum-ms-a2-closet-lab",
+ "image": "https://labthrift.com/assets/og-1200.png",
+ "datePublished": "2026-08-22"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+ {
+ "@type": "ListItem",
+ "position": 1,
+ "name": "Home",
+ "item": "https://labthrift.com/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 2,
+ "name": "Notes",
+ "item": "https://labthrift.com/guides/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 3,
+ "name": "Used vs new",
+ "item": "https://labthrift.com/guides/#used-vs-new"
+ },
+ {
+ "@type": "ListItem",
+ "position": 4,
+ "name": "More CPU in a compact 10G closet box, still not a rack server: Minisforum MS-A2",
+ "item": "https://labthrift.com/guides/minisforum-ms-a2-closet-lab"
+ }
+ ]
+}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#used-vs-new">Used or new</a> / <span aria-current="page">More CPU in a compact 10G closet box, still not a rack server: Minisforum MS-A2</span></nav>
+<p class="note">Written 22 Aug 2026. Specs from the maker pages linked below. Prices from those stores. I haven't used these.</p>
+
+<h1>More CPU in a compact 10G closet box, still not a rack server: Minisforum MS-A2</h1>
+<p class="deck">More CPU in a compact 10G closet box when you outgrow the <a href="minisforum-ms-01-vs-used-1u">MS-01</a>, without moving to a used 1U. The MS-A2 does that job with a fan and a higher price.</p>
+<p>AMD Ryzen 9 9955HX, 16C/32T. STH: Intel X710 on the two SFP+ ports; one 2.5G Intel i226-V and one Realtek RTL8125: three NIC drivers from two vendors. USB-C on the rear is USB 3.2 Gen2 10 Gbps, not USB4, not Thunderbolt. That last bit matters if you wanted MS-01-style Thunderbolt clustering. Chassis is just over 1.7 L. Top and bottom vents: don't stack them. Small workstation fans. Not silent. Still not a 1U.</p>
+<p>STH’s fetched review page did not publish a single idle watt. NAS Compares / storagediskprices commentary puts load well above the MS-01. Treat watts as <strong>unmeasured by us</strong>. I won't invent a closet idle.</p>
+
+<h2>What to buy</h2>
+<div class="table-wrap">
+<table>
+<tr><th>Box</th><th>What it is</th><th>Street, 22 Aug 2026</th><th>Buy if</th></tr>
+<tr class="pick"><td data-label="Box"><a href="https://store.minisforum.com/products/minisforum-ms-a2-workstation">MINISFORUM MS-A2</a></td><td data-label="What it is">Ryzen 9 9955HX, dual 10G SFP+ (X710), 2.5G i226-V + RTL8125, PCIe x16, ~1.7 L.</td><td data-label="Street, 22 Aug 2026">store.minisforum.com barebone $799 (was $999). minisforum.com US page showed $839.90 and sold-out configs when fetched. Amazon 32 GB / 1 TB ASIN B0G7H72Z1H snap $1,239. 96 GB / 2 TB B0FGJD9Y7N snap $2,079.90. VideoCardz launch: Amazon barebone $799, 32 GB / 1 TB $1,199.</td><td data-label="Buy if">You want the AMD 10G pizza box and you will live with a fan and three NIC drivers.</td></tr>
+<tr><td data-label="Box"><a href="minisforum-ms-01-vs-used-1u">MINISFORUM MS-01</a></td><td data-label="What it is">Intel 12th/13th-gen sibling. USB4. Sold out 22 Aug 2026.</td><td data-label="Street, 22 Aug 2026">Maker from $439.90 when it existed.</td><td data-label="Buy if">You wanted Thunderbolt / lower street and can wait.</td></tr>
+</table>
+</div>
+<h2>Skip</h2>
+<p>Skip a used 1U “because it also has 10G.” See <a href="1u-vs-pizza-box-closet">1U vs pizza box</a> and <a href="used-vs-new">used vs new</a>. Skip stacking two MS-A2s on top of each other. STH called the heat bleed. Skip treating the rear USB-C as USB4.</p>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.servethehome.com/minisforum-ms-a2-review-an-almost-perfect-amd-ryzen-intel-10gbe-homelab-system/">STH MS-A2 review</a> (“almost perfect”; X710 / i226-V / RTL8125; ~1.7 L; no idle watt on the fetched page). <a href="https://store.minisforum.com/products/minisforum-ms-a2-workstation">Minisforum store MS-A2</a>. <a href="https://www.amazon.com/MINISFORUM-Workstation-2xUSB-C-Display-Support/dp/B0G7H72Z1H">Amazon B0G7H72Z1H</a>. <a href="https://www.amazon.com/MINISFORUM-MS-A2-Workstation-2xUSB-C-Display/dp/B0FGJD9Y7N">Amazon B0FGJD9Y7N</a>. VideoCardz launch note. Street moves.</p>
+</section>
+
+
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="protectli-vp2420e-vs-used-firewall"><span class="t">Quiet fanless four-port house firewall instead of a loud used 1U: Protectli VP2420e</span><span class="d">Quiet fanless four-port Vault on a 12 V brick. Not a loud used 1U firewall.</span></a>
+<a class="note-row" href="mikrotik-crs305-vs-used-cisco-10g"><span class="t">Four quiet desk 10G links without a used Catalyst: MikroTik CRS305</span><span class="d">Four quiet desk 10G cages on a 24 V brick. Not a used Catalyst.</span></a>
+<a class="note-row" href="qnap-qsw-2104-2s-closet"><span class="t">Connect a 10G NAS and four faster PCs without a used Cisco chassis: QNAP QSW-2104-2S</span><span class="d">Quiet unmanaged box for a 10G NAS and faster PCs. Used-Cisco angle.</span></a>
+</section>
+
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="minisforum-ms-01-vs-used-1u"><span class="kicker">Previous</span><span class="t">Run a quiet 10G closet lab without a loud used 1U: Minisforum MS-01</span></a>
+<a rel="next" href="protectli-vp2420e-vs-used-firewall"><span class="kicker">Next</span><span class="t">Quiet fanless four-port house firewall instead of a loud used 1U: Protectli VP2420e</span></a>
+</nav>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+</p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

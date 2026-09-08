@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Keep Pi-hole updated — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Weekly apt does not refresh Pi-hole. Update the software and the block lists on the old PC so ads stay gone. You don't need a new Raspberry Pi.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Keep Pi-hole updated — Labthrift">
+<meta property="og:description" content="Weekly apt does not refresh Pi-hole. Update the software and the block lists on the old PC so ads stay gone. You don't need a new Raspberry Pi.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/update-pihole">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/update-pihole">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Keep Pi-hole updated","description":"Weekly apt does not refresh Pi-hole. Update the software and the block lists on the old PC so ads stay gone. You don't need a new Raspberry Pi.","url":"https://labthrift.com/guides/update-pihole","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-04"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">Keep Pi-hole updated</span></nav>
+<p class="note">Written 4 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>Keep Pi-hole updated</h1>
+<p class="deck">Weekly apt does not refresh Pi-hole. Update the software and the block lists on the old PC so ads stay gone. You don't need a new Raspberry Pi.</p>
+<p>Haven't installed the house ad block yet? Start with <a href="first-useful-service">the first useful thing</a>. This note assumes Pi-hole is already answering DNS for the house. The weekly OS fixes on <a href="leftover-box-updates">keep the computer updated</a> are still worth doing. They just don't replace these two Pi-hole jobs.</p>
+
+<h2>Skip until ads already drop</h2>
+<p>If phones still show banners and you never finished install or router DNS, fix that first. Brand menus: <a href="common-router-dns">point common home routers at Pi-hole</a>. If ads came back after a good week, start with <a href="when-ads-come-back">when ads come back</a> before you treat updates as the only fix.</p>
+
+<h2>What this is</h2>
+<p>Two separate jobs. One updates Pi-hole itself (core, web, FTL). The other refreshes gravity, the combined block list it uses to skip ad names. The usual curl installer from pi-hole.net does not put Pi-hole under apt the way nano is. So <code>sudo apt upgrade</code> can leave an old Pi-hole sitting there while the OS looks current.</p>
+
+<h2>See what you have</h2>
+<p>From the couch, <a href="first-ssh">SSH into the computer</a>. Then:</p>
+<p><code>pihole -v</code></p>
+<p>You should see lines for Pi-hole core, AdminLTE (or the web UI name your version prints), and FTL. If the command is missing, Pi-hole is not installed on this login path. Go back to <a href="first-useful-service">the first useful thing</a>.</p>
+
+<h2>Update Pi-hole</h2>
+<p>Still in that SSH window:</p>
+<p><code>pihole -up</code></p>
+<p>Let it finish. It may ask to continue. Say yes. A short DNS blip on the house is normal while FTL restarts. Keep the SSH session open. Don't yank power mid-update.</p>
+<p>When it ends, check versions again:</p>
+<p><code>pihole -v</code></p>
+<p>Then:</p>
+<p><code>pihole status</code></p>
+<p>You want FTL running and blocking enabled. Open <a href="http://pi.hole/admin">http://pi.hole/admin</a> (or the computer's address plus <code>/admin</code>) on a laptop and confirm the dashboard loads.</p>
+
+<h2>Refresh the block lists</h2>
+<p><code>pihole -up</code> often refreshes gravity for you. Once a week, or when ads creep back while status still looks healthy, run gravity on its own:</p>
+<p><code>pihole -g</code></p>
+<p>That re-downloads the lists you already enabled and rebuilds the big skip table. It can take a minute on a slow disk. When it finishes, load a few sites on a phone that uses house DNS. Ads should still be gone. If one bank or streamer broke, that is <a href="when-a-site-wont-load">when a site won't load after Pi-hole</a>, not a reason to skip updates forever.</p>
+<p>Prefer the SSH commands for a first habit. The admin page under Tools can update gravity too. Same job, different door.</p>
+
+<h2>How often</h2>
+<p>Once a week is enough for most houses. Pair it with the apt habit on <a href="leftover-box-updates">keep the computer updated</a>: OS first, then <code>pihole -up</code> when that is boring. Skip a daily ritual. Skip hunting extra block lists until the default set has been quiet for a while.</p>
+
+<h2>What this is not</h2>
+<p>This is not a reason to buy a Raspberry Pi, a second box, or a “Pi-hole appliance.” It is not opening the admin page to the internet. It is not Unbound, Docker, or a full reinstall. If the computer itself is off or soft-off, wake or power it first: <a href="leftover-box-still-on">is it still on?</a> or <a href="wake-on-lan">wake the computer from the house network</a>.</p>
+
+<h2>What next</h2>
+<p>After an update, <a href="see-what-pihole-blocked">see what Pi-hole blocked</a> so the log still moves. Confirm the three house jobs still work: <a href="leftover-box-after-reboot">after a reboot, check the computer still does its jobs</a> (even if you did not reboot). Keep the weekly OS habit: <a href="leftover-box-updates">keep the computer updated</a>. If only one phone still shows banners, see <a href="when-one-phone-shows-ads">when one phone still shows ads</a>. Change the printed admin password if you have not: <a href="leftover-box-pihole-password">change the printed Pi-hole admin password</a>. Before a scary reinstall or a big list change, <a href="backup-pihole">save a Pi-hole backup</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip treating apt upgrade as a Pi-hole update.</li>
+<li>Skip buying a new Pi “because updates feel scary.”</li>
+<li>Skip opening the admin UI past the house network.</li>
+<li>Skip stacking a dozen third-party lists on day one.</li>
+<li>Skip this until Pi-hole already blocks ads for the house.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://docs.pi-hole.net/main/basic-install/">Pi-hole basic install</a>. <a href="https://docs.pi-hole.net/main/update/">Pi-hole update</a>. <a href="https://docs.pi-hole.net/ftldns/">FTL DNS</a>. Official pages only. For the first install, see <a href="first-useful-service">the first useful thing</a>. For OS packages, see <a href="leftover-box-updates">keep the computer updated</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="backup-pihole"><span class="t">Save a Pi-hole backup before you change things</span><span class="d">Export settings with Teleporter so a reinstall or a bad list does not wipe your allow list and local DNS. You don't need a new Raspberry Pi.</span></a>
+<a class="note-row" href="restore-pihole-backup"><span class="t">Put a Pi-hole backup back with Teleporter</span><span class="d">After a reinstall or a bad list, import the Teleporter zip so allow lists, deny entries, and local DNS names return. Fresh Pi-hole first. You don't need a new Raspberry Pi.</span></a>
+<a class="note-row" href="add-local-dns-name"><span class="t">Add a local name in Pi-hole</span><span class="d">Give the old PC a short house name so phones and laptops can open SSH, the share, and the admin page without remembering the number. You don't need a new router.</span></a>
+
+<a class="note-row" href="first-useful-service"><span class="t">The first useful thing</span><span class="d">Put a house-wide ad block on the old PC. The rest of the house keeps using the internet as usual. You don't need a Raspberry Pi.</span></a>
+<a class="note-row" href="see-what-pihole-blocked"><span class="t">See what Pi-hole blocked</span><span class="d">Open the query log (or watch it over SSH) so you can tell ads are dying, which device asked, and which name to allow later. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-updates"><span class="t">Keep the computer updated</span><span class="d">Once a week, give the computer its fixes so SSH and Pi-hole are not sitting on last year's bugs. Skip this until next week if you just finished first weekend.</span></a>
+<a class="note-row" href="when-ads-come-back"><span class="t">When ads come back</span><span class="d">Ads are back, sites won't load, or a phone still shows banners. Check the computer, Pi-hole, router DNS, then the phone.</span></a>
+<a class="note-row" href="guest-wifi-dns"><span class="t">When guest Wi-Fi still shows ads</span><span class="d">Guest Wi-Fi is a separate network on purpose. Leave guests on ISP DNS, put a visitor on the main house Wi-Fi, or point guest DNS at Pi-hole only if they can reach the computer. You don't need a new router.</span></a>
+<a class="note-row" href="when-a-site-wont-load"><span class="t">When a site won't load after Pi-hole</span><span class="d">A bank, streamer, or login page breaks after Pi-hole. Pause blocking for five minutes, then allow the domain you need. You don't need a new router.</span></a>
+<a class="note-row" href="block-a-site"><span class="t">Block a site in Pi-hole on purpose</span><span class="d">One domain you don't want in the house. Add it to the deny list. You don't wipe every block list or buy a new router.</span></a>
+<a class="note-row" href="when-pihole-wont-open"><span class="t">When the Pi-hole admin page won't open</span><span class="d">http://pi.hole/admin or the computer's address plus /admin won't load. Check house Wi-Fi, the address, then Pi-hole and the web service. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-pihole-password"><span class="t">Change the printed Pi-hole admin password</span><span class="d">The installer prints a password. Swap it for one you chose before you leave the dashboard open on the house network.</span></a>
+<a class="note-row" href="common-router-dns"><span class="t">Point common home routers at Pi-hole</span><span class="d">Where to set DNS on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so the house asks Pi-hole. Prefer LAN DHCP DNS. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-after-reboot"><span class="t">After a reboot, check the computer still does its jobs</span><span class="d">The computer came back up. Confirm SSH, house ad block, and the file share still work before you buy anything.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="first-useful-service"><span class="kicker">Previous</span><span class="t">The first useful thing</span></a>
+<a rel="next" href="leftover-box-updates"><span class="kicker">Next</span><span class="t">Keep the computer updated</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

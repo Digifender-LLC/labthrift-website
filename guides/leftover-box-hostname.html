@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Give the computer a name that sticks — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Ping and SSH are easier if the computer has a short name. lab works. Set it so the name survives a reboot.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Give the computer a name that sticks — Labthrift">
+<meta property="og:description" content="Ping and SSH are easier if the computer has a short name. lab works. Set it so the name survives a reboot.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-hostname">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-hostname">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Give the computer a name that sticks","description":"Ping and SSH are easier if the computer has a short name. lab works. Set it so the name survives a reboot.","url":"https://labthrift.com/guides/leftover-box-hostname","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-25"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">Give the computer a name that sticks</span></nav>
+<p class="note">Written 25 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Give the computer a name that sticks</h1>
+<p class="deck">Ping and SSH are easier if the computer has a short name. lab works. Set it so the name survives a reboot.</p>
+<p>closet or office work too. Letters and numbers, no spaces. A hostname is the computer's name on the house network. <a href="leftover-box-still-on">Is the computer still on?</a> tells you to ping that name. <a href="first-weekend">Your first weekend</a> names it during install, then people forget. This note is hostnamectl, the command that writes the name so it comes back after a reboot.</p>
+
+<h2>Skip this if the name is already good</h2>
+<p>On the computer, ask for the name:</p>
+<p><code>hostname</code></p>
+<p>If it already prints lab, or a name you recognize and like, you are done. You don't need this note.</p>
+
+<h2>Set the name so it survives a reboot</h2>
+<p>On Debian or Ubuntu, as in <a href="what-os-to-pick">what OS to put on the computer</a>, set the name with hostnamectl. That writes the computer's name so it comes back after a reboot.</p>
+<p><code>sudo hostnamectl set-hostname lab</code></p>
+<p>Swap lab for closet or office if you picked one of those. Then log out and SSH back, or reboot. Reboot lives on <a href="leftover-box-shutdown">shut down the computer without yanking the plug</a>. If you were already rebooting after <a href="leftover-box-updates">keep the computer updated</a>, that reboot is enough.</p>
+
+<h2>Check from the couch</h2>
+<p>From another computer on the house network, knock three times. That is <a href="leftover-box-still-on">is the computer still on?</a>:</p>
+<p><code>ping -c 3 lab</code></p>
+<p>If ping still needs the number, the house router has not learned the name yet. Use the address from <a href="find-the-leftover-box">find the computer on the house network</a>. A new router will not help. Some phones find <span><code>lab.local</code></span>. Some don't. Don't buy a Pi-hole just for naming. If Pi-hole is already house DNS, a Local DNS record is the reliable house-wide name: <a href="add-local-dns-name">add a local name in Pi-hole</a>.</p>
+
+<h2>What next</h2>
+<p>If ping lab works on some devices and not others, give the house a Local DNS name that every Pi-hole client can resolve: <a href="add-local-dns-name">add a local name in Pi-hole</a>. If ping lab works, you are done naming. If ads came back this morning, or SSH hangs, that is <a href="leftover-box-still-on">is the computer still on?</a>. If the computer is still on Wi-Fi, plug a cable: <a href="leftover-box-ethernet">a cable beats Wi-Fi for the computer</a>. Don't buy a NAS.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip this note if <span><code>hostname</code></span> already prints lab or a name you like.</li>
+<li>Skip a new router.</li>
+<li>Skip buying a Pi-hole just to make lab resolve.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/systemd/hostnamectl.1.en.html">Debian: hostnamectl</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/hostnamectl.1.html">Ubuntu: hostnamectl</a>. <a href="https://manpages.debian.org/bookworm/hostname/hostname.1.en.html">Debian: hostname</a>. Official pages only. For the computer, see <a href="start-with-what-you-have">start with what you already have</a>. For the first name, see <a href="first-weekend">your first weekend</a>. For ping, see <a href="leftover-box-still-on">is the computer still on?</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="leftover-box-ssh-host-key"><span class="t">When SSH says the computer looks different</span><span class="d">After you reinstall, SSH can refuse because your laptop still remembers the old ID. Clear that memory. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-still-on"><span class="t">Is the computer still on?</span><span class="d">You left the computer on. This morning ads are back, or SSH hangs. Check if it is awake before you buy anything.</span></a>
+<a class="note-row" href="find-the-leftover-box"><span class="t">Find the computer on the house network</span><span class="d">The computer has a number on your house network. You need that number to SSH from the couch. You don't need a new router.</span></a>
+<a class="note-row" href="add-local-dns-name"><span class="t">Add a local name in Pi-hole</span><span class="d">Give the old PC a short house name so phones and laptops can open SSH, the share, and the admin page without remembering the number. You don't need a new router.</span></a>
+
+<a class="note-row" href="first-weekend"><span class="t">Your first weekend with the computer</span><span class="d">Install the OS, name it, and reach it from the couch.</span></a>
+<a class="note-row" href="leftover-box-os-release"><span class="t">See which OS the computer is already running</span><span class="d">Before you reinstall or buy a tiny computer, check which OS the computer already has.</span></a>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-uptime"><span class="kicker">Previous</span><span class="t">See how long the computer has been awake</span></a>
+<a rel="next" href="leftover-box-os-release"><span class="kicker">Next</span><span class="t">See which OS the computer is already running</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

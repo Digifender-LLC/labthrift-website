@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Restore one file from the USB backup — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="A backup you never copied back is a hope. Pull one file off the USB onto the computer so you know you can get it. You don't need a NAS for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Restore one file from the USB backup — Labthrift">
+<meta property="og:description" content="A backup you never copied back is a hope. Pull one file off the USB onto the computer so you know you can get it. You don't need a NAS for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-restore-one">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-restore-one">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Restore one file from the USB backup","description":"A backup you never copied back is a hope. Pull one file off the USB onto the computer so you know you can get it. You don't need a NAS for this.","url":"https://labthrift.com/guides/leftover-box-restore-one","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-28"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#first-nas">File storage</a> / <span aria-current="page">Restore one file from the USB backup</span></nav>
+<p class="note">Written 28 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Restore one file from the USB backup</h1>
+<p class="deck">A backup you never copied back is a hope. Pull one file off the USB onto the computer so you know you can get it. You don't need a NAS for this.</p>
+<p><a href="leftover-box-backup-check">Check that the backup actually copied</a> asks whether files landed. This note is the next job: copy one of those files back onto the computer. Opening a photo on the USB is a look. A restore is a file you can hold again after the computer forgets it. Same computer. Same SSH from the couch. No backup software.</p>
+
+<h2>Skip until one copy looked good</h2>
+<p>If you never copied the house folder, stop. That is <a href="first-backup">a backup of the house folder</a>. If you never looked on the USB, do that first: <a href="leftover-box-backup-check">check that the backup actually copied</a>. If the computer cannot see the USB disk, see it first: <a href="leftover-box-usb-disk">see if the USB backup disk showed up</a>. This note assumes that rsync already finished once and the look found real files.</p>
+
+<h2>What restore is</h2>
+<p>Restore means copy one file from the second copy back onto the computer. Do it into a safe folder, not on top of the live house share. The first test should not overwrite <span><code>/srv/share</code></span>. If that copy matches, you know the USB is a backup, not a folder you never opened. You are not buying a NAS. You are not restoring the whole share tonight.</p>
+
+<h2>Keep the USB mounted for this job</h2>
+<p>If you already unmounted after the look, plug the disk back in and mount the same way <a href="first-backup">a backup of the house folder</a> taught:</p>
+<p><code>sudo mkdir -p /mnt/backup &amp;&amp; sudo mount /dev/sdb1 /mnt/backup</code></p>
+<p>Swap <span><code>/dev/sdb1</code></span> for the partition first-backup used if yours differed. Leave it mounted until you finish. If your second copy was another computer over SSH, skip the USB mount and pull one file from that other box instead.</p>
+
+<h2>Pick one file you recognize</h2>
+<p>List what the backup holds:</p>
+<p><code>ls /mnt/backup/share</code></p>
+<p>Pick one photo or document you know by name. Swap <span><code>some-photo.jpg</code></span> below for that real name. If the share has folders, list one of those first, then pick a file inside it.</p>
+
+<h2>Copy it into a safe folder</h2>
+<p>Make a landing spot in your home, then copy that one file:</p>
+<p><code>mkdir -p ~/restore-test</code></p>
+<p><code>cp /mnt/backup/share/some-photo.jpg ~/restore-test/</code></p>
+<p>If the file lives in a folder on the USB, keep that path after <span><code>share/</code></span>. The copy lands in <span><code>~/restore-test</code></span>, not in the live house share. That is on purpose. A first restore should prove you can get the file, not risk the original.</p>
+<p>If the second copy is another computer, pull one file over SSH from this computer:</p>
+<p><code>scp otheruser@other-address:share/some-photo.jpg ~/restore-test/</code></p>
+<p>Swap <span><code>otheruser</code></span> and <span><code>other-address</code></span> for the login and address from first-backup. Same one-file idea.</p>
+
+<h2>Confirm it is the same file</h2>
+<p>See that it landed:</p>
+<p><code>ls -l ~/restore-test/</code></p>
+<p>You should see the name you picked, with a size that is not zero. Optional check that the two copies match, byte for byte:</p>
+<p><code>cmp /mnt/backup/share/some-photo.jpg ~/restore-test/some-photo.jpg &amp;&amp; echo same || echo different</code></p>
+<p>Quiet <span><code>same</code></span> is the win. Open the file if you want (copy it to the house share later, or plug the USB into your laptop). Don't trust a green prompt alone. One real file you recognize beats a folder listing.</p>
+
+<h2>Then unmount, then tidy</h2>
+<p>When the restore is done:</p>
+<p><code>sudo umount /mnt/backup</code></p>
+<p>Unmount before you yank the cable. Leave the disk unplugged most of the time, same advice as <a href="first-backup">a backup of the house folder</a>. After you saw the file, you can throw the test folder away:</p>
+<p><code>rm -r ~/restore-test</code></p>
+<p>Skip that delete if you still want the file on the computer. Don't delete the copy on the USB.</p>
+
+<h2>If the copy is empty or different</h2>
+<p>Re-run the rsync from <a href="first-backup">a backup of the house folder</a>, then look again: <a href="leftover-box-backup-check">check that the backup actually copied</a>. Check the USB is writable and not full:</p>
+<p><code>df -h /mnt/backup</code></p>
+<p>Disk room on the computer itself is <a href="leftover-box-disk-space">see if the computer still has room</a>. Don't buy a NAS for a failed first restore. Don't restore the whole share over <span><code>/srv/share</code></span> until one file works.</p>
+
+<h2>What next</h2>
+<p>After one file comes back, put the whole folder back when you need it: <a href="restore-house-folder">put the house folder back from the backup</a>. Then <a href="leftover-box-backup-timer">back up the house folder every week without remembering</a>. Wrong clock: <a href="leftover-box-timezone">set the computer clock to your house</a>. Skip RAID. Skip restic and Borg. Skip cloud until the USB copy exists and one file comes back.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if you never ran <a href="first-backup">a backup of the house folder</a>, or never did the look in <a href="leftover-box-backup-check">check that the backup actually copied</a>.</li>
+<li>Skip a NAS for this restore.</li>
+<li>Skip RAID.</li>
+<li>Skip restic and Borg tonight.</li>
+<li>Skip restoring the whole share over the live folder as the first test. When you need the full folder back, use <a href="restore-house-folder">put the house folder back from the backup</a>.</li>
+<li>Skip leaving the USB plugged in forever.</li>
+<li>Skip the 3-2-1 lecture tonight.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/coreutils/cp.1.en.html">Debian: cp</a>. <a href="https://manpages.debian.org/bookworm/coreutils/mkdir.1.en.html">Debian: mkdir</a>. <a href="https://manpages.debian.org/bookworm/coreutils/ls.1.en.html">Debian: ls</a>. <a href="https://manpages.debian.org/bookworm/coreutils/cmp.1.en.html">Debian: cmp</a>. <a href="https://manpages.debian.org/bookworm/openssh/scp.1.en.html">Debian: scp</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/cp.1.html">Ubuntu: cp</a>. Official pages only. For the copy this restores from, see <a href="first-backup">a backup of the house folder</a>. For the look before this job, see <a href="leftover-box-backup-check">check that the backup actually copied</a>. For disk room, see <a href="leftover-box-disk-space">see if the computer still has room</a>. For the weekly timer after one restored file, see <a href="leftover-box-backup-timer">back up the house folder every week without remembering</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-backup"><span class="t">A backup of the house folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another computer. You don't need a NAS for this.</span></a>
+<a class="note-row" href="restore-house-folder"><span class="t">Put the house folder back from the backup</span><span class="d">After a wipe, a reinstall, or an empty share, copy the house folder from the USB (or second old PC) back onto the computer. You don't need a NAS.</span></a>
+<a class="note-row" href="leftover-box-backup-check"><span class="t">See if last week's backup actually ran</span><span class="d">After the copy finishes, look on the USB disk and confirm the files are there before you trust it. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="leftover-box-usb-disk"><span class="t">See if the USB backup disk showed up</span><span class="d">Before you trust the weekly copy, confirm the computer can see the USB disk.</span></a>
+<a class="note-row" href="leftover-box-backup-timer"><span class="t">Back up the house folder every week without remembering</span><span class="d">After one manual USB (or second-box) copy works, let the computer run the same rsync on a weekly timer. A phone reminder is still fine if you prefer.</span></a>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-backup-check"><span class="kicker">Previous</span><span class="t">See if last week's backup actually ran</span></a>
+<a rel="next" href="restore-house-folder"><span class="kicker">Next</span><span class="t">Put the house folder back from the backup</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

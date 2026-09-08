@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Turn the old PC back on after a power blip — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Lights come back, but the OptiPlex stays off until you press the button. Flip Restore AC / Power On After Power Loss in Setup. Skip a UPS for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Turn the old PC back on after a power blip — Labthrift">
+<meta property="og:description" content="Lights come back, but the OptiPlex stays off until you press the button. Flip Restore AC / Power On After Power Loss in Setup. Skip a UPS for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/power-on-after-outage">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/power-on-after-outage">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Turn the old PC back on after a power blip","description":"Lights come back, but the OptiPlex stays off until you press the button. Flip Restore AC / Power On After Power Loss in Setup. Skip a UPS for this.","url":"https://labthrift.com/guides/power-on-after-outage","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-06"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">Turn the old PC back on after a power blip</span></nav>
+<p class="note">Written 6 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>Turn the old PC back on after a power blip</h1>
+<p class="deck">Lights come back, but the OptiPlex stays off until you press the button. Flip Restore AC / Power On After Power Loss in Setup. Skip a UPS for this.</p>
+<p>House already came back messy and you need the recovery checklist? That is <a href="after-power-outage">after the power comes back</a>. Soft-off on purpose and you want a magic packet from the couch? That is <a href="wake-on-lan">wake the computer from the house network</a>. This note is only the BIOS switch so a wall-power blink boots the old PC by itself. No button walk to the closet.</p>
+
+<h2>Skip until it stays on for house jobs</h2>
+<p>If the computer is still a weekend experiment you shut down every night, leave this alone. Flip the switch when Pi-hole or the share should survive a blink without you. Don't buy a UPS tonight just so the box powers itself. A UPS is later: <a href="leftover-box-no-ups">you don't need a UPS yet</a>.</p>
+
+<h2>What this is</h2>
+<p>Office PCs remember how they lost power. After a blink, many stay soft-off (standby LED, fans quiet) until someone presses the front button. Setup usually has a line named <strong>Restore AC Power Loss</strong>, <strong>AC Recovery</strong>, <strong>Power On After Power Loss</strong>, or <strong>After Power Loss</strong>. Set it to <strong>Power On</strong> (sometimes <strong>Last State</strong> if it was on when the blink hit). That is a board setting, not a Linux package. Wake-on-LAN is a different trick for soft-off you chose on purpose.</p>
+
+<h2>Step 1: plug a screen and keyboard</h2>
+<p>You need a monitor and a keyboard on the old PC for Setup. HDMI or DisplayPort into a spare TV is fine. Headless closet with no picture later? An <a href="hdmi-dummy-plug-headless">HDMI dummy plug</a> is optional gear, not required for this one Setup pass. Leave the wall cord plugged in. PSU rocker On if the case has one.</p>
+
+<h2>Step 2: open Setup</h2>
+<p>Power on with the front button. Tap the brand key early: Dell often <span><code>F2</code></span>; HP <span><code>Esc</code></span> then <span><code>F10</code></span>; Lenovo <span><code>F1</code></span> or <span><code>Enter</code></span> then F1. You want the blue or grey Setup menus, not the one-time boot list (that list is for USB installs: <a href="boot-from-usb">boot the old PC from the USB stick</a>).</p>
+
+<h2>Step 3: find Restore AC / After Power Loss</h2>
+<p>Look under Power Management, Power, ACPI, or a similar Power tab. Common labels:</p>
+<div class="table-wrap">
+<table>
+<tr><th>Label you might see</th><th>Set it to</th></tr>
+<tr><td data-label="Label you might see">Restore AC Power Loss / AC Recovery</td><td data-label="Set it to"><strong>Power On</strong></td></tr>
+<tr><td data-label="Label you might see">After Power Loss / Power On After Power Loss</td><td data-label="Set it to"><strong>Power On</strong></td></tr>
+<tr><td data-label="Label you might see">AC Power Recovery</td><td data-label="Set it to"><strong>Power On</strong> (not Stay Off / Power Off)</td></tr>
+<tr><td data-label="Label you might see">Restore on AC / State After Power Loss</td><td data-label="Set it to"><strong>Power On</strong>, or <strong>Last State</strong> if the PC was on before the blink</td></tr>
+</table>
+</div>
+<p>Skip Deep Sleep / ErP / Extreme Power Saving if those force the board fully off so it cannot come back without a button. Leave Wake on LAN alone unless you already use it — different job: <a href="wake-on-lan">wake the computer from the house network</a>.</p>
+
+<h2>Step 4: save and exit</h2>
+<p>Save changes (often F10, then Yes). The computer reboots into Ubuntu or Debian as usual. You should land at a login or a quiet server with no desktop. That is fine. SSH from the couch still works the same: <a href="first-ssh">SSH from the couch</a>.</p>
+
+<h2>Step 5: prove it once (safe test)</h2>
+<p>Don't yank the cord from a running disk if you can help it. Prefer a short outlet test: shut down cleanly first:</p>
+<p><code>sudo shutdown -h now</code></p>
+<p>Wait until fans stop. That polite stop is <a href="leftover-box-shutdown">shut down without yanking the plug</a>. Unplug the wall cord (or flip the strip Off) for ten seconds. Plug back in. With Power On set, the old PC should POST and boot without a front-button press. Give an old disk a full minute.</p>
+<p>Then from the laptop on house Wi-Fi:</p>
+<p><code>ping -c 3 192.168.1.50</code></p>
+<p>Swap in the real number. Find it again if needed: <a href="find-the-leftover-box">find it on the house network</a>. When ping answers, SSH in and confirm house jobs: <a href="leftover-box-after-reboot">after a reboot, check the computer still does its jobs</a>.</p>
+
+<h2>Step 6: if it still stays off</h2>
+<p>Open Setup again. Confirm the line still says Power On (some firmwares reset after a CMOS clear — and a dead coin cell clears Setup every unplug: <a href="replace-cmos-battery">replace the CMOS battery on the old PC</a>). Turn Deep Sleep / ErP Off. Try <strong>Last State</strong> if Power On is missing. Front button still required every blink? Write that down and leave the computer on all week — fine for a first house box. A UPS is optional later for cleaner shutdowns, not required to flip this switch: <a href="cheap-ups-closet">a cheap UPS for a closet that stays on overnight</a>.</p>
+
+<h2>What this is not</h2>
+<p>This is not the house-wide recovery walk after ads and SSH break (<a href="after-power-outage">after the power comes back</a>). It is not Wake-on-LAN from a phone. It is not a reason to buy a smart plug, a KVM, or a UPS tonight. It is not opening the computer to the internet so something else can press power for you.</p>
+
+<h2>What next</h2>
+<p>Setup keeps forgetting Power On after every cord pull? <a href="replace-cmos-battery">Replace the CMOS battery on the old PC</a>. Next blink got messy anyway? Walk <a href="after-power-outage">after the power comes back</a>. Want soft-off on purpose plus a packet from the couch? <a href="wake-on-lan">Wake the computer from the house network</a>. Keep the address stable so SSH and Pi-hole survive: <a href="common-router-reservation">keep the computer on the same address on common routers</a>. Still skipping a battery box? <a href="leftover-box-no-ups">You don't need a UPS yet</a>.</p>
+
+<p class="note">Optional: jot that Restore AC is On for this PC in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip a UPS tonight just to avoid one button press.</li>
+<li>Skip a smart plug as the first "come back on" tool.</li>
+<li>Skip Wake-on-LAN setup when you only care about wall-power blinks.</li>
+<li>Skip yanking the cord while the disk is busy — shut down cleanly for the test.</li>
+<li>Skip opening power control to the internet.</li>
+<li>Skip this if you shut the computer down every night on purpose. Soft-off is fine.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.dell.com/support/manuals">Dell support manuals</a> (search your OptiPlex model for AC Recovery / After Power Loss). <a href="https://support.hp.com">HP support</a> (Power On After Power Loss on EliteDesk / ProDesk). Maker Setup labels vary; use the Power tab on your board. Official pages only. For the blink recovery checklist, see <a href="after-power-outage">after the power comes back</a>. For soft-off wake from the LAN, see <a href="wake-on-lan">wake the computer from the house network</a>. For skipping a battery box, see <a href="leftover-box-no-ups">you don't need a UPS yet</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="replace-cmos-battery"><span class="t">Replace the CMOS battery on the old PC</span><span class="d">Every unplug resets the clock, or Restore AC won't stick. Swap the coin CMOS battery on the board. Skip a new PSU tonight.</span></a>
+<a class="note-row" href="after-power-outage"><span class="t">After the power comes back</span><span class="d">Lights blinked. Ads may be back, SSH may miss the old address, and the share may be gone. Check the computer, find its number, point DNS again if needed, then the share. You don't need a new UPS tonight.</span></a>
+<a class="note-row" href="leftover-box-no-ups"><span class="t">You don't need a UPS yet</span><span class="d">The computer can sit on a house outlet. A blink of the lights is a reboot. Skip a battery box this weekend.</span></a>
+<a class="note-row" href="wake-on-lan"><span class="t">Wake the computer from the house network</span><span class="d">Soft-off is fine overnight. Wake the old PC from a laptop or phone on the house network so SSH and Pi-hole come back. You don't need a smart plug for this.</span></a>
+<a class="note-row" href="when-wol-wont-wake"><span class="t">When Wake-on-LAN won't wake the computer</span><span class="d">You sent the magic packet. Fans stay quiet. Check power, cable, MAC, BIOS, and Wake-on: g before you buy a smart plug.</span></a>
+<a class="note-row" href="leftover-box-still-on"><span class="t">Is the computer still on?</span><span class="d">You left the computer on. This morning ads are back, or SSH hangs. Check if it is awake before you buy anything.</span></a>
+<a class="note-row" href="leftover-box-after-reboot"><span class="t">After a reboot, check the computer still does its jobs</span><span class="d">The computer came back up. Confirm SSH, house ad block, and the file share still work before you buy anything.</span></a>
+<a class="note-row" href="common-router-reservation"><span class="t">Keep the computer on the same address on common routers</span><span class="d">Where to reserve DHCP on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so SSH and Pi-hole keep the same number after a reboot. You don't need a new router.</span></a>
+<a class="note-row" href="cheap-ups-closet"><span class="t">A cheap UPS for a closet that stays on overnight</span><span class="d">Later. A small battery box so a blink does not hard-cut the old PC. Skip it for the first weekend.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="after-power-outage"><span class="kicker">Previous</span><span class="t">After the power comes back</span></a>
+<a rel="next" href="leftover-box-no-ups"><span class="kicker">Next</span><span class="t">You don't need a UPS yet</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

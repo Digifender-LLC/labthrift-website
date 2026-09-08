@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When the computer ran out of memory — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Pi-hole vanished, the share died, or dmesg says Out of memory. Confirm the OOM killer, free RAM, restart house jobs, stop the heavy process. Skip a new mini PC tonight.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When the computer ran out of memory — Labthrift">
+<meta property="og:description" content="Pi-hole vanished, the share died, or dmesg says Out of memory. Confirm the OOM killer, free RAM, restart house jobs, stop the heavy process. Skip a new mini PC tonight.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-memory-ran-out">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-memory-ran-out">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When the computer ran out of memory","description":"Pi-hole vanished, the share died, or dmesg says Out of memory. Confirm the OOM killer, free RAM, restart house jobs, stop the heavy process. Skip a new mini PC tonight.","url":"https://labthrift.com/guides/when-memory-ran-out","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-07"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When the computer ran out of memory</span></nav>
+<p class="note">Written 7 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When the computer ran out of memory</h1>
+<p class="deck">Pi-hole vanished, the share died, or dmesg says Out of memory. Confirm the OOM killer, free RAM, restart house jobs, stop the heavy process. Skip a new mini PC tonight.</p>
+<p>Box feels slow but nothing died? Start with <a href="when-the-computer-is-slow">when the old PC feels slow</a>. Only checking free RAM while things still work? That quieter look is <a href="leftover-box-free-memory">see if the computer still has free memory</a>. Disk packed with no free gigabytes? <a href="when-house-disk-full">when the computer's disk is full</a>. This note is the night a house job disappeared: ads are back, the share won't open, or SSH came back after a freeze, and the log shows the kernel killed a process to stay alive.</p>
+
+<h2>Skip until you can reach a shell</h2>
+<p>You need SSH or a keyboard and screen. Connect fails? <a href="when-ssh-wont-connect">when SSH won't connect</a>. No fans, black screen? <a href="when-computer-wont-boot">when the old PC won't boot</a>. Soft-off after you thought it was on? <a href="leftover-box-still-on">is the computer still on?</a>. Don't yank the power to "clear memory" while the house folder has no second copy.</p>
+
+<h2>What this is</h2>
+<p>Linux keeps short-term work in memory (RAM). When every megabyte is spoken for, the kernel's OOM killer picks a process and stops it so the rest of the system can breathe. Pi-hole, Samba, a local chat model, or even SSH can be that victim. The box may look "fine" a minute later with free RAM again, because the heavy job is gone. The fix is not a new N100 before you read the log. Prove the kill, see what is still heavy, bring house jobs back, then stop the hog from coming back.</p>
+
+<h2>Step 1: prove the OOM killer ran</h2>
+<p>Recent kernel lines:</p>
+<p><code>dmesg -T | tail -n 80</code></p>
+<p>Or, if that buffer wrapped:</p>
+<p><code>sudo journalctl -k -b --no-pager | grep -i -E 'Out of memory|oom-kill|Killed process' | tail -n 20</code></p>
+<p>Lines with <span><code>Out of memory</code></span>, <span><code>oom-kill</code></span>, or <span><code>Killed process</code></span> mean you are on this page. Note the process name in the line (<span><code>ollama</code></span>, <span><code>smbd</code></span>, <span><code>pihole-FTL</code></span>, a browser). No OOM lines, but the box still feels heavy? Go back to <a href="when-the-computer-is-slow">when the old PC feels slow</a>. Ads back with Pi-hole still running and memory fine? That is usually DNS: <a href="when-ads-come-back">when ads come back</a>.</p>
+
+<h2>Step 2: see free memory right now</h2>
+<p><code>free -h</code></p>
+<p>Look at <strong>available</strong> under Mem. Right after a kill, available can look healthy again. That does not mean the problem is gone. It means the victim freed its RAM. Total installed size is a separate look: <a href="leftover-box-ram">see how much memory the computer already has</a>. Quiet free-room check while nothing failed: <a href="leftover-box-free-memory">see if the computer still has free memory</a>. Overflow on disk (swap): <a href="leftover-box-swap">see if the computer already has extra memory on disk</a>.</p>
+
+<h2>Step 3: see what is still heavy</h2>
+<p>Snapshot by memory use:</p>
+<p><code>ps aux --sort=-%mem | head -n 12</code></p>
+<p>Or:</p>
+<p><code>top</code></p>
+<p>Press <span><code>M</code></span> to sort by memory, then <span><code>q</code></span> to quit. One line eating several GB on an 8 GB OptiPlex is the story: a local chat model, a stuck copy, a desktop browser left open on a machine that also runs the house share. Short drill for reading that list: <a href="leftover-box-whats-busy">see what is keeping the computer busy</a>.</p>
+<p>A local chat model on this same PC is a common hog: <a href="local-chat-on-the-pc">run a local chat on the old PC</a>. Stop it when you are not chatting, or keep chat on a second box. Pi-hole alone is light. A big model plus Samba plus a photo dump on 8 GB is not.</p>
+
+<h2>Step 4: bring house jobs back</h2>
+<p>If ads are back, check Pi-hole:</p>
+<p><code>pihole status</code></p>
+<p>Or:</p>
+<p><code>sudo systemctl status pihole-FTL --no-pager</code></p>
+<p>Restart if it is dead:</p>
+<p><code>sudo systemctl restart pihole-FTL</code></p>
+<p>If the house share vanished:</p>
+<p><code>sudo systemctl status smbd --no-pager</code></p>
+<p><code>sudo systemctl restart smbd nmbd</code></p>
+<p>Then retry open from a phone or laptop: <a href="open-share-from-phone">open the house share from a phone</a>, <a href="open-share-from-laptop">open the house share from a laptop</a>. Admin page still won't load after a clean restart? <a href="when-pihole-wont-open">when the Pi-hole admin page won't open</a>. Share still won't open for other reasons: <a href="when-share-wont-open">when the house share won't open</a>.</p>
+
+<h2>Step 5: stop the hog so it does not kill again</h2>
+<p>If <span><code>ps</code></span> still shows the heavy job, stop it cleanly when you can (quit the chat UI, cancel the copy). If it will not die:</p>
+<p><code>sudo kill PID</code></p>
+<p>Swap in the real PID from <span><code>ps</code></span>. Wait a few seconds, then <span><code>free -h</code></span> again. Still stuck? <span><code>sudo kill -9 PID</code></span> is the hard stop. Prefer the plain kill first.</p>
+<p>Don't start the same model again on this box tonight if you also need Pi-hole and the share. Don't add a second heavy job "to test." Don't buy RAM for a soldered N100 before you stop the process that ate the 8 GB you already have.</p>
+
+<h2>Step 6: if it keeps coming back</h2>
+<p>OOM again within a day means the workload does not fit. Options in order:</p>
+<ul>
+<li>Run one heavy job at a time. Stop local chat when you finish.</li>
+<li>Confirm swap exists so a spike has a cushion: <a href="leftover-box-swap">see if the computer already has extra memory on disk</a>. Swap is slow overflow, not a reason to leave a 12 GB model on 8 GB forever.</li>
+<li>Move chat or builds to another old PC. Keep this one for DNS and files.</li>
+<li>Only then shop more RAM, and only if the board takes it. Ceiling traps: <a href="n100-n150-ram-ceiling-soldered-traps">N100/N150 RAM ceilings and soldered traps</a>.</li>
+</ul>
+<p>Disk full can make the whole box feel dead too, without an OOM line: <a href="when-house-disk-full">when the computer's disk is full</a>. Fan screaming after a memory storm: <a href="when-fan-is-loud">when the old PC's fan is loud</a>.</p>
+
+<h2>What this is not</h2>
+<p>This is not a quiet free-memory check while nothing failed (<a href="leftover-box-free-memory">see if the computer still has free memory</a>). It is not the general slow walk when nothing was killed (<a href="when-the-computer-is-slow">when the old PC feels slow</a>). It is not a full disk. It is not a reason to open port 22 on the router. It is not blaming Pi-hole for CPU when a chat model filled RAM and the killer picked FTL.</p>
+
+<h2>What next</h2>
+<p>Re-check free RAM after the restart: <a href="leftover-box-free-memory">see if the computer still has free memory</a>. Whole box still heavy with no OOM line: <a href="when-the-computer-is-slow">when the old PC feels slow</a>. Ads still back after FTL is up: <a href="when-ads-come-back">when ads come back</a>. Pending reboot after weekly updates: <a href="leftover-box-reboot-needed">see if a reboot is needed</a>. Second copy of the house folder before the next experiment: <a href="first-backup">a backup of the house folder</a>. Soft restart without a full reboot: <a href="restart-house-services">restart Pi-hole or the house share</a>.</p>
+
+<p class="note">Optional: jot the killed process name and available MB after restart in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip a new mini PC before you read one <span><code>dmesg</code></span> or <span><code>journalctl</code></span> OOM line.</li>
+<li>Skip blaming Pi-hole for ads until you confirm FTL is running after the kill.</li>
+<li>Skip yanking power to "clear memory" with no second copy of the house folder.</li>
+<li>Skip starting the same local chat model again on an 8 GB box that also runs the share.</li>
+<li>Skip opening the computer to the public internet for a cloud memory graph.</li>
+<li>Skip soldered-RAM shopping until you stop the process that ate the RAM you already have.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/util-linux/dmesg.1.en.html">Debian: dmesg</a>. <a href="https://manpages.debian.org/bookworm/systemd/journalctl.1.en.html">Debian: journalctl</a>. <a href="https://manpages.debian.org/bookworm/procps/free.1.en.html">Debian: free</a>. <a href="https://manpages.debian.org/bookworm/procps/ps.1.en.html">Debian: ps</a>. <a href="https://www.kernel.org/doc/html/latest/admin-guide/mm/oom.html">Linux kernel: Out of Memory management</a>. Official pages only. For the quiet free-memory check, see <a href="leftover-box-free-memory">see if the computer still has free memory</a>. For the general slow walk, see <a href="when-the-computer-is-slow">when the old PC feels slow</a>. For local chat on this box, see <a href="local-chat-on-the-pc">run a local chat on the old PC</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="when-the-computer-is-slow"><span class="t">When the old PC feels slow</span><span class="d">SSH lags, apt crawls, or the house share feels sticky. Check load, memory, disk room, then one busy job. Skip a new mini PC tonight.</span></a>
+<a class="note-row" href="restart-house-services"><span class="t">Restart Pi-hole or the house share</span><span class="d">Ads vanished or Finder lost the folder, but the computer is still on. Restart the one service that died. You don't need a full reboot or a new mini PC.</span></a>
+<a class="note-row" href="leftover-box-free-memory"><span class="t">See if the computer still has free memory</span><span class="d">The computer feels slow. Check free memory before you buy a new mini PC.</span></a>
+<a class="note-row" href="leftover-box-whats-busy"><span class="t">See what is keeping the computer busy</span><span class="d">The computer feels slow. Check which program is using the CPU before you buy a new mini PC.</span></a>
+<a class="note-row" href="leftover-box-ram"><span class="t">See how much memory the computer already has</span><span class="d">Before you buy a tiny computer, check how much memory the computer already has.</span></a>
+<a class="note-row" href="leftover-box-swap"><span class="t">See if the computer already has extra memory on disk</span><span class="d">Before you buy more RAM, check whether the computer already has overflow memory on disk.</span></a>
+<a class="note-row" href="local-chat-on-the-pc"><span class="t">Run a local chat on the old PC</span><span class="d">Install Ollama, pull a small model, chat over SSH. Stays on the house network. CPU is fine for a first try. Don't buy a GPU this weekend.</span></a>
+<a class="note-row" href="when-ads-come-back"><span class="t">When ads come back</span><span class="d">Ads are back, sites won't load, or a phone still shows banners. Check the computer, Pi-hole, router DNS, then the phone.</span></a>
+<a class="note-row" href="when-house-disk-full"><span class="t">When the computer's disk is full</span><span class="d">Photos won't copy, the share says no space, or df shows the system disk packed. Confirm it is the computer (not the backup stick), free room or move the house folder. You don't need a NAS.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="when-the-computer-is-slow"><span class="kicker">Previous</span><span class="t">When the old PC feels slow</span></a>
+<a rel="next" href="leftover-box-free-memory"><span class="kicker">Next</span><span class="t">See if the computer still has free memory</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

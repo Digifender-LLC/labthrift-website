@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Back up the folder every week without remembering - Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After one manual USB (or second-box) copy works, let the computer run the same rsync on a weekly timer. A phone reminder is still fine if you prefer.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Back up the folder every week without remembering - Labthrift">
+<meta property="og:description" content="After one manual USB (or second-box) copy works, let the computer run the same rsync on a weekly timer. A phone reminder is still fine if you prefer.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-backup-timer">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-backup-timer">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Back up the folder every week without remembering","description":"After one manual USB (or second-box) copy works, let the computer run the same rsync on a weekly timer. A phone reminder is still fine if you prefer.","url":"https://labthrift.com/guides/leftover-box-backup-timer","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-25"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#first-nas">File storage</a> / <span aria-current="page">Back up the folder every week without remembering</span></nav>
+<p class="note">Written 25 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Back up the folder every week without remembering</h1>
+<p class="deck">After one manual USB (or second-box) copy works, let the computer run the same rsync on a weekly timer. A phone reminder is still fine if you prefer.</p>
+<p>A reminder on your phone is enough if you like it. This note is the later step: the computer runs the same backup command every week without you remembering.</p>
+
+<h2>Skip until one manual backup worked</h2>
+<p>If the USB copy or the second-box copy from <a href="first-backup">a backup of the folder</a> has not worked once, stop. Fix that first. After one checked copy (<a href="leftover-box-backup-check">check that the backup actually copied</a>) and one restored file (<a href="leftover-box-restore-one">restore one file from the USB backup</a>), a timer makes sense. A timer will not help a copy that does not work yet. The share that copy is for is <a href="first-file-share">a file share on the computer</a>.</p>
+
+<h2>What a timer is</h2>
+<p>A timer is a schedule on the computer. systemd is how Debian and Ubuntu already keep Samba running. A systemd timer wakes up a small backup job once a week. You are not sitting there to type rsync. If you already like cron, a weekly crontab line can run the same script. A timer is the way.</p>
+
+<h2>Put the rsync in a small script</h2>
+<p>The computer should run one small script, not a raw rsync pasted into a timer. Put it in <span><code>~/bin/backup-share.sh</code></span>. Use the same rsync that already worked in <a href="first-backup">a backup of the folder</a>.</p>
+<p>Many first-timers plug a USB disk in, copy, and unplug. That is still the honest backup. A timer only copies when that disk is mounted. If you yank it most of the week, keep the phone reminder. If the USB stays plugged in, the script checks the mount, copies if it is there, and quietly exits if it is not, so a missing disk is not an error.</p>
+<p>A second old PC on the house network is the other path. No USB to forget. Same rsync as first-backup's second option.</p>
+<p>Make a folder for small scripts:</p>
+<p><code>mkdir -p ~/bin ~/.config/systemd/user</code></p>
+<p>Write the USB script. Trailing slashes still matter, same as the manual copy:</p>
+<p><code>tee ~/bin/backup-share.sh &lt;&lt;'EOF'
+#!/bin/sh
+if ! mountpoint -q /mnt/backup; then
+ exit 0
+fi
+rsync -a /srv/share/ /mnt/backup/share/
+EOF</code></p>
+<p>Make it runnable:</p>
+<p><code>chmod +x ~/bin/backup-share.sh</code></p>
+<p>If you copy to another old PC instead, drop the mount check and use that rsync from first-backup. The computer has to log into the other box without typing a password. That is <a href="leftover-box-ssh-keys">log in with a key, not the password every time</a>, done from this computer to the other one, not from your laptop.</p>
+<p>Leave the USB plugged in if this is the USB script. The user has to be able to write into that backup folder, the same as the copy you already ran.</p>
+
+<p>Before you enable the timer, the computer clock should match the house. That is <a href="leftover-box-timezone">set the computer clock to your house</a>.</p>
+<h2>A service and a weekly timer</h2>
+<p>These two small files live in your home. The service is the job. The timer is the weekly wake-up. Debian and Ubuntu computers after the first weekend already know <span><code>systemctl</code></span> from Samba.</p>
+<p>The computer is usually sitting there with nobody SSH'd in. Your personal timers only run while you are logged in, unless you tell it to keep yours running after you log out. That is lingering. One command, then the weekly copy still happens from the couch.</p>
+<p>The job:</p>
+<p><code>tee ~/.config/systemd/user/backup-share.service &lt;&lt;'EOF'
+[Unit]
+Description=Backup share
+
+[Service]
+Type=oneshot
+ExecStart=%h/bin/backup-share.sh
+EOF</code></p>
+<p>The weekly wake-up. Sunday at 3 in the morning. If the computer was off then, it still runs the copy when it comes back:</p>
+<p><code>tee ~/.config/systemd/user/backup-share.timer &lt;&lt;'EOF'
+[Unit]
+Description=Weekly share backup
+
+[Timer]
+OnCalendar=Sun 03:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+EOF</code></p>
+<p>Keep yours running after you log out. Swap <span><code>youruser</code></span> for the login:</p>
+<p><code>sudo loginctl enable-linger youruser</code></p>
+<p>Turn the timer on:</p>
+<p><code>systemctl --user daemon-reload</code></p>
+<p><code>systemctl --user enable --now backup-share.timer</code></p>
+
+<h2>Check</h2>
+<p>See the timer:</p>
+<p><code>systemctl --user list-timers</code></p>
+<p>You should see <span><code>backup-share.timer</code></span>. Run the job once without waiting for Sunday:</p>
+<p><code>systemctl --user start backup-share.service</code></p>
+<p>Then look at the backup folder. Same files as the manual copy. If the USB was unplugged, the script did nothing, and that is correct. Plug it in, mount it the way <a href="first-backup">a backup of the folder</a> taught you, and start the service again.</p>
+
+<h2>What next</h2>
+<p>A dedicated file box is still later: <a href="first-nas">a first file box (NAS)</a>. Don't buy one for this. If overnight writes worry you, <a href="leftover-box-no-ups">you don't need a UPS yet</a>. A blink is a reboot. You can run the copy again.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip this note if the manual copy has not worked once, or if a phone reminder is enough.</li>
+<li>Skip restic and Borg on day one.</li>
+<li>Skip a cloud plan.</li>
+<li>Skip buying a NAS.</li>
+<li>Skip RAID.</li>
+<li>Skip leaving the USB plugged in forever without a mount check.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/systemd/systemd.timer.5.en.html">Debian: systemd.timer</a>. <a href="https://manpages.debian.org/bookworm/systemd/systemd.service.5.en.html">Debian: systemd.service</a>. <a href="https://manpages.debian.org/bookworm/systemd/loginctl.1.en.html">Debian: loginctl</a>. Official pages only. For the copy this repeats, see <a href="first-backup">a backup of the folder</a>. For the share, see <a href="first-file-share">a file share on the computer</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-backup"><span class="t">A backup of the folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another old PC. You don't need a NAS for this.</span></a>
+<a class="note-row" href="auto-mount-backup-usb"><span class="t">Mount the backup USB automatically</span><span class="d">Leave the backup stick plugged in and mount it at boot by UUID, so weekly rsync finds /mnt/backup without a hand mount. You don't need a NAS.</span></a>
+<a class="note-row" href="leftover-box-restore-one"><span class="t">Restore one file from the USB backup</span><span class="d">A backup you never copied back is a hope. Pull one file off the USB onto the computer so you know you can get it. You don't need a NAS for this.</span></a>
+<a class="note-row" href="first-file-share"><span class="t">A file share on the computer</span><span class="d">A folder on the computer that the house can open from a laptop or a phone. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-no-ups"><span class="t">You don't need a UPS yet</span><span class="d">The computer can sit on a house outlet. A blink of the lights is a reboot. Skip a battery box this weekend.</span></a>
+<a class="note-row" href="first-nas"><span class="t">A first file box (NAS) for one person</span><span class="d">A quiet box for photos and backups. Two drives if you want sleep.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-timers"><span class="kicker">Previous</span><span class="t">See what the computer already runs on a schedule</span></a>
+<a rel="next" href="first-nas"><span class="kicker">Next</span><span class="t">A first file box (NAS) for one person</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

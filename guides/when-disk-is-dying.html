@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When the old disk is dying — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="SMART says FAILED, the disk clicks, or dmesg shows I/O errors. Copy the house folder off first, then plan a drive swap. You don't need a NAS tonight.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When the old disk is dying — Labthrift">
+<meta property="og:description" content="SMART says FAILED, the disk clicks, or dmesg shows I/O errors. Copy the house folder off first, then plan a drive swap. You don't need a NAS tonight.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-disk-is-dying">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-disk-is-dying">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When the old disk is dying","description":"SMART says FAILED, the disk clicks, or dmesg shows I/O errors. Copy the house folder off first, then plan a drive swap. You don't need a NAS tonight.","url":"https://labthrift.com/guides/when-disk-is-dying","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-07"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When the old disk is dying</span></nav>
+<p class="note">Written 7 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When the old disk is dying</h1>
+<p class="deck">SMART says FAILED, the disk clicks, or dmesg shows I/O errors. Copy the house folder off first, then plan a drive swap. You don't need a NAS tonight.</p>
+<p>Only checking health while things still feel fine? That quieter look is <a href="see-disk-health">see if the old disk is dying</a>. Disk full but SMART still PASSED? That is <a href="when-house-disk-full">when the computer's disk is full</a>. Filesystem remounted read-only after a blip or I/O errors, but you still need the remount/fsck walk? That is <a href="when-disk-is-read-only">when the disk went read-only</a>. This note is the urgent night: the drive already looks bad, and you need the photos off it before you shop.</p>
+
+<h2>Skip until you can reach the computer</h2>
+<p>You need a shell somehow: <a href="first-ssh">SSH from the couch</a>, or a keyboard and screen. Connect fails? <a href="when-ssh-wont-connect">when SSH won't connect</a>. No fans, black screen, stuck on the logo? That may already be a dead disk or PSU: <a href="when-computer-wont-boot">when the old PC won't boot</a>. Don't open the case to swap a drive before you have any second copy of the house folder.</p>
+
+<h2>What this is</h2>
+<p>A Marketplace OptiPlex or old laptop can run Pi-hole and a share for months, then the platter starts reallocating sectors, the SSD's spare blocks run out, or the kernel logs read errors. SMART overall-health says FAILED. Or you hear clicking. Or copies stall and <span><code>dmesg</code></span> prints I/O error. The job tonight is not a new NAS. The job is: prove it is the disk, copy what you care about to a stick or another old PC, then replace the drive on a calm day.</p>
+
+<h2>Step 1: confirm the tell</h2>
+<p>If smartmontools is not installed yet:</p>
+<p><code>sudo apt update</code></p>
+<p><code>sudo apt install -y smartmontools</code></p>
+<p>Name the main disk:</p>
+<p><code>lsblk -d -o NAME,SIZE,MODEL,TRAN,TYPE</code></p>
+<p>Ask overall health (swap <span><code>sda</code></span> or use <span><code>nvme0n1</code></span>):</p>
+<p><code>sudo smartctl -H /dev/sda</code></p>
+<p><span><code>FAILED</code></span> is enough to treat the disk as untrusted. The quieter attribute walk lives on <a href="see-disk-health">see if the old disk is dying</a>. Also check recent kernel noise:</p>
+<p><code>dmesg -T | tail -n 80</code></p>
+<p>Lines with <span><code>I/O error</code></span>, <span><code>Buffer I/O error</code></span>, <span><code>medium error</code></span>, or a filesystem remounted read-only are the same story: stop writing more photos to this disk as the only copy.</p>
+<p>Clicking from a spinning drive, or every file open crawling while load and free memory look fine, also lands you here even if SMART is shy on a USB bridge.</p>
+
+<h2>Step 2: stop trusting this disk as the only copy</h2>
+<p>Do not wipe the computer to "test" the drive. Do not run a long SMART self-test as your first move if the house folder has no second copy yet. Do not delete the only backup stick to free room on the dying disk.</p>
+<p>If the share still opens, pause big phone dumps for tonight. Small reads are safer than filling the disk with new writes.</p>
+
+<h2>Step 3: copy the house folder off now</h2>
+<p>Prefer a USB stick you already have, or another old computer on the house network. The full walks:</p>
+<ul>
+<li><a href="first-backup">a backup of the house folder</a> (USB or second PC)</li>
+<li><a href="backup-to-another-pc">copy the house folder to another old computer</a></li>
+<li><a href="format-usb-for-backup">format a USB stick for the house backup</a> if the stick is blank or the wrong filesystem</li>
+</ul>
+<p>If the live folder is under <span><code>/srv/share</code></span> and a stick is mounted at <span><code>/mnt/backup</code></span>, a plain copy looks like:</p>
+<p><code>sudo rsync -aH --info=progress2 /srv/share/ /mnt/backup/house/</code></p>
+<p>If rsync dies mid-run with I/O errors, try again. Copy what you can. Note which folders failed. A partial second copy beats none.</p>
+<p>Backup stick already packed? Free room or use another target: <a href="when-backup-usb-full">when the backup USB is full</a>. Backup won't run for other reasons: <a href="when-backup-wont-run">when the house backup won't run</a>.</p>
+
+<h2>Step 4: confirm the second copy</h2>
+<p>On the stick or the other PC, spot-check a few folders you care about (photos from last month, documents). Size check on the target:</p>
+<p><code>du -sh /mnt/backup/house</code></p>
+<p>Compare roughly to the source:</p>
+<p><code>du -sh /srv/share</code></p>
+<p>They will not match byte-for-byte if some files failed mid-read. Write down what is missing. Do not reformat the dying disk until you are sure the second copy is good enough.</p>
+
+<h2>Step 5: keep the house useful while you wait for a drive</h2>
+<p>Pi-hole can stay on this computer if the system still boots and DNS still answers. The risk is the house folder, not ads. If the system disk is the dying one and the OS is already flaky, expect a reinstall onto a replacement drive later: <a href="wipe-marketplace-pc">wipe a Marketplace PC before you install</a> and <a href="make-boot-usb">make a boot USB for the install</a>.</p>
+<p>If only the share disk is bad and the OS disk is fine, you can move the live share onto a stay-in USB after you have a second copy: <a href="house-folder-on-usb">put the house folder on a USB disk</a>. That is a bridge, not a reason to skip a real second copy.</p>
+
+<h2>Step 6: replace the drive on a calm day</h2>
+<p>Buy a replacement that fits the bay (2.5-inch laptop, 3.5-inch desktop, or NVMe if the board has a slot). Install the OS fresh. Restore the house folder from the backup: <a href="restore-house-folder">put the house folder back from the backup</a>. Point router DNS and the reservation at the computer again if the address changed: <a href="find-the-leftover-box">find it on the house network</a>, <a href="common-router-dns">point common home routers at Pi-hole</a>.</p>
+<p>Don't buy a multi-bay NAS tonight because one Marketplace disk failed. A second copy on a stick or another old PC is the fix for tonight.</p>
+
+<h2>What this is not</h2>
+<p>This is not the quiet SMART check while everything still works (<a href="see-disk-health">see if the old disk is dying</a>). It is not a full disk (<a href="when-house-disk-full">when the computer's disk is full</a>). It is not RAID. It is not a cloud plan until a plain second copy exists. It is not wiping the only good backup to "test" the live disk.</p>
+
+<h2>What next</h2>
+<p>Second copy done? Keep a weekly habit: <a href="first-backup">a backup of the house folder</a>. Quiet health checks later: <a href="see-disk-health">see if the old disk is dying</a>. After a wipe and reinstall, put the folder back: <a href="restore-house-folder">put the house folder back from the backup</a>. Kernel remounted the disk read-only and you need that walk: <a href="when-disk-is-read-only">when the disk went read-only</a>. Box feels slow with low load before SMART fails: <a href="when-the-computer-is-slow">when the old PC feels slow</a>. A dedicated file box is later: <a href="first-nas">a first file box (NAS)</a>.</p>
+
+<p class="note">Optional: jot SMART FAILED, the model, and where the second copy landed in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip buying a NAS tonight because one Marketplace disk failed.</li>
+<li>Skip wiping the only good backup to test the live disk.</li>
+<li>Skip a long SMART self-test before any second copy exists.</li>
+<li>Skip dumping more phone photos onto a FAILED disk as the only copy.</li>
+<li>Skip RAID as a substitute for a second copy.</li>
+<li>Skip opening the case for a drive swap before the house folder has somewhere else to live.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.smartmontools.org/">smartmontools</a>. <a href="https://manpages.debian.org/bookworm/smartmontools/smartctl.8.en.html">Debian: smartctl</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man8/smartctl.8.html">Ubuntu: smartctl</a>. <a href="https://manpages.debian.org/bookworm/rsync/rsync.1.en.html">Debian: rsync</a>. Official pages only. For the quiet health check, see <a href="see-disk-health">see if the old disk is dying</a>. For a second copy, see <a href="first-backup">a backup of the house folder</a>. For restore after a new install, see <a href="restore-house-folder">put the house folder back from the backup</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="see-disk-health"><span class="t">See if the old disk is dying</span><span class="d">SMART reports whether the drive still looks healthy. Install smartmontools, list the disk, run a quick health check before you trust photos on a Marketplace PC. You don't need a NAS.</span></a>
+<a class="note-row" href="when-disk-is-read-only"><span class="t">When the disk went read-only</span><span class="d">apt fails, the share won't take photos, or mount shows ro after a power blip. Confirm read-only, copy off what you can, then remount or fsck. You don't need a NAS tonight.</span></a>
+<a class="note-row" href="first-backup"><span class="t">A backup of the house folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another old computer. You don't need a NAS for this.</span></a>
+<a class="note-row" href="backup-to-another-pc"><span class="t">Copy the house folder to another old computer</span><span class="d">A second copy of the house folder, over the house network to another old PC. Not only a USB stick. You don't need a NAS for this.</span></a>
+<a class="note-row" href="when-backup-wont-run"><span class="t">When the house backup won't run</span><span class="d">rsync failed, the USB is missing, or the second copy never landed. Check the stick, the mount, the source path, then match the error. You don't need a NAS.</span></a>
+<a class="note-row" href="when-house-disk-full"><span class="t">When the computer's disk is full</span><span class="d">Photos won't copy, the share says no space, or df shows the system disk packed. Confirm it is the computer (not the backup stick), free room or move the house folder. You don't need a NAS.</span></a>
+<a class="note-row" href="restore-house-folder"><span class="t">Put the house folder back from the backup</span><span class="d">After a wipe, a reinstall, or an empty share, copy the house folder from the USB (or second old PC) back onto the computer. You don't need a NAS.</span></a>
+<a class="note-row" href="house-folder-on-usb"><span class="t">Put the house folder on a USB disk</span><span class="d">Move the house share onto a USB disk that stays plugged into the old PC so photos don't fill the system drive. You don't need a NAS for this.</span></a>
+<a class="note-row" href="when-the-computer-is-slow"><span class="t">When the old PC feels slow</span><span class="d">SSH lags, apt crawls, or the house share feels sticky. Check load, memory, disk room, then one busy job. Skip a new mini PC tonight.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="see-disk-health"><span class="kicker">Previous</span><span class="t">See if the old disk is dying</span></a>
+<a rel="next" href="first-backup"><span class="kicker">Next</span><span class="t">A backup of the house folder</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

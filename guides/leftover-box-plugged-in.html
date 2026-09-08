@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See if the old laptop is actually plugged in — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Before you trust the old laptop overnight, confirm it is drawing wall power. A dying battery is not a reason to buy a UPS.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See if the old laptop is actually plugged in — Labthrift">
+<meta property="og:description" content="Before you trust the old laptop overnight, confirm it is drawing wall power. A dying battery is not a reason to buy a UPS.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-plugged-in">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-plugged-in">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See if the old laptop is actually plugged in","description":"Before you trust the old laptop overnight, confirm it is drawing wall power. A dying battery is not a reason to buy a UPS.","url":"https://labthrift.com/guides/leftover-box-plugged-in","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-28"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">See if the old laptop is actually plugged in</span></nav>
+<p class="note">Written 28 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>See if the old laptop is actually plugged in</h1>
+<p class="deck">Before you trust the old laptop overnight, confirm it is drawing wall power. A dying battery is not a reason to buy a UPS.</p>
+<p>You left the old laptop on. This morning ads are back, or SSH hangs. The lid was shut. The charger looked seated. The old laptop still ran on its own battery and died. Look first. You are not buying a house battery box for this.</p>
+
+<h2>Skip until SSH works</h2>
+<p>If you cannot log in from the couch, stop. That is <a href="first-ssh">SSH from the couch</a>. This note assumes you can type commands on the computer from the couch.</p>
+
+<h2>Skip if the computer is a desktop</h2>
+<p>An OptiPlex, EliteDesk, or mini PC has no laptop battery. It is on when the wall plug is in. Skip this note. Come back only if this computer is a laptop.</p>
+
+<h2>What this is</h2>
+<p>An old laptop has two power stories. Wall power is the charger in the brick. The battery is the small pack inside the laptop. Linux people call that pack BAT0 or BAT1. You don't need the code. You need the check. This is not the same note as <a href="leftover-box-sleep">don't let the old laptop sleep</a> (that is the lid) or <a href="leftover-box-still-on">is the computer still on?</a> (that is a knock from the couch). A house battery box is later, and usually not this weekend: <a href="leftover-box-no-ups">you don't need a UPS yet</a>.</p>
+
+<h2>See the power names</h2>
+<p>SSH in from the couch, then run:</p>
+<p><code>ls /sys/class/power_supply/</code></p>
+<p>You want a name that starts with BAT, often <span><code>BAT0</code></span> or <span><code>BAT1</code></span>. A desktop prints no BAT name. That is your skip. Names like AC, ADP, or ACAD are the wall plug the computer can see.</p>
+
+<h2>Ask if it is charging</h2>
+<p>Swap in the BAT name you saw:</p>
+<p><code>cat /sys/class/power_supply/BAT0/status</code></p>
+<p><span><code>Charging</code></span> or <span><code>Full</code></span> means the old laptop is on wall power. <span><code>Discharging</code></span> means it is running on the battery. That is the loose charger, the dead brick, or a battery that no longer holds a charge while unplugged.</p>
+<p>Optional battery room, same BAT name:</p>
+<p><code>cat /sys/class/power_supply/BAT0/capacity</code></p>
+<p>That is a percent. Under about 20 and still <span><code>Discharging</code></span> means the old laptop will go dark soon. Seat the charger now. Don't buy a new battery this weekend if Charging works once the brick clicks in.</p>
+
+<h2>If it says Discharging</h2>
+<p>Look at the old laptop, not a store page. Click the barrel or USB-C charger all the way in. Confirm the wall brick has a light, if it has one. Ask status again. If it flips to Charging, you are done. If it stays Discharging, try another charger you already have before you shop. An old laptop that only lives on wall power is still a lab. Leave it plugged in. That is enough.</p>
+
+<h2>What next</h2>
+<p>The lid stays <a href="leftover-box-sleep">don't let the old laptop sleep</a>. Air stays <a href="leftover-box-heat">don't cook the computer</a>. If ads came back this morning, knock first: <a href="leftover-box-still-on">is the computer still on?</a>. A cable still beats Wi-Fi: <a href="leftover-box-ethernet">a cable beats Wi-Fi for the computer</a>. Skip a UPS this weekend: <a href="leftover-box-no-ups">you don't need a UPS yet</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip this note if the computer is a desktop or a mini PC.</li>
+<li>Skip this note if SSH from the couch does not work yet. That is <a href="first-ssh">SSH from the couch</a>.</li>
+<li>Skip a new laptop battery this weekend if Charging works once the brick is seated.</li>
+<li>Skip a UPS for this. That later skip is <a href="leftover-box-no-ups">you don't need a UPS yet</a>.</li>
+<li>Skip a new mini PC because the charger was loose once.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/coreutils/ls.1.en.html">Debian: ls</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/ls.1.html">Ubuntu: ls</a>. <a href="https://manpages.debian.org/bookworm/coreutils/cat.1.en.html">Debian: cat</a>. <a href="https://www.kernel.org/doc/html/latest/power/power_supply_class.html">Linux kernel: power supply class</a> (<span><code>/sys/class/power_supply</code></span>). Official pages only. For the lid, see <a href="leftover-box-sleep">don't let the old laptop sleep</a>. For the morning knock, see <a href="leftover-box-still-on">is the computer still on?</a>. For a house battery box, see <a href="leftover-box-no-ups">you don't need a UPS yet</a>. For the login, see <a href="first-ssh">SSH from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="leftover-box-sleep"><span class="t">Don't let the old laptop sleep</span><span class="d">Close the lid. The old laptop has to stay awake so SSH and Pi-hole keep working. A desktop can skip this note.</span></a>
+<a class="note-row" href="leftover-box-still-on"><span class="t">Is the computer still on?</span><span class="d">You left the computer on. This morning ads are back, or SSH hangs. Check if it is awake before you buy anything.</span></a>
+<a class="note-row" href="leftover-box-heat"><span class="t">Don't cook the computer</span><span class="d">The computer stays on. It needs air. A laptop under a pile of clothes will cook. Skip this if the computer is a desktop with vents clear.</span></a>
+<a class="note-row" href="leftover-box-ethernet"><span class="t">A cable beats Wi-Fi for the computer</span><span class="d">Once the computer is doing real work, plug it into the router with a cable. House Wi-Fi can wait. Skip this if it is already on a cable.</span></a>
+<a class="note-row" href="leftover-box-no-ups"><span class="t">You don't need a UPS yet</span><span class="d">The computer can sit on a house outlet. A blink of the lights is a reboot. Skip a battery box this weekend.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-sleep"><span class="kicker">Previous</span><span class="t">Don't let the old laptop sleep</span></a>
+<a rel="next" href="leftover-box-ethernet"><span class="kicker">Next</span><span class="t">A cable beats Wi-Fi for the computer</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

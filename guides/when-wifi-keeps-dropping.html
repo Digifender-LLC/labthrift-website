@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When house Wi-Fi on the old PC keeps dropping — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="SSH dies or ads come back because the computer's Wi-Fi keeps falling off. Check power save, signal, then prefer a cable. You don't need a mesh kit tonight.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When house Wi-Fi on the old PC keeps dropping — Labthrift">
+<meta property="og:description" content="SSH dies or ads come back because the computer's Wi-Fi keeps falling off. Check power save, signal, then prefer a cable. You don't need a mesh kit tonight.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-wifi-keeps-dropping">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-wifi-keeps-dropping">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When house Wi-Fi on the old PC keeps dropping","description":"SSH dies or ads come back because the computer's Wi-Fi keeps falling off. Check power save, signal, then prefer a cable. You don't need a mesh kit tonight.","url":"https://labthrift.com/guides/when-wifi-keeps-dropping","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-06"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When house Wi-Fi on the old PC keeps dropping</span></nav>
+<p class="note">Written 6 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When house Wi-Fi on the old PC keeps dropping</h1>
+<p class="deck">SSH dies or ads come back because the computer's Wi-Fi keeps falling off. Check power save, signal, then prefer a cable. You don't need a mesh kit tonight.</p>
+<p>Still joining Wi-Fi for the first time? <a href="wifi-on-the-pc">Put the old PC on house Wi-Fi</a>. Phones online on a new passphrase but the computer stuck offline? That is <a href="when-wifi-password-changed">when the house Wi-Fi password changed</a>. Cable is plugged in but dark? That failure is <a href="when-ethernet-has-no-link">when the cable is plugged in but there's no link</a>. This note is the other mess: the radio already joined the house, then flaps — SSH hangs from the couch, Pi-hole vanishes, or the address changes after idle. Don't buy a mesh kit for one old laptop tonight.</p>
+
+<h2>Skip until it is actually on Wi-Fi</h2>
+<p>If the computer lives on a cable and never uses the radio, this page is not your job — stay with <a href="leftover-box-ethernet">a cable beats Wi-Fi for the computer</a>. If it never joined house Wi-Fi, start with <a href="wifi-on-the-pc">put the old PC on house Wi-Fi</a>. If closing the lid puts a laptop to sleep, fix that first: <a href="leftover-box-sleep">don't let the old laptop sleep</a>. You need a keyboard and monitor on the computer, or a moment when the radio comes back, so you can run a few commands.</p>
+
+<h2>What this is</h2>
+<p>House Wi-Fi that works, then falls off, is usually the radio sleeping to save power, a weak signal (wrong band through walls), or the router kicking an idle client. It is not “buy mesh.” It is not a new router. Walk power save and signal first. Prefer a cable when a port and a short run exist.</p>
+
+<h2>Step 1: prove the radio dropped</h2>
+<p>From the couch, SSH may hang or refuse. That alone does not name Wi-Fi. On the computer (keyboard and monitor, or after it comes back), print short link status:</p>
+<p><code>ip -br link</code></p>
+<p>Then device status if NetworkManager is installed:</p>
+<p><code>nmcli device status</code></p>
+<p>Or list Wi-Fi interfaces:</p>
+<p><code>iw dev</code></p>
+<p>The radio name is often <span><code>wlan0</code></span>, or it starts with <span><code>wlp</code></span>. Write that name down. You want the radio line <span><code>UP</code></span> with a house address when it is working. When it flaps, the line may go <span><code>DOWN</code></span>, lose the address, or show no carrier while the cable line (if any) stays quiet. Recent radio noise in the journal:</p>
+<p><code>journalctl -b -u NetworkManager</code></p>
+<p>Or, if that unit is missing:</p>
+<p><code>journalctl -b | grep -iE 'wlan|wifi|nl80211'</code></p>
+<p>When the radio is up, ping the router. Find the gateway with <span><code>ip route</code></span> (the <span><code>default via</code></span> line) and swap GATEWAY:</p>
+<p><code>ping -c 3 GATEWAY</code></p>
+<p>Three replies mean the path to the house router works right now. Drops after idle still point at power save or a weak link.</p>
+
+<h2>Step 2: rule out sleep and wall power</h2>
+<p>A laptop that sleeps when the lid closes looks like “Wi-Fi died.” Keep it awake: <a href="leftover-box-sleep">don't let the old laptop sleep</a>. Confirm the brick is doing work: <a href="leftover-box-plugged-in">see if the old laptop is actually plugged in</a>. If nothing answers on any path, prove the box is awake: <a href="leftover-box-still-on">is it still on?</a>. Fix those before you chase radio settings.</p>
+
+<h2>Step 3: signal and band</h2>
+<p>Move the computer closer to the house access point for one test. If SSH stops hanging near the router, the far spot is the problem — walls, floors, or a 5 GHz band that does not reach. Many old laptops are happier on 2.4 GHz for a box that sits far from the AP. On the router, pick the 2.4 GHz SSID (or a combined name that prefers 2.4 for that client) and join again from the computer. Don't buy a mesh kit for one practice machine yet. A short ethernet run beats another radio hop.</p>
+
+<h2>Step 4: turn off Wi-Fi power save</h2>
+<p>Linux often puts the radio to sleep between packets. That saves battery on a laptop you carry. On a box you leave on for SSH and Pi-hole, it drops connections. Name the interface from Step 1 (swap <span><code>wlan0</code></span> for yours):</p>
+<p><code>iw dev wlan0 get power_save</code></p>
+<p>If it says on, turn it off for this boot:</p>
+<p><code>sudo iw dev wlan0 set power_save off</code></p>
+<p>Check again:</p>
+<p><code>iw dev wlan0 get power_save</code></p>
+<p>That <span><code>iw</code></span> change lasts until the next reconnect or reboot. If NetworkManager manages the radio, make it stick. Create or edit:</p>
+<p><code>sudo nano /etc/NetworkManager/conf.d/default-wifi-powersave-on.conf</code></p>
+<p>Put this in the file (value <span><code>2</code></span> means power save off):</p>
+<p><code>[connection]</code></p>
+<p><code>wifi.powersave = 2</code></p>
+<p>Save, then:</p>
+<p><code>sudo systemctl restart NetworkManager</code></p>
+<p>Confirm with <span><code>iw</code></span> again after it reconnects. Prefer one durable fix. Don't stack three different power-save hacks. If NetworkManager is not installed (common on a netplan + networkd Ubuntu Server), the <span><code>iw</code></span> off is still the proof — then prefer a cable so you are not fighting the radio overnight.</p>
+
+<h2>Step 5: prefer a cable when you can</h2>
+<p>When a port and a cable can reach the router (or a switch on the house LAN), plug it in on purpose: <a href="leftover-box-ethernet">a cable beats Wi-Fi for the computer</a>. If the cable is seated but there is no link, that walk is <a href="when-ethernet-has-no-link">when the cable is plugged in but there's no link</a>. Once SSH works on the cable address, stop the radio from coming back so one address stays: <a href="leftover-box-wifi-off">keep Wi-Fi off after a reboot</a>. Optional later: <a href="leftover-box-link-speed">see the cable speed</a>.</p>
+
+<h2>What this is not</h2>
+<p>This is not a mesh kit, a new router, or a Wi-Fi 7 upgrade for one old PC. It is not forwarding ports so SSH “survives” a flaky radio. It is not dual-homing (Wi-Fi plus ethernet as the plan). It is not the first-time join note — that is <a href="wifi-on-the-pc">put the old PC on house Wi-Fi</a>. Stay on power save, signal, then a cable.</p>
+
+<h2>What next</h2>
+<p>If the radio never joined, start with <a href="wifi-on-the-pc">put the old PC on house Wi-Fi</a>. New passphrase on the router? <a href="when-wifi-password-changed">When the house Wi-Fi password changed</a>. When a cable can reach, switch: <a href="leftover-box-ethernet">a cable beats Wi-Fi for the computer</a>, then <a href="leftover-box-wifi-off">keep Wi-Fi off after a reboot</a>. Cable dark? <a href="when-ethernet-has-no-link">When the cable is plugged in but there's no link</a>. Still hunting the number after a flap: <a href="find-the-leftover-box">find it on the house network</a>, then <a href="first-ssh">SSH from the couch</a>. SSH odd with a good link: <a href="when-ssh-wont-connect">when SSH won't connect</a>. Ads back after the radio vanished: <a href="when-ads-come-back">when ads come back</a>. Lid sleep and wall power still matter: <a href="leftover-box-sleep">don't let the old laptop sleep</a>, <a href="leftover-box-plugged-in">see if the old laptop is actually plugged in</a>, <a href="leftover-box-still-on">is it still on?</a>.</p>
+
+<p class="note">Optional: jot that the practice machine stays on house Wi-Fi (or moved to a cable) in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip this if the computer is already on a boring cable with SSH that holds overnight.</li>
+<li>Skip a mesh kit or a new router for one flapping laptop.</li>
+<li>Skip forwarding port 22 to “fix” a drop.</li>
+<li>Skip dual-homing Wi-Fi and ethernet as the plan.</li>
+<li>Skip buying a USB Wi-Fi dongle before you try power save off and a closer seat.</li>
+<li>Skip this until the radio has joined once — that is <a href="wifi-on-the-pc">put the old PC on house Wi-Fi</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/iw/iw.8.en.html">Debian: iw</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man8/iw.8.html">Ubuntu: iw</a>. <a href="https://networkmanager.pages.freedesktop.org/NetworkManager/NetworkManager/NetworkManager.conf.html">NetworkManager.conf</a> (<span><code>wifi.powersave</code></span>). <a href="https://networkmanager.pages.freedesktop.org/NetworkManager/NetworkManager/settings-802-11-wireless.html">NetworkManager: 802-11-wireless</a> (powersave values). <a href="https://manpages.debian.org/bookworm/network-manager/nmcli.1.en.html">Debian: nmcli</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/nmcli.1.html">Ubuntu: nmcli</a>. <a href="https://manpages.debian.org/bookworm/iproute2/ip-link.8.en.html">Debian: ip-link</a>. Official pages only. For the first join, see <a href="wifi-on-the-pc">put the old PC on house Wi-Fi</a>. For a cable, see <a href="leftover-box-ethernet">a cable beats Wi-Fi for the computer</a>. For a dark cable jack, see <a href="when-ethernet-has-no-link">when the cable is plugged in but there's no link</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="wifi-on-the-pc"><span class="t">Put the old PC on house Wi-Fi</span><span class="d">Ubuntu Server on an old laptop often has no cable nearby. Join house Wi-Fi so SSH and Pi-hole can work. Skip this if ethernet already works.</span></a>
+<a class="note-row" href="when-wifi-password-changed"><span class="t">When the house Wi-Fi password changed</span><span class="d">You (or the ISP) changed the Wi-Fi passphrase. The old PC on radio is offline — SSH hangs, ads are back. Update the saved password on the computer. Skip a new mesh kit tonight.</span></a>
+<a class="note-row" href="leftover-box-ethernet"><span class="t">A cable beats Wi-Fi for the computer</span><span class="d">Once the computer is doing real work, plug it into the router with a cable. House Wi-Fi can wait. Skip this if it is already on a cable.</span></a>
+<a class="note-row" href="when-ethernet-has-no-link"><span class="t">When the cable is plugged in but there's no link</span><span class="d">Ethernet is seated, but SSH still hangs or the computer never gets a house address. Check both ends, LAN vs WAN, link lights, then ip link before you buy a NIC.</span></a>
+<a class="note-row" href="leftover-box-wifi-off"><span class="t">Keep Wi-Fi off after a reboot</span><span class="d">After the cable works, stop Wi-Fi from coming back so the computer keeps one address. You don't need a new router.</span></a>
+<a class="note-row" href="when-computer-has-two-addresses"><span class="t">When the old PC has two house addresses</span><span class="d">SSH works on one number, Pi-hole or the reservation on another — Wi-Fi and the cable both live. Keep one link. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-sleep"><span class="t">Don't let the old laptop sleep</span><span class="d">Close the lid. The old laptop has to stay awake so SSH and Pi-hole keep working. A desktop can skip this note.</span></a>
+<a class="note-row" href="leftover-box-plugged-in"><span class="t">See if the old laptop is actually plugged in</span><span class="d">Before you trust the old laptop overnight, confirm it is drawing wall power. A dying battery is not a reason to buy a UPS.</span></a>
+<a class="note-row" href="leftover-box-still-on"><span class="t">Is it still on?</span><span class="d">You left the computer on. This morning ads are back, or SSH hangs. Check if it is awake before you buy anything.</span></a>
+<a class="note-row" href="when-ads-come-back"><span class="t">When ads come back</span><span class="d">Ads are back, sites won't load, or a phone still shows banners. Check the computer, Pi-hole, router DNS, then the phone.</span></a>
+<a class="note-row" href="when-ssh-wont-connect"><span class="t">When SSH won't connect</span><span class="d">SSH hangs, says connection refused, or Permission denied. Check the computer is on, confirm the address, then the user and password. You don't need a new router or a KVM.</span></a>
+<a class="note-row" href="find-the-leftover-box"><span class="t">Find the computer on the house network</span><span class="d">The computer has a number on your house network. You need that number to SSH from the couch. You don't need a new router.</span></a>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the old PC from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-link-speed"><span class="t">See the cable speed</span><span class="d">After the cable works, see whether the link is 1G or stuck slower. You don't need a 10G switch for this check.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="wifi-on-the-pc"><span class="kicker">Previous</span><span class="t">Put the old PC on house Wi-Fi</span></a>
+<a rel="next" href="leftover-box-ethernet"><span class="kicker">Next</span><span class="t">A cable beats Wi-Fi for the computer</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

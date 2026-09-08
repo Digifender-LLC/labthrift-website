@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Make a folder — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After SSH works, make a folder with mkdir so copies and edits have a place to land. You don't need a NAS for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Make a folder — Labthrift">
+<meta property="og:description" content="After SSH works, make a folder with mkdir so copies and edits have a place to land. You don't need a NAS for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-mkdir">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-mkdir">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Make a folder","description":"After SSH works, make a folder with mkdir so copies and edits have a place to land. You don't need a NAS for this.","url":"https://labthrift.com/guides/leftover-box-mkdir","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-28"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Make a folder</span></nav>
+<p class="note">Written 28 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Make a folder</h1>
+<p class="deck">After SSH works, make a folder with <span><code>mkdir</code></span> so copies and edits have a place to land. You don't need a NAS for this.</p>
+<p><a href="first-ssh">SSH from the couch</a> sits you in a folder. <a href="leftover-box-ls">See what's in a folder</a> lists names. <a href="leftover-box-cd">Move into a folder</a> sits you in one that already exists. <span><code>mkdir</code></span> is make directory. It creates an empty folder you named, usually in home, so the next copy or edit is not dumped on top of everything else. The computer does not need a desktop, a NAS, or a cloud drive for this one job.</p>
+
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If you only need names, that is <a href="leftover-box-ls">see what's in a folder</a>. If the folder is already there and you just need to sit in it, that is <a href="leftover-box-cd">move into a folder</a>. If you only need one file from the laptop, that is <a href="leftover-box-scp">copy a file to the computer from your laptop</a>. Skip this whole note if the computer already has the folder you want.</p>
+
+<h2>What this is</h2>
+<p><span><code>mkdir</code></span> creates an empty folder. It does not copy files into that folder. It does not share the folder with phones and laptops. That is <a href="first-file-share">a folder the house can open</a>. It does not measure free disk. That is <a href="leftover-box-disk-space">see if the computer still has room</a>. A folder is just a named place. Home gets messy if every <span><code>scp</code></span> lands in <span><code>~</code></span>.</p>
+
+<h2>Make one folder in home</h2>
+<p>SSH in. At the prompt, start in home if you are not sure:</p>
+<p><code>cd ~</code></p>
+<p>Then make a folder you named. A short name with no spaces is easier to type later:</p>
+<p><code>mkdir ~/notes</code></p>
+<p>The tilde <span><code>~</code></span> is a short name for your home folder. Swap <span><code>notes</code></span> for a name you will remember. Letters, numbers, and a hyphen are enough. Skip spaces tonight. If that folder already exists, it says so. That is fine. You don't need a second copy of the same name.</p>
+
+<h2>See that it is there</h2>
+<p>List home:</p>
+<p><code>ls ~</code></p>
+<p>You want <span><code>notes</code></span> in the list. Optional look at just that folder:</p>
+<p><code>ls -ld ~/notes</code></p>
+<p>The <span><code>d</code></span> at the start of the line means directory, which is the computer's word for folder. Then sit in it:</p>
+<p><code>cd ~/notes</code></p>
+<p><code>pwd</code></p>
+<p>You want something like <span><code>/home/you/notes</code></span>. An empty folder lists nothing useful. That is the point. You just made a place.</p>
+
+<h2>Optional: a folder inside a folder</h2>
+<p>If you want <span><code>notes/keep</code></span> and <span><code>notes</code></span> is not there yet, one command can make both:</p>
+<p><code>mkdir -p ~/notes/keep</code></p>
+<p>The <span><code>-p</code></span> means make the parents if they are missing, and stay quiet if they already exist. Skip <span><code>-p</code></span> tonight if one folder in home is enough. Don't run <span><code>mkdir</code></span> under <span><code>/</code></span> or <span><code>/etc</code></span>. Those are system folders. Home is the practice place.</p>
+
+<h2>Put something in it</h2>
+<p>A throwaway file you can delete later:</p>
+<p><code>echo 'hello' &gt; ~/notes/hello.txt</code></p>
+<p>Then:</p>
+<p><code>ls ~/notes</code></p>
+<p>You want <span><code>hello.txt</code></span>. Optional edit: <a href="leftover-box-nano">edit a file from the couch</a>. Optional copy from the laptop into that folder:</p>
+<p><code>scp ./photo.jpg lab:~/notes/</code></p>
+<p>That is the same <span><code>scp</code></span> as <a href="leftover-box-scp">copy a file to the computer from your laptop</a>, with the folder on the side. Swap the filename for yours.</p>
+
+<h2>Remove the practice folder if it is empty</h2>
+<p>If you only wanted a test:</p>
+<p><code>rm ~/notes/hello.txt</code></p>
+<p>Then, only if the folder is empty:</p>
+<p><code>rmdir ~/notes</code></p>
+<p><span><code>rmdir</code></span> refuses if anything is still inside. That is the safe one. Skip <span><code>rm -r</code></span> and <span><code>rm -rf</code></span> tonight. Those delete a folder and everything in it, with no useful undo. Keep the folder if you are about to copy real files into it.</p>
+
+<h2>What this is not</h2>
+<p>This folder is a name on the computer. It is not an empty file. That is <a href="leftover-box-touch">make an empty file</a>. It is not a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>. It is not a checked backup. That is <a href="first-backup">a backup of the folder</a>. Free disk left is still <a href="leftover-box-disk-space">see if the computer still has room</a>.</p>
+
+<h2>What next</h2>
+<p>Need an empty file in that folder? <a href="leftover-box-touch">Make an empty file</a>. Need to sit in the new folder? <a href="leftover-box-cd">Move into a folder</a>. Want the names again? <a href="leftover-box-ls">See what's in a folder</a>. Need a file from the laptop in that folder? <a href="leftover-box-scp">Copy a file to the computer from your laptop</a>. Need a spare of a file that is already there? <a href="leftover-box-cp">Copy a file without leaving the computer</a>. Need to change a file in place? <a href="leftover-box-nano">Edit a file from the couch</a>. Tired of retyping the same long line? <a href="leftover-box-history">Reuse a command you already typed</a>. When key login is boring on every computer you use, <a href="leftover-box-ssh-no-password">turn off password login once the key works</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip buying a NAS, a “cloud drive,” or a file manager app to make one folder.</li>
+<li>Skip <span><code>mkdir /</code></span>, <span><code>mkdir /etc</code></span>, or any folder outside home tonight.</li>
+<li>Skip <span><code>rm -r</code></span> and <span><code>rm -rf</code></span> until you can live with losing that folder.</li>
+<li>Skip opening SSH to the internet so you can make folders from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.gnu.org/software/coreutils/manual/html_node/mkdir-invocation.html">GNU coreutils: mkdir invocation</a>. <a href="https://manpages.debian.org/bookworm/coreutils/mkdir.1.en.html">Debian: mkdir</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/mkdir.1.html">Ubuntu: mkdir</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For listing names, see <a href="leftover-box-ls">see what's in a folder</a>. For sitting in a folder, see <a href="leftover-box-cd">move into a folder</a>. For moving a file, see <a href="leftover-box-scp">copy a file to the computer from your laptop</a>. For editing a file, see <a href="leftover-box-nano">edit a file from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-ls"><span class="t">See what's in a folder</span><span class="d">After SSH works, list the folder you are sitting in with ls. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-cd"><span class="t">Move into a folder</span><span class="d">After SSH works, change folders with cd. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-scp"><span class="t">Copy a file to the computer from your laptop</span><span class="d">After SSH works, use scp to move one file without a USB stick. A short name like lab makes the typing shorter. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-cp"><span class="t">Copy a file without leaving the computer</span><span class="d">After SSH works, copy a file with cp so you can edit a spare without wrecking the original. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-mv"><span class="t">Rename or move a file</span><span class="d">After SSH works, rename or move a file with mv so the name matches the job. The old name is gone. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-nano"><span class="t">Edit a file from the couch</span><span class="d">After SSH works, open a file with nano, change a line, and save. The keys at the bottom of the screen are the whole trick. You don't need a new editor.</span></a>
+<a class="note-row" href="leftover-box-touch"><span class="t">Make an empty file</span><span class="d">After SSH works, make an empty file with touch so nano and copies have a file to land on. You don't need a file manager app for this.</span></a>
+<a class="note-row" href="leftover-box-history"><span class="t">Reuse a command you already typed</span><span class="d">After SSH works, flip back through commands with the Up arrow or history. You don't need a notebook for the same long line twice.</span></a>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="first-file-share"><span class="t">A folder the house can open</span><span class="d">Share one folder from the computer so phones and laptops can open it. Samba is the usual name for that job on Debian and Ubuntu.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-pwd"><span class="kicker">Previous</span><span class="t">See which folder you are in</span></a>
+<a rel="next" href="leftover-box-cp"><span class="kicker">Next</span><span class="t">Copy a file without leaving the computer</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

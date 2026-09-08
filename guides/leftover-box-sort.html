@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Put lines in order — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After SSH works, put lines in order with sort so a mixed list is easier to scan. You don't need a file manager for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Put lines in order — Labthrift">
+<meta property="og:description" content="After SSH works, put lines in order with sort so a mixed list is easier to scan. You don't need a file manager for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-sort">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-sort">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Put lines in order","description":"After SSH works, put lines in order with sort so a mixed list is easier to scan. You don't need a file manager for this.","url":"https://labthrift.com/guides/leftover-box-sort","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-30"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"Faster network","item":"https://labthrift.com/guides/#switches"},{"@type":"ListItem","position":3,"name":"Put lines in order"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Put lines in order</span></nav>
+<p class="note">Written 30 Aug 2026. This is a how-to, not a product card.</p>
+<h1>Put lines in order</h1>
+<p class="deck">After SSH works, put lines in order with sort so a mixed list is easier to scan. You don&apos;t need a file manager for this.</p>
+<p>A mixed list is harder to scan. Tonight you put lines in order: <span><code>sort</code></span>. Sort puts lines in A-to-Z order. Start with a tiny fruit list. You are still only looking. The computer does not need a file manager for this one job.</p>
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If copies dropped are what you want, that is <a href="leftover-box-uniq">drop duplicate lines</a>. Uniq wants sorted input. If output saved while you watch is what you want, that is <a href="leftover-box-tee">watch and save output at once</a>. If last line first is what you want, that is <a href="leftover-box-tac">reverse lines</a>.</p>
+<h2>What this is</h2>
+<p><span><code>sort</code></span> puts lines in order. You type <span><code>sort</code></span>, then a file. It prints the ordered lines. It does not rewrite the file unless you redirect. Default order is A-to-Z as text. Numbers as text put 10 before 2. <span><code>-n</code></span> sorts as numbers. <span><code>-r</code></span> reverses. It is not uniq. Uniq drops copies after sort.</p>
+<h2>Sort a practice list</h2>
+<p>SSH into the computer. Make a tiny mixed list:</p>
+<p><code>printf &apos;pear\napple\nbanana\napple\n&apos; &gt; ~/fruit.txt</code></p><p><code>cat ~/fruit.txt</code></p><p>Put lines in order:</p>
+<p><code>sort ~/fruit.txt</code></p><p>You want apple, apple, banana, pear. That is enough for tonight. Practice only in home.</p>
+<p>Debian and Ubuntu usually already have <span><code>sort</code></span>. Don't make apt the job. If <span><code>sort</code></span> is missing:</p>
+<p><code>sudo apt install coreutils</code></p><p>Then stop. That install is not the lesson.</p>
+<p>When you are done, throw the practice files away. Careful delete only. That is <a href="leftover-box-rm">delete a file carefully</a>. Skip <span><code>rm -rf</code></span>.</p>
+<p><code>rm ~/fruit.txt ~/fruit-sorted.txt ~/nums.txt</code></p><h2>Useful extras, still looking only</h2>
+<p>Optional: save while you watch:</p>
+<p><code>sort ~/fruit.txt | tee ~/fruit-sorted.txt</code></p><p><code>cat ~/fruit-sorted.txt</code></p><p>That tee is <a href="leftover-box-tee">watch and save output at once</a>.</p>
+<p>Optional: reverse:</p>
+<p><code>sort -r ~/fruit.txt</code></p><p>Optional: numbers as numbers, not text:</p>
+<p><code>printf &apos;10\n2\n1\n&apos; &gt; ~/nums.txt</code></p><p><code>sort ~/nums.txt</code></p><p><code>sort -n ~/nums.txt</code></p><p>Text sort puts 10 before 2. <span><code>-n</code></span> puts 1, then 2, then 10.</p>
+<p>Optional: sort names in this folder:</p>
+<p><code>ls | sort</code></p><p>Looking only. Skip sort piped into <span><code>rm</code></span>.</p>
+<h2>What this is not</h2>
+<p>This is not uniq. That is <a href="leftover-box-uniq">drop duplicate lines</a>. It is not tee. That is <a href="leftover-box-tee">watch and save output at once</a>. It is not pipe as the lesson. That is <a href="leftover-box-pipe">send output into another command</a>. It is not tac. That is <a href="leftover-box-tac">reverse lines</a>. It is not opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>.</p>
+<h2>What next</h2>
+<p>Need copies dropped? <a href="leftover-box-uniq">Drop duplicate lines</a>. Need output saved while you watch? <a href="leftover-box-tee">Watch and save output at once</a>. Need last line first? <a href="leftover-box-tac">Reverse lines</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip uniq, tee, pipe, and tac as tonight&apos;s job. Those pages already exist.</li>
+<li>Skip sort piped into <span><code>rm</code></span>. Sort prints. Don't mix delete into this drill.</li>
+<li>Skip sorting <span><code>/etc</code></span> or whole home. Tonight: a tiny practice list.</li>
+<li>Skip files under <span><code>/etc</code></span>, SSH folders, or paths you don't own. Practice only in home.</li>
+<li>Skip <span><code>rm -rf</code></span>. Careful delete only: <a href="leftover-box-rm">delete a file carefully</a>.</li>
+<li>Skip opening SSH to the internet so you can do this from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.gnu.org/software/coreutils/manual/html_node/sort-invocation.html">GNU coreutils: sort invocation</a>. <a href="https://manpages.debian.org/bookworm/coreutils/sort.1.en.html">Debian: sort</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/sort.1.html">Ubuntu: sort</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For duplicates, see <a href="leftover-box-uniq">drop duplicate lines</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-pipe"><span class="t">Send output into another command</span><span class="d">After SSH works, send output into another command with | so a long dump does not flood the window. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-tee"><span class="t">Watch and save output at once</span><span class="d">After SSH works, watch and save output at once with tee. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-uniq"><span class="t">Drop duplicate lines</span><span class="d">After SSH works, drop duplicate lines with uniq so a mixed list shows each line once. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-redirect"><span class="t">Save output to a file</span><span class="d">After SSH works, save output to a file with &gt;. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-echo"><span class="t">Put a short line into a file</span><span class="d">After SSH works, put one short line into a file with echo so you don't need to open nano. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-cat"><span class="t">Read a file without opening the editor</span><span class="d">After SSH works, print a file with cat so you can read it without opening nano. Short files only. You don&apos;t need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-tac"><span class="t">Reverse lines</span><span class="d">After SSH works, reverse lines with tac. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-grep"><span class="t">Find a word in a file</span><span class="d">After SSH works, search a file with grep so you see only the matching lines. You don&apos;t need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-tee"><span class="kicker">Previous</span><span class="t">Watch and save output at once</span></a>
+<a rel="next" href="leftover-box-uniq"><span class="kicker">Next</span><span class="t">Drop duplicate lines</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

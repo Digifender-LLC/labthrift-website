@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When the house share won't open — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Finder, File Explorer, or the phone can't open the house folder. Check the computer is on, confirm the address, then match the error (path not found, login failed, can't write, disk full). You don't need a NAS.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When the house share won't open — Labthrift">
+<meta property="og:description" content="Finder, File Explorer, or the phone can't open the house folder. Check the computer is on, confirm the address, then match the error (path not found, login failed, can't write, disk full). You don't need a NAS.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-share-wont-open">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-share-wont-open">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When the house share won't open","description":"Finder, File Explorer, or the phone can't open the house folder. Check the computer is on, confirm the address, then match the error (path not found, login failed, can't write, disk full). You don't need a NAS.","url":"https://labthrift.com/guides/when-share-wont-open","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-04"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When the house share won't open</span></nav>
+<p class="note">Written 4 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When the house share won't open</h1>
+<p class="deck">Finder, File Explorer, or the phone can't open the house folder. Check the computer is on, confirm the address, then match the error (path not found, login failed, can't write, disk full). You don't need a NAS.</p>
+<p>Haven't made the folder yet? Start with <a href="first-file-share">a file share</a>. Need the address? <a href="find-the-leftover-box">Find it on the house network</a>. First open walk: <a href="open-share-from-laptop">open from a laptop</a> or <a href="open-share-from-phone">open from a phone</a>. This note is only for when open fails, or used to work and now doesn't.</p>
+
+<h2>Skip until you have a real symptom</h2>
+<p>Copy the exact error from Finder, File Explorer, or the phone. "Network path not found," "login failed," "access denied," and "disk full" are different fixes. Don't buy a NAS for a wrong address or a stale password.</p>
+
+<h2>What this is</h2>
+<p>The house share needs five things that still match: the computer awake, you on the same house network, the right address plus share name, the Samba password, and room on the disk. One of those usually drifted. Soft-off, guest Wi-Fi, a new DHCP lease, a remembered bad login, or a full drive. The walk below is order of cheap checks.</p>
+
+<h2>Step 1: is the computer awake?</h2>
+<p>Power light. Fan. Screen if it has one. If it looks asleep or dead, start with <a href="leftover-box-still-on">is the computer still on?</a>. Soft-off on purpose? Wake it from the house network: <a href="wake-on-lan">wake the computer from the house network</a>. A laptop that slept with the lid closed needs <a href="leftover-box-sleep">don't let the laptop sleep</a> before you chase share bugs.</p>
+
+<h2>Step 2: same house Wi-Fi</h2>
+<p>Your laptop or phone must be on the main house Wi-Fi (or a cable into the same router). Not guest Wi-Fi. Not a work VPN. Not cellular. Guest Wi-Fi often cannot see the computer on purpose — same idea as <a href="guest-wifi-dns">when guest Wi-Fi still shows ads</a>. Turn the VPN off for this test. Stay on the house network only.</p>
+
+<h2>Step 3: confirm the address and share name</h2>
+<p>Don't reuse last week's number from memory. Look it up again: <a href="find-the-leftover-box">find it on the house network</a>. Write down the address and the share name you set. Examples:</p>
+<p><code>\\192.168.1.50\photos</code></p>
+<p><code>smb://192.168.1.50/photos</code></p>
+<p>Use the real number and share name, not those examples. Wrong share name looks a lot like "path not found."</p>
+
+<h2>Step 4: match the symptom to a fix</h2>
+<div class="table-wrap">
+<table>
+<tr><th>What you see</th><th>What to do</th></tr>
+<tr><td data-label="What you see">Can't find path / connection failed / network path not found</td><td data-label="What to do">The computer may be up, but Samba stopped or the firewall hid it. Check on the computer: <code>systemctl is-active smbd</code>. If ufw is on: <code>sudo ufw allow Samba</code>. Full walk: <a href="leftover-box-share-check">when the house share disappeared, check the computer</a>.</td></tr>
+<tr><td data-label="What you see">Login / password failed / access denied at the prompt</td><td data-label="What to do">Wrong share password, or a remembered bad one. Set or reset it: <a href="leftover-box-samba-password">set or change the house-share password</a>. Then clear the device's saved copy: <a href="forget-saved-share-login">forget the saved house-share login</a> (Credential Manager, Keychain, or the phone bookmark). This is not the SSH login unless you chose the same password on purpose.</td></tr>
+<tr><td data-label="What you see">Folder opens but you can't copy a file in</td><td data-label="What to do">Full walk: <a href="when-share-wont-write">when you can open the house share but can't write</a>. Short version: Linux owner is usually wrong. <code>sudo chown youruser:youruser /srv/share</code> (swap user and path), then try again.</td></tr>
+<tr><td data-label="What you see">Photos stop / disk full / no space left</td><td data-label="What to do">The share is fine; the disk is not. Walk it: <a href="when-house-disk-full">when the computer's disk is full</a>. Quieter look: <a href="leftover-box-disk-space">see if the computer still has room</a>. If the system disk is small, park the folder on a USB that stays plugged in: <a href="house-folder-on-usb">put the house folder on a USB disk</a>.</td></tr>
+</table>
+</div>
+
+<h2>Check</h2>
+<p>Open the share again from a laptop or a phone on house Wi-Fi. Copy one small file in. Copy one out. If that works, you're done. If it fails after a reboot, re-find the address — DHCP may have moved the number.</p>
+
+<h2>What this is not</h2>
+<p>This is not a reason to buy a NAS tonight. It is not SMB opened to the internet. It is not Synology Drive, a coffee-shop VPN, or a third-party "network drive" app stuffed with ads. House network only until you actually need remote access.</p>
+
+<h2>What next</h2>
+<p>First open walks: <a href="open-share-from-laptop">from a laptop</a>, <a href="open-share-from-phone">from a phone</a>, <a href="open-share-from-chromebook">from a Chromebook</a>, or <a href="open-share-from-linux">from a Linux laptop</a>. Need a second person with their own login? <a href="add-share-user">Add another person to the house share</a>. Someone should leave later: <a href="remove-share-user">remove someone from the house share</a>. Share password stuck? <a href="leftover-box-samba-password">Set or change the house-share password</a>. Device still using the old one? <a href="forget-saved-share-login">Forget the saved house-share login</a>. Samba stopped? <a href="leftover-box-share-check">When the house share disappeared, check the computer</a>. Disk full or getting tight: <a href="when-house-disk-full">when the computer's disk is full</a>. Quieter look: <a href="leftover-box-disk-space">see if the computer still has room</a>. Dump camera-roll photos: <a href="phone-photos-to-share">save phone photos to the house share</a>. Opens and writes but crawls: <a href="when-share-is-slow">when the house share is slow</a>. Check live connections with <a href="see-who-uses-share">see who is using the house share</a>. When you want a second copy, that is <a href="first-backup">a backup of the house folder</a>. Soft restart without a full reboot: <a href="restart-house-services">restart Pi-hole or the house share</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip buying a NAS for a first-timer open failure.</li>
+<li>Skip opening SMB to the internet.</li>
+<li>Skip a VPN so you can reach it from a coffee shop.</li>
+<li>Skip third-party network-drive apps that stuff ads.</li>
+<li>Skip RAID.</li>
+<li>Skip guessing last week's address instead of finding it again.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://wiki.samba.org/index.php/Setting_up_Samba_as_a_Standalone_Server">Samba wiki: standalone server</a>. <a href="https://ubuntu.com/server/docs/how-to/samba/file-server/">Ubuntu Server: Samba as a file server</a>. <a href="https://support.microsoft.com/windows/map-a-network-drive-in-windows-60c43704-9f29-b538-2dd4-92f39bf059de">Microsoft: map a network drive</a>. <a href="https://support.apple.com/guide/mac-help/connect-mac-shared-computers-servers-mchlp1140/mac">Apple: connect to shared computers and servers</a>. Official pages only. For the share itself, see <a href="first-file-share">a file share</a>. For the address, see <a href="find-the-leftover-box">find it on the house network</a>. For Samba stopped, see <a href="leftover-box-share-check">when the house share disappeared, check the computer</a>. For the share password, see <a href="leftover-box-samba-password">set or change the house-share password</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-file-share"><span class="t">A file share</span><span class="d">A folder on the old PC that the house can open from a laptop or a phone. You don't need a NAS for this.</span></a>
+<a class="note-row" href="open-share-from-laptop"><span class="t">Open the house share from a laptop</span><span class="d">The house folder is on the old PC. Open it from Windows File Explorer or Mac Finder on the house network. You don't need a NAS for this.</span></a>
+<a class="note-row" href="open-share-from-phone"><span class="t">Open the house share from a phone</span><span class="d">The house folder is on the old PC. Open it from an iPhone or Android on house Wi-Fi. You don't need a NAS app for this.</span></a>
+<a class="note-row" href="leftover-box-share-check"><span class="t">When the house share disappeared, check the computer</span><span class="d">The computer is awake, but Finder or File Explorer cannot see the folder. Check that Samba is still running before you buy a NAS.</span></a>
+<a class="note-row" href="restart-house-services"><span class="t">Restart Pi-hole or the house share</span><span class="d">Ads vanished or Finder lost the folder, but the computer is still on. Restart the one service that died. You don't need a full reboot or a new mini PC.</span></a>
+<a class="note-row" href="add-share-user"><span class="t">Add another person to the house share</span><span class="d">Give a partner or roommate their own login for the house folder on the old PC. Same share path. Separate Samba password. You don't need a NAS.</span></a>
+<a class="note-row" href="remove-share-user"><span class="t">Remove someone from the house share</span><span class="d">Take a partner or roommate off the house folder on the old PC. Drop them from Samba, then from valid users. Optional: delete the Linux login. You don't need a NAS.</span></a>
+<a class="note-row" href="see-who-uses-share"><span class="t">See who is using the house share</span><span class="d">Check which logins and devices are connected to the Samba folder on the old PC. smbstatus. You don't need a NAS.</span></a>
+<a class="note-row" href="leftover-box-samba-password"><span class="t">Set or change the house-share password</span><span class="d">Finder and File Explorer ask for a share password that is not always the login. Samba keeps its own copy. Set it once. Change it when you forget.</span></a>
+<a class="note-row" href="forget-saved-share-login"><span class="t">Forget the saved house-share login</span><span class="d">Windows, Mac, or a phone still uses the old Samba password after you changed it. Clear Credential Manager, Keychain, or the phone bookmark, then open again. You don't need a NAS.</span></a>
+<a class="note-row" href="when-house-disk-full"><span class="t">When the computer's disk is full</span><span class="d">Photos won't copy, the share says no space, or df shows the system disk packed. Confirm it is the computer (not the backup stick), free room or move the house folder. You don't need a NAS.</span></a>
+<a class="note-row" href="when-share-wont-write"><span class="t">When you can open the house share but can't write</span><span class="d">The house folder opens, but copy, save, or phone upload fails. Check disk room, Samba read only, then folder ownership. You don't need a NAS.</span></a>
+<a class="note-row" href="when-share-is-slow"><span class="t">When the house share is slow</span><span class="d">The folder opens and copies work, but photos crawl. Check Wi-Fi vs a cable, link speed, disk room, then the laptop. You don't need a 10G switch.</span></a>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="leftover-box-still-on"><span class="t">Is it still on?</span><span class="d">You left the computer on. This morning ads are back, or SSH hangs. Check if it is awake before you buy anything.</span></a>
+<a class="note-row" href="find-the-leftover-box"><span class="t">Find it on the house network</span><span class="d">The computer has a number on your house network. You need that number to SSH from the couch. You don't need a new router.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="first-file-share"><span class="kicker">Previous</span><span class="t">A file share</span></a>
+<a rel="next" href="open-share-from-laptop"><span class="kicker">Next</span><span class="t">Open the house share from a laptop</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See what the computer already runs on a schedule — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Before you add a weekly backup or buy a monitoring box, list the computer's scheduled jobs with systemctl list-timers.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See what the computer already runs on a schedule — Labthrift">
+<meta property="og:description" content="Before you add a weekly backup or buy a monitoring box, list the computer's scheduled jobs with systemctl list-timers.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-timers">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-timers">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See what the computer already runs on a schedule","description":"Before you add a weekly backup or buy a monitoring box, list the computer's scheduled jobs with systemctl list-timers.","url":"https://labthrift.com/guides/leftover-box-timers","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-28"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#first-nas">File storage</a> / <span aria-current="page">See what the computer already runs on a schedule</span></nav>
+<p class="note">Written 28 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>See what the computer already runs on a schedule</h1>
+<p class="deck">Before you add a weekly backup or buy a monitoring box, list the computer's scheduled jobs with systemctl list-timers.</p>
+<p>An OptiPlex from Marketplace may already have old weekly jobs: a copy to someone else's folder, a cleanup, or a name you don't recognize. A timer runs a job on a schedule. Look first. You are not buying a monitoring box, and you are not adding your own weekly copy yet.</p>
+
+<h2>Skip until SSH works</h2>
+<p>If you cannot log in from the couch, stop. That is <a href="first-ssh">SSH from the couch</a>. This note assumes you can type commands on the computer from the couch. If the computer clock still looks like UTC, set the house zone first: <a href="leftover-box-timezone">set the computer clock to your house</a>. NEXT and LAST only make sense on the house clock.</p>
+
+<h2>Skip if you just installed a fresh OS</h2>
+<p>If this weekend you wiped the computer and installed Debian or Ubuntu Server, you will mostly see the usual house-keeping names. Skip this note until you add your own weekly copy. The install path is <a href="what-os-to-pick">what OS to put on the computer</a>. This look is for a computer that already had someone else's Linux on it, or for the look right before you add a timer.</p>
+
+<h2>What this is</h2>
+<p>Debian and Ubuntu use timers to schedule jobs. <span><code>systemctl list-timers</code></span> prints the active timers. This is not the same note as <a href="leftover-box-backup-timer">back up the house folder every week without remembering</a> (that is you adding a timer) or <a href="leftover-box-failed-units">see if any house jobs failed to start</a> (that is a job that already broke). You are only reading the list.</p>
+
+<h2>List the timers</h2>
+<p>SSH in from the couch, then run:</p>
+<p><code>systemctl list-timers</code></p>
+<p>Point at three columns. <span><code>NEXT</code></span> is when it will run. <span><code>LAST</code></span> is when it last ran. <span><code>UNIT</code></span> is the name. A short list of familiar names is normal. A name you have never heard of, on a Marketplace box, is leftover from the last owner.</p>
+<p>Built-in timers you can leave alone: <span><code>apt-daily</code></span>, <span><code>apt-daily-upgrade</code></span>, <span><code>logrotate</code></span>, <span><code>man-db</code></span>, <span><code>fstrim</code></span>, <span><code>systemd-tmpfiles-clean</code></span>, <span><code>e2scrub</code></span>, <span><code>motd-news</code></span>. Those run daily or weekly maintenance jobs. Don't turn them off tonight.</p>
+<p>Optional longer list, if you also want timers that are configured but inactive:</p>
+<p><code>systemctl list-timers --all</code></p>
+
+<h2>If a name looks extra</h2>
+<p>Don't disable a name you don't recognize on day one. Write it down. Read that job's recent log: <a href="leftover-box-read-logs">when something broke, look at the log</a>. If the computer feels busy at a regular hour, that is <a href="leftover-box-whats-busy">see what is keeping the computer busy</a>. A copy that fills the disk is still <a href="leftover-box-disk-space">see if the computer still has room</a>, not a new NAS.</p>
+
+<h2>Optional cron</h2>
+<p>Some old office boxes still use cron, an older scheduler, instead of a timer. If <span><code>systemctl list-timers</code></span> only showed the usual names and the computer still does something at a regular hour, ask:</p>
+<p><code>crontab -l</code></p>
+<p>No crontab for you is fine. Then the system list:</p>
+<p><code>ls /etc/cron.d</code></p>
+<p>Names you already know from the timer list can wait. A file named after a person, a coin, or a folder you don't use is extra. Don't delete it tonight. Read it later, after SSH and a backup you trust are boring.</p>
+
+<h2>What next</h2>
+<p>The house clock stays <a href="leftover-box-timezone">set the computer clock to your house</a>. After one manual copy worked, add your own weekly job: <a href="leftover-box-backup-timer">back up the house folder every week without remembering</a>. Weekly fixes stay <a href="leftover-box-updates">keep the computer updated</a>, or later <a href="leftover-box-unattended">let the computer apply weekly fixes without you</a>. Skip a camera. Skip a monitoring box for this look.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip this note if you just installed a fresh OS and you have not added a timer yet.</li>
+<li>Skip this note if SSH from the couch does not work yet. That is <a href="first-ssh">SSH from the couch</a>.</li>
+<li>Skip turning off <span><code>apt-daily</code></span> or <span><code>apt-daily-upgrade</code></span> tonight.</li>
+<li>Skip a monitoring box or a NAS for this look.</li>
+<li>Skip opening SSH to the internet.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/systemd/systemctl.1.en.html">Debian: systemctl</a> (<span><code>list-timers</code></span>). <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/systemctl.1.html">Ubuntu: systemctl</a>. <a href="https://manpages.debian.org/bookworm/cron/crontab.1.en.html">Debian: crontab</a>. Official pages only. For the house clock, see <a href="leftover-box-timezone">set the computer clock to your house</a>. For adding your own weekly copy, see <a href="leftover-box-backup-timer">back up the house folder every week without remembering</a>. For a job that already broke, see <a href="leftover-box-failed-units">see if any house jobs failed to start</a>. For the login, see <a href="first-ssh">SSH from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="leftover-box-timezone"><span class="t">Set the computer clock to your house</span><span class="d">Logs, updates, and weekly backups only make sense if the computer uses your local time. timedatectl sets the city zone. The computer keeps the clock correct over the network.</span></a>
+<a class="note-row" href="leftover-box-backup-timer"><span class="t">Back up the house folder every week without remembering</span><span class="d">After one manual USB (or second-box) copy works, let the computer run the same rsync on a weekly timer. A phone reminder is still fine if you prefer.</span></a>
+<a class="note-row" href="leftover-box-failed-units"><span class="t">See if any house jobs failed to start</span><span class="d">After a reboot, check failed units before you blame the network or buy a new box.</span></a>
+<a class="note-row" href="leftover-box-unattended"><span class="t">Let the computer apply weekly fixes without you</span><span class="d">After the weekly two-command habit is boring, you can let the computer apply those same fixes by itself. Skip this until that habit is boring. Don't let it reboot on its own.</span></a>
+<a class="note-row" href="leftover-box-read-logs"><span class="t">When something broke, look at the log</span><span class="d">SSH works, but a house job doesn't. Read the program's recent log before you buy a monitoring box.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-timezone"><span class="kicker">Previous</span><span class="t">Set the computer clock to your house</span></a>
+<a rel="next" href="leftover-box-backup-timer"><span class="kicker">Next</span><span class="t">Back up the house folder every week without remembering</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Read a file without opening the editor — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After SSH works, print a file with cat so you can read it without opening nano. Short files only. You don't need a file viewer for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Read a file without opening the editor — Labthrift">
+<meta property="og:description" content="After SSH works, print a file with cat so you can read it without opening nano. Short files only. You don't need a file viewer for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-cat">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-cat">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Read a file without opening the editor","description":"After SSH works, print a file with cat so you can read it without opening nano. Short files only. You don't need a file viewer for this.","url":"https://labthrift.com/guides/leftover-box-cat","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-29"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Read a file without opening the editor</span></nav>
+<p class="note">Written 29 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>Read a file without opening the editor</h1>
+<p class="deck">After SSH works, print a file with <span><code>cat</code></span> so you can read it without opening nano. Short files only. You don't need a file viewer for this.</p>
+<p><a href="leftover-box-ls">See what's in a folder</a> gives you names. Tonight you want the words inside one of those names. <span><code>cat</code></span> prints a file straight into the SSH window. Useful after <a href="leftover-box-nano">edit a file from the couch</a>, so you can check the save without opening the editor again. It does not need a desktop, a file manager, or a NAS for this one job.</p>
+
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If you only want the names in a folder, that is <a href="leftover-box-ls">see what's in a folder</a>. If you want to change a line, that is <a href="leftover-box-nano">edit a file from the couch</a>. If a house job broke and you need the computer's own log, that is <a href="leftover-box-read-logs">when something broke, look at the log</a>. Skip this whole note if you only need a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</p>
+
+<h2>What this is</h2>
+<p><span><code>cat</code></span> prints a file. You run it on the computer, after SSH. The file stays on disk. You are only looking. It does not open an editor. That is <span><code>nano</code></span>. It does not list folder names. That is <span><code>ls</code></span>. It does not pull the computer's system journal. That is <a href="leftover-box-read-logs">when something broke, look at the log</a>. One path, same computer, words on the screen.</p>
+
+<h2>Print a short file</h2>
+<p>SSH in. If you don't already have a throwaway file, make one in home:</p>
+<p><code>echo 'hello' &gt; ~/hello.txt</code></p>
+<p>Then print it:</p>
+<p><code>cat ~/hello.txt</code></p>
+<p>You want the same line you wrote. Swap the name for yours. A short text file is the right first try. Photos, zip files, and programs will print junk. Skip those.</p>
+
+<h2>See that you did not change it</h2>
+<p>List it:</p>
+<p><code>ls -lh ~/hello.txt</code></p>
+<p>You want the same name, a tiny size, and today's date if you just made it. Print it a second time if you want. The computer showed you the file. It did not edit it. Need a line changed? That is <a href="leftover-box-nano">edit a file from the couch</a>.</p>
+
+<h2>Optional: first lines only</h2>
+<p>A long file can flood the SSH window. If that happens, Ctrl+C stops the print. For a peek at the top instead:</p>
+<p><code>head -n 20 ~/hello.txt</code></p>
+<p>That peek is also its own note: <a href="leftover-box-head">see the start of a file</a>.</p>
+<p>That prints the first twenty lines and stops. Need the last lines instead? That is <a href="leftover-box-tail">see the end of a file</a>. Need the whole long file one screen at a time? That is <a href="leftover-box-less">read a file one screen at a time</a>. Optional line numbers on a short file:</p>
+<p><code>cat -n ~/hello.txt</code></p>
+<p>Practice in home. Skip SSH settings and anything under <span><code>/etc/shadow</code></span>.</p>
+
+<h2>What this is not</h2>
+<p>This is not an editor. That is <a href="leftover-box-nano">edit a file from the couch</a>. It is not a list of names. That is <a href="leftover-box-ls">see what's in a folder</a>. It is not the computer's system journal. That is <a href="leftover-box-read-logs">when something broke, look at the log</a>. It is not a look at which laptop keys the computer already trusts. That is <a href="leftover-box-authorized-keys">see which laptop keys the computer already trusts</a>. It is not a house share other computers browse. That is <a href="first-file-share">a folder the house can open</a>.</p>
+
+<h2>What next</h2>
+<p>Need the whole long file one screen at a time? <a href="leftover-box-less">Read a file one screen at a time</a>. Need only the lines with one word? <a href="leftover-box-grep">Find a word in a file</a>. Need the names first? <a href="leftover-box-ls">See what's in a folder</a>. Need to change a line? <a href="leftover-box-nano">Edit a file from the couch</a>. Need a spare before you edit? <a href="leftover-box-cp">Copy a file without leaving the computer</a>. Need a better name? <a href="leftover-box-mv">Rename or move a file</a>. Need the throwaway gone for real? <a href="leftover-box-rm">Delete a file carefully</a>. Need a file from the laptop instead? <a href="leftover-box-scp">Copy a file to the computer from your laptop</a>. Tired of retyping the same long line? <a href="leftover-box-history">Reuse a command you already typed</a>. When key login is boring on every computer you use, <a href="leftover-box-ssh-no-password">turn off password login once the key works</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip <span><code>nano</code></span> if you only want to look. That tool is for changing a line.</li>
+<li>Skip <span><code>cat</code></span> on photos, zip files, programs, or a file so long it never stops. Use <a href="leftover-box-head">see the start of a file</a> for a peek, or <a href="leftover-box-less">read a file one screen at a time</a> for the whole long file.</li>
+<li>Skip buying a file viewer, a “cloud IDE,” or a NAS to read one text file.</li>
+<li>Skip SSH settings, <span><code>/etc/shadow</code></span>, and anything under <span><code>/etc/ssh</code></span>. Looking at trusted laptop keys is <a href="leftover-box-authorized-keys">see which laptop keys the computer already trusts</a>.</li>
+<li>Skip opening SSH to the internet so you can read files from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://www.gnu.org/software/coreutils/manual/html_node/cat-invocation.html">GNU coreutils: cat invocation</a>. <a href="https://manpages.debian.org/bookworm/coreutils/cat.1.en.html">Debian: cat</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/cat.1.html">Ubuntu: cat</a>. <a href="https://www.gnu.org/software/coreutils/manual/html_node/head-invocation.html">GNU coreutils: head invocation</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For listing names, see <a href="leftover-box-ls">see what's in a folder</a>. For changing a line, see <a href="leftover-box-nano">edit a file from the couch</a>. For the computer's system journal, see <a href="leftover-box-read-logs">when something broke, look at the log</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-ls"><span class="t">See what's in a folder</span><span class="d">After SSH works, list the folder you are sitting in with ls. You don't need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-less"><span class="t">Read a file one screen at a time</span><span class="d">After SSH works, open a file with less so a long file does not flood the window. Space turns the page. q leaves. You don't need a file viewer for this.</span></a>
+<a class="note-row" href="leftover-box-nano"><span class="t">Edit a file from the couch</span><span class="d">After SSH works, open a file with nano, change a line, and save. The keys at the bottom of the screen are the whole trick. You don't need a new editor.</span></a>
+<a class="note-row" href="leftover-box-cp"><span class="t">Copy a file without leaving the computer</span><span class="d">After SSH works, copy a file with cp so you can edit a spare without wrecking the original. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-mv"><span class="t">Rename or move a file</span><span class="d">After SSH works, rename or move a file with mv so the name matches the job. The old name is gone. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-rm"><span class="t">Delete a file carefully</span><span class="d">After SSH works, delete one file with rm -i. Ask first. Skip rm -rf. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-scp"><span class="t">Copy a file to the computer from your laptop</span><span class="d">After SSH works, use scp to move one file without a USB stick. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-read-logs"><span class="t">When something broke, look at the log</span><span class="d">SSH works, but a house job doesn't. Read the program's recent log before you buy a monitoring box.</span></a>
+<a class="note-row" href="leftover-box-authorized-keys"><span class="t">See which laptop keys the computer already trusts</span><span class="d">Before you turn off password login, look at which laptop keys can already get in. Remove leftovers from an old Marketplace box. You don't need a YubiKey for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-rm"><span class="kicker">Previous</span><span class="t">Delete a file carefully</span></a>
+<a rel="next" href="leftover-box-less"><span class="kicker">Next</span><span class="t">Read a file one screen at a time</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

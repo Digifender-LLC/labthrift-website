@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See the computer's hardware address — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Before you reserve the computer's number, write down the sticker-like address the router uses to recognize it.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See the computer's hardware address — Labthrift">
+<meta property="og:description" content="Before you reserve the computer's number, write down the sticker-like address the router uses to recognize it.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-mac-addr">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-mac-addr">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See the computer's hardware address","description":"Before you reserve the computer's number, write down the sticker-like address the router uses to recognize it.","url":"https://labthrift.com/guides/leftover-box-mac-addr","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-27"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">See the computer's hardware address</span></nav>
+<p class="note">Written 27 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>See the computer's hardware address</h1>
+<p class="deck">Before you reserve the computer's number, write down the sticker-like address the router uses to recognize it.</p>
+<p>The hardware address (MAC) is a sticker-like number on the network plug. It stays put when the house number (IP) moves. The router uses it to pick this computer out of the client list. You already know the computer's house number from <a href="leftover-box-ip-addr">see the computer's address on the house network</a>. This note writes down the sticker so <a href="leftover-box-dhcp-reservation">keep the computer on the same number</a> is easy.</p>
+
+<h2>Skip until SSH works</h2>
+<p>If you have never logged in from the couch, that is <a href="first-ssh">SSH from the couch</a>. You can also type this at the keyboard. Prefer this look after a cable is plugged in, ping to the router works, and you know the cable speed: <a href="leftover-box-ethernet">a cable beats Wi-Fi for the computer</a>, then <a href="leftover-box-ping">check that the computer can reach the house router</a>, then <a href="leftover-box-link-speed">see the cable speed</a>. This note assumes you can log in from the couch, or sit at the keyboard.</p>
+
+<h2>What this is</h2>
+<p>A look, not a shopping trip. You need this sticker to reserve the computer's number on the house router. Don't buy a switch for a hardware address. The same command already told you the cable was UP in <a href="leftover-box-ethernet">a cable beats Wi-Fi for the computer</a>. This time, copy the six pairs.</p>
+
+<h2>Ask for the sticker</h2>
+<p>SSH in from the couch, or sit at the keyboard, then ask:</p>
+<p><code>ip -br link</code></p>
+<p>Skip the <span><code>lo</code></span> line. That is the loopback line. The computer uses it internally. Point at the ethernet line that is UP (often a name that starts with <span><code>en</code></span>, or <span><code>eth0</code></span>). The six pairs with colons are the hardware address. Copy that one. Wi-Fi lines can wait if a cable is plugged in.</p>
+
+<h2>Optional longer print</h2>
+<p>If you want the longer table:</p>
+<p><code>ip link show</code></p>
+<p>Point at the same UP ethernet name. The <span><code>link/ether</code></span> line is the same sticker. Keep this light. Don't change the address tonight.</p>
+
+<h2>Write it down</h2>
+<p>Sticky note or phone, next to the house number from <a href="leftover-box-ip-addr">see the computer's address on the house network</a>. The next step is <a href="leftover-box-dhcp-reservation">keep the computer on the same number</a>. Match this sticker on the router client list so the reservation sticks to this computer, not a phone that borrowed the old number.</p>
+
+<h2>What next</h2>
+<p>Keep the number stable: <a href="leftover-box-dhcp-reservation">keep the computer on the same number</a>. Cable speed: <a href="leftover-box-link-speed">see the cable speed</a>. Path to the router: <a href="leftover-box-ping">check that the computer can reach the house router</a>. Cable: <a href="leftover-box-ethernet">a cable beats Wi-Fi for the computer</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH and the keyboard both fail. That is <a href="leftover-box-still-on">is the computer still on?</a> or <a href="first-ssh">SSH from the couch</a>.</li>
+<li>Skip a new switch for this look.</li>
+<li>Skip typing a static IP into Linux on the computer. The reservation on the router is enough.</li>
+<li>Skip forwarding port 22.</li>
+<li>Skip buying a NAS for a sticker.</li>
+<li>Skip Proxmox tonight. That is <a href="what-is-a-vm">what a VM is, and when you don't need one</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/iproute2/ip-link.8.en.html">Debian: ip-link</a>. Official pages only. For the cable, see <a href="leftover-box-ethernet">a cable beats Wi-Fi for the computer</a>. For the house number, see <a href="leftover-box-ip-addr">see the computer's address on the house network</a>. For the cable speed, see <a href="leftover-box-link-speed">see the cable speed</a>. For the path to the router, see <a href="leftover-box-ping">check that the computer can reach the house router</a>. For keeping the number, see <a href="leftover-box-dhcp-reservation">keep the computer on the same number</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="wake-on-lan"><span class="t">Wake the computer from the house network</span><span class="d">Soft-off is fine overnight. Wake the old PC from a laptop or phone on the house network so SSH and Pi-hole come back. You don't need a smart plug for this.</span></a>
+<a class="note-row" href="leftover-box-link-speed"><span class="t">See the cable speed</span><span class="d">Before you buy a faster switch, check whether the computer is already at gigabit, or stuck at 100.</span></a>
+<a class="note-row" href="leftover-box-ping"><span class="t">Check that the computer can reach the house router</span><span class="d">Before you blame the switch or buy a new cable, ping the router from the computer.</span></a>
+<a class="note-row" href="leftover-box-ip-addr"><span class="t">See the computer's address on the house network</span><span class="d">You need the computer's number before you reserve DHCP or SSH from another room.</span></a>
+<a class="note-row" href="leftover-box-ethernet"><span class="t">Prefer a cable on the computer</span><span class="d">Once the computer is doing real work, plug it into the router with a cable. House Wi-Fi can wait. Skip this if it is already on a cable.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-link-speed"><span class="kicker">Previous</span><span class="t">See the cable speed</span></a>
+<a rel="next" href="leftover-box-dhcp-reservation"><span class="kicker">Next</span><span class="t">Keep the computer on the same number</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

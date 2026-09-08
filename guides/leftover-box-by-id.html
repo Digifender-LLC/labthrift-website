@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See stable disk names by hardware id — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After by-uuid shows filesystem UUID paths, use ls on /dev/disk/by-id (and optional by-path) so you see hardware-style fixed names - ata-…, usb-…, nvme-… - that don't move when sdb becomes sdc.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See stable disk names by hardware id — Labthrift">
+<meta property="og:description" content="After by-uuid shows filesystem UUID paths, use ls on /dev/disk/by-id (and optional by-path) so you see hardware-style fixed names - ata-…, usb-…, nvme-… - that don't move when sdb becomes sdc.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-by-id">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-by-id">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See stable disk names by hardware id","description":"After by-uuid shows filesystem UUID paths, use ls on /dev/disk/by-id (and optional by-path) so you see hardware-style fixed names - ata-…, usb-…, nvme-… - that don't move when sdb becomes sdc.","url":"https://labthrift.com/guides/leftover-box-by-id","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-02"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"File storage","item":"https://labthrift.com/guides/#first-nas"},{"@type":"ListItem","position":3,"name":"See stable disk names by hardware id"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#first-nas">File storage</a> / <span aria-current="page">See stable disk names by hardware id</span></nav>
+<p class="note">Written 2 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>See stable disk names by hardware id</h1>
+<p class="deck">After <a href="leftover-box-by-uuid">by-uuid</a> shows filesystem UUID paths, use a simple <span><code>ls</code></span> under <span><code>/dev/disk/by-id</code></span> (and optional <span><code>by-path</code></span>) so you see hardware-style fixed names - <span><code>ata-…</code></span>, <span><code>usb-…</code></span>, <span><code>nvme-…</code></span> - that don't move when <span><code>sdb</code></span> becomes <span><code>sdc</code></span>.</p>
+<p>A device letter like <span><code>sdb1</code></span> can change when you unplug and replug. Linux already keeps another set of names under <span><code>/dev/disk/by-id</code></span> that follow how the hardware presents itself - serial and bus style, not the filesystem UUID. Tonight you only list those folders. You don't mount, format, wipe, or rewrite fstab.</p>
+
+<h2>Skip until SSH works</h2>
+<p>If you cannot log in from the couch yet, stop. That is <a href="first-ssh">SSH from the couch</a>. Stable paths don't help a login that fails.</p>
+<p>If you only need the list of disks and USB sticks, that is <a href="leftover-box-lsblk">see disks and USB sticks</a> (<span><code>lsblk</code></span>). If you only need which folders are already attached, that is <a href="leftover-box-findmnt">see which folders are already attached</a> (<span><code>findmnt</code></span>). If you only need labels and UUIDs printed as text, that is <a href="leftover-box-blkid">read disk labels and UUIDs</a> (<span><code>blkid</code></span>). If you only need filesystem UUID paths, that is <a href="leftover-box-by-uuid">see stable disk names by UUID</a>. If you only need room left on a path, that is <a href="leftover-box-disk-space">see if the computer still has room</a> (<span><code>df</code></span>).</p>
+
+<h2>What this is</h2>
+<p><span><code>/dev/disk/by-id</code></span> (and optional <span><code>/dev/disk/by-path</code></span>) are folders of short names Linux builds for you. Each name is a <strong>symlink</strong> - in plain English, a pointer that says “this hardware id is really <span><code>/dev/sda</code></span> (or <span><code>sdb1</code></span>) right now.”</p>
+<p>Here is the one jargon split for tonight: <strong>by-uuid</strong> names come from the <em>filesystem</em> UUID (the tag <span><code>blkid</code></span> prints). <strong>by-id</strong> names come from how the <em>hardware</em> presents itself - often a serial and a bus prefix like <span><code>ata-</code></span>, <span><code>usb-</code></span>, or <span><code>nvme-</code></span>. Both stay put when the letter moves. Both are look-only tonight. You don't mount, unmount, format, or wipe anything.</p>
+
+<h2>Practice: list the hardware-style names</h2>
+<p>SSH in from the couch, then run:</p>
+<p><code>ls /dev/disk/by-id</code></p>
+<p>You should see a list of longer names - often starting with <span><code>ata-</code></span>, <span><code>usb-</code></span>, <span><code>nvme-</code></span>, or similar - plus partition suffixes like <span><code>-part1</code></span> on some entries. In plain English: Linux already made a fixed hardware-style name for each disk (and often each slice) it can identify.</p>
+<p>Optional: the same idea by how the disk is plugged in (controller / port style):</p>
+<p><code>ls /dev/disk/by-path</code></p>
+<p>Optional: see what each by-id name points at right now:</p>
+<p><code>ls -l /dev/disk/by-id</code></p>
+<p>The right-hand side is usually something like <span><code>../../sda</code></span> or <span><code>../../sdb1</code></span>. That is the symlink target - today’s device letter. Tomorrow the letter might change; the by-id entry stays. Home-safe look only. Don't format, wipe, remount, or edit fstab tonight.</p>
+
+<h2>Optional: after you plug in a USB for backup</h2>
+<p>Plug the stick into the computer. Run <span><code>lsblk</code></span> so you know today’s letter, then run <span><code>ls /dev/disk/by-id</code></span> (or <span><code>ls -l</code></span>). You should see a <span><code>usb-…</code></span> style name appear, pointing at today’s <span><code>/dev/…</code></span> name. Compare with <a href="leftover-box-by-uuid">by-uuid</a> if you already know the filesystem UUID - same stick, two kinds of fixed name. If you need the mount map next, that is <a href="leftover-box-findmnt">see which folders are already attached</a>. The backup job, once a path is live, is <a href="first-backup">a backup of the folder</a>.</p>
+
+<h2>Useful extras, still a look</h2>
+<p>Skip <span><code>mount</code></span> and <span><code>umount</code></span> as the job. Tonight you list the stable hardware-style names Linux already made.</p>
+<p>Skip rewriting disks, <span><code>dd</code></span>, <span><code>shred</code></span>, <span><code>fdisk</code></span>, <span><code>parted</code></span>, format, or rewriting fstab as the lesson. Those are not this note.</p>
+<p>Skip buying a NAS because a by-id name looks unfamiliar. Free room is <a href="leftover-box-disk-space">disk-space</a>. Disk names without tags are <a href="leftover-box-lsblk">lsblk</a>. Mount maps are <a href="leftover-box-findmnt">findmnt</a>. Printed labels and UUIDs are <a href="leftover-box-blkid">blkid</a>. Filesystem UUID paths are <a href="leftover-box-by-uuid">by-uuid</a>.</p>
+<p>Skip <span><code>screen</code></span>, <span><code>tmux</code></span>, and port 22 forwarding. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>.</p>
+<p>Skip <span><code>awk</code></span>, <span><code>sed</code></span>, and install as new pages this cycle.</p>
+
+<h2>What this is not</h2>
+<p>This is not <span><code>lsblk</code></span>. That lists disks and USB sticks by name: <a href="leftover-box-lsblk">see disks and USB sticks</a>. It is not <span><code>findmnt</code></span>. That shows which folders are already attached: <a href="leftover-box-findmnt">see which folders are already attached</a>. It is not <span><code>blkid</code></span>. That prints LABEL, UUID, and TYPE as text: <a href="leftover-box-blkid">read disk labels and UUIDs</a>. It is not by-uuid. That lists filesystem UUID (and optional label) paths under <span><code>/dev/disk/by-uuid</code></span>: <a href="leftover-box-by-uuid">see stable disk names by UUID</a>. It is not disk-space (<span><code>df</code></span>). That shows how full a mounted path is: <a href="leftover-box-disk-space">see if the computer still has room</a>. It is not <span><code>disk</code></span>, which focuses on how big the main disk already is: <a href="leftover-box-disk">see how big the disk already is</a>. It is not USB-disk, a shorter “did the stick show up?” check: <a href="leftover-box-usb-disk">see if the USB backup disk showed up</a>. It is not the backup copy itself: <a href="first-backup">a backup of the folder</a>.</p>
+
+<h2>What next</h2>
+<p>Want a deeper look at what udev knows about one disk? <a href="leftover-box-udevadm">Peek at disk details with udevadm</a>. Need filesystem UUID paths first? <a href="leftover-box-by-uuid">See stable disk names by UUID</a>. Need labels and UUIDs printed? <a href="leftover-box-blkid">Read disk labels and UUIDs</a>. Need the disk-name list? <a href="leftover-box-lsblk">See disks and USB sticks</a>. Need which folders are already attached? <a href="leftover-box-findmnt">See which folders are already attached</a>. Need room left on a path? <a href="leftover-box-disk-space">See if the computer still has room</a>. Stick visible and ready for a second copy? <a href="first-backup">A backup of the folder</a>. Need how big the main disk already is? <a href="leftover-box-disk">See how big the disk already is</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. awk, sed, and install stay deferred this cycle.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip <span><code>lsblk</code></span>, <span><code>findmnt</code></span>, <span><code>blkid</code></span>, by-uuid, disk-space, or total disk size as tonight&apos;s job if you only came for the stable <span><code>/dev/disk/by-id</code></span> names. Those notes already exist.</li>
+<li>Skip <span><code>mount</code></span>/<span><code>umount</code></span> as the lesson, and skip rewriting disks, <span><code>dd</code></span>, <span><code>shred</code></span>, <span><code>fdisk</code></span>, <span><code>parted</code></span>, format, and rewriting fstab.</li>
+<li>Skip buying a NAS because a by-id name looks unfamiliar.</li>
+<li>Skip <span><code>awk</code></span>/<span><code>sed</code></span>/install as new pages this cycle, <span><code>screen</code></span>, <span><code>tmux</code></span>, and port 22 forwarding.</li>
+<li>Skip opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+</ul>
+
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/coreutils/ls.1.en.html">Debian: ls(1)</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/ls.1.html">Ubuntu: ls(1)</a>. Device naming under <span><code>/dev/disk/</code></span> (including <span><code>by-id</code></span> and <span><code>by-path</code></span>) is standard Linux (udev). Official pages only. For filesystem UUID paths, see <a href="leftover-box-by-uuid">see stable disk names by UUID</a>. For printed labels and UUIDs, see <a href="leftover-box-blkid">read disk labels and UUIDs</a>. For the disk-name list, see <a href="leftover-box-lsblk">see disks and USB sticks</a>. For the mount map, see <a href="leftover-box-findmnt">see which folders are already attached</a>. For free room, see <a href="leftover-box-disk-space">see if the computer still has room</a>. For a second copy once a USB path is live, see <a href="first-backup">a backup of the folder</a>. For the login, see <a href="first-ssh">SSH from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-lsblk"><span class="t">See disks and USB sticks</span><span class="d">After SSH works (and before you blame a missing USB backup), list disks and USB sticks with lsblk so you see names like sda and sdb without opening a disk app.</span></a>
+<a class="note-row" href="leftover-box-findmnt"><span class="t">See which folders are already attached</span><span class="d">After you can list disks with lsblk (and before you blame a missing USB backup), use findmnt to see which folders are already attached (mounted) so you know what is live as / or a USB path.</span></a>
+<a class="note-row" href="leftover-box-blkid"><span class="t">Read disk labels and UUIDs</span><span class="d">After you can list disks with lsblk and see which folders are attached with findmnt, use blkid to read labels, UUIDs, and filesystem types on disk slices so you can tell which stick or slice is which.</span></a>
+<a class="note-row" href="leftover-box-by-uuid"><span class="t">See stable disk names by UUID</span><span class="d">After blkid shows labels and UUIDs, use ls on /dev/disk/by-uuid (and optional by-label) so you see the fixed paths Linux already made - names that don't move when sdb becomes sdc.</span></a>
+<a class="note-row" href="leftover-box-udevadm"><span class="t">Peek at disk details with udevadm</span><span class="d">After by-id shows hardware-style fixed names, use udevadm info (look-only) on a disk path so you see the properties udev already knows - without mounting or rewriting anything.</span></a>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="leftover-box-disk"><span class="t">See how big the disk already is</span><span class="d">Before you buy a tiny computer or a NAS, check how big the disk already is.</span></a>
+<a class="note-row" href="leftover-box-usb-disk"><span class="t">See if the USB backup disk showed up</span><span class="d">Before you trust the weekly copy, confirm the computer can see the USB disk.</span></a>
+<a class="note-row" href="first-backup"><span class="t">A backup of the folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another computer. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-by-uuid"><span class="kicker">Previous</span><span class="t">See stable disk names by UUID</span></a>
+<a rel="next" href="leftover-box-udevadm"><span class="kicker">Next</span><span class="t">Peek at disk details with udevadm</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

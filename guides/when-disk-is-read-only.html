@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When the disk went read-only — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="apt fails, the share won't take photos, or mount shows ro after a power blip. Confirm the filesystem is read-only, copy off what you can, then remount or fsck — don't force a write on a dying disk.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When the disk went read-only — Labthrift">
+<meta property="og:description" content="apt fails, the share won't take photos, or mount shows ro after a power blip. Confirm the filesystem is read-only, copy off what you can, then remount or fsck — don't force a write on a dying disk.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-disk-is-read-only">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-disk-is-read-only">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When the disk went read-only","description":"apt fails, the share won't take photos, or mount shows ro after a power blip. Confirm the filesystem is read-only, copy off what you can, then remount or fsck — don't force a write on a dying disk.","url":"https://labthrift.com/guides/when-disk-is-read-only","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-07"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When the disk went read-only</span></nav>
+<p class="note">Written 7 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When the disk went read-only</h1>
+<p class="deck">apt fails, the share won't take photos, or mount shows ro after a power blip. Confirm the filesystem is read-only, copy off what you can, then remount or fsck. Don't force a write on a dying disk.</p>
+<p>Share opens but one folder won't accept a save, and <span><code>df</code></span> still looks fine? That is usually Samba or ownership: <a href="when-share-wont-write">when you can open the house share but can't write</a>. Disk packed with no free gigabytes? <a href="when-house-disk-full">when the computer's disk is full</a>. SMART already FAILED or the drive clicks? <a href="when-disk-is-dying">when the old disk is dying</a>. This note is the kernel protecting the filesystem: the whole mount flipped to read-only after errors or a hard power cut.</p>
+
+<h2>Skip until you can reach a shell</h2>
+<p>You need SSH or a keyboard and screen. Connect fails? <a href="when-ssh-wont-connect">when SSH won't connect</a>. No fans, black screen? <a href="when-computer-wont-boot">when the old PC won't boot</a>. Don't yank the power again to "test" it while the house folder has no second copy.</p>
+
+<h2>What this is</h2>
+<p>Linux can remount a filesystem read-only when it hits I/O errors, a dirty journal after a power cut, or a dying platter. Writes fail with "Read-only file system." apt dies. The share may still open for browsing. Photos stop copying. The fix is not <span><code>chmod</code></span>. The fix is: prove it is read-only, check whether the disk is dying, copy what you can to a stick or another PC, then remount or run a filesystem check from a calm boot.</p>
+
+<h2>Step 1: prove the mount is read-only</h2>
+<p>Show how root is mounted:</p>
+<p><code>findmnt -no OPTIONS /</code></p>
+<p>Or:</p>
+<p><code>mount | grep ' on / '</code></p>
+<p>Look for <span><code>ro</code></span> in the options (read-only). <span><code>rw</code></span> means read-write. If root is still <span><code>rw</code></span>, check the house folder's own mount (a stay-in USB share, for example):</p>
+<p><code>findmnt -no TARGET,OPTIONS /srv/share</code></p>
+<p>Swap in your real share path. A quick write test also tells the story:</p>
+<p><code>touch /tmp/labthrift-write-test &amp;&amp; rm /tmp/labthrift-write-test</code></p>
+<p>If that prints <span><code>Read-only file system</code></span>, you are on this page. If <span><code>/tmp</code></span> works but the share path fails, the share disk (or Samba) may be the only problem: <a href="when-share-wont-write">when you can open the house share but can't write</a>.</p>
+
+<h2>Step 2: read the kernel's reason</h2>
+<p>Recent disk noise:</p>
+<p><code>dmesg -T | tail -n 80</code></p>
+<p>Lines with <span><code>Remounting filesystem read-only</code></span>, <span><code>I/O error</code></span>, <span><code>Buffer I/O error</code></span>, <span><code>ext4</code></span> errors, or <span><code>XFS</code></span> shutdown mean the kernel already decided writes are unsafe. Also check overall SMART health if you can still read the disk:</p>
+<p><code>sudo smartctl -H /dev/sda</code></p>
+<p>Swap <span><code>sda</code></span> or use <span><code>nvme0n1</code></span> from <span><code>lsblk -d -o NAME,SIZE,MODEL,TRAN</code></span>. Install smartmontools first if needed: <span><code>sudo apt install -y smartmontools</code></span> (that install will fail too if root is read-only — skip it and treat the disk as untrusted). Quiet health walk while things still feel fine: <a href="see-disk-health">see if the old disk is dying</a>. Already FAILED or clicking: <a href="when-disk-is-dying">when the old disk is dying</a>.</p>
+
+<h2>Step 3: stop writing, start a second copy</h2>
+<p>Don't run a long repair as your first move if the house folder has no second copy. Don't delete the only backup stick to "make room." Don't force a remount read-write just to finish a phone dump onto a dying disk.</p>
+<p>If reads still work, copy the house folder to a USB stick or another old PC now:</p>
+<ul>
+<li><a href="first-backup">a backup of the house folder</a></li>
+<li><a href="backup-to-another-pc">copy the house folder to another old computer</a></li>
+<li><a href="format-usb-for-backup">format a USB stick for the house backup</a> if the stick is blank</li>
+</ul>
+<p>Reads fail mid-copy? Take what you can. Note which folders died. A partial second copy beats none. Power just came back after a blink? House recovery order: <a href="after-power-outage">after the power comes back</a>.</p>
+
+<h2>Step 4: try a calm remount only if the disk looks healthy</h2>
+<p>If SMART is PASSED, dmesg is quiet after the remount line, and you already have a second copy (or the house folder is empty), you can ask for read-write again:</p>
+<p><code>sudo mount -o remount,rw /</code></p>
+<p>For a separate share disk mounted elsewhere, remount that path instead of <span><code>/</code></span>. Then retry the write test from Step 1. If remount fails, or the kernel flips back to read-only within minutes, stop forcing writes. Treat it as <a href="when-disk-is-dying">when the old disk is dying</a>.</p>
+
+<h2>Step 5: filesystem check from a boot USB when remount is not enough</h2>
+<p>A dirty journal after a hard power cut often needs <span><code>fsck</code></span> on an unmounted filesystem. You usually cannot safely fsck the live root while you are booted from it. Boot a live or installer USB, open a shell, find the partition, then check it. Stick how-tos: <a href="make-boot-usb">make a boot USB</a>, <a href="boot-from-usb">boot from the USB</a>, <a href="when-usb-wont-boot">when the boot USB won't start</a>.</p>
+<p>From the live session (example names — use yours from <span><code>lsblk</code></span>):</p>
+<p><code>sudo fsck -f /dev/sda2</code></p>
+<p>Answer the repair prompts only if you understand the question. When in doubt, copy more data off first and ask someone who has run fsck before. After a clean check, reboot into the normal install and confirm <span><code>findmnt -no OPTIONS /</code></span> shows <span><code>rw</code></span>.</p>
+
+<h2>Step 6: if it keeps coming back</h2>
+<p>Read-only again after a remount or after fsck is a disk story, not a Samba story. Copy whatever is left. Plan a drive swap on a calm day: <a href="when-disk-is-dying">when the old disk is dying</a>. Fresh OS on a replacement drive, then <a href="restore-house-folder">put the house folder back from the backup</a>. Don't buy a multi-bay NAS tonight because one Marketplace filesystem flipped to ro.</p>
+
+<h2>What this is not</h2>
+<p>This is not Samba <span><code>read only = yes</code></span> in the share config (<a href="when-share-wont-write">when you can open the house share but can't write</a>). It is not a full disk with zero free bytes (<a href="when-house-disk-full">when the computer's disk is full</a>). It is not inode exhaustion while gigabytes look free (<a href="leftover-box-inodes">when copies fail but free space looks fine</a>). It is not a reason to <span><code>chmod -R 777 /</code></span>.</p>
+
+<h2>What next</h2>
+<p>Second copy habit: <a href="first-backup">a backup of the house folder</a>. Quiet SMART checks later: <a href="see-disk-health">see if the old disk is dying</a>. After a wipe and reinstall: <a href="restore-house-folder">put the house folder back from the backup</a>. Weekly updates failing for other reasons: <a href="when-updates-wont-install">when weekly updates won't install</a>. Box feels slow before the remount: <a href="when-the-computer-is-slow">when the old PC feels slow</a>.</p>
+
+<p class="note">Optional: jot "disk remounted read-only," the dmesg line, and where the second copy landed in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip forcing remount,rw on a disk that just logged I/O errors with no second copy.</li>
+<li>Skip <span><code>chmod -R 777 /</code></span>.</li>
+<li>Skip buying a NAS tonight because one filesystem flipped to read-only.</li>
+<li>Skip dumping more phone photos onto a read-only or dying disk as the only copy.</li>
+<li>Skip yanking power repeatedly to "test" the remount.</li>
+<li>Skip fsck on the live root while you are still booted from it.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/util-linux/findmnt.8.en.html">Debian: findmnt</a>. <a href="https://manpages.debian.org/bookworm/util-linux/mount.8.en.html">Debian: mount</a>. <a href="https://manpages.debian.org/bookworm/e2fsprogs/fsck.8.en.html">Debian: fsck</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man8/fsck.8.html">Ubuntu: fsck</a>. <a href="https://www.smartmontools.org/">smartmontools</a>. Official pages only. For a dying disk, see <a href="when-disk-is-dying">when the old disk is dying</a>. For Samba write failures, see <a href="when-share-wont-write">when you can open the house share but can't write</a>. For a second copy, see <a href="first-backup">a backup of the house folder</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="when-disk-is-dying"><span class="t">When the old disk is dying</span><span class="d">SMART says FAILED, the disk clicks, or dmesg shows I/O errors. Copy the house folder off first, then plan a drive swap. You don't need a NAS tonight.</span></a>
+<a class="note-row" href="see-disk-health"><span class="t">See if the old disk is dying</span><span class="d">SMART reports whether the drive still looks healthy. Install smartmontools, list the disk, run a quick health check before you trust photos on a Marketplace PC. You don't need a NAS.</span></a>
+<a class="note-row" href="when-house-disk-full"><span class="t">When the computer's disk is full</span><span class="d">Photos won't copy, the share says no space, or df shows the system disk packed. Confirm it is the computer (not the backup stick), free room or move the house folder. You don't need a NAS.</span></a>
+<a class="note-row" href="when-share-wont-write"><span class="t">When you can open the house share but can't write</span><span class="d">The house folder opens, but copy, save, or phone upload fails. Check disk room, Samba read only, then folder ownership. You don't need a NAS.</span></a>
+<a class="note-row" href="after-power-outage"><span class="t">After the power comes back</span><span class="d">House blink or outage. Wait for Wi-Fi, wake the computer, find its address again, then check ads, the share, and the backup stick. You don't need a new UPS tonight.</span></a>
+<a class="note-row" href="first-backup"><span class="t">A backup of the house folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another old computer. You don't need a NAS for this.</span></a>
+<a class="note-row" href="make-boot-usb"><span class="t">Make a boot USB for the install</span><span class="d">Write a Debian or Ubuntu installer to a spare USB stick so you can boot the Marketplace PC and wipe Windows. You don't need a new computer for this.</span></a>
+<a class="note-row" href="when-updates-wont-install"><span class="t">When weekly updates won't install</span><span class="d">apt says could not get lock, waiting for cache, or dpkg was interrupted. Wait out the other updater, free disk room, then finish the weekly fixes. You don't need a new mini PC.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="when-disk-is-dying"><span class="kicker">Previous</span><span class="t">When the old disk is dying</span></a>
+<a rel="next" href="when-share-wont-write"><span class="kicker">Next</span><span class="t">When you can open the house share but can't write</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

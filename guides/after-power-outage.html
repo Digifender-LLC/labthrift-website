@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>After the power comes back — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Lights blinked. Ads may be back, SSH may miss the old address, and the share may be gone. Check the computer, find its number, point DNS again if needed, then the share. You don't need a new UPS tonight.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="After the power comes back — Labthrift">
+<meta property="og:description" content="Lights blinked. Ads may be back, SSH may miss the old address, and the share may be gone. Check the computer, find its number, point DNS again if needed, then the share. You don't need a new UPS tonight.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/after-power-outage">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/after-power-outage">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"After the power comes back","description":"Lights blinked. Ads may be back, SSH may miss the old address, and the share may be gone. Check the computer, find its number, point DNS again if needed, then the share. You don't need a new UPS tonight.","url":"https://labthrift.com/guides/after-power-outage","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-06"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">After the power comes back</span></nav>
+<p class="note">Written 6 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>After the power comes back</h1>
+<p class="deck">Lights blinked. Ads may be back, SSH may miss the old address, and the share may be gone. Check the computer, find its number, point DNS again if needed, then the share. You don't need a new UPS tonight.</p>
+<p>Haven't installed the house ad block yet? Start with <a href="first-useful-service">the first useful thing</a>. Haven't set up a share yet? Start with <a href="first-file-share">a file share</a>. This note is the house-wide power blink or outage aftermath: router and computer likely rebooted together. ISP tech left a new gateway? That is <a href="when-isp-swaps-router">when the ISP swaps your router</a>. You rebooted the old PC on purpose and just need a job checklist? That is <a href="leftover-box-after-reboot">after a reboot, check the computer still does its jobs</a>.</p>
+
+<h2>Skip until the lights are actually back</h2>
+<p>If the house is still dark, wait. Don't open the router admin in the dark. Don't buy a UPS tonight for one blink. Later, when you care about quieter nights: <a href="leftover-box-no-ups">you don't need a UPS yet</a>, and when you do buy: <a href="cheap-ups-closet">a cheap UPS for a closet that stays on overnight</a>.</p>
+
+<h2>What this is</h2>
+<p>A short outage often reboots both the router and the computer. DHCP may hand the old PC a new number. Phones may fall back to ISP DNS, so ads load. SSH hangs on the lease you used to type. A backup USB may need a remount. The recovery is calm: wait for Wi-Fi, confirm the computer is on, find its number again, check the house jobs, then ads and the share.</p>
+
+<h2>Step 1: wait for the router</h2>
+<p>Watch the gateway lights settle. On a phone, confirm house Wi-Fi is back (not guest, not cellular). Give it a few minutes if the modem is still negotiating. Don't start SSH while the router is still blinking through boot.</p>
+
+<h2>Step 2: is the computer on?</h2>
+<p>Look for a power light or fan noise. If it has a screen, see if it woke. Soft-off is common after a blink. Press the power button once, then wait. Fuller awake check: <a href="leftover-box-still-on">is the computer still on?</a>. Soft-off from the couch later: <a href="wake-on-lan">wake the computer from the house network</a>.</p>
+
+<h2>Step 3: find the number again</h2>
+<p>Don't guess the old address. Look it up on the house network: <a href="find-the-leftover-box">find it on the house network</a>. If you have a keyboard on the computer:</p>
+<p><code>hostname -I</code></p>
+<p>Write down the number. You will use it for SSH, DNS, and the share.</p>
+
+<h2>Step 4: SSH or keyboard — confirm you can reach it</h2>
+<p>From the laptop on house Wi-Fi:</p>
+<p><code>ssh youruser@192.168.1.50</code></p>
+<p>Use the real number from Step 3, not that example. First login walk: <a href="first-ssh">SSH from the couch</a>. If it hangs or refuses: <a href="when-ssh-wont-connect">when SSH won't connect</a>. Sitting at the keyboard is fine too — same checks below.</p>
+
+<h2>Step 5: house jobs still running?</h2>
+<p>On the computer (SSH or keyboard):</p>
+<p><code>systemctl is-active pihole-FTL</code></p>
+<p><code>systemctl is-active smbd</code></p>
+<p>You want <code>active</code> on both (skip the Samba line if you never set up a share). If a job is inactive, start it, then make sure it comes back after the next reboot: <a href="leftover-box-enable-boot">make sure house jobs start after every reboot</a>. Planned reboot checklist: <a href="leftover-box-after-reboot">after a reboot, check the computer still does its jobs</a>.</p>
+
+<h2>Step 6: ads — if banners are back</h2>
+<p>Browse a site that used to show ads from a phone on the main house Wi-Fi. If banners are back, re-check that the router's LAN or DHCP DNS still points at the computer. Brand menus: <a href="common-router-dns">point common home routers at Pi-hole</a>. Fuller ads walk: <a href="when-ads-come-back">when ads come back</a>. Phones may still hold ISP DNS from before the blink — forget the house Wi-Fi and join again, or toggle airplane mode, then retry.</p>
+
+<h2>Step 7: the share</h2>
+<p>Open the house folder from a laptop or phone on house Wi-Fi. If it is gone, check Samba on the computer first: <a href="leftover-box-share-check">when the house share disappeared, check the computer</a>. Path or login errors: <a href="when-share-wont-open">when the house share won't open</a>.</p>
+
+<h2>Step 8 (optional): backup USB</h2>
+<p>If you keep a stay-in backup stick on the computer, see whether it remounted:</p>
+<p><code>findmnt /mnt/backup</code></p>
+<p>Swap the path if yours differs. No mount line? Remount (or plug it back in), then: <a href="auto-mount-backup-usb">mount the backup USB automatically</a>. Backup job fails after: <a href="when-backup-wont-run">when the backup won't run</a>.</p>
+
+<h2>Step 9 (optional later): quieter next blink</h2>
+<p>When the house is calm again, reserve the computer's address so SSH and Pi-hole keep the same number: <a href="common-router-reservation">keep the computer on the same address on common routers</a>. Nest or ISP box won't reserve? <a href="fixed-address-on-pc">give the computer a fixed address when the router won't</a>. Want that button-free: <a href="power-on-after-outage">turn the old PC back on after a power blip</a> (Restore AC / Power On After Power Loss in Setup). A UPS is later, not tonight: <a href="leftover-box-no-ups">you don't need a UPS yet</a>.</p>
+
+<h2>What this is not</h2>
+<p>This is not an ISP tech visit (<a href="when-isp-swaps-router">when the ISP swaps your router</a>). It is not a quiet planned reboot you started yourself (<a href="leftover-box-after-reboot">after a reboot, check the computer still does its jobs</a>). It is not a reason to buy a UPS, a mesh kit, or a second Pi-hole tonight. It is not opening SSH or the share to the internet.</p>
+
+<h2>What next</h2>
+<p>Stay on without a button after the next blink? <a href="power-on-after-outage">Turn the old PC back on after a power blip</a>. Still can't tell if it is awake? <a href="leftover-box-still-on">is the computer still on?</a>. Jobs die after every reboot? <a href="leftover-box-enable-boot">make sure house jobs start after every reboot</a>. Ads only on one phone? <a href="when-ads-come-back">when ads come back</a>. Share still missing? <a href="when-share-wont-open">when the house share won't open</a>. Stable number for next time: <a href="common-router-reservation">keep the computer on the same address on common routers</a>. Disk remounted read-only after the blink? <a href="when-disk-is-read-only">when the disk went read-only</a>. Soft restart without a full reboot: <a href="restart-house-services">restart Pi-hole or the house share</a>.</p>
+
+<p class="note">Optional: note that the house recovered after a blink (and whether the address changed) in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip buying a UPS tonight for one blink.</li>
+<li>Skip a new router, mesh kit, or second Pi-hole.</li>
+<li>Skip guessing the old address instead of finding it again.</li>
+<li>Skip opening SSH or SMB to the internet.</li>
+<li>Skip this if the lights are still out. Wait.</li>
+<li>Skip this if an ISP tech left a new gateway. Use <a href="when-isp-swaps-router">when the ISP swaps your router</a>.</li>
+<li>Skip this if you only rebooted the computer on purpose. Use <a href="leftover-box-after-reboot">after a reboot, check the computer still does its jobs</a>.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://docs.pi-hole.net/main/post-install/">Pi-hole post-install</a>. <a href="https://docs.pi-hole.net/routers/generic-guidance/">Pi-hole: generic router guidance</a>. <a href="https://manpages.debian.org/bookworm/systemd/systemctl.1.en.html">Debian: systemctl</a>. <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/systemctl.1.html">Ubuntu: systemctl</a>. Official pages only. For the awake check, see <a href="leftover-box-still-on">is the computer still on?</a>. For a planned reboot, see <a href="leftover-box-after-reboot">after a reboot, check the computer still does its jobs</a>. For an ISP gateway swap, see <a href="when-isp-swaps-router">when the ISP swaps your router</a>. For ads, see <a href="when-ads-come-back">when ads come back</a>. For DNS menus, see <a href="common-router-dns">point common home routers at Pi-hole</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="replace-cmos-battery"><span class="t">Replace the CMOS battery on the old PC</span><span class="d">Every unplug resets the clock, or Restore AC won't stick. Swap the coin CMOS battery on the board. Skip a new PSU tonight.</span></a>
+<a class="note-row" href="power-on-after-outage"><span class="t">Turn the old PC back on after a power blip</span><span class="d">Lights come back, but the OptiPlex stays off until you press the button. Flip Restore AC / Power On After Power Loss in Setup. Skip a UPS for this.</span></a>
+<a class="note-row" href="leftover-box-still-on"><span class="t">Is the computer still on?</span><span class="d">You left the computer on. This morning ads are back, or SSH hangs. Check if it is awake before you buy anything.</span></a>
+<a class="note-row" href="restart-house-services"><span class="t">Restart Pi-hole or the house share</span><span class="d">Ads vanished or Finder lost the folder, but the computer is still on. Restart the one service that died. You don't need a full reboot or a new mini PC.</span></a>
+<a class="note-row" href="leftover-box-after-reboot"><span class="t">After a reboot, check the computer still does its jobs</span><span class="d">The computer came back up. Confirm SSH, house ad block, and the file share still work before you buy anything.</span></a>
+<a class="note-row" href="when-isp-swaps-router"><span class="t">When the ISP swaps your router</span><span class="d">Tech left a new gateway (or reset yours). Ads are back, and SSH may miss the old address. Re-find the computer, re-point DNS, re-do the reservation. You don't need a new router or a new Pi-hole.</span></a>
+<a class="note-row" href="when-ads-come-back"><span class="t">When ads come back</span><span class="d">Ads are back, sites won't load, or a phone still shows banners. Check the computer, Pi-hole, router DNS, then the phone.</span></a>
+<a class="note-row" href="find-the-leftover-box"><span class="t">Find the computer on the house network</span><span class="d">The computer has a number on your house network. You need that number to SSH from the couch. You don't need a new router.</span></a>
+<a class="note-row" href="common-router-dns"><span class="t">Point common home routers at Pi-hole</span><span class="d">Where to set DNS on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so the house asks Pi-hole. Prefer LAN DHCP DNS. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-enable-boot"><span class="t">Make sure house jobs start after every reboot</span><span class="d">Before you buy a monitoring box, check that Pi-hole and the house share are set to start when the computer boots.</span></a>
+<a class="note-row" href="when-share-wont-open"><span class="t">When the house share won't open</span><span class="d">Finder, File Explorer, or the phone can't open the house folder. Check the computer is on, confirm the address, then match the error. You don't need a NAS.</span></a>
+<a class="note-row" href="when-disk-is-read-only"><span class="t">When the disk went read-only</span><span class="d">apt fails, the share won't take photos, or mount shows ro after a power blip. Confirm read-only, copy off what you can, then remount or fsck. You don't need a NAS tonight.</span></a>
+<a class="note-row" href="auto-mount-backup-usb"><span class="t">Mount the backup USB automatically</span><span class="d">Keep the stay-in backup stick mounted after a reboot so the house folder copy still has somewhere to land. You don't need a NAS for this.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="when-isp-swaps-router"><span class="kicker">Previous</span><span class="t">When the ISP swaps your router</span></a>
+<a rel="next" href="leftover-box-still-on"><span class="kicker">Next</span><span class="t">Is the computer still on?</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

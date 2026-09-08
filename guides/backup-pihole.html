@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Save a Pi-hole backup before you change things — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Export Pi-hole settings with Teleporter so a reinstall, a bad list, or a wiped disk does not erase your allow list and local DNS. You don't need a new Raspberry Pi.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Save a Pi-hole backup before you change things — Labthrift">
+<meta property="og:description" content="Export Pi-hole settings with Teleporter so a reinstall, a bad list, or a wiped disk does not erase your allow list and local DNS. You don't need a new Raspberry Pi.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/backup-pihole">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/backup-pihole">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Save a Pi-hole backup before you change things","description":"Export Pi-hole settings with Teleporter so a reinstall, a bad list, or a wiped disk does not erase your allow list and local DNS. You don't need a new Raspberry Pi.","url":"https://labthrift.com/guides/backup-pihole","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-04"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">Save a Pi-hole backup before you change things</span></nav>
+<p class="note">Written 4 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>Save a Pi-hole backup before you change things</h1>
+<p class="deck">Export Pi-hole settings with Teleporter so a reinstall, a bad list, or a wiped disk does not erase your allow list and local DNS. You don't need a new Raspberry Pi.</p>
+<p>Haven't installed the house ad block yet? Start with <a href="first-useful-service">the first useful thing</a>. This note is only for when Pi-hole already answers DNS and you want a settings zip you can put back later. It is not a copy of the house folder. That second copy is <a href="first-backup">a backup of the house folder</a>.</p>
+
+<h2>Skip until Pi-hole already works</h2>
+<p>If ads never dropped, fix install and router DNS first. Brand menus: <a href="common-router-dns">point common home routers at Pi-hole</a>. If ads came back after a good week, start with <a href="when-ads-come-back">when ads come back</a>. Don't export a broken setup and call that a plan.</p>
+
+<h2>What this is</h2>
+<p>Pi-hole's Teleporter builds a small zip of settings: allow and deny lists, subscribed block lists, local DNS names, and related admin choices. It is the official way to move those choices to a fresh install or undo a bad edit. It is not a full disk image. It is not the house photo share. Keep the zip on your laptop, or in the house folder once that share exists.</p>
+
+<h2>Open Teleporter</h2>
+<p>On a laptop on the house network, open the admin page: <a href="http://pi.hole/admin">http://pi.hole/admin</a>, or the computer's address plus <code>/admin</code>. Log in with the admin password you set (not the Linux SSH password). Forgot it? Change it from SSH: <a href="leftover-box-pihole-password">change the printed Pi-hole admin password</a>.</p>
+<p>In the left menu, open <strong>Settings</strong>, then the <strong>Teleporter</strong> tab. Menu labels can shift a little by Pi-hole version. You want the page that offers Backup and Restore (Export and Import on some builds).</p>
+
+<h2>Export (save the zip)</h2>
+<p>Click <strong>Backup</strong> or <strong>Export</strong>. Your browser downloads a zip. Name it with today's date if the download does not already. Put the file somewhere you will find again: the laptop Downloads folder is fine for a first save. Better: copy it into the house share once that folder works, so the settings zip sits with the other house files.</p>
+<p>Do this before a big change: before <code>pihole -up</code> if you are nervous, before you paste a huge third-party list, before you reinstall the OS, before you wipe a Marketplace disk. A quiet weekly export after <a href="update-pihole">keep Pi-hole updated</a> is enough for most houses.</p>
+
+<h2>Import (put settings back)</h2>
+<p>Only after a fresh Pi-hole install answers DNS again, or when you mean to overwrite the current settings on purpose. The full restore walk is <a href="restore-pihole-backup">put a Pi-hole backup back with Teleporter</a>. Short version: open the same Teleporter page, choose the zip, click <strong>Restore</strong> or <strong>Import</strong>, wait for the page to finish, then check:</p>
+<p><code>pihole status</code></p>
+<p>Ads should still drop on a phone that uses house DNS. If one site you need is broken after the restore, that is <a href="when-a-site-wont-load">when a site won't load after Pi-hole</a>, not a reason to throw the zip away.</p>
+
+<h2>What this is not</h2>
+<p>This is not a reason to buy a second Pi or a “backup appliance.” It is not copying all of <code>/etc/pihole</code> by hand for a first-timer. It is not opening the admin page past the house network. It is not a substitute for <a href="first-backup">a backup of the house folder</a>. Photos and documents live in the share. Teleporter only saves Pi-hole's own settings.</p>
+
+<h2>What next</h2>
+<p>Tired of the number for SSH and the share? <a href="add-local-dns-name">Add a local name in Pi-hole</a>. Keep the weekly software habit: <a href="update-pihole">keep Pi-hole updated</a>. Keep the OS habit too: <a href="leftover-box-updates">keep the computer updated</a>. If ads come back later, start with <a href="when-ads-come-back">when ads come back</a>. After a reinstall of the whole PC, put the house share back with <a href="first-file-share">a file share</a>, then <a href="restore-pihole-backup">put a Pi-hole backup back with Teleporter</a> so allow lists return with it.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip buying a new Raspberry Pi to “have a backup Pi-hole.”</li>
+<li>Skip opening Teleporter past the house network.</li>
+<li>Skip treating the zip as a full computer backup.</li>
+<li>Skip importing an old zip onto a working install just to see what happens.</li>
+<li>Skip this until Pi-hole already blocks ads for the house.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://docs.pi-hole.net/main/basic-install/">Pi-hole basic install</a>. <a href="https://docs.pi-hole.net/main/update/">Pi-hole update</a>. <a href="https://docs.pi-hole.net/main/pihole-command/">Pi-hole command</a>. Official pages only. Teleporter lives under Settings in the admin UI on the computer. For the first install, see <a href="first-useful-service">the first useful thing</a>. For software updates, see <a href="update-pihole">keep Pi-hole updated</a>. For the admin password, see <a href="leftover-box-pihole-password">change the printed Pi-hole admin password</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="restore-pihole-backup"><span class="t">Put a Pi-hole backup back with Teleporter</span><span class="d">After a reinstall or a bad list, import the Teleporter zip so allow lists, deny entries, and local DNS names return. Fresh Pi-hole first. You don't need a new Raspberry Pi.</span></a>
+<a class="note-row" href="first-useful-service"><span class="t">The first useful thing</span><span class="d">Put a house-wide ad block on the old PC. The rest of the house keeps using the internet as usual. You don't need a Raspberry Pi.</span></a>
+<a class="note-row" href="update-pihole"><span class="t">Keep Pi-hole updated</span><span class="d">Weekly apt does not refresh Pi-hole. Update the software and the block lists on the old PC so ads stay gone. You don't need a new Raspberry Pi.</span></a>
+<a class="note-row" href="leftover-box-pihole-password"><span class="t">Change the printed Pi-hole admin password</span><span class="d">The installer prints a password. Swap it for one you chose before you leave the dashboard open on the house network.</span></a>
+<a class="note-row" href="add-local-dns-name"><span class="t">Add a local name in Pi-hole</span><span class="d">Give the old PC a short house name so phones and laptops can open SSH, the share, and the admin page without remembering the number. You don't need a new router.</span></a>
+
+<a class="note-row" href="when-ads-come-back"><span class="t">When ads come back</span><span class="d">Ads are back, sites won't load, or a phone still shows banners. Check the computer, Pi-hole, router DNS, then the phone.</span></a>
+<a class="note-row" href="when-a-site-wont-load"><span class="t">When a site won't load after Pi-hole</span><span class="d">A bank, streamer, or login page breaks after Pi-hole. Pause blocking for five minutes, then allow the domain you need. You don't need a new router.</span></a>
+<a class="note-row" href="common-router-dns"><span class="t">Point common home routers at Pi-hole</span><span class="d">Where to set DNS on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so the house asks Pi-hole. Prefer LAN DHCP DNS. You don't need a new router.</span></a>
+<a class="note-row" href="first-backup"><span class="t">A backup of the house folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another old computer. You don't need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-updates"><span class="t">Keep the computer updated</span><span class="d">Once a week, give the computer its fixes so SSH and Pi-hole are not sitting on last year's bugs. Skip this until next week if you just finished first weekend.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="update-pihole"><span class="kicker">Previous</span><span class="t">Keep Pi-hole updated</span></a>
+<a rel="next" href="restore-pihole-backup"><span class="kicker">Next</span><span class="t">Put a Pi-hole backup back with Teleporter</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

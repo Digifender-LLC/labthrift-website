@@ -1,0 +1,64 @@
+openapi: 3.1.0
+info:
+  title: Labthrift
+  description: >
+    Static home-lab buying and how-to site. Pages support Accept: text/markdown
+    content negotiation. No authenticated API; these paths are the machine entrypoints.
+  version: "1.0.0"
+servers:
+  - url: https://labthrift.com
+paths:
+  /:
+    get:
+      summary: Home page (HTML or Markdown via Accept)
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+            enum: [text/html, text/markdown]
+      responses:
+        "200":
+          description: Home page
+  /llms.txt:
+    get:
+      summary: LLM-oriented site summary
+      responses:
+        "200":
+          description: Plain-text site map for agents
+          content:
+            text/plain:
+              schema:
+                type: string
+  /sitemap.xml:
+    get:
+      summary: XML sitemap
+      responses:
+        "200":
+          description: Sitemap
+  /guides/{slug}:
+    get:
+      summary: A guide note (HTML or Markdown via Accept)
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: Accept
+          in: header
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Guide page
+  /.well-known/api-catalog:
+    get:
+      summary: API catalog (RFC 9727 linkset)
+      responses:
+        "200":
+          description: Linkset document
+          content:
+            application/linkset+json:
+              schema:
+                type: object

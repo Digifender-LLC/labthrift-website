@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>32 GB 4-bay for Docker or TrueNAS: TerraMaster F4-424 Pro — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="4-bay with an i3-N305 and 32 GB. TOS in the box. x86 people actually re-image it. Not a TrueNAS Mini X+ purchase path.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="32 GB 4-bay for Docker or TrueNAS: TerraMaster F4-424 Pro — Labthrift">
+<meta property="og:description" content="4-bay with an i3-N305 and 32 GB. TOS in the box. x86 people actually re-image it. Not a TrueNAS Mini X+ purchase path.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/terramaster-f4-424-pro-truenas">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/terramaster-f4-424-pro-truenas">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BlogPosting",
+ "headline": "32 GB 4-bay for Docker or TrueNAS: TerraMaster F4-424 Pro",
+ "description": "4-bay with an i3-N305 and 32 GB. TOS in the box. x86 people actually re-image it. Not a TrueNAS Mini X+ purchase path.",
+ "url": "https://labthrift.com/guides/terramaster-f4-424-pro-truenas",
+ "image": "https://labthrift.com/assets/og-1200.png",
+ "datePublished": "2026-08-22"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+ {
+ "@type": "ListItem",
+ "position": 1,
+ "name": "Home",
+ "item": "https://labthrift.com/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 2,
+ "name": "Notes",
+ "item": "https://labthrift.com/guides/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 3,
+ "name": "First NAS",
+ "item": "https://labthrift.com/guides/#first-nas"
+ },
+ {
+ "@type": "ListItem",
+ "position": 4,
+ "name": "32 GB 4-bay for Docker or TrueNAS: TerraMaster F4-424 Pro",
+ "item": "https://labthrift.com/guides/terramaster-f4-424-pro-truenas"
+ }
+ ]
+}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#first-nas">File storage</a> / <span aria-current="page">32 GB 4-bay for Docker or TrueNAS: TerraMaster F4-424 Pro</span></nav>
+<p class="note">Written 22 Aug 2026. Specs from the maker pages linked below. Prices from those stores. I haven't used these. Confirm the diskless SKU before you click: Amazon is full of drive bundles.</p>
+<h1>32 GB 4-bay for Docker or TrueNAS: TerraMaster F4-424 Pro</h1>
+<p class="deck">4-bay with an i3-N305 and 32 GB. TOS in the box. x86 people actually re-image it. Not a TrueNAS Mini X+ purchase path.</p>
+<p>Official spec: Intel Core i3-N305 (8C/8T, burst 3.8 GHz), <strong>32 GB DDR5 non-ECC</strong> in one slot, officially not upgradable past 32 GB, dual 2.5GbE with LACP, dual M.2 2280 NVMe (PCIe 3.0 x1), four SATA, HDMI 2.0b, two USB 3.2 Gen 2 10 Gbps. 90 W brick. 2-year warranty. 222 × 179 × 154 mm. Official power with four Seagate 4 TB <code>ST4000VN008</code>: 33.0 W read/write, 13.0 W hibernation. Noise claim 21.0 dB(A) standby. Dual 2.5GbE LACP “linear transfer speeds up to 283 MB/s” is TerraMaster’s number (they have also cited that figure on 4× 18 TB RAID 0). Maker claim. I didn't run iperf.</p>
+<p>Non-ECC RAM, say that. 32 GB soldered-in-practice is the pitch versus every 2–6 GB Plus box. TOS runs out of the box. The board is x86, and people put TrueNAS or Unraid on it. I haven't re-imaged one. That is a community path, not a Labthrift burn-in.</p>
+<p>iXsystems TrueNAS Mini X+ is the ECC / 10GBase-T comparison, not the CTA. Official product is real: C3758, 32 GB ECC, 5× 3.5" + 2× 2.5", dual 10GBase-T, buy path is the iXsystems configurator (USA/Canada). A 2026 TrueNAS forum report put the US configurator around $1909 diskless. Historical Amazon ASIN B08FCWBVWX is not a stable buy link. Don't treat Mini as the hero SKU on this page.</p>
+<p>Drives stay CMR. Skip <code>EFAX</code> / <code>EZAZ</code> / BarraCuda 3.5" 4 / 8 TB SMR. IronWolf 1–6 TB is 5400 RPM: the 4 TB IronWolfs in TerraMaster’s own power test are that class. For a ZFS pool you still want CMR; 7200 helps more than the badge. <a href="nas-hdd-picks-2026-cmr">HDD picks</a>. Appliance vs re-image: <a href="first-nas-diy-vs-appliance">DIY vs appliance</a>.</p>
+
+<h2>Street, 22 Aug 2026</h2>
+<div class="table-wrap">
+<table>
+<tr><th>Path</th><th>Listing</th><th>Note</th></tr>
+<tr class="pick"><td data-label="Path">TerraMaster store, diskless</td><td data-label="Listing">$730.99 (listed $859.99) on 22 Aug 2026. Comparison table on the F2-425 page matches $730.99.</td><td data-label="Note"><a href="https://www.terra-master.com/products/f4-424-pro">terra-master.com/products/f4-424-pro</a>. nashq PDF cited $699.99 class. Datacenterdisk $687.99. Confirm live.</td></tr>
+<tr><td data-label="Path">Amazon diskless</td><td data-label="Listing">ASIN B0CPPD51B9</td><td data-label="Note"><a href="https://www.amazon.com/TERRAMASTER-F4-424-Pro-NAS-Storage/dp/B0CPPD51B9">B0CPPD51B9</a>.</td></tr>
+<tr><td data-label="Path">Newegg</td><td data-label="Listing">14P-006A-00066</td><td data-label="Note">Official-store diskless only.</td></tr>
+<tr><td data-label="Path">Mini X+ (comparison)</td><td data-label="Listing">iX configurator; forum 2026 ~$1909 diskless</td><td data-label="Note"><a href="https://www.truenas.com/truenas-mini/">truenas.com/truenas-mini</a>. Not the buy button.</td></tr>
+</table>
+</div>
+<h2>Skip</h2>
+<p>Skip if you need ECC and a supported TrueNAS appliance: that is Mini, and it is a different budget. Skip if you wanted 10G onboard; this is dual 2.5G. Skip if TOS-or-bust is a worse Sunday than DSM. Skip SMR in ZFS. Skip a used LSI HBA scavenger hunt as the “cheaper” DIY; that is not a first backup box.</p>
+<section class="sources">
+<h2>Sources</h2>
+<p>TerraMaster F4-424 Pro spec page (i3-N305, 32 GB DDR5 non-ECC, 33 / 13 W, 283 MB/s, $730.99, fetched 22 Aug 2026). Amazon B0CPPD51B9. iXsystems Mini page. TrueNAS forum, 2026, US configurator $1909. I haven't installed TrueNAS on one.</p>
+</section>
+
+
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="ds224-plus-vs-ds423-plus"><span class="t">DS224+ vs DS423+: 2-bay or 4-bay Synology Plus</span><span class="d">Pick two bays or four when overnight backups on DSM is the job. Four bays cost about $200 more for empty slots, not a faster network.</span></a>
+<a class="note-row" href="synology-shr-vs-raid-1"><span class="t">Two identical disks mirror each other: SHR ≈ RAID 1 on two bays</span><span class="d">Two identical disks: SHR ≈ RAID 1. RAID is not backup.</span></a>
+<a class="note-row" href="nas-hdd-picks-2026-cmr"><span class="t">Buy hard drives a first file box can rebuild: CMR, not the cheap packed style</span><span class="d">Buy the kind of hard drive a first file box can rebuild. CMR writes everywhere, not the cheap packed style.</span></a>
+</section>
+
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="asustor-as5404t-review"><span class="kicker">Previous</span><span class="t">Asustor AS5404T review: 4-bay, dual 2.5GbE, four M.2</span></a>
+<a rel="next" href="ds224-plus-vs-ds423-plus"><span class="kicker">Next</span><span class="t">DS224+ vs DS423+: 2-bay or 4-bay Synology Plus</span></a>
+</nav>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+</p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

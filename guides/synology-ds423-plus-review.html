@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Four-bay overnight backups on DSM when two bays are not enough: DS423+ — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Four-bay overnight backups on Synology DSM when two bays are not enough. Still gigabit. Same CPU as the DS224+.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Four-bay overnight backups on DSM when two bays are not enough: DS423+ — Labthrift">
+<meta property="og:description" content="Four-bay overnight backups on Synology DSM when two bays are not enough. Still gigabit. Same CPU as the DS224+.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/synology-ds423-plus-review">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/synology-ds423-plus-review">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BlogPosting",
+ "headline": "Four-bay overnight backups on DSM when two bays are not enough: DS423+",
+ "description": "Four-bay overnight backups on Synology DSM when two bays are not enough. Still gigabit. Same CPU as the DS224+.",
+ "url": "https://labthrift.com/guides/synology-ds423-plus-review",
+ "image": "https://labthrift.com/assets/og-1200.png",
+ "datePublished": "2026-08-22"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+ {
+ "@type": "ListItem",
+ "position": 1,
+ "name": "Home",
+ "item": "https://labthrift.com/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 2,
+ "name": "Notes",
+ "item": "https://labthrift.com/guides/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 3,
+ "name": "First NAS",
+ "item": "https://labthrift.com/guides/#first-nas"
+ },
+ {
+ "@type": "ListItem",
+ "position": 4,
+ "name": "Four-bay overnight backups on DSM when two bays are not enough: DS423+",
+ "item": "https://labthrift.com/guides/synology-ds423-plus-review"
+ }
+ ]
+}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#first-nas">File storage</a> / <span aria-current="page">Four-bay overnight backups on DSM when two bays are not enough: DS423+</span></nav>
+<p class="note">Written 22 Aug 2026. Specs from the maker pages linked below. Prices from those stores. I haven't used these. Confirm the diskless SKU before you click. Amazon is full of drive bundles.</p>
+<h1>Four-bay overnight backups on DSM when two bays are not enough: DS423+</h1>
+<p class="deck">Four-bay overnight backups on Synology DSM when two bays are not enough. Still gigabit. Same CPU as the DS224+.</p>
+<p>Four-bay overnight backups on Synology DSM when two bays are not enough. If you already decided DSM, this is the growth box. It is not a used DS918+. It is not a 2.5G or 10G chassis. Same Intel Celeron J4125, same official 6 GB RAM lid (2 GB DDR4 plus one 4 GB SO-DIMM), same dual 1GbE with MTU 1500. What you get for the extra money is four hot-swap 3.5" / 2.5" SATA bays, two M.2 2280 NVMe slots (cache or pool), two 92 mm fans, and a 3-year warranty instead of two.</p>
+<p>Official size 166 × 199 × 223 mm, 2.18 kg. 90 W brick. Spec PDF (last updated 23 Apr 2025) lists 28.30 W access and 8.45 W HDD hibernation, 19.8 dB(A) idle with Synology HDDs at 1 m. Scheduled power on/off is still there. RAID adds 5 / 6 / 10 on top of SHR / Basic / JBOD / 0 / 1. M.2 slots are not hot-swap. Creating an M.2 storage pool wants Synology-verified SSDs per the spec note.</p>
+<p>Virtual Machine Manager is still “recommended 2 VMs.” Object recognition in Photos still wants 4 GB. The NIC does not grow. A single HDD RAID 1 or SHR pair still lives around 150–210 MB/s sequential; gigabit is the client lid, not the drives. Empty bays and M.2 cache are the reasons to pay for this over the <a href="synology-ds224-plus-review">DS224+</a>, not “faster Ethernet.” Compare the two here: <a href="ds224-plus-vs-ds423-plus">DS224+ vs DS423+</a>.</p>
+<p>Fill SATA with <a href="nas-hdd-picks-2026-cmr">CMR NAS HDDs</a>. WD Red Plus (CMR; 8 TB example WD80EFPX is 5640 RPM). IronWolf / IronWolf Pro (CMR, but IronWolf 1–6 TB is 5400 RPM; <code>ST8000VN004</code> 8 TB is 7200). Toshiba N300 (CMR). Skip WD Red <code>EFAX</code>, WD Blue 3.5" <code>EZAZ</code>, BarraCuda 3.5" 4 / 8 TB SMR. 5400 / 5640 RPM is fine for backups. Wrong as the only iSCSI datastore for VMs unless you put the VMs on the M.2 pool or a SATA SSD.</p>
+
+<h2>Street, 22 Aug 2026</h2>
+<div class="table-wrap">
+<table>
+<tr><th>Path</th><th>Listing</th><th>Note</th></tr>
+<tr class="pick"><td data-label="Path">B&amp;H diskless</td><td data-label="Listing">$499.99 listed (research fetch, 22 Aug 2026).</td><td data-label="Note"><a href="https://www.bhphotovideo.com/c/product/1757288-REG/synology_diskstation_ds423_4_bay_nas.html">1757288-REG</a>. Lead with this. A later Cloudflare wall blocked our re-fetch; confirm the live card.</td></tr>
+<tr><td data-label="Path">Amazon diskless</td><td data-label="Listing">ASIN B0BXMS9GFF exists</td><td data-label="Note"><a href="https://www.amazon.com/dp/B0BXMS9GFF">B0BXMS9GFF</a> was out of stock at the 22 Aug 2026 research fetch. Don't substitute a 16 TB + RAM bundle (Newegg 14P-000V-004V2 class).</td></tr>
+</table>
+</div>
+<p>Want 2.5G and four M.2 instead of DSM? <a href="asustor-as5404t-review">AS5404T</a>. Want four cheap bays and TOS? <a href="terramaster-f4-425-review">F4-425</a>. Want 10G and Docker? That is the existing <a href="first-nas">UGREEN DXP4800 Plus slot</a>, not this page.</p>
+<h2>Skip</h2>
+<p>Skip if you need 2.5G or 10G today. There is no NIC upgrade. Skip a used DS918+ as a “cheaper 4-bay Plus”; that path is out. Skip SMR leftovers in SHR. Skip treating four 5400 RPM disks as a Proxmox datastore.</p>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://global.download.synology.com/download/Document/Hardware/ProductSpec/DiskStation/23-year/DS423+/enu/Product_Spec_DS423+_enu.pdf">DS423+ product spec PDF</a> (23 Apr 2025). <a href="https://global.synologydownload.com/download/Document/Hardware/DataSheet/DiskStation/23-year/DS423%2B/enu/Synology_DS423%2B_Data_Sheet_enu.pdf">Datasheet PDF</a>. B&amp;H 1757288-REG. Amazon B0BXMS9GFF. Android Central historical $514 Amazon / $499 B&amp;H. Synology US product HTML did not render a clean product page on our 22 Aug 2026 fetch (download-center / catalog bounce).</p>
+</section>
+
+
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="ugreen-dxp2800-review"><span class="t">Quiet overnight photos on a 2-bay with a faster port: UGREEN DXP2800</span><span class="d">Quiet overnight photos on a 2-bay with a faster port, without paying for 10G.</span></a>
+<a class="note-row" href="terramaster-f2-425-review"><span class="t">Cheap quiet 2-bay when you want Intel and don't need Synology DSM: TerraMaster F2-425</span><span class="d">Cheap quiet 2-bay with one faster port when you want Intel and don't need Synology DSM.</span></a>
+<a class="note-row" href="terramaster-f4-425-review"><span class="t">Four bays at 2-bay Plus money, still one faster port: TerraMaster F4-425</span><span class="d">Four bays when you want to start with two disks and add later. Still one faster port.</span></a>
+</section>
+
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="synology-ds224-plus-review"><span class="kicker">Previous</span><span class="t">Quiet overnight backups with Synology DSM: DS224+</span></a>
+<a rel="next" href="ugreen-dxp2800-review"><span class="kicker">Next</span><span class="t">Quiet overnight photos on a 2-bay with a faster port: UGREEN DXP2800</span></a>
+</nav>
+
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+</p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

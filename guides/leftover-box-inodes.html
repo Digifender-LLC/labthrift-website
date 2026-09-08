@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When copies fail but free space looks fine — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Before you buy a bigger drive or a NAS, check computer file slots with df -i when copies fail but free space looks fine.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When copies fail but free space looks fine — Labthrift">
+<meta property="og:description" content="Before you buy a bigger drive or a NAS, check computer file slots with df -i when copies fail but free space looks fine.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-inodes">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-inodes">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When copies fail but free space looks fine","description":"Before you buy a bigger drive or a NAS, check computer file slots with df -i when copies fail but free space looks fine.","url":"https://labthrift.com/guides/leftover-box-inodes","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-28"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#first-nas">File storage</a> / <span aria-current="page">When copies fail but free space looks fine</span></nav>
+<p class="note">Written 28 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>When copies fail but free space looks fine</h1>
+<p class="deck">Before you buy a bigger drive or a NAS, check computer file slots with df -i when copies fail but free space looks fine.</p>
+<p>Photos stop copying. The computer says the disk is full. Then <a href="leftover-box-disk-space">see if the computer still has room</a> shows plenty of gigabytes left. That is not a broken meter. The computer also has a limited count of file slots. When those slots are used up, new files fail even if there are gigabytes free. You are not buying a NAS for this look.</p>
+
+<h2>Skip until SSH works</h2>
+<p>If you cannot log in from the couch, stop. That is <a href="first-ssh">SSH from the couch</a>. This note assumes you can type commands on the computer from the couch.</p>
+
+<h2>What this is</h2>
+<p>A file slot is the computer's name for each file and folder. Linux people call that an inode. You don't need the word. You need the check. <span><code>df -h</code></span> is gigabytes. <span><code>df -i</code></span> is file slots. This is not the same note as <a href="leftover-box-largest-folders">see which folders are eating the disk</a> (that is which folders ate the gigabytes) or <a href="leftover-box-old-logs">clear old logs when the disk is tight</a> (that is diary size). You are only asking whether the file-slot column is full.</p>
+
+<h2>Ask for the file slots</h2>
+<p>SSH in from the couch, then run:</p>
+<p><code>df -i</code></p>
+<p>Point at the line for the computer root, usually <span><code>/</code></span>. Read <span><code>IUse%</code></span> (or the Use% column on some boxes). Under about 80% is normal. Near 100% means the computer ran out of file slots, not gigabytes. That is why a copy can fail while <span><code>df -h</code></span> still looks fine.</p>
+<p>Optional one-line focus, if the full table is noisy:</p>
+<p><code>df -i /</code></p>
+
+<h2>If the file slots are nearly full</h2>
+<p>Don't format the disk. Don't buy a drive tonight. First see which folders are busy: <a href="leftover-box-largest-folders">see which folders are eating the disk</a>. Lots of tiny files in one folder (old logs, leftover package lists, a previous person's Downloads) eat file slots fast. Safe cleanups that often help:</p>
+<ul>
+<li><a href="leftover-box-apt-clean">clear old package downloads when the disk is tight</a></li>
+<li><a href="leftover-box-old-logs">clear old logs when the disk is tight</a></li>
+</ul>
+<p>If <span><code>IUse%</code></span> is low and copies still fail, go back to gigabytes: <a href="leftover-box-disk-space">see if the computer still has room</a>. Skip a monitoring box for this look.</p>
+
+<h2>What next</h2>
+<p>Gigabyte room stays <a href="leftover-box-disk-space">see if the computer still has room</a>. Folder sizes stay <a href="leftover-box-largest-folders">see which folders are eating the disk</a>. How big the disk already is stays <a href="leftover-box-disk">see how big the disk already is</a>. A second copy is <a href="first-backup">a backup of the house folder</a>. Skip a new 4TB drive this weekend.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip this note if SSH from the couch does not work yet. That is <a href="first-ssh">SSH from the couch</a>.</li>
+<li>Skip buying a bigger drive or a NAS because one copy failed once.</li>
+<li>Skip formatting the disk tonight.</li>
+<li>Skip a monitoring box for this look.</li>
+<li>Skip opening SSH to the internet.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/coreutils/df.1.en.html">Debian: df</a> (<span><code>-i</code></span>). <a href="https://manpages.ubuntu.com/manpages/noble/en/man1/df.1.html">Ubuntu: df</a>. Official pages only. For gigabyte room, see <a href="leftover-box-disk-space">see if the computer still has room</a>. For folder sizes, see <a href="leftover-box-largest-folders">see which folders are eating the disk</a>. For leftover package downloads, see <a href="leftover-box-apt-clean">clear old package downloads when the disk is tight</a>. For old diary pages, see <a href="leftover-box-old-logs">clear old logs when the disk is tight</a>. For the login, see <a href="first-ssh">SSH from the couch</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="leftover-box-disk-space"><span class="t">See if the computer still has room</span><span class="d">After the house folder is working, check that the computer is not filling up. Photos stop copying when the disk is full. You don't need a NAS for this look.</span></a>
+<a class="note-row" href="leftover-box-largest-folders"><span class="t">See which folders are eating the disk</span><span class="d">Before you buy a bigger drive or a NAS, ask which folders are taking the room.</span></a>
+<a class="note-row" href="leftover-box-apt-clean"><span class="t">Clear old package downloads when the disk is tight</span><span class="d">After weekly updates, leftover downloads can sit on the disk. Clear them safely before you buy a bigger drive or a NAS.</span></a>
+<a class="note-row" href="leftover-box-old-logs"><span class="t">Clear old logs when the disk is tight</span><span class="d">Before you buy a bigger drive or a NAS, see how much room the computer diary is using, then trim old entries safely.</span></a>
+<a class="note-row" href="leftover-box-disk"><span class="t">See how big the disk already is</span><span class="d">Before you buy a tiny computer or a NAS, check how big the disk already is.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-disk-space"><span class="kicker">Previous</span><span class="t">See if the computer still has room</span></a>
+<a rel="next" href="leftover-box-largest-folders"><span class="kicker">Next</span><span class="t">See which folders are eating the disk</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

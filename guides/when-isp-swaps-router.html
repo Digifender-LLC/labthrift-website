@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When the ISP swaps your router — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Tech left a new gateway (or reset yours). Ads are back, and SSH may miss the old address. Re-find the computer, re-point DNS, re-do the reservation. You don't need a new router or a new Pi-hole.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When the ISP swaps your router — Labthrift">
+<meta property="og:description" content="Tech left a new gateway (or reset yours). Ads are back, and SSH may miss the old address. Re-find the computer, re-point DNS, re-do the reservation. You don't need a new router or a new Pi-hole.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-isp-swaps-router">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-isp-swaps-router">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When the ISP swaps your router","description":"Tech left a new gateway (or reset yours). Ads are back, and SSH may miss the old address. Re-find the computer, re-point DNS, re-do the reservation. You don't need a new router or a new Pi-hole.","url":"https://labthrift.com/guides/when-isp-swaps-router","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-04"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When the ISP swaps your router</span></nav>
+<p class="note">Written 4 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When the ISP swaps your router</h1>
+<p class="deck">Tech left a new gateway (or reset yours). Ads are back, and SSH may miss the old address. Re-find the computer, re-point DNS, re-do the reservation. You don't need a new router or a new Pi-hole.</p>
+<p>Haven't installed the house ad block yet? Start with <a href="first-useful-service">the first useful thing</a>. Ads back with no tech visit? Start with <a href="when-ads-come-back">when ads come back</a>. This note is only the aftermath of a modem or gateway swap, or a factory reset by the ISP.</p>
+
+<h2>Skip until you know it was a gateway change</h2>
+<p>Look for a sticker on a new box, a tech visit on the calendar, or a Wi-Fi name and password the ISP changed for you. If only the Wi-Fi passphrase changed and the same router is still there, update the computer: <a href="when-wifi-password-changed">when the house Wi-Fi password changed</a>. If none of that happened and ads just crept back, walk <a href="when-ads-come-back">when ads come back</a> instead. Don't rebuild the house for a sleep or lease glitch.</p>
+
+<h2>What this is</h2>
+<p>A new gateway (or a reset of the old one) forgets the LAN DNS you set and any DHCP reservations you made. The computer may get a new lease. Phones ask the ISP for names again, so ads load. SSH hangs on the number you used to type. The old PC is usually fine. The gateway forgot the house settings.</p>
+
+<h2>Step 1: find the computer again</h2>
+<p>Don't guess the old address. Look it up on the house network: <a href="find-the-leftover-box">find it on the house network</a>. Write down the number you get. You will use it for DNS, the reservation, and SSH.</p>
+
+<h2>Step 2: confirm the computer is still running</h2>
+<p>Power light on. Fan noise. Screen if it has one. If it looks asleep or dead, start with <a href="leftover-box-still-on">is the computer still on?</a>. If it just came back from a reboot, a short pass is <a href="leftover-box-after-reboot">after a reboot, check the computer still does its jobs</a>. Open the Pi-hole admin page at the address you just found, or <a href="http://pi.hole/admin">http://pi.hole/admin</a> from a phone on the house Wi-Fi. If Pi-hole is down, fix that before you touch the router.</p>
+
+<h2>Step 3: re-point house DNS</h2>
+<p>Log into the new gateway. Set LAN or DHCP DNS so primary DNS is the computer's address. Brand menus live in <a href="common-router-dns">point common home routers at Pi-hole</a>. Don't duplicate those screens here. Save. If Nest or the ISP box will not take custom DNS, set one device by hand: <a href="manual-dns-on-devices">point a phone or laptop at Pi-hole when the router won't</a>.</p>
+
+<h2>Step 4: re-do the DHCP reservation</h2>
+<p>Reserve the same number for the computer so SSH and Pi-hole stay put after the next power blip. Maker-by-maker walk: <a href="common-router-reservation">keep the computer on the same address on common routers</a>. If Nest or the ISP box will not reserve DHCP, set the number on the computer: <a href="fixed-address-on-pc">give the computer a fixed address when the router won't</a>.</p>
+
+<h2>Step 5: renew leases on phones and laptops</h2>
+<p>Phones and laptops may still hold the old gateway's DNS. On each one, forget the house Wi-Fi and join again. Or toggle airplane mode. Or reboot the phone. Device-by-device walk (including Windows and Mac flush): <a href="flush-dns-on-devices">flush old DNS on phones and laptops</a>. Then browse a site that used to show ads. Guest Wi-Fi is a separate network: if visitors still see banners while your phones look clean, that is <a href="guest-wifi-dns">when guest Wi-Fi still shows ads</a>.</p>
+
+<h2>Check</h2>
+<p>Browse a site that used to show ads from a phone on the main house Wi-Fi. Ads should drop the way they did before the tech visit. SSH with the address you just reserved:</p>
+<p><code>ssh youruser@192.168.1.50</code></p>
+<p>Use the real number from Step 1, not that example. If SSH still hangs on the old number, you are typing the forgotten lease. Use the reserved one.</p>
+
+<h2>What this is not</h2>
+<p>This is not a reason to buy a mesh kit, a second Pi-hole, or a new router tonight. It is not opening port 22 to the internet. It is not homework to blame the ISP forever. The recovery is find the computer, point DNS, reserve the address, renew the phones.</p>
+
+<h2>What next</h2>
+<p>House-wide power blink (no tech visit)? <a href="after-power-outage">after the power comes back</a>. Ads still dirty with no new box? Walk <a href="when-ads-come-back">when ads come back</a>. Brand DNS menus: <a href="common-router-dns">point common home routers at Pi-hole</a>. Brand reservation menus: <a href="common-router-reservation">keep the computer on the same address on common routers</a>. Nest won't reserve? <a href="fixed-address-on-pc">give the computer a fixed address when the router won't</a>. Router won't take DNS at all? <a href="manual-dns-on-devices">point a phone or laptop at Pi-hole when the router won't</a>. Keep the block lists current: <a href="update-pihole">keep Pi-hole updated</a>.</p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip buying a new router because the ISP swapped yours.</li>
+<li>Skip a second Pi-hole “for the new gateway.”</li>
+<li>Skip opening port 22 so SSH works from outside.</li>
+<li>Skip guessing the old address instead of finding it again.</li>
+<li>Skip this if there was no tech visit, no new sticker, and no ISP reset.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://docs.pi-hole.net/routers/generic-guidance/">Pi-hole: generic router guidance</a>. <a href="https://docs.pi-hole.net/main/post-install/">Pi-hole post-install</a>. Official pages only. Menus move by firmware and ISP model. For the first install, see <a href="first-useful-service">the first useful thing</a>. For main-LAN DNS, see <a href="common-router-dns">point common home routers at Pi-hole</a>. For reservations, see <a href="common-router-reservation">keep the computer on the same address on common routers</a>. For ads with no tech visit, see <a href="when-ads-come-back">when ads come back</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-useful-service"><span class="t">The first useful thing</span><span class="d">Put a house-wide ad block on the old PC. The rest of the house keeps using the internet as usual. You don't need a Raspberry Pi.</span></a>
+<a class="note-row" href="when-wifi-password-changed"><span class="t">When the house Wi-Fi password changed</span><span class="d">You (or the ISP) changed the Wi-Fi passphrase. The old PC on radio is offline — SSH hangs, ads are back. Update the saved password on the computer. Skip a new mesh kit tonight.</span></a>
+<a class="note-row" href="when-ads-come-back"><span class="t">When ads come back</span><span class="d">Ads are back, sites won't load, or a phone still shows banners. Check the computer, Pi-hole, router DNS, then the phone.</span></a>
+<a class="note-row" href="common-router-dns"><span class="t">Point common home routers at Pi-hole</span><span class="d">Where to set DNS on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so the house asks Pi-hole. Prefer LAN DHCP DNS. You don't need a new router.</span></a>
+<a class="note-row" href="when-router-admin-wont-open"><span class="t">When the home router page won't open</span><span class="d">192.168.x.1, routerlogin.net, or the sticker URL won't load. Find the gateway number, use http on house Wi-Fi, then log in. You don't need a new router.</span></a>
+<a class="note-row" href="when-router-password-fails"><span class="t">When the router password won't work</span><span class="d">The gateway login page loads, but sticker, app, or old password fails. Try the right account and maker app before a factory reset. A reset wipes DNS and reservations.</span></a>
+<a class="note-row" href="common-router-reservation"><span class="t">Keep the computer on the same address on common routers</span><span class="d">Where to reserve DHCP on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so SSH and Pi-hole keep the same number after a reboot. You don't need a new router.</span></a>
+<a class="note-row" href="fixed-address-on-pc"><span class="t">Give the computer a fixed address when the router won't</span><span class="d">Nest or an ISP gateway won't reserve DHCP. Set one stable number on Ubuntu Server so SSH and Pi-hole keep the same address after a reboot. You don't need a new router.</span></a>
+<a class="note-row" href="flush-dns-on-devices"><span class="t">Flush old DNS on phones and laptops</span><span class="d">After you point the router at Pi-hole, phones and laptops may still use the old DNS. Renew the Wi-Fi lease or flush the cache so ads drop. You don't need a new router.</span></a>
+<a class="note-row" href="manual-dns-on-devices"><span class="t">Point a phone or laptop at Pi-hole when the router won't</span><span class="d">When Nest, Google Wifi, or an ISP gateway will not take custom DNS, set DNS on one phone or laptop so it asks Pi-hole. You don't need a new router for this device.</span></a>
+<a class="note-row" href="guest-wifi-dns"><span class="t">When guest Wi-Fi still shows ads</span><span class="d">Guest Wi-Fi is a separate network on purpose. Leave guests on ISP DNS, put a visitor on the main house Wi-Fi, or point guest DNS at Pi-hole only if they can reach the computer. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep it on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="when-ads-come-back"><span class="kicker">Previous</span><span class="t">When ads come back</span></a>
+<a rel="next" href="common-router-dns"><span class="kicker">Next</span><span class="t">Point common home routers at Pi-hole</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>SSH from the couch — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Type commands on the old PC from your laptop, on the house network. Password login first. Don't open this to the internet.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="SSH from the couch — Labthrift">
+<meta property="og:description" content="Type commands on the old PC from your laptop, on the house network. Password login first. Don't open this to the internet.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/first-ssh">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/first-ssh">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"SSH from the couch","description":"Type commands on the old PC from your laptop, on the house network. Password login first. Don't open this to the internet.","url":"https://labthrift.com/guides/first-ssh","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-08-24"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">SSH from the couch</span></nav>
+<p class="path-step"><a href="./#start">Getting started</a> · <b>5 of 9</b></p>
+<p class="note">Written 24 Aug 2026. This is a how-to, not a product card.</p>
+
+<h1>SSH from the couch</h1>
+<p class="deck">Type commands on the old PC from your laptop, on the house network. Password login first. Don't open this to the internet.</p>
+<p>You installed the OS on the computer. The next job is to reach it without sitting in front of it. That is SSH. The short version is already in <a href="first-weekend">your first weekend</a>. This page is for when that connect step is fussy. You need its number first. That is <a href="find-the-leftover-box">find it on the house network</a>.</p>
+
+<h2>What this is</h2>
+<p>SSH, a way to type commands on that computer from your normal one, over the house network. Same idea as sitting at its keyboard, minus the closet.</p>
+<p>This assumes Debian or Ubuntu Server, the OS from <a href="what-os-to-pick">what OS to put on it</a>, installed as in <a href="first-weekend">your first weekend</a>, with the SSH server checkbox on. Ubuntu Server offers that checkbox. If you skipped it, plug a screen in once and run:</p>
+<p><code>sudo apt install openssh-server</code></p>
+
+<h2>The command</h2>
+<p>On Windows, use Windows Terminal or PowerShell. On a Mac or Linux, use Terminal. The command is the same:</p>
+<p><code>ssh you@that-address</code></p>
+<p>Swap <code>you</code> for the username you created at install, and <code>that-address</code> for the number from the first weekend. That number is on the router device list, or from <code>hostname -I</code> on the computer.</p>
+
+<h2>Trust the box, then the password</h2>
+<p>The first time, it asks to trust this machine. That is the host key, a fingerprint of this computer. That is normal on a house network. Say yes. Next time it will not ask, unless you reinstalled the OS.</p>
+<p>Then it asks for that computer's password. Type it. Nothing will show as you type. That is normal. Press Enter.</p>
+<p>You should see a prompt on that computer. You are in. Try <code>hostname</code> so you can see it is the right machine. Type <code>exit</code> to leave.</p>
+
+<h2>Two usual failures</h2>
+<div class="table-wrap">
+<table>
+<tr><th>What you see</th><th>What it usually means</th></tr>
+<tr><td data-label="What you see">Connection refused, or timed out</td><td data-label="What it usually means">The computer is off, the address is wrong, or openssh-server is not installed.</td></tr>
+<tr><td data-label="What you see">Permission denied</td><td data-label="What it usually means">Wrong user or wrong password. The user is the one you created at install, not Administrator, not pi unless you named it pi.</td></tr>
+</table>
+</div>
+<p>For connection refused, confirm the address. Ping is optional. Plug in a screen if you have to, install openssh-server, try again. A longer walk for hangs, refused, Permission denied, and host-key scares is <a href="when-ssh-wont-connect">when SSH won't connect</a>. Ubuntu has a firewall called ufw. If ufw is on, allow SSH with <span><code>sudo ufw allow OpenSSH</code></span>. When SSH already works and you want to turn it on intentionally, follow <a href="leftover-box-ufw">turn on a simple firewall without locking yourself out</a>.</p>
+
+<h2>Keep it on the house network</h2>
+<p>Don't forward port 22 on the router. SSH is for the house network. If you need this from a coffee shop, that is a later VPN note, not a hole in the firewall.</p>
+<p>When password login has worked for a week, put a key on the laptop so you stop typing that password every time. That is <a href="leftover-box-ssh-keys">log in with a key, not the password every time</a>. If SSH used to work and now says the computer looks different after a wipe, that is <a href="leftover-box-ssh-host-key">when SSH says the computer looks different</a>.</p>
+
+<h2>What next</h2>
+<p>SSH still fails after the table above? <a href="when-ssh-wont-connect">When SSH won't connect</a>. Once SSH works from a laptop, you can do the same from a phone on house Wi-Fi: <a href="ssh-from-phone">SSH from a phone</a>. Leaving the house on purpose? <a href="ssh-from-away">SSH from away</a> (Tailscale, no port forward). Then <a href="leftover-box-change-password">change the login password</a> before you lean on that login. When password login has been boring, <a href="leftover-box-ssh-keys">log in with a key, not the password every time</a>. The first useful thing on this computer is still Pi-hole, then a file share. That is <a href="first-useful-service">the first useful thing</a>. If a forum told you to open a port, that is <a href="leftover-box-house-network">keep the computer on the house network</a>.</p>
+
+<p class="note">Optional: note the hostname and how you reach it in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip exposing port 22 to the internet.</li>
+<li>Skip changing the SSH port on day one.</li>
+<li>Skip fail2ban on day one.</li>
+<li>Skip Tailscale until you leave the house on purpose — then use <a href="ssh-from-away">SSH from away</a>.</li>
+<li>Skip buying a KVM for this.</li>
+<li>Skip root login over SSH.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://ubuntu.com/server/docs/how-to/security/openssh-server/">Ubuntu Server: OpenSSH server</a>. <a href="https://manpages.debian.org/bookworm/openssh-client/ssh.1.en.html">Debian: ssh man page</a>. Official pages only. For the install, see <a href="first-weekend">your first weekend</a>. For the OS choice, see <a href="what-os-to-pick">what OS to put on it</a>. Next job: <a href="first-useful-service">the first useful thing</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="when-login-password-fails"><span class="t">When you forgot the computer's login password</span><span class="d">SSH and the keyboard both reject the password. Boot recovery or the installer USB, remount the disk, set a new one. Skip wiping the whole PC if the files are fine.</span></a>
+<a class="note-row" href="when-ssh-wont-connect"><span class="t">When SSH won't connect</span><span class="d">SSH hangs, says connection refused, or Permission denied. Check the computer is on, confirm the address, then the user and password. You don't need a new router or a KVM.</span></a>
+<a class="note-row" href="leftover-box-ssh-host-key"><span class="t">When SSH says the computer looks different</span><span class="d">After you reinstall, SSH can refuse because your laptop still remembers the old host key. Clear that memory. You don't need a new router.</span></a>
+<a class="note-row" href="ssh-from-phone"><span class="t">SSH from a phone</span><span class="d">Type commands on the old PC from an iPhone or Android on house Wi-Fi. Password login first. Don't open SSH to the internet.</span></a>
+<a class="note-row" href="ssh-from-away"><span class="t">SSH from away</span><span class="d">Reach the old PC from a coffee shop or cellular without opening port 22. Tailscale on the computer and on your laptop. Free personal plan is enough.</span></a>
+<a class="note-row" href="first-weekend"><span class="t">Your first weekend</span><span class="d">Install the OS, name it, and reach it from the couch.</span></a>
+<a class="note-row" href="start-with-what-you-have"><span class="t">Start with what you already have</span><span class="d">Don't buy anything yet. Old laptop first, or a retired OptiPlex from Marketplace.</span></a>
+<a class="note-row" href="first-useful-service"><span class="t">The first useful thing</span><span class="d">Put a house-wide ad block on that computer. The rest of the house keeps using the internet as usual. You don't need a Raspberry Pi.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="find-the-leftover-box"><span class="kicker">Previous</span><span class="t">Find it on the house network</span></a>
+<a rel="next" href="first-useful-service"><span class="kicker">Next</span><span class="t">The first useful thing</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

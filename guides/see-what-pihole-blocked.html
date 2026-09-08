@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>See what Pi-hole blocked — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Open the query log (or watch it over SSH) so you can tell ads are dying, which device asked, and which name to allow later. You don't need a new router.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="See what Pi-hole blocked — Labthrift">
+<meta property="og:description" content="Open the query log (or watch it over SSH) so you can tell ads are dying, which device asked, and which name to allow later. You don't need a new router.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/see-what-pihole-blocked">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/see-what-pihole-blocked">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"See what Pi-hole blocked","description":"Open the query log (or watch it over SSH) so you can tell ads are dying, which device asked, and which name to allow later. You don't need a new router.","url":"https://labthrift.com/guides/see-what-pihole-blocked","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-05"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">See what Pi-hole blocked</span></nav>
+<p class="note">Written 5 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>See what Pi-hole blocked</h1>
+<p class="deck">Open the query log (or watch it over SSH) so you can tell ads are dying, which device asked, and which name to allow later. You don't need a new router.</p>
+<p>Haven't installed the house ad block yet? Start with <a href="first-useful-service">the first useful thing</a>. Ads are back on every device? That checklist is <a href="when-ads-come-back">when ads come back</a>. One bank page broken while ads stay gone? That is <a href="when-a-site-wont-load">when a site won't load after Pi-hole</a>. Totals stuck at zero with an empty log? That walk is <a href="when-pihole-has-no-queries">when Pi-hole shows no queries</a>. This note is the calmer look once traffic is flowing: prove Pi-hole is answering, and read what it skipped.</p>
+
+<h2>Skip until the house asks Pi-hole</h2>
+<p>If phones never dropped ads, point DNS first: <a href="common-router-dns">point common home routers at Pi-hole</a>. Admin page blank? <a href="when-pihole-wont-open">when the Pi-hole admin page won't open</a>. You need house Wi-Fi (or a cable on the laptop), not guest Wi-Fi that still uses ISP DNS, and not cellular data on a phone.</p>
+
+<h2>What this is</h2>
+<p>Every time a phone or laptop asks for a name, Pi-hole writes a line. Allowed names go through. Blocked names never reach the ad server. The query log is that list. The dashboard totals are the short version. You are not buying a monitoring box. You are reading the diary the computer already keeps.</p>
+
+<h2>Step 1: open the dashboard</h2>
+<p>On a laptop or phone on the house network, open:</p>
+<p><code>http://pi.hole/admin</code></p>
+<p>Or the computer's address plus <code>/admin</code>. Sign in with the admin password. Forgot it? <a href="leftover-box-pihole-password">Change the Pi-hole admin password</a>. You should see totals for total queries, queries blocked, and a percent blocked. A quiet house still shows some blocked names after a few minutes of browsing. Zero forever usually means the device is not using Pi-hole DNS yet — full walk: <a href="when-pihole-has-no-queries">when Pi-hole shows no queries</a>.</p>
+
+<h2>Step 2: open the query log</h2>
+<p>In the admin menu, open Query Log (sometimes under Tools, depending on your Pi-hole version). Reload a news site or open a few apps on a phone that uses house DNS. New rows should appear. Look for:</p>
+<ul>
+<li>Green / permitted / OK — the name was allowed.</li>
+<li>Red / blocked / gravity / regex — Pi-hole skipped that name.</li>
+<li>Client — which phone or laptop asked (often an address or a hostname).</li>
+</ul>
+<p>Blocked rows with names like <code>ads.</code>, <code>doubleclick</code>, <code>googlesyndication</code>, or similar tracker hosts are normal. That is the job working. You do not need to allow those.</p>
+
+<h2>Step 3: watch live over SSH (optional)</h2>
+<p>From the couch, <a href="first-ssh">SSH into the computer</a>, then:</p>
+<p><code>pihole tail</code></p>
+<p>Reload a page on your phone. New lines scroll as names are asked. Press Ctrl-C when you have seen enough. To ask whether one name is on a list:</p>
+<p><code>pihole query tracker.example.com</code></p>
+<p>Swap in a real name from the log. This does not change anything. It only reports.</p>
+
+<h2>Step 4: read the dashboard for a week, not a minute</h2>
+<p>One quiet minute can look empty. Leave Pi-hole alone for a day of normal phone use, then open the dashboard again. Percent blocked in the teens or twenties is common. A huge spike after you added ten third-party lists is a clue you over-blocked, not a score to chase. Prefer the default lists until a real site breaks.</p>
+
+<h2>When a name you need is blocked</h2>
+<p>Do not turn blocking off forever from this page. Pause for five minutes, find the exact domain, then allow that one name. Full walk: <a href="when-a-site-wont-load">when a site won't load after Pi-hole</a>. Want the opposite (deny a name on purpose)? <a href="block-a-site">Block a site in Pi-hole on purpose</a>.</p>
+
+<h2>What this is not</h2>
+<p>This is not a fix when ads never dropped. It is not Unbound, Docker, or a second Pi. It is not opening the admin page past the house network. It is not a reason to stack a dozen block lists on day one. It is not buying a Raspberry Pi so the log looks “official.”</p>
+
+<h2>What next</h2>
+<p>Change the printed admin password if you have not: <a href="leftover-box-pihole-password">change the Pi-hole admin password</a>. Once a week, <a href="update-pihole">keep Pi-hole updated</a>. Tired of typing the number? <a href="add-local-dns-name">Add a local name in Pi-hole</a>. Before a scary reinstall, <a href="backup-pihole">save a Pi-hole backup</a>. A file share on this same computer can wait: <a href="first-file-share">a file share</a>.</p>
+
+<p class="note">Optional: jot that Pi-hole is blocking in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip buying a mesh kit because the log looked quiet for thirty seconds.</li>
+<li>Skip opening the admin UI to the internet.</li>
+<li>Skip allowing every blocked tracker “just in case.”</li>
+<li>Skip stacking extra block lists before you can read this log.</li>
+<li>Skip this if ads are back on every device. That is a different walk.</li>
+<li>Skip a new Raspberry Pi for a query log you already have.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://docs.pi-hole.net/">Pi-hole docs</a>. <a href="https://docs.pi-hole.net/core/pihole-command/">Pi-hole command</a> (query, tail, status). Official pages only. For install, see <a href="first-useful-service">the first useful thing</a>. For a calm allow, see <a href="allow-a-site">allow a site in Pi-hole on purpose</a>. For a broken site, see <a href="when-a-site-wont-load">when a site won't load after Pi-hole</a>. For an empty log, see <a href="when-pihole-has-no-queries">when Pi-hole shows no queries</a>. For ads returning house-wide, see <a href="when-ads-come-back">when ads come back</a>. For router DNS, see <a href="common-router-dns">point common home routers at Pi-hole</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-useful-service"><span class="t">The first useful thing</span><span class="d">Put a house-wide ad block on the old PC. The rest of the house keeps using the internet as usual. You don't need a Raspberry Pi.</span></a>
+<a class="note-row" href="when-ads-come-back"><span class="t">When ads come back</span><span class="d">Ads are back, sites won't load, or a phone still shows banners. Check the computer, Pi-hole, router DNS, then the phone.</span></a>
+<a class="note-row" href="when-pihole-has-no-queries"><span class="t">When Pi-hole shows no queries</span><span class="d">Admin opens, totals stay at zero, query log empty. Prove the house asks the computer for DNS, then check Pi-hole status. You don't need a new Raspberry Pi.</span></a>
+<a class="note-row" href="when-a-site-wont-load"><span class="t">When a site won't load after Pi-hole</span><span class="d">A bank, streamer, or login page breaks after Pi-hole. Pause blocking for five minutes, then allow the domain you need. You don't need a new router.</span></a>
+<a class="note-row" href="pause-pihole"><span class="t">Pause Pi-hole for a few minutes</span><span class="d">Turn blocking off for five minutes to test a broken site or a dinner guest. It turns itself back on. You don't wipe the lists or change the router.</span></a>
+<a class="note-row" href="allow-a-site"><span class="t">Allow a site in Pi-hole on purpose</span><span class="d">One domain the house needs that a block list keeps catching. Add it to the allow list. You don't wipe every list or buy a new router.</span></a>
+<a class="note-row" href="block-a-site"><span class="t">Block a site in Pi-hole on purpose</span><span class="d">One domain you don't want in the house. Add it to the deny list. You don't wipe every block list or buy a new router.</span></a>
+<a class="note-row" href="when-one-phone-shows-ads"><span class="t">When one phone still shows ads</span><span class="d">Everyone else's ads dropped. One phone still shows banners. Check Private DNS, Private Relay, a VPN, then the Wi-Fi lease. You don't need a new router.</span></a>
+<a class="note-row" href="update-pihole"><span class="t">Keep Pi-hole updated</span><span class="d">Weekly apt does not refresh Pi-hole. Update the software and the block lists on the old PC so ads stay gone. You don't need a new Raspberry Pi.</span></a>
+<a class="note-row" href="add-local-dns-name"><span class="t">Add a local name in Pi-hole</span><span class="d">Give the old PC a short house name so phones and laptops can open SSH, the share, and the admin page without remembering the number. You don't need a new router.</span></a>
+<a class="note-row" href="when-pihole-wont-open"><span class="t">When the Pi-hole admin page won't open</span><span class="d">http://pi.hole/admin or the computer's address plus /admin won't load. Check house Wi-Fi, the address, then Pi-hole and the web service. You don't need a new router.</span></a>
+<a class="note-row" href="common-router-dns"><span class="t">Point common home routers at Pi-hole</span><span class="d">Where to set DNS on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so the house asks Pi-hole. Prefer LAN DHCP DNS. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-pihole-password"><span class="t">Change the Pi-hole admin password</span><span class="d">After the house ad block is up, change the admin password the installer printed. That password is not the login.</span></a>
+<a class="note-row" href="backup-pihole"><span class="t">Save a Pi-hole backup before you change things</span><span class="d">Export settings with Teleporter so a reinstall or a bad list does not wipe your allow list and local DNS. You don't need a new Raspberry Pi.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="first-useful-service"><span class="kicker">Previous</span><span class="t">The first useful thing</span></a>
+<a rel="next" href="when-a-site-wont-load"><span class="kicker">Next</span><span class="t">When a site won't load after Pi-hole</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

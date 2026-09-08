@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Match files on a shared field — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="After column, match two practice files on a shared field with join so the lists line up on a key. You don't need extra software for this.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Match files on a shared field — Labthrift">
+<meta property="og:description" content="After column, match two practice files on a shared field with join so the lists line up on a key. You don't need extra software for this.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/leftover-box-join">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/leftover-box-join">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Match files on a shared field","description":"After column, match two practice files on a shared field with join so the lists line up on a key. You don't need extra software for this.","url":"https://labthrift.com/guides/leftover-box-join","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-01"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Notes","item":"https://labthrift.com/guides/"},{"@type":"ListItem","position":2,"name":"Faster network","item":"https://labthrift.com/guides/#switches"},{"@type":"ListItem","position":3,"name":"Match files on a shared field"}]}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#switches">Faster network</a> / <span aria-current="page">Match files on a shared field</span></nav>
+<p class="note">Written 1 Sep 2026. This is a how-to, not a product card.</p>
+<h1>Match files on a shared field</h1>
+<p class="deck">After column, match two practice files on a shared field with join so the lists line up on a key. You don&apos;t need extra software for this.</p>
+<p><a href="leftover-box-column">Line lists up in columns</a> asked two short lines to sit in columns with <span><code>printf</code></span> and <span><code>column -t</code></span>. Tonight you match two lists on a shared field: <span><code>join</code></span>. Join means match two files on a shared field. Start with two tiny practice files already sorted on field 1, then <span><code>join ~/join-a.txt ~/join-b.txt</code></span>. Shared keys print. Unmatched keys stay out. Key 1 lives only in the first file. Key 4 lives only in the second. That is not <a href="leftover-box-paste">join columns side by side</a>. Paste joins columns without matching keys. You are still only practicing in home on the computer. It does not need extra system software, htop, Grafana, or a NAS for this one job.</p>
+<h2>Skip until SSH already works</h2>
+<p><a href="first-ssh">SSH from the couch</a> should already get you a prompt. If pretty columns are what you want, that is <a href="leftover-box-column">line lists up in columns</a>. If columns side by side without matching keys are what you want, that is <a href="leftover-box-paste">join columns side by side</a>. If one column pulled is what you want, that is <a href="leftover-box-cut">pull one column</a>. Join needs files already sorted. That sort is <a href="leftover-box-sort">put lines in order</a>. If sorted lists compared are what you want, that is <a href="leftover-box-comm">compare sorted lists</a>.</p>
+<h2>What this is</h2>
+<p><span><code>join</code></span> matches two files on a shared field. You make two tiny practice files, already sorted on field 1, then type <span><code>join ~/join-a.txt ~/join-b.txt</code></span>. Join looks at field 1 in both files. Whitespace splits fields. Shared keys print as <span><code>2 b x</code></span> and <span><code>3 c y</code></span>. Both files must already be sorted on the join field. Default field is 1. If files are mixed order, join can miss matches or warn. Put lines in order first: <a href="leftover-box-sort">put lines in order</a>. Tonight&apos;s practice files are already sorted. It is not paste, column, cut, uniq, comm, awk, SQL, or a spreadsheet app.</p>
+<h2>Practice join in home</h2>
+<p>SSH in. Make sure home is where you sit:</p>
+<p><code>pwd</code></p>
+<p>You want a path that ends in your login name. If not:</p>
+<p><code>cd ~</code></p>
+<p>Make two tiny practice files, already sorted on field 1:</p>
+<p><code>printf &apos;1 a\n2 b\n3 c\n&apos; &gt; ~/join-a.txt</code></p><p><code>printf &apos;2 x\n3 y\n4 z\n&apos; &gt; ~/join-b.txt</code></p>
+<p>Match on a shared field:</p>
+<p><code>join ~/join-a.txt ~/join-b.txt</code></p>
+<p>You want lines for shared keys 2 and 3 (<span><code>2 b x</code></span> then <span><code>3 c y</code></span>), then the prompt back. Key 1 stays only in <span><code>join-a.txt</code></span>. Key 4 stays only in <span><code>join-b.txt</code></span>. That is enough for tonight. Practice only in home.</p>
+<p>Don't make sort the job tonight. If files later need order, that is <a href="leftover-box-sort">put lines in order</a>.</p>
+<p>Debian and Ubuntu usually already have <span><code>join</code></span>. Don't make apt the job. If <span><code>join</code></span> is missing:</p>
+<p><code>sudo apt install coreutils</code></p>
+<p>Then stop. That install is not the lesson.</p>
+<p>When you are done, throw the practice files away. Careful delete only. That is <a href="leftover-box-rm">delete a file carefully</a>. Skip <span><code>rm -rf</code></span>.</p>
+<p><code>rm -i ~/join-a.txt ~/join-b.txt</code></p>
+<h2>Useful extras, still home only</h2>
+<p>Optional: colon as the field split:</p>
+<p><code>printf &apos;1:a\n2:b\n3:c\n&apos; &gt; ~/join-a.txt</code></p><p><code>printf &apos;2:x\n3:y\n4:z\n&apos; &gt; ~/join-b.txt</code></p><p><code>join -t : ~/join-a.txt ~/join-b.txt</code></p>
+<p>That tells join to split fields on <span><code>:</code></span> instead of whitespace. You want <span><code>2:b:x</code></span> then <span><code>3:c:y</code></span>. You can stay on whitespace.</p>
+<p>Optional: unmatched lines from file 1:</p>
+<p><code>join -a 1 ~/join-a.txt ~/join-b.txt</code></p>
+<p>That keeps unmatched keys from file 1 (key 1) plus matches. Don't make <span><code>-a 1</code></span> required.</p>
+<p>Optional: pick output fields:</p>
+<p><code>join -o 1.1,1.2,2.2 ~/join-a.txt ~/join-b.txt</code></p>
+<p>That picks field 1 from file 1, field 2 from file 1, field 2 from file 2. You can stay on default print.</p>
+<p>Optional: join then head the first lines:</p>
+<p><code>join ~/join-a.txt ~/join-b.txt | head -n 2</code></p>
+<p>That shows only the first two matched lines. Head is not tonight&apos;s job.</p>
+<p>Skip huge dumps. Join of whole home, <span><code>/etc</code></span>, password files, or huge logs is still a huge dump. Tonight: two tiny practice files.</p>
+<p>Skip join piped into <span><code>rm</code></span>. Join matches files. Rm deletes them. Don't mix those jobs.</p>
+<h2>What this is not</h2>
+<p>This is not paste. Paste joins columns side by side without matching keys. That is <a href="leftover-box-paste">join columns side by side</a>. It is not column. That is <a href="leftover-box-column">line lists up in columns</a>. It is not cut. That is <a href="leftover-box-cut">pull one column</a>. It is not sort as the job. Join needs files already sorted. That is <a href="leftover-box-sort">put lines in order</a>. It is not uniq. That is <a href="leftover-box-uniq">drop duplicate lines</a>. It is not comm. That is <a href="leftover-box-comm">compare sorted lists</a>. It is not awk, SQL, or a spreadsheet. It is not echo as the job. Tonight uses <span><code>printf</code></span> only to make practice files. That is <a href="leftover-box-echo">put a short line into a file</a>. It is not opening SSH to the internet. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>What next</h2>
+<p>Need lists lined up in columns? <a href="leftover-box-column">Line lists up in columns</a>. Need sorted lists compared? <a href="leftover-box-comm">Compare sorted lists</a>. Need columns side by side without matching keys? <a href="leftover-box-paste">Join columns side by side</a>. Need one column pulled out? <a href="leftover-box-cut">Pull one column</a>. Need files sorted first? <a href="leftover-box-sort">Put lines in order</a>. Need the practice files gone? <a href="leftover-box-rm">Delete a file carefully</a>. Keep SSH on the house network: <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip if SSH still fails. Finish <a href="first-ssh">SSH from the couch</a> first.</li>
+<li>Skip huge dumps as tonight&apos;s job. Tonight: two tiny practice files.</li>
+<li>Skip <span><code>join</code></span> piped into <span><code>rm</code></span>. Join matches files. Don't mix delete into this drill.</li>
+<li>Skip paste, column, cut, sort, uniq, and comm as tonight&apos;s job. Those pages already exist.</li>
+<li>Skip awk, SQL, and spreadsheet apps. Tonight: <span><code>join</code></span> on two tiny home files.</li>
+<li>Skip files under <span><code>/etc</code></span>, SSH folders, or paths you don't own. Practice only in home.</li>
+<li>Skip <span><code>rm -rf</code></span>. Careful delete only: <a href="leftover-box-rm">delete a file carefully</a>.</li>
+<li>Skip opening SSH to the internet so you can do this from a coffee shop. That is <a href="leftover-box-house-network">keep the computer on the house network</a>. Don't forward port 22.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://manpages.debian.org/bookworm/coreutils/join.1.en.html">Debian: join(1)</a>. <a href="https://manpages.ubuntu.com/manpages/noble/man1/join.1.html">Ubuntu: join(1)</a>. Official pages only. For the login, see <a href="first-ssh">SSH from the couch</a>. For columns that line up, see <a href="leftover-box-column">line lists up in columns</a>. For sorted lists compared, see <a href="leftover-box-comm">compare sorted lists</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="first-ssh"><span class="t">SSH from the couch</span><span class="d">Type commands on the computer from your laptop, on the house network. Password login first. Don't open this to the internet.</span></a>
+<a class="note-row" href="leftover-box-column"><span class="t">Line lists up in columns</span><span class="d">After unexpand, line lists up in columns with column so practice notes sit in columns that line up. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-comm"><span class="t">Compare sorted lists</span><span class="d">After join, comm compares sorted lists so practice files show what is only in list 1, only in list 2, or in both. You don&apos;t need extra software for this.</span></a>
+<a class="note-row" href="leftover-box-paste"><span class="t">Join columns side by side</span><span class="d">After SSH works, join columns side by side with paste so two lists become one line each. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-cut"><span class="t">Pull one column</span><span class="d">After SSH works, pull one column with cut so a mixed line is easier to scan. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-sort"><span class="t">Put lines in order</span><span class="d">After SSH works, put lines in order with sort so a mixed list is easier to scan. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-echo"><span class="t">Put a short line into a file</span><span class="d">After SSH works, put one short line into a file with echo so you don't need to open nano. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-pipe"><span class="t">Send output into another command</span><span class="d">After SSH works, send output into another command with | so a long dump does not flood the window. You don&apos;t need a file manager for this.</span></a>
+<a class="note-row" href="leftover-box-rm"><span class="t">Delete a file carefully</span><span class="d">After SSH works, delete one file with rm -i. Ask first. Skip rm -rf. You don&apos;t need a NAS for this.</span></a>
+<a class="note-row" href="leftover-box-ssh-no-password"><span class="t">Turn off password login once the key works</span><span class="d">After the laptop key login is boring, tell SSH to stop accepting the password. The key is how you get in. A keyboard on the computer is the backup now.</span></a>
+<a class="note-row" href="leftover-box-house-network"><span class="t">Keep the computer on the house network</span><span class="d">SSH and Pi-hole belong on the house network. Skip this if you never opened the router settings. Don't forward port 22.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="leftover-box-column"><span class="kicker">Previous</span><span class="t">Line lists up in columns</span></a>
+<a rel="next" href="leftover-box-comm"><span class="kicker">Next</span><span class="t">Compare sorted lists</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

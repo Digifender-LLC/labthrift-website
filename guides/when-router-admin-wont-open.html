@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>When the home router page won't open — Labthrift</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="192.168.x.1, routerlogin.net, or the sticker URL won't load. Find the gateway number, use http on house Wi-Fi, then log in. You don't need a new router.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="When the home router page won't open — Labthrift">
+<meta property="og:description" content="192.168.x.1, routerlogin.net, or the sticker URL won't load. Find the gateway number, use http on house Wi-Fi, then log in. You don't need a new router.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/when-router-admin-wont-open">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/when-router-admin-wont-open">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"When the home router page won't open","description":"192.168.x.1, routerlogin.net, or the sticker URL won't load. Find the gateway number, use http on house Wi-Fi, then log in. You don't need a new router.","url":"https://labthrift.com/guides/when-router-admin-wont-open","image":"https://labthrift.com/assets/og-1200.png","datePublished":"2026-09-06"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">When the home router page won't open</span></nav>
+<p class="note">Written 6 Sep 2026. This is a how-to, not a product card.</p>
+
+<h1>When the home router page won't open</h1>
+<p class="deck"><span><code>192.168.x.1</code></span>, <span><code>routerlogin.net</code></span>, or the sticker URL won't load. Find the gateway number, use http on house Wi-Fi, then log in. You don't need a new router.</p>
+<p>Trying to open Pi-hole's dashboard instead? That is <a href="when-pihole-wont-open">when the Pi-hole admin page won't open</a>. Haven't pointed house DNS at the computer yet, and you only need the brand menus? Start with <a href="common-router-dns">point common home routers at Pi-hole</a>. This note is the blank tab when the <em>router or ISP gateway</em> itself will not show a login page.</p>
+
+<h2>Skip until you mean the router, not Pi-hole</h2>
+<p>Pi-hole lives on the old PC. The router (or ISP gateway) is the box that hands out Wi-Fi and usually sits near the modem. If the page you want is <a href="http://pi.hole/admin">http://pi.hole/admin</a> or the computer's number plus <span><code>/admin</code></span>, stop and use <a href="when-pihole-wont-open">when the Pi-hole admin page won't open</a>. Don't factory-reset the gateway because a bookmark failed once.</p>
+
+<h2>What this is</h2>
+<p>Every phone and laptop on the house network has a default gateway: the address of the router that routes traffic out. The admin page is a small web UI on that gateway. You open it with the gateway number over http on the same house network. Sticker hostnames (<span><code>routerlogin.net</code></span>, <span><code>tplinkwifi.net</code></span>, and friends) only work when DNS still resolves them. After you point DNS at Pi-hole, the number is the reliable path.</p>
+
+<h2>Step 1: same house network</h2>
+<p>Phone or laptop on house Wi-Fi, or a cable into the same router. Guest Wi-Fi often cannot reach the gateway admin. Cellular never will. VPN apps on the phone can hide the real gateway. Turn the VPN off for this test. Guest SSID still weird for ads? See <a href="guest-wifi-dns">when guest Wi-Fi still shows ads</a>.</p>
+
+<h2>Step 2: find the gateway number</h2>
+<p>Guessing <span><code>192.168.1.1</code></span> fails on a lot of houses (ASUS often uses <span><code>192.168.50.1</code></span>, some TP-Link boxes use <span><code>192.168.0.1</code></span>, ISP gateways vary). Read the number the laptop already has.</p>
+<p>On a Mac or Linux laptop:</p>
+<p><code>ip route | head -5</code></p>
+<p>Or on many Macs:</p>
+<p><code>route -n get default | grep gateway</code></p>
+<p>On Windows, in Command Prompt or PowerShell:</p>
+<p><code>ipconfig</code></p>
+<p>Look for Default Gateway on the active Wi-Fi or Ethernet adapter. On an iPhone: Settings → Wi-Fi → the info button next to the house network → Router. On Android: the house network details → Gateway (wording varies). Write that number down. It is the one you will type in the browser.</p>
+
+<h2>Step 3: open http plus the number</h2>
+<p>In the browser, type exactly (swap your gateway):</p>
+<p><code>http://192.168.1.1</code></p>
+<p>Use <span><code>http</code></span>, not <span><code>https</code></span>, unless you set TLS on the router on purpose. A padlock warning or a blank https tab is often the wrong scheme. Don't add <span><code>/admin</code></span> unless that maker's docs say so. That path is for Pi-hole on the old PC, not for most home routers.</p>
+<p>Sticker names are optional. If <span><code>http://routerlogin.net</code></span> or <span><code>http://tplinkwifi.net</code></span> fails after you pointed DNS at Pi-hole, ignore the name and use the gateway number from Step 2. You can allow a maker hostname later in Pi-hole if you want the shortcut back: <a href="allow-a-site">allow a site in Pi-hole on purpose</a>.</p>
+
+<h2>Step 4: match what the browser shows</h2>
+<div class="table-wrap">
+<table>
+<tr><th>What you see</th><th>Likely cause</th></tr>
+<tr><td data-label="What you see">Timed out / can't reach this page</td><td data-label="Likely cause">Wrong number, guest Wi-Fi, VPN on, or you are not on the house LAN. Steps 1–2.</td></tr>
+<tr><td data-label="What you see">Connection refused</td><td data-label="Likely cause">Wrong host (often the old PC instead of the gateway), or admin is off the LAN side. Confirm the Default Gateway again.</td></tr>
+<tr><td data-label="What you see">https warning / certificate error</td><td data-label="Likely cause">Try <span><code>http://</code></span> plus the gateway number. Skip forcing https on day one.</td></tr>
+<tr><td data-label="What you see">Login form loads, password fails</td><td data-label="Likely cause">Wrong page is open, or the sticker / app password is wrong. Step 5, or the full walk: <a href="when-router-password-fails">when the router password won't work</a>.</td></tr>
+<tr><td data-label="What you see">Pi-hole login, not the router</td><td data-label="Likely cause">You opened the computer's address or <span><code>pi.hole</code></span>. Use the gateway number from Step 2, or see <a href="when-pihole-wont-open">when the Pi-hole admin page won't open</a>.</td></tr>
+<tr><td data-label="What you see">Maker name fails, number works</td><td data-label="Likely cause">DNS on that device is not resolving the sticker hostname. Stay on the number.</td></tr>
+</table>
+</div>
+
+<h2>Step 5: password when the form already loads</h2>
+<p>Sticker username and password, or the password you set in the maker app. ISP gateways sometimes want the account PIN or an app login instead of a local page. If the form is the Pi-hole admin form, you are on the wrong box: <a href="leftover-box-pihole-password">change the Pi-hole admin password</a> is not the router password.</p>
+<p>Don't factory-reset yet. A reset wipes LAN DNS and DHCP reservations and sends you back through <a href="when-isp-swaps-router">when the ISP swaps your router</a> style recovery even when the hardware did not change. Full password walk (sticker vs Wi-Fi passphrase vs maker app vs careful reset): <a href="when-router-password-fails">when the router password won't work</a>.</p>
+
+<h2>Step 6: prove the gateway answers</h2>
+<p>From the laptop, ping the gateway number (swap yours):</p>
+<p><code>ping -c 3 192.168.1.1</code></p>
+<p>On Windows:</p>
+<p><code>ping -n 3 192.168.1.1</code></p>
+<p>Replies mean the box is on the LAN path. No replies usually means wrong number, guest isolation, or a dead gateway. Power-cycle the gateway only after you have the right number and http still fails. Then retry Step 3.</p>
+
+<h2>Step 7: when you only needed DNS menus</h2>
+<p>Once the login page opens, set LAN or DHCP DNS to the computer if that was the job: brand menus in <a href="common-router-dns">point common home routers at Pi-hole</a>, or the shorter walk in <a href="leftover-box-router-dns">point the house at the ad block</a>. Keep the computer on one address: <a href="common-router-reservation">keep the computer on the same address on common routers</a>. Nest or an ISP box that will not take custom DNS: <a href="manual-dns-on-devices">point a phone or laptop at Pi-hole when the router won't</a>.</p>
+
+<h2>What this is not</h2>
+<p>This is not a reason to buy a mesh kit or a new router on day one. It is not opening the router admin from a coffee shop. It is not the Pi-hole dashboard on the old PC. It is not "ads came back" when the router page already loads (that is <a href="when-ads-come-back">when ads come back</a>). It is not a factory reset as the first move.</p>
+
+<h2>What next</h2>
+<p>When the gateway login works, leave a bookmark to <span><code>http://</code></span> plus the number. Form loads but password fails? <a href="when-router-password-fails">When the router password won't work</a>. Point DNS if you have not: <a href="common-router-dns">point common home routers at Pi-hole</a>. After a tech swap wiped settings: <a href="when-isp-swaps-router">when the ISP swaps your router</a>. Pi-hole dashboard blank instead? <a href="when-pihole-wont-open">When the Pi-hole admin page won't open</a>.</p>
+
+<p class="note">Optional: jot the gateway number that worked in <a href="https://plan.labthrift.com">Lab plan</a> — username + passkey, no email. Skip if you just want to keep reading.</p>
+<h2>Skip</h2>
+<ul>
+<li>Skip buying a new router because <span><code>192.168.1.1</code></span> was wrong for your house.</li>
+<li>Skip a factory reset before you try the real Default Gateway over http.</li>
+<li>Skip opening the gateway admin from cellular or from guest Wi-Fi.</li>
+<li>Skip forcing https on day one.</li>
+<li>Skip forwarding the router admin page to the internet.</li>
+<li>Skip this if you meant the Pi-hole dashboard on the old PC. That is a different walk.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://docs.pi-hole.net/routers/generic-guidance/">Pi-hole: generic router guidance</a>. <a href="https://docs.pi-hole.net/main/post-install/">Pi-hole post-install</a>. Maker admin URLs move by firmware; prefer the Default Gateway your laptop already shows. Official pages only. For brand DNS menus, see <a href="common-router-dns">point common home routers at Pi-hole</a>. For the Pi-hole dashboard on the computer, see <a href="when-pihole-wont-open">when the Pi-hole admin page won't open</a>. For ads after a gateway swap, see <a href="when-isp-swaps-router">when the ISP swaps your router</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="when-router-password-fails"><span class="t">When the router password won't work</span><span class="d">The gateway login page loads, but sticker, app, or old password fails. Try the right account and maker app before a factory reset. A reset wipes DNS and reservations.</span></a>
+<a class="note-row" href="common-router-dns"><span class="t">Point common home routers at Pi-hole</span><span class="d">Where to set DNS on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so the house asks Pi-hole. Prefer LAN DHCP DNS. You don't need a new router.</span></a>
+<a class="note-row" href="leftover-box-router-dns"><span class="t">Point the house at the ad block</span><span class="d">After Pi-hole is installed, point the house router at the computer for DNS. Phones and laptops need no app. Sites still load. A lot of ads don't.</span></a>
+<a class="note-row" href="common-router-reservation"><span class="t">Keep the computer on the same address on common routers</span><span class="d">Where to reserve DHCP on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so SSH and Pi-hole keep the same number after a reboot. You don't need a new router.</span></a>
+<a class="note-row" href="when-pihole-wont-open"><span class="t">When the Pi-hole admin page won't open</span><span class="d">http://pi.hole/admin or the computer's address plus /admin won't load. Check house Wi-Fi, the address, then Pi-hole and the web service. You don't need a new router.</span></a>
+<a class="note-row" href="when-isp-swaps-router"><span class="t">When the ISP swaps your router</span><span class="d">Tech left a new gateway (or reset yours). Ads are back, and SSH may miss the old address. Re-find the computer, re-point DNS, re-do the reservation. You don't need a new router or a new Pi-hole.</span></a>
+<a class="note-row" href="manual-dns-on-devices"><span class="t">Point a phone or laptop at Pi-hole when the router won't</span><span class="d">When Nest, Google Wifi, or an ISP gateway will not take custom DNS, set DNS on one phone or laptop so it asks Pi-hole. You don't need a new router for this device.</span></a>
+<a class="note-row" href="when-ads-come-back"><span class="t">When ads come back</span><span class="d">Ads are back, sites won't load, or a phone still shows banners. Check the computer, Pi-hole, router DNS, then the phone.</span></a>
+<a class="note-row" href="find-the-leftover-box"><span class="t">Find it on the house network</span><span class="d">The computer has a number on your house network. You need that number to SSH from the couch. You don't need a new router.</span></a>
+<a class="note-row" href="allow-a-site"><span class="t">Allow a site in Pi-hole on purpose</span><span class="d">One domain the house needs that a block list keeps catching. Add it to the allow list. You don't wipe every list or buy a new router.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="when-pihole-wont-open"><span class="kicker">Previous</span><span class="t">When the Pi-hole admin page won't open</span></a>
+<a rel="next" href="when-router-password-fails"><span class="kicker">Next</span><span class="t">When the router password won't work</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>
