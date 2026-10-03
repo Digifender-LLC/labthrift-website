@@ -114,3 +114,5 @@ First successful copy still lives on [a backup of the house folder](<first-backu
 - Skip `rm -rf` on paths you have not listed with `du` first.
 - Skip running rsync into `/mnt/backup` when `findmnt` prints nothing.
 - Skip leaving the only backup stick plugged in forever.
+
+[A Digifender product](https://digifender.com/) · [Draft terms](https://digifender.com/legal/labthrift/terms) · [Draft privacy policy](https://digifender.com/legal/labthrift/privacy) · [Draft cookie notice](https://digifender.com/legal/labthrift/cookies) · [All draft policies](https://digifender.com/legal/labthrift) · [Legal contact](mailto:legal@digifender.com)

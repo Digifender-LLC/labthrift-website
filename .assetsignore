@@ -25,3 +25,12 @@ scripts
 
 migrations
 docs
+
+# Never publish checkout metadata or local configuration.
+.git
+.gitignore
+.env
+.env.*
+.dev.vars
+.dev.vars.*
+.DS_Store

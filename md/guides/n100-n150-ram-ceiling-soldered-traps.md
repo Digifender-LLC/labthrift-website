@@ -42,3 +42,5 @@ Skip 8 GB as a default, soldered or not. Skip G3S N95 8/256 at $249.99 as an N15
 ---
 
 *Labthrift Markdown mirror. HTML version linked above.*
+
+[A Digifender product](https://digifender.com/) · [Draft terms](https://digifender.com/legal/labthrift/terms) · [Draft privacy policy](https://digifender.com/legal/labthrift/privacy) · [Draft cookie notice](https://digifender.com/legal/labthrift/cookies) · [All draft policies](https://digifender.com/legal/labthrift) · [Legal contact](mailto:legal@digifender.com)
