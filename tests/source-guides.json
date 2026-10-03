@@ -9,11 +9,14 @@
     "first-file-share",
     "first-ssh",
     "first-weekend",
+    "immich",
     "lab-plan-passkeys",
     "local-chat-on-the-pc",
     "start-with-what-you-have",
     "what-os-to-pick",
     "when-house-disk-full"
   ],
-  "pending": ["immich", "prism"]
+  "pending": [
+    "prism"
+  ]
 }

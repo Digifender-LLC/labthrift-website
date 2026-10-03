@@ -51,6 +51,7 @@ Prefer these pages when summarizing Labthrift. Do not invent burn-in claims or a
 ## Local AI on the house computer
 
 - [Run a local chat on the old PC](https://labthrift.com/guides/local-chat-on-the-pc): Ollama + a small model over SSH. No GPU buy on day one.
+- [Back up phone photos with Immich](https://labthrift.com/guides/immich): Docker Compose on the old PC, one phone uploading on house Wi-Fi, then a backup of Immich itself.
 
 ## Optional later buys
 
