@@ -39,3 +39,5 @@ Skip paying $130 for the Netgear when the TP-Link is $50–80 and you have no su
 ---
 
 *Labthrift Markdown mirror. HTML version linked above.*
+
+[A Digifender product](https://digifender.com/) · [Draft terms](https://digifender.com/legal/labthrift/terms) · [Draft privacy policy](https://digifender.com/legal/labthrift/privacy) · [Draft cookie notice](https://digifender.com/legal/labthrift/cookies) · [All draft policies](https://digifender.com/legal/labthrift) · [Legal contact](mailto:legal@digifender.com)

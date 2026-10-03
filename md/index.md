@@ -347,3 +347,5 @@ HTML site: https://labthrift.com/
 - [Skip the $190 Wi-Fi 7 puck until the WAN is faster than the AP](/md/guides/wifi-7-tax-closet-lab.md) — https://labthrift.com/guides/wifi-7-tax-closet-lab
 - [Put the old PC on house Wi-Fi](/md/guides/wifi-on-the-pc.md) — https://labthrift.com/guides/wifi-on-the-pc
 - [Wipe a Marketplace PC before you install](/md/guides/wipe-marketplace-pc.md) — https://labthrift.com/guides/wipe-marketplace-pc
+
+[A Digifender product](https://digifender.com/) · [Draft terms](https://digifender.com/legal/labthrift/terms) · [Draft privacy policy](https://digifender.com/legal/labthrift/privacy) · [Draft cookie notice](https://digifender.com/legal/labthrift/cookies) · [All draft policies](https://digifender.com/legal/labthrift) · [Legal contact](mailto:legal@digifender.com)

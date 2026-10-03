@@ -73,3 +73,5 @@ Keep the weekly software habit: [keep Pi-hole updated](<update-pihole>). Keep th
 - [Point common home routers at Pi-hole](<common-router-dns>) — Where to set DNS on TP-Link, ASUS, eero, Netgear, Nest, and ISP gateways so the house asks Pi-hole. Prefer LAN DHCP DNS. You don't need a new router.
 - [A backup of the house folder](<first-backup>) — A second copy of the house folder, on a USB disk you already have, or on another old computer. You don't need a NAS for this.
 - [Keep the computer updated](<leftover-box-updates>) — Once a week, give the computer its fixes so SSH and Pi-hole are not sitting on last year's bugs. Skip this until next week if you just finished first weekend.
+
+[A Digifender product](https://digifender.com/) · [Draft terms](https://digifender.com/legal/labthrift/terms) · [Draft privacy policy](https://digifender.com/legal/labthrift/privacy) · [Draft cookie notice](https://digifender.com/legal/labthrift/cookies) · [All draft policies](https://digifender.com/legal/labthrift) · [Legal contact](mailto:legal@digifender.com)

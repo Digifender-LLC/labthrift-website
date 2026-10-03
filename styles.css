@@ -1164,3 +1164,10 @@ html{color-scheme:light dark;hanging-punctuation:first last;text-wrap:pretty;scr
   a{color:var(--copper)}
   @page{margin:16mm 14mm}
 }
+
+/* Shared company attribution and explicitly draft product policies. */
+.company-legal{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem 1.1rem;margin:1rem 0 0;padding-top:1rem;border-top:1px solid var(--line);font-family:system-ui,sans-serif;font-size:.8rem;line-height:1.6;color:var(--mute)}
+.company-legal a{color:inherit;text-decoration:underline;text-underline-offset:.2em;padding:.25rem 0}
+.company-legal a:first-child{font-weight:600;color:var(--ink)}
+.company-legal a:hover{color:var(--copper-deep)}
+.company-legal a:focus-visible{outline:2px solid currentColor;outline-offset:4px;border-radius:2px}

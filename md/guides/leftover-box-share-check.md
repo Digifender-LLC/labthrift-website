@@ -95,3 +95,5 @@ Leave it. Skip a NAS. Skip RAID. Skip exposing SMB to the internet. If a restart
 ---
 
 *Labthrift Markdown mirror. HTML version linked above.*
+
+[A Digifender product](https://digifender.com/) · [Draft terms](https://digifender.com/legal/labthrift/terms) · [Draft privacy policy](https://digifender.com/legal/labthrift/privacy) · [Draft cookie notice](https://digifender.com/legal/labthrift/cookies) · [All draft policies](https://digifender.com/legal/labthrift) · [Legal contact](mailto:legal@digifender.com)

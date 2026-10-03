@@ -143,3 +143,5 @@ Once a backup finishes, leave the Mac on the house network overnight now and the
 [A backup of the house folder](<first-backup>) — A second copy of the house folder, on a USB disk you already have, or on another old computer.
 
 [Open the house share from a laptop](<open-share-from-laptop>) — The house folder is on the old PC. Open it from Windows File Explorer or Mac Finder on the house network.
+
+[A Digifender product](https://digifender.com/) · [Draft terms](https://digifender.com/legal/labthrift/terms) · [Draft privacy policy](https://digifender.com/legal/labthrift/privacy) · [Draft cookie notice](https://digifender.com/legal/labthrift/cookies) · [All draft policies](https://digifender.com/legal/labthrift) · [Legal contact](mailto:legal@digifender.com)

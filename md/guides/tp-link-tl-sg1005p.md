@@ -40,3 +40,5 @@ Skip UniFi Switch Lite 8 PoE ($109, 52 W on the UI store) unless you already liv
 ---
 
 *Labthrift Markdown mirror. HTML version linked above.*
+
+[A Digifender product](https://digifender.com/) · [Draft terms](https://digifender.com/legal/labthrift/terms) · [Draft privacy policy](https://digifender.com/legal/labthrift/privacy) · [Draft cookie notice](https://digifender.com/legal/labthrift/cookies) · [All draft policies](https://digifender.com/legal/labthrift) · [Legal contact](mailto:legal@digifender.com)

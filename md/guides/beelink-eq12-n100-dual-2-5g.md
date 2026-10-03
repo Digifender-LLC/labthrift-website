@@ -40,3 +40,5 @@ Skip 8 GB regional SKUs. Skip assuming EQ12 and EQ14 share a NIC. Skip chasing M
 ---
 
 *Labthrift Markdown mirror. HTML version linked above.*
+
+[A Digifender product](https://digifender.com/) · [Draft terms](https://digifender.com/legal/labthrift/terms) · [Draft privacy policy](https://digifender.com/legal/labthrift/privacy) · [Draft cookie notice](https://digifender.com/legal/labthrift/cookies) · [All draft policies](https://digifender.com/legal/labthrift) · [Legal contact](mailto:legal@digifender.com)
