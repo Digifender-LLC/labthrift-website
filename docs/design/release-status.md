@@ -24,3 +24,17 @@ The shared footer is present in all 400 public HTML documents (the 399 sitemap p
 Local verification: desktop and 390px phone layouts show all six link destinations without horizontal overflow. Every HTML/Markdown edit preserves the recovered baseline content. The Worker bundle remains byte-identical to the live baseline. Local missing/internal routes return 404.
 
 Release state: **deployed and verified live**. Cloudflare Worker version `7f431ced-650a-4fa8-946f-67996c97a1fa`. All 766 served assets (plus the expected README 404) matched the reviewed source after line-ending and Cloudflare-injection normalization. Desktop and 390px live checks passed exact destinations, draft labels and layout. Returning-browser verification caught stale CSS; versioned stylesheet URLs now refresh the new footer without clearing visitor storage. The Worker code, bindings, runtime, routing and headers were read back and remain equivalent to the prior deployment. Full evidence is in the oversight task’s `outputs/labthrift-source-recovery-2026-10-03/`.
+
+## Website verification — October 3, 2026 (roadmap W01–W03)
+
+Repeatable checks now live in the repository: `npm test` (25 Worker contract tests) and `npm run check` (122-request HTTP matrix against a running site). Both pass against a local `wrangler dev` with the real asset configuration.
+
+Three Worker defects were found and fixed in the same change:
+
+- A negotiated Markdown `HEAD` returned `Content-Length: 0` and a token estimate of 1, because the twin was fetched with the `HEAD` method. It now reports the twin's byte length.
+- A missing `/md/...` path served the HTML 404 page labelled `text/markdown`. It now keeps the page's HTML type.
+- Trailing-slash and `.html` redirects (307) were counted as page views, so one visit through a redirect counted twice. Only 2xx and 304 responses are counted now.
+
+Local results: every private path (docs, migrations, Worker source, package files, Wrangler config, research notes, tests, scripts, `.git`, environment files, archived assets) returns 404; all 399 sitemap pages and all `llms.txt` links resolve; 13 of 15 project source guides resolve and Immich and Prism remain 404 pending roadmap item C01; ByteRush (`app.labthrift.com`, labelled App) and Plan (`plan.labthrift.com`, labelled Plan / Lab plan) links are present and no Runs links remain. A metrics write against a missing table left page serving unaffected.
+
+Not yet verified: the live run (`npm run check -- https://labthrift.com`) and the redeploy carrying the three fixes. The cloud environment used for this pass cannot reach labthrift.com.
