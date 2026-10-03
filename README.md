@@ -16,3 +16,7 @@ Static editorial site for a one-person home lab.
 2. Amazon Associates + one other network
 3. AdSense later
 4. Point a host (Cloudflare Pages, Netlify, or any static host) at this folder
+
+## Design documentation
+
+[Product, requirements and architecture documents](docs/design/README.md) cover the frontend, supporting backend and the Runs-to-ByteRush consolidation. Release evidence is tracked separately from design intent.
