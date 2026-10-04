@@ -19,21 +19,28 @@ Already copying the camera roll to the house share? That is the folder Prism rea
 
 Pick Prism if the files are the library and you want a nicer way to browse them. Prism leaves your photos where they are. It keeps its thumbnails, settings and database in its own folder.
 
-There is no Prism phone app that backs up the camera roll in the background. Keep copying photos to the share the way you already do, or upload from the phone's browser.
+This note runs Prism read-only. It can look at the house share but never change it. New photos keep arriving the way they do now, through the share.
 
-## Skip until you have RAM and disk
+## Before you start
 
-PhotoPrism asks for at least 2 CPU cores, 3 GB of RAM and 4 GB of swap. From SSH:
+  * An old PC that stays on, running Debian or Ubuntu Server: [your first weekend](<first-weekend>).
+  * SSH from the couch: [SSH from the couch](<first-ssh>).
+  * A house share with photos in it: [a file share](<first-file-share>) and [save phone photos to the house share](<phone-photos-to-share>).
+  * A fixed address for the PC: [keep the same address](<leftover-box-dhcp-reservation>).
+  * At least 2 CPU cores, 3 GB of RAM and 4 GB of swap. That is PhotoPrism's own minimum.
+
+
+Check memory, swap and disk from SSH:
 
 `free -h`
 
 `df -h /srv/share`
 
-Thumbnails need room next to the photos. Keep Prism's own folder on the computer's disk, not a USB stick or a network share.
+The Swap line should say at least 4.0G. Thumbnails need room on the computer's own disk. Keep Prism's folder there, not on a USB stick or a network share.
 
 ## Install Docker
 
-Same as the Immich note. Download Docker's script, read it, run it, then check both parts answer:
+Download Docker's script, read it, then run it:
 
 `curl -fsSL https://get.docker.com -o ~/get-docker.sh`
 
@@ -41,9 +48,11 @@ Same as the Immich note. Download Docker's script, read it, run it, then check b
 
 `sudo sh ~/get-docker.sh`
 
+Check that Compose answers with a version number:
+
 `sudo docker compose version`
 
-## Get the example file
+## Get the compose file
 
 `mkdir ~/photoprism && cd ~/photoprism`
 
@@ -51,25 +60,44 @@ Same as the Immich note. Download Docker's script, read it, run it, then check b
 
 `nano compose.yaml`
 
-Change four things, then save with Ctrl+O, Enter, Ctrl+X:
+PhotoPrism keeps all its settings in this one file. There is no separate .env. Change these lines, then save with Ctrl+O, Enter, Ctrl+X:
 
-  * `PHOTOPRISM_ADMIN_PASSWORD`: a real password, at least 8 characters. The default is `insecure`.
-  * `PHOTOPRISM_DATABASE_PASSWORD` and `MARIADB_PASSWORD`: the same new random password in both places.
-  * Under `volumes:`, change `~/Pictures:/photoprism/originals` to your photo folder, like `/srv/share:/photoprism/originals`.
-  * `PHOTOPRISM_READONLY`: set it to `"true"` so Prism never moves or deletes anything in the house share.
+  * `PHOTOPRISM_ADMIN_PASSWORD`: a real password, 8 characters or more. The default is `insecure`.
+  * `PHOTOPRISM_SITE_URL`: the PC's address, like `"http://192.168.1.50:2342/"`.
+  * `PHOTOPRISM_DATABASE_PASSWORD` and `MARIADB_PASSWORD`: the same new random password in both places. Change `MARIADB_ROOT_PASSWORD` too.
+  * `PHOTOPRISM_READONLY`: `"true"`, so Prism never moves or deletes anything in the house share.
+  * Under `volumes:`, change `~/Pictures:/photoprism/originals` to the share, like `/srv/share:/photoprism/originals`. Leave `./storage:/photoprism/storage` alone.
 
 
-If a password contains a `$`, write it as `$$`. Keep the leading spaces exactly as they are; the file cares about indentation.
+If a password contains a `$`, write it as `$$`. Keep the leading spaces exactly as they are. The file cares about indentation.
 
-## Start it and sign in
+Set the passwords before the first start. The database keeps its first password, and changing it in the file later does nothing.
+
+## First start
 
 `sudo docker compose up -d`
 
 `sudo docker compose ps`
 
-From a laptop on house Wi-Fi, open the computer's address with `:2342`, for example `http://192.168.1.50:2342`. Sign in as `admin` with the password you set. Don't know the address? [Find it on the house network](<find-the-leftover-box>).
+The first start downloads the images. Wait until both `photoprism` and `mariadb` say `Up`. If the page won't load, read the log: `sudo docker compose logs photoprism --tail 50`.
 
-Go to Library and press Start to index. The first pass over a big folder can take hours on an old PC. Let it run overnight.
+## Sign in from a laptop
+
+On house Wi-Fi, open `http://192.168.1.50:2342`, using your own address. Sign in as `admin` with the password you set. Don't know the address? [Find it on the house network](<find-the-leftover-box>).
+
+Forgot the password after the first start? Editing the file won't help. Run `sudo docker compose exec photoprism photoprism passwd admin` in `~/photoprism`.
+
+## Index the house photos
+
+Go to Library, then Index, and press Start. Prism reads every photo in the share and makes thumbnails in its own folder. On an old PC, the first pass over a big folder can take hours. Let it run overnight and watch the Logs tab if you're curious.
+
+When new photos land in the share later, go back to Library and press Start again. Only the new files get read.
+
+## Open it on a phone
+
+On the same house Wi-Fi, open `http://192.168.1.50:2342` in the phone's browser and sign in. Browse, search and the map all work there. Add it to the home screen from the browser's share menu if you want an icon.
+
+The phone still adds photos the old way, by copying the camera roll to the share: [save phone photos to the house share](<phone-photos-to-share>). Then index again. Read-only mode turns off Prism's own uploads and WebDAV sync. That is on purpose for a first install.
 
 ## Keep it on the house network
 
@@ -91,6 +119,7 @@ Read the release notes first. Then, in `~/photoprism`:
 
   * Skip opening PhotoPrism to the internet.
   * Skip turning off read-only mode until you know what Prism would change.
+  * Skip WebDAV sync apps until read-only mode has earned its keep.
   * Skip running Prism and Immich against the same folder on day one. Pick one.
   * Skip a paid membership until the free version has been useful for a month.
 
@@ -98,7 +127,7 @@ Read the release notes first. Then, in `~/photoprism`:
 
 ## Sources
 
-[PhotoPrism system requirements](<https://docs.photoprism.app/getting-started/>). [PhotoPrism Docker Compose setup](<https://docs.photoprism.app/getting-started/docker-compose/>). [PhotoPrism backups](<https://docs.photoprism.app/user-guide/backups/>). [Docker Engine install script](<https://docs.docker.com/engine/install/debian/#install-using-the-convenience-script>). Official pages only. For the bigger photo stack, see [back up phone photos with Immich](<immich>).
+[PhotoPrism system requirements](<https://docs.photoprism.app/getting-started/>). [PhotoPrism Docker Compose setup](<https://docs.photoprism.app/getting-started/docker-compose/>). [PhotoPrism backups](<https://docs.photoprism.app/user-guide/backups/>). [PhotoPrism first steps](<https://docs.photoprism.app/user-guide/first-steps/>). [Docker Engine install script](<https://docs.docker.com/engine/install/debian/#install-using-the-convenience-script>). Official pages only. For the bigger photo stack, see [back up phone photos with Immich](<immich>).
 
 ## Also on this topic
 
