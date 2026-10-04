@@ -1,0 +1,21 @@
+{
+  "_comment": "Source-guide slugs used by the ByteRush project catalog (zemdregon/tech-dose src/content/projects). Pending guides are roadmap item C01.",
+  "available": [
+    "12u-vs-10-inch-closet-rack",
+    "2-5g-switch",
+    "add-local-dns-name",
+    "cheap-poe",
+    "first-backup",
+    "first-file-share",
+    "first-ssh",
+    "first-weekend",
+    "immich",
+    "lab-plan-passkeys",
+    "local-chat-on-the-pc",
+    "prism",
+    "start-with-what-you-have",
+    "what-os-to-pick",
+    "when-house-disk-full"
+  ],
+  "pending": []
+}

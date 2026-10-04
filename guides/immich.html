@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+(function(){try{var t=localStorage.getItem("labthrift-theme");document.documentElement.dataset.theme=(t==="dark"||t==="light")?t:"system";}catch(e){document.documentElement.dataset.theme="system";}})();
+</script>
+<title>Back up phone photos with Immich — Labthrift</title>
+<link rel="stylesheet" href="../styles.css?v=portfolio-20261003">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/source-serif-4-latin-400-normal.woff2">
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="description" content="Run Immich on the old PC with Docker Compose, get one phone uploading on house Wi-Fi, then keep it from filling the disk and back it up. House network only.">
+<meta name="theme-color" content="#f4efe4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
+<meta property="og:title" content="Back up phone photos with Immich — Labthrift">
+<meta property="og:description" content="Run Immich on the old PC with Docker Compose, get one phone uploading on house Wi-Fi, then keep it from filling the disk and back it up. House network only.">
+<meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
+<meta property="og:url" content="https://labthrift.com/guides/immich">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
+<link rel="canonical" href="https://labthrift.com/guides/immich">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Back up phone photos with Immich", "description": "Run Immich on the old PC with Docker Compose, get one phone uploading on house Wi-Fi, then keep it from filling the disk and back it up. House network only.", "url": "https://labthrift.com/guides/immich", "image": "https://labthrift.com/assets/og-1200.png", "datePublished": "2026-10-03"}
+</script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+ <a class="home" href="../">
+ <img src="../assets/mark.svg" width="44" height="44" alt="Labthrift">
+ <span class="wordmark">
+ <span class="brand">Labthrift</span>
+ <span class="tag">What to buy. What to skip. Why.</span>
+ </span>
+ </a>
+ <nav aria-label="Site">
+ <a href="../">Home</a>
+ <a href="./" aria-current="page">Notes</a>
+ <a href="../about">About</a>
+ <a href="https://plan.labthrift.com">Plan</a>
+ <a href="https://app.labthrift.com" title="Tech Dose (ByteRush)">App</a>
+ <button type="button" class="theme-toggle" data-theme-toggle aria-label="Theme">Dark</button>
+ </nav>
+</header>
+<main id="main">
+<nav class="crumb" aria-label="Breadcrumb"><a href="./">Notes</a> / <a href="./#start">Getting started</a> / <span aria-current="page">Back up phone photos with Immich</span></nav>
+<p class="note">Written 3 Oct 2026. This is a how-to, not a product card.</p>
+
+<h1>Back up phone photos with Immich</h1>
+<p class="deck">Immich is a photo library you run yourself. This weekend: Docker Compose on the old PC, the web page open, and one phone uploading on house Wi-Fi. Not a full move off Google Photos or iCloud yet.</p>
+<p>Need a computer that stays on first? That is <a href="first-weekend">your first weekend</a>. Happy just copying the camera roll into a folder? That still works: <a href="phone-photos-to-share">save phone photos to the house share</a>. Immich is the next step up, when you want a timeline, albums and automatic upload from the phone.</p>
+
+<h2>Skip until you have RAM and disk</h2>
+<p>Immich asks for at least 6 GB of RAM (8 GB is comfortable) and 2 CPU cores. A 4 GB box can run it only with the machine-learning features turned off. From SSH:</p>
+<p><code>free -h</code></p>
+<p><code>df -h</code></p>
+<p>Photos need room, and Immich adds about 10–20% on top for thumbnails and converted video. If the system disk is small, put the photos on a USB disk first: <a href="house-folder-on-usb">put the house folder on a USB disk</a>. Keep the database on the computer's own disk, not a network share.</p>
+<p>Debian or Ubuntu Server is the easy path: <a href="what-os-to-pick">what OS to put on it</a>. Immich's own docs warn that Windows, macOS and Docker inside a Proxmox LXC are harder.</p>
+
+<h2>Install Docker</h2>
+<p>Immich runs as a few containers. Docker's own script installs Docker Engine and the Compose plugin on Debian or Ubuntu. Download it, read it, then run it:</p>
+<p><code>curl -fsSL https://get.docker.com -o ~/get-docker.sh</code></p>
+<p><code>less ~/get-docker.sh</code></p>
+<p><code>sudo sh ~/get-docker.sh</code></p>
+<p>Check that both parts answer:</p>
+<p><code>sudo docker version</code></p>
+<p><code>sudo docker compose version</code></p>
+<p>You want two version numbers. The command is <code>docker compose</code> with a space. The old <code>docker-compose</code> with a dash is not supported by Immich.</p>
+
+<h2>Get Immich's files</h2>
+<p>Make a folder for the two files Immich needs, and download the ones that match the current release:</p>
+<p><code>mkdir ~/immich-app &amp;&amp; cd ~/immich-app</code></p>
+<p><code>wget -O docker-compose.yml https://github.com/immich-app/immich/releases/latest/download/docker-compose.yml</code></p>
+<p><code>wget -O .env https://github.com/immich-app/immich/releases/latest/download/example.env</code></p>
+<p>Open the settings file:</p>
+<p><code>nano .env</code></p>
+<p>Change three lines. <code>UPLOAD_LOCATION</code> is where photos go: a path on the big disk, like <code>/srv/photos/immich</code>. <code>DB_PASSWORD</code> should be a long random mix of letters and numbers, no symbols or spaces. Uncomment <code>TZ</code> and set your time zone, like <code>America/Chicago</code>. Leave <code>DB_DATA_LOCATION</code> on the computer's own disk. Save with Ctrl+O, Enter, Ctrl+X.</p>
+
+<h2>Start it</h2>
+<p><code>sudo docker compose up -d</code></p>
+<p>The first start downloads a few gigabytes. Check on it:</p>
+<p><code>sudo docker compose ps</code></p>
+<p>Wait until the containers say <code>healthy</code>. If one keeps restarting, read its log: <code>sudo docker compose logs immich-server --tail 50</code>.</p>
+
+<h2>Open the web page</h2>
+<p>From a laptop on house Wi-Fi, open <code>http://</code> plus the computer's address and <code>:2283</code>, for example <code>http://192.168.1.50:2283</code>. Don't know the address? <a href="find-the-leftover-box">Find it on the house network</a>. Reserve it on the router so it doesn't move: <a href="leftover-box-dhcp-reservation">keep the same address</a>.</p>
+<p>The first account you create is the admin. Use a real password. Write it down somewhere that is not the old PC.</p>
+
+<h2>Point one phone at it</h2>
+<p>Install the Immich app from the App Store or Google Play. For the server URL, type the same <code>http://address:2283</code>. Log in. Open the backup screen (the cloud icon), pick the camera album, and turn backup on. Take one test photo and watch it show up on the web page.</p>
+<p>Uploads work? That is the weekend. Leave the old photos for another night. Don't delete anything from the phone yet.</p>
+
+<h2>Keep it from filling the disk</h2>
+<p>Check the photo disk once a week for the first month:</p>
+<p><code>df -h /srv/photos</code></p>
+<p>Use your own <code>UPLOAD_LOCATION</code> path. If photos share the system disk and it passes 80%, move them before it fills: <a href="when-house-disk-full">when the house disk is full</a>.</p>
+
+<h2>Back up Immich itself</h2>
+<p>The phone uploading to Immich is not a backup. It is one copy on the old PC. Immich keeps the photo files and a database that remembers albums, people and who uploaded what. You need both.</p>
+<p>Immich already writes a database dump every night into <code>backups</code> inside <code>UPLOAD_LOCATION</code> and keeps the last 14. So one copy of the whole <code>UPLOAD_LOCATION</code> folder to the backup USB covers both:</p>
+<p><code>sudo rsync -a --delete /srv/photos/immich/ /mnt/backup/immich/</code></p>
+<p>Same USB and same rule as <a href="first-backup">a backup of the house folder</a>. Run it after the nightly dump, or put it on the same timer as the house folder.</p>
+
+<h2>One more person</h2>
+<p>If someone else in the house will upload, make them their own account: Administration, Users, Create user. Share albums between accounts. One giant admin pile gets messy fast.</p>
+
+<h2>Keep it on the house network</h2>
+<p>Don't forward port 2283 on the router. Don't put Immich on a public VPS this weekend. Photos from away can wait until uploads at home are boring. When you want that, read <a href="ssh-from-away">SSH from away</a> first; the same no-open-ports idea applies.</p>
+
+<h2>Updates</h2>
+<p>Immich moves fast and some releases need a change to the two files. Read the release notes before you update. Then, in <code>~/immich-app</code>:</p>
+<p><code>sudo docker compose pull &amp;&amp; sudo docker compose up -d</code></p>
+
+<h2>Skip</h2>
+<ul>
+<li>Skip opening Immich to the internet.</li>
+<li>Skip importing ten years of Google Photos on the first night.</li>
+<li>Skip deleting photos from the phone until the backup USB has a copy.</li>
+<li>Skip putting the database on a NAS or network share.</li>
+<li>Skip buying a GPU for face search. The CPU is fine.</li>
+</ul>
+<section class="sources">
+<h2>Sources</h2>
+<p><a href="https://docs.immich.app/install/requirements">Immich requirements</a>. <a href="https://docs.immich.app/install/docker-compose">Immich Docker Compose install</a>. <a href="https://docs.immich.app/administration/backup-and-restore">Immich backup and restore</a>. <a href="https://docs.docker.com/engine/install/debian/#install-using-the-convenience-script">Docker Engine install script</a>. Official pages only. For the folder-only path, see <a href="phone-photos-to-share">save phone photos to the house share</a>.</p>
+</section>
+<section class="also">
+<h2>Also on this topic</h2>
+<a class="note-row" href="phone-photos-to-share"><span class="t">Save phone photos to the house share</span><span class="d">Copy camera-roll photos from an iPhone or Android onto the house folder on the old PC. House Wi-Fi only. You don't need a NAS app or iCloud for this.</span></a>
+<a class="note-row" href="first-backup"><span class="t">A backup of the house folder</span><span class="d">A second copy of the house folder, on a USB disk you already have, or on another old PC. You don't need a NAS for this.</span></a>
+<a class="note-row" href="house-folder-on-usb"><span class="t">Put the house folder on a USB disk</span><span class="d">Move the house share onto a USB disk that stays plugged into the old PC so photos don't fill the system drive. You don't need a NAS for this.</span></a>
+<a class="note-row" href="local-chat-on-the-pc"><span class="t">Run a local chat on the old PC</span><span class="d">Install Ollama, pull a small model, chat over SSH. Stays on the house network. CPU is fine for a first try. Don't buy a GPU this weekend.</span></a>
+</section>
+<nav class="pager" aria-label="More on this topic">
+<a rel="prev" href="local-chat-on-the-pc"><span class="kicker">Previous</span><span class="t">Run a local chat on the old PC</span></a>
+<a rel="next" href="prism"><span class="kicker">Next</span><span class="t">Browse the house photos with PhotoPrism</span></a>
+</nav>
+</main>
+<footer>
+ <nav class="foot-lanes" aria-label="Lanes">
+ <a href="start-with-what-you-have">Start</a>
+ <a href="2-5g-switch">Network</a>
+ <a href="n100-mini-pc">Computers</a>
+ <a href="first-nas">Storage</a>
+ <a href="cheap-poe">Wi-Fi</a>
+ <a href="used-vs-new">Used</a>
+ <a href="10-inch-mini-rack">Racks</a>
+ <a href="./">Notes</a>
+ </nav>
+ <p class="colophon">
+ <img src="../assets/mark.svg" width="18" height="18" alt="">
+ <strong>Labthrift</strong>
+ <span class="stamp"><a href="https://labthrift.com">labthrift.com</a> · a first home lab, in plain English</span>
+ </p>
+<nav class="company-legal" aria-label="Company and draft policies">
+  <a href="https://digifender.com/">A Digifender product</a>
+  <a href="https://digifender.com/legal/labthrift/terms">Draft terms</a>
+  <a href="https://digifender.com/legal/labthrift/privacy">Draft privacy policy</a>
+  <a href="https://digifender.com/legal/labthrift/cookies">Draft cookie notice</a>
+  <a href="https://digifender.com/legal/labthrift">All draft policies</a>
+  <a href="mailto:legal@digifender.com">Legal contact</a>
+</nav>
+</footer>
+<script src="../theme.js" defer></script>
+</body></html>

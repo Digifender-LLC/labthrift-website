@@ -81,7 +81,9 @@ function normalizePagePath(pathname) {
 
 function shouldCountPageview(method, pathname, status) {
   if (method !== "GET" && method !== "HEAD") return false;
-  if (status != null && (status < 200 || status >= 400)) return false;
+  // Successful page loads only: 2xx, plus 304 revalidations. Redirects (for
+  // example the trailing-slash 307s) would count the same visit twice.
+  if (status != null && !((status >= 200 && status < 300) || status === 304)) return false;
   if (isAssetPath(pathname)) return false;
   if (isMarkdownPath(pathname)) return false;
   if (pathname.startsWith("/wp-") || pathname === "/xmlrpc.php") return false;
@@ -326,7 +328,9 @@ export default {
       const twin = markdownTwinPath(url.pathname);
       if (twin) {
         const mdUrl = new URL(twin, url.origin);
-        const mdRes = await env.ASSETS.fetch(new Request(mdUrl.toString(), request));
+        // Plain GET: a HEAD asset response has no body to measure, and a
+        // conditional 304 would wrongly fall back to HTML.
+        const mdRes = await env.ASSETS.fetch(new Request(mdUrl.toString(), { method: "GET" }));
         if (mdRes.ok) {
           const body = await mdRes.text();
           const headers = new Headers();
@@ -380,10 +384,15 @@ export default {
       headers.set("link", '</.well-known/api-catalog>; rel="api-catalog"');
     } else if (servedPath === "/openapi.yaml") {
       headers.set("content-type", "application/yaml; charset=utf-8");
-    } else if (isMarkdownPath(servedPath)) {
+    } else if (isMarkdownPath(servedPath) && assetRes.ok) {
+      // Missing Markdown falls through to the HTML 404 page; keep its type.
       headers.set("content-type", "text/markdown; charset=utf-8");
-      if (assetRes.ok) {
-        const body = await assetRes.clone().text();
+      const bodyRes =
+        request.method === "HEAD"
+          ? await env.ASSETS.fetch(new Request(assetRequest.url, { method: "GET" }))
+          : assetRes.clone();
+      if (bodyRes.ok) {
+        const body = await bodyRes.text();
         headers.set("x-markdown-tokens", String(estimateTokens(body)));
       }
     }
