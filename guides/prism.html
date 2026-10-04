@@ -11,18 +11,18 @@
 <link rel="icon" href="../assets/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<meta name="description" content="PhotoPrism is the lighter photo path: point it at the photo folder you already copy into, and get a searchable library on the house network. Enough to decide if you want it.">
+<meta name="description" content="A full first install of PhotoPrism on the old PC: read-only over the house photo share, indexed, and open from a laptop or phone on the house network.">
 <meta name="theme-color" content="#f4efe4">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1c1914">
 <meta property="og:title" content="Browse the house photos with PhotoPrism — Labthrift">
-<meta property="og:description" content="PhotoPrism is the lighter photo path: point it at the photo folder you already copy into, and get a searchable library on the house network. Enough to decide if you want it.">
+<meta property="og:description" content="A full first install of PhotoPrism on the old PC: read-only over the house photo share, indexed, and open from a laptop or phone on the house network.">
 <meta property="og:image" content="https://labthrift.com/assets/og-1200.png">
 <meta property="og:url" content="https://labthrift.com/guides/prism">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://labthrift.com/assets/og-1200.png">
 <link rel="canonical" href="https://labthrift.com/guides/prism">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Browse the house photos with PhotoPrism", "description": "PhotoPrism is the lighter photo path: point it at the photo folder you already copy into, and get a searchable library on the house network. Enough to decide if you want it.", "url": "https://labthrift.com/guides/prism", "image": "https://labthrift.com/assets/og-1200.png", "datePublished": "2026-10-04"}
+{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Browse the house photos with PhotoPrism", "description": "A full first install of PhotoPrism on the old PC: read-only over the house photo share, indexed, and open from a laptop or phone on the house network.", "url": "https://labthrift.com/guides/prism", "image": "https://labthrift.com/assets/og-1200.png", "datePublished": "2026-10-04"}
 </script>
 </head><body>
 <a class="skip" href="#main">Skip to content</a>
@@ -53,39 +53,60 @@
 
 <h2>Is this the right one?</h2>
 <p>Pick Prism if the files are the library and you want a nicer way to browse them. Prism leaves your photos where they are. It keeps its thumbnails, settings and database in its own folder.</p>
-<p>There is no Prism phone app that backs up the camera roll in the background. Keep copying photos to the share the way you already do, or upload from the phone's browser.</p>
+<p>This note runs Prism read-only. It can look at the house share but never change it. New photos keep arriving the way they do now, through the share.</p>
 
-<h2>Skip until you have RAM and disk</h2>
-<p>PhotoPrism asks for at least 2 CPU cores, 3 GB of RAM and 4 GB of swap. From SSH:</p>
+<h2>Before you start</h2>
+<ul>
+<li>An old PC that stays on, running Debian or Ubuntu Server: <a href="first-weekend">your first weekend</a>.</li>
+<li>SSH from the couch: <a href="first-ssh">SSH from the couch</a>.</li>
+<li>A house share with photos in it: <a href="first-file-share">a file share</a> and <a href="phone-photos-to-share">save phone photos to the house share</a>.</li>
+<li>A fixed address for the PC: <a href="leftover-box-dhcp-reservation">keep the same address</a>.</li>
+<li>At least 2 CPU cores, 3 GB of RAM and 4 GB of swap. That is PhotoPrism's own minimum.</li>
+</ul>
+<p>Check memory, swap and disk from SSH:</p>
 <p><code>free -h</code></p>
 <p><code>df -h /srv/share</code></p>
-<p>Thumbnails need room next to the photos. Keep Prism's own folder on the computer's disk, not a USB stick or a network share.</p>
+<p>The Swap line should say at least 4.0G. Thumbnails need room on the computer's own disk. Keep Prism's folder there, not on a USB stick or a network share.</p>
 
 <h2>Install Docker</h2>
-<p>Same as the Immich note. Download Docker's script, read it, run it, then check both parts answer:</p>
+<p>Download Docker's script, read it, then run it:</p>
 <p><code>curl -fsSL https://get.docker.com -o ~/get-docker.sh</code></p>
 <p><code>less ~/get-docker.sh</code></p>
 <p><code>sudo sh ~/get-docker.sh</code></p>
+<p>Check that Compose answers with a version number:</p>
 <p><code>sudo docker compose version</code></p>
 
-<h2>Get the example file</h2>
+<h2>Get the compose file</h2>
 <p><code>mkdir ~/photoprism &amp;&amp; cd ~/photoprism</code></p>
 <p><code>wget https://dl.photoprism.app/docker/compose.yaml</code></p>
 <p><code>nano compose.yaml</code></p>
-<p>Change four things, then save with Ctrl+O, Enter, Ctrl+X:</p>
+<p>PhotoPrism keeps all its settings in this one file. There is no separate .env. Change these lines, then save with Ctrl+O, Enter, Ctrl+X:</p>
 <ul>
-<li><code>PHOTOPRISM_ADMIN_PASSWORD</code>: a real password, at least 8 characters. The default is <code>insecure</code>.</li>
-<li><code>PHOTOPRISM_DATABASE_PASSWORD</code> and <code>MARIADB_PASSWORD</code>: the same new random password in both places.</li>
-<li>Under <code>volumes:</code>, change <code>~/Pictures:/photoprism/originals</code> to your photo folder, like <code>/srv/share:/photoprism/originals</code>.</li>
-<li><code>PHOTOPRISM_READONLY</code>: set it to <code>"true"</code> so Prism never moves or deletes anything in the house share.</li>
+<li><code>PHOTOPRISM_ADMIN_PASSWORD</code>: a real password, 8 characters or more. The default is <code>insecure</code>.</li>
+<li><code>PHOTOPRISM_SITE_URL</code>: the PC's address, like <code>"http://192.168.1.50:2342/"</code>.</li>
+<li><code>PHOTOPRISM_DATABASE_PASSWORD</code> and <code>MARIADB_PASSWORD</code>: the same new random password in both places. Change <code>MARIADB_ROOT_PASSWORD</code> too.</li>
+<li><code>PHOTOPRISM_READONLY</code>: <code>"true"</code>, so Prism never moves or deletes anything in the house share.</li>
+<li>Under <code>volumes:</code>, change <code>~/Pictures:/photoprism/originals</code> to the share, like <code>/srv/share:/photoprism/originals</code>. Leave <code>./storage:/photoprism/storage</code> alone.</li>
 </ul>
-<p>If a password contains a <code>$</code>, write it as <code>$$</code>. Keep the leading spaces exactly as they are; the file cares about indentation.</p>
+<p>If a password contains a <code>$</code>, write it as <code>$$</code>. Keep the leading spaces exactly as they are. The file cares about indentation.</p>
+<p>Set the passwords before the first start. The database keeps its first password, and changing it in the file later does nothing.</p>
 
-<h2>Start it and sign in</h2>
+<h2>First start</h2>
 <p><code>sudo docker compose up -d</code></p>
 <p><code>sudo docker compose ps</code></p>
-<p>From a laptop on house Wi-Fi, open the computer's address with <code>:2342</code>, for example <code>http://192.168.1.50:2342</code>. Sign in as <code>admin</code> with the password you set. Don't know the address? <a href="find-the-leftover-box">Find it on the house network</a>.</p>
-<p>Go to Library and press Start to index. The first pass over a big folder can take hours on an old PC. Let it run overnight.</p>
+<p>The first start downloads the images. Wait until both <code>photoprism</code> and <code>mariadb</code> say <code>Up</code>. If the page won't load, read the log: <code>sudo docker compose logs photoprism --tail 50</code>.</p>
+
+<h2>Sign in from a laptop</h2>
+<p>On house Wi-Fi, open <code>http://192.168.1.50:2342</code>, using your own address. Sign in as <code>admin</code> with the password you set. Don't know the address? <a href="find-the-leftover-box">Find it on the house network</a>.</p>
+<p>Forgot the password after the first start? Editing the file won't help. Run <code>sudo docker compose exec photoprism photoprism passwd admin</code> in <code>~/photoprism</code>.</p>
+
+<h2>Index the house photos</h2>
+<p>Go to Library, then Index, and press Start. Prism reads every photo in the share and makes thumbnails in its own folder. On an old PC, the first pass over a big folder can take hours. Let it run overnight and watch the Logs tab if you're curious.</p>
+<p>When new photos land in the share later, go back to Library and press Start again. Only the new files get read.</p>
+
+<h2>Open it on a phone</h2>
+<p>On the same house Wi-Fi, open <code>http://192.168.1.50:2342</code> in the phone's browser and sign in. Browse, search and the map all work there. Add it to the home screen from the browser's share menu if you want an icon.</p>
+<p>The phone still adds photos the old way, by copying the camera roll to the share: <a href="phone-photos-to-share">save phone photos to the house share</a>. Then index again. Read-only mode turns off Prism's own uploads and WebDAV sync. That is on purpose for a first install.</p>
 
 <h2>Keep it on the house network</h2>
 <p>Don't forward port 2342 on the router. PhotoPrism's own docs say a server outside the home needs HTTPS in front of it. That is a different project. Not this weekend.</p>
@@ -102,12 +123,13 @@
 <ul>
 <li>Skip opening PhotoPrism to the internet.</li>
 <li>Skip turning off read-only mode until you know what Prism would change.</li>
+<li>Skip WebDAV sync apps until read-only mode has earned its keep.</li>
 <li>Skip running Prism and Immich against the same folder on day one. Pick one.</li>
 <li>Skip a paid membership until the free version has been useful for a month.</li>
 </ul>
 <section class="sources">
 <h2>Sources</h2>
-<p><a href="https://docs.photoprism.app/getting-started/">PhotoPrism system requirements</a>. <a href="https://docs.photoprism.app/getting-started/docker-compose/">PhotoPrism Docker Compose setup</a>. <a href="https://docs.photoprism.app/user-guide/backups/">PhotoPrism backups</a>. <a href="https://docs.docker.com/engine/install/debian/#install-using-the-convenience-script">Docker Engine install script</a>. Official pages only. For the bigger photo stack, see <a href="immich">back up phone photos with Immich</a>.</p>
+<p><a href="https://docs.photoprism.app/getting-started/">PhotoPrism system requirements</a>. <a href="https://docs.photoprism.app/getting-started/docker-compose/">PhotoPrism Docker Compose setup</a>. <a href="https://docs.photoprism.app/user-guide/backups/">PhotoPrism backups</a>. <a href="https://docs.photoprism.app/user-guide/first-steps/">PhotoPrism first steps</a>. <a href="https://docs.docker.com/engine/install/debian/#install-using-the-convenience-script">Docker Engine install script</a>. Official pages only. For the bigger photo stack, see <a href="immich">back up phone photos with Immich</a>.</p>
 </section>
 <section class="also">
 <h2>Also on this topic</h2>
