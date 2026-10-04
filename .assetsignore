@@ -35,3 +35,5 @@ docs
 .dev.vars
 .dev.vars.*
 .DS_Store
+.github
+SECURITY.md
