@@ -12,11 +12,10 @@
     "immich",
     "lab-plan-passkeys",
     "local-chat-on-the-pc",
+    "prism",
     "start-with-what-you-have",
     "what-os-to-pick",
     "when-house-disk-full"
   ],
-  "pending": [
-    "prism"
-  ]
+  "pending": []
 }
