@@ -30,7 +30,7 @@
  "@type": "CollectionPage",
  "name": "All notes — Labthrift",
  "url": "https://labthrift.com/guides/",
- "numberOfItems": 355
+ "numberOfItems": 398
 }
 </script>
 </head><body>
@@ -56,12 +56,12 @@
 <p class="note">Updated 7 Sep 2026. Start with gear you already have. The buy notes are for later.</p>
 
 <h1>All notes</h1>
-<p class="deck">396 notes, grouped by topic. Start with gear you already have. New-in-store products when you actually need them.</p>
+<p class="deck">398 notes, grouped by topic. Start with gear you already have. New-in-store products when you actually need them.</p>
 <div class="index-tools">
 <p class="jump">Topics</p>
 <nav class="lanes" aria-label="Lanes">
- <a href="#start">Getting started <span class="n">111</span></a>
- <a href="#switches">Faster network <span class="n">142</span></a>
+ <a href="#start">Getting started <span class="n">112</span></a>
+ <a href="#switches">Faster network <span class="n">143</span></a>
  <a href="#mini-pcs">Small computers <span class="n">29</span></a>
  <a href="#first-nas">File storage <span class="n">77</span></a>
  <a href="#cheap-poe">Better Wi-Fi <span class="n">41</span></a>
@@ -72,7 +72,7 @@
 <div class="filter-wrap">
 <div class="filter-head">
 <label for="q">Find a note</label>
-<span class="filter-count" id="note-count" aria-live="polite">396 notes</span>
+<span class="filter-count" id="note-count" aria-live="polite">398 notes</span>
 </div>
 <input class="filter" id="q" type="search" placeholder="Search titles or a short description…" autocomplete="off">
 </div>
@@ -628,7 +628,7 @@
  var total = 0;
  rows.forEach(function(row){
  var href = row.getAttribute("href") || "";
- if (seenHref[href]) return;
+ if (/^https?:/.test(href) || seenHref[href]) return;
  seenHref[href] = true;
  total++;
  });
@@ -645,7 +645,7 @@
  if (hit){
  any = true;
  var href = row.getAttribute("href") || "";
- if (!shownHref[href]){ shownHref[href] = true; shown++; }
+ if (!/^https?:/.test(href) && !shownHref[href]){ shownHref[href] = true; shown++; }
  }
  });
  list.hidden = s && !any;

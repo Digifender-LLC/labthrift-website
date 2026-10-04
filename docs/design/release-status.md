@@ -4,7 +4,7 @@ Baseline authored 2026-10-03. These design documents are source-grounded records
 
 - ByteRush Runs merge: deployed and live feed/sync verified. Runs D1, checkout and local state removed; Worker/domain/DNS already absent. GitHub deletion is awaiting the CLI delete_repo authorization.
 - Plan: independent existing notebook; no runtime change required by the merge. Current design includes a known read/check/update save race; an atomic CAS improvement is proposed separately.
-- Main website: independent editorial site and metrics backend. Source guide and surviving link checks remain part of the merge release gate.
+- Main website: independent editorial site and metrics backend. All 15 imported source-guide URLs now have pages in the repository (Immich and PhotoPrism added October 3–4, 2026). Local checks pass (`npm test`, `npm run check`); the live run follows the next deploy. Status is tracked in the [completion roadmap](https://github.com/zemdregon/tech-dose/blob/main/docs/ROADMAP.md) under C01 and W01–W03.
 - No old Runs user data is imported. Its permanent deletion occurs only after replacement deployment and live sync acceptance.
 
 ## Evidence log
@@ -48,3 +48,11 @@ Not yet verified: the live run (`npm run check -- https://labthrift.com`) and th
 Editorial decision (Ender, 2026-10-04): the ByteRush "Prism" project refers to PhotoPrism. `/guides/prism` and `/md/guides/prism.md` are a short guide in the same scope as the Prism intro project. It explains when to choose the lighter path, then covers a LAN-only Docker Compose install that reads the house share in read-only mode, the first index, and backing up PhotoPrism's storage folder. Facts come from PhotoPrism's documentation source and its example compose file. With this guide, all 15 source-guide URLs used by the ByteRush catalog resolve locally.
 
 Expanded October 4, 2026: ByteRush is turning its Prism project into a full walkthrough under C02, so `/guides/prism` is now a complete LAN-only first install. It covers prerequisites, the compose file and its passwords, the first start, signing in, indexing the share, opening it on a phone on house Wi-Fi, backups, updates, and what to skip. Read-only mode stays on, so photos still arrive through the house share. PhotoPrism's documentation notes that read-only mode turns off its own uploads and WebDAV sync.
+
+## Documentation and count pass — October 4, 2026 (roadmap D01, website)
+
+The README now describes how the site runs (Worker, static assets, D1 metrics, custom domains), how to add a guide, and the two linked apps with their separate accounts. The old pre-launch to-do list is gone, and the affiliate/AdSense ideas are marked as not adopted, since the About page promises no affiliate talk.
+
+Guide counts are now derived from the content. `npm run sync-index` sets every stated count (guide index, About page, their Markdown twins and per-topic counts) from the 398 guide pages, and it rebuilds `md/guides/index.md` from `guides/index.html`. The stated counts had drifted to 355 and 396 (HTML) and 334 (Markdown), and the Markdown index was missing 56 guides. `npm test` now fails whenever a count or the Markdown index is stale. The search counter on the guide index no longer counts the external Lab plan link as a note.
+
+Known gap, not a defect: 55 of the 398 guides have no Markdown twin, so a Markdown request for them falls back to HTML as designed (FR-W2).

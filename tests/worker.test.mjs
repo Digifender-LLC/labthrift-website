@@ -431,3 +431,12 @@ test("W03 a failing metrics write does not break page serving", async () => {
   const bare = await worker.fetch(new Request("https://labthrift.com/about"), { ASSETS }, {});
   assert.equal(bare.status, 200);
 });
+
+// ------------------------------------------------------------ index counts
+
+test("guide index counts and the Markdown index match the guide pages", async () => {
+  const { syncIndex } = await import("../scripts/sync-index.mjs");
+  const { n, stale } = await syncIndex({ check: true });
+  assert.ok(n > 300);
+  assert.deepEqual(stale, [], "run `npm run sync-index` to refresh");
+});
