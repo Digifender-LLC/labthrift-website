@@ -10,6 +10,6 @@
     "sync-index": "node scripts/sync-index.mjs"
   },
   "devDependencies": {
-    "wrangler": "^4.125.0"
+    "wrangler": "^4.152.0"
   }
 }
